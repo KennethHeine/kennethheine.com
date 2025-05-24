@@ -1,0 +1,33 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `static-web-app` directory
+    directory: "/static-web-app"
+    # Check for updates daily
+    schedule:
+      interval: "daily"
+    # Set a maximum number of open pull requests for version updates
+    open-pull-requests-limit: 10
+    # Group updates in a single pull request when possible
+    groups:
+      azure-dependencies:
+        patterns:
+          - "@azure/*"
+      dev-dependencies:
+        dependency-type: "development"
+    # Add reviewers and assignees (optional - customize with your GitHub username)
+    reviewers:
+      - "KennethSølberg"
+    assignees:
+      - "KennethSølberg"
+    # Commit message configuration
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
