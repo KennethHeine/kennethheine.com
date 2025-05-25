@@ -100,14 +100,6 @@ This setup uses **OpenID Connect (OIDC)** instead of long-lived secrets:
 - Install GitHub CLI or manually add secrets via GitHub web interface
 - Manual instructions are provided in the script output
 
-### Manual Secret Setup
-
-If GitHub CLI is not available, manually add these secrets via GitHub web interface:
-
-1. Go to `https://github.com/[ORG]/[REPO]/settings/secrets/actions`
-2. Click "New repository secret"
-3. Add each secret from the `github-secrets.txt` file
-
 ## 📞 Support
 
 If you encounter issues:
