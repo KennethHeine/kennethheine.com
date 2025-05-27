@@ -39,9 +39,11 @@ catch {
 Write-Host ""
 Write-Host "🔍 Checking if resource group '$ResourceGroupName' exists..." -ForegroundColor Cyan
 
+$rgExists = $false
 try {
-    $existingRg = az group show --name $ResourceGroupName | ConvertFrom-Json
+    $existingRg = az group show --name $ResourceGroupName 2>$null | ConvertFrom-Json
     if ($existingRg) {
+        $rgExists = $true
         Write-Host "⚠️  Resource group '$ResourceGroupName' already exists." -ForegroundColor Yellow
         Write-Host "   Location: $($existingRg.location)" -ForegroundColor Yellow
         
@@ -53,13 +55,23 @@ try {
     }
 }
 catch {
+    # Resource group doesn't exist, which is fine
+    $rgExists = $false
+}
+
+# Create resource group if it doesn't exist
+if (-not $rgExists) {
     Write-Host "📁 Creating resource group '$ResourceGroupName' in '$Location'..." -ForegroundColor Cyan
     
     $tagString = ($Tags.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join " "
     
     try {
-        az group create --name $ResourceGroupName --location $Location --tags $tagString
-        Write-Host "✅ Resource group created successfully!" -ForegroundColor Green
+        $result = az group create --name $ResourceGroupName --location $Location --tags $tagString | ConvertFrom-Json
+        if ($result) {
+            Write-Host "✅ Resource group created successfully!" -ForegroundColor Green
+        } else {
+            throw "Failed to create resource group"
+        }
     }
     catch {
         Write-Host "❌ Failed to create resource group: $($_.Exception.Message)" -ForegroundColor Red

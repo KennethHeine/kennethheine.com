@@ -9,7 +9,7 @@ param(
     [string]$ResourceGroupName = "rg-kennethheine-prod",
     
     [Parameter(Mandatory = $false)]
-    [string]$GitHubOrg = "KennethSølberg",
+    [string]$GitHubOrg = "KS-Cloud-org",
     
     [Parameter(Mandatory = $false)]
     [string]$GitHubRepo = "kennethheine.com"
@@ -41,14 +41,19 @@ catch {
 # Check if resource group exists
 Write-Host ""
 Write-Host "🔍 Checking if resource group '$ResourceGroupName' exists..." -ForegroundColor Cyan
+$rgExists = $false
 try {
-    $rg = az group show --name $ResourceGroupName | ConvertFrom-Json
-    if (!$rg) {
-        throw "Resource group not found"
+    $rg = az group show --name $ResourceGroupName 2>$null | ConvertFrom-Json
+    if ($rg) {
+        $rgExists = $true
+        Write-Host "✅ Resource group exists" -ForegroundColor Green
     }
-    Write-Host "✅ Resource group exists" -ForegroundColor Green
 }
 catch {
+    # Resource group doesn't exist
+}
+
+if (-not $rgExists) {
     Write-Host "❌ Resource group '$ResourceGroupName' does not exist." -ForegroundColor Red
     Write-Host "   Please run '1-create-resource-group.ps1' first." -ForegroundColor Yellow
     exit 1
@@ -102,8 +107,10 @@ Write-Host ""
 Write-Host "🔍 Checking if service principal exists..." -ForegroundColor Cyan
 
 try {
-    $existingSps = az ad sp list --filter "appId eq '$AppId'" | ConvertFrom-Json
-    $existingSp = $existingSps | Select-Object -First 1
+    # Use proper escaping for the filter
+    $filter = "appId eq '$AppId'"
+    $existingSps = az ad sp list --filter $filter 2>$null | ConvertFrom-Json
+    $existingSp = $existingSps | Where-Object { $_.appId -eq $AppId } | Select-Object -First 1
     
     if ($existingSp) {
         Write-Host "⚠️  Service principal already exists." -ForegroundColor Yellow
@@ -168,7 +175,7 @@ function Add-FederatedCredential {
     
     try {
         # Check if credential already exists
-        $existingCreds = az ad app federated-credential list --id $ObjectId | ConvertFrom-Json
+        $existingCreds = az ad app federated-credential list --id $ObjectId 2>$null | ConvertFrom-Json
         $existingCred = $existingCreds | Where-Object { $_.name -eq $Name }
         
         if ($existingCred) {
@@ -176,16 +183,22 @@ function Add-FederatedCredential {
             return
         }
         
-        # Create the credential
-        $credentialJson = @{
+        # Create the credential JSON
+        $credentialObj = @{
             name = $Name
             issuer = "https://token.actions.githubusercontent.com"
             subject = $Subject
             description = $Description
             audiences = @("api://AzureADTokenExchange")
-        } | ConvertTo-Json -Compress
+        }
         
+        # Convert to JSON and escape for command line
+        $credentialJson = $credentialObj | ConvertTo-Json -Compress -Depth 10
+        $credentialJson = $credentialJson.Replace('"', '\"')
+        
+        # Create federated credential
         az ad app federated-credential create --id $ObjectId --parameters $credentialJson | Out-Null
+        
         Write-Host "   ✅ Federated credential '$Name' added successfully!" -ForegroundColor Green
     }
     catch {
