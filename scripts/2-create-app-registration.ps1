@@ -145,13 +145,15 @@ Write-Host ""
 Write-Host "🔐 Assigning Contributor role to resource group..." -ForegroundColor Cyan
 
 try {
-    $existingRoles = az role assignment list --assignee $SpId --resource-group $ResourceGroupName --role "Contributor" | ConvertFrom-Json
+    # Fix: Add --scope parameter to the list command
+    $scope = "/subscriptions/$SubscriptionId/resourceGroups/$ResourceGroupName"
+    $existingRoles = az role assignment list --assignee $SpId --scope $scope --role "Contributor" 2>$null | ConvertFrom-Json
     
     if ($existingRoles.Count -gt 0) {
         Write-Host "⚠️  Contributor role already assigned to resource group." -ForegroundColor Yellow
     }
     else {
-        az role assignment create --assignee $SpId --role "Contributor" --resource-group $ResourceGroupName | Out-Null
+        az role assignment create --assignee $SpId --role "Contributor" --scope $scope | Out-Null
         Write-Host "✅ Contributor role assigned successfully!" -ForegroundColor Green
     }
 }

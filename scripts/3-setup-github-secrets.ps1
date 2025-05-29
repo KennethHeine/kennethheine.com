@@ -3,7 +3,7 @@
 
 param(
     [Parameter(Mandatory = $false)]
-    [string]$GitHubOrg = "KennethSølberg",
+    [string]$GitHubOrg = "KS-Cloud-org",
     
     [Parameter(Mandatory = $false)]
     [string]$GitHubRepo = "kennethheine.com",
