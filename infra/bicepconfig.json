@@ -19,10 +19,27 @@
         "secure-parameter-default": {
           "level": "error"
         },
+        "outputs-should-not-contain-secrets": {
+          "level": "error"
+        },
         "simplify-interpolation": {
           "level": "warning"
+        },
+        "use-stable-vm-image": {
+          "level": "warning"
+        },
+        "adminusername-should-not-be-literal": {
+          "level": "error"
         }
       }
     }
+  },
+  "experimentalFeaturesEnabled": {
+    "assertions": false,
+    "symbolicNameCodegen": false,
+    "extensibility": false,
+    "resourceTypedParamsAndOutputs": false,
+    "sourceMapping": false,
+    "userDefinedTypes": false
   }
 }

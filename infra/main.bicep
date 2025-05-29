@@ -9,7 +9,7 @@ param resourceGroupName string = 'rg-kennethheine-prod'
 @description('Location for all resources')
 param location string = 'westeurope'
 
-@description('Name of the static web app')
+@description('Name of the static web app (will be made unique)')
 param staticWebAppName string = 'swa-kennethheine-com'
 
 @description('GitHub organization or user')
@@ -52,7 +52,7 @@ module staticWebApp 'modules/static-web-app.bicep' = {
   scope: rg
   name: 'deploy-static-web-app'
   params: {
-    staticWebAppName: staticWebAppName
+    staticWebAppName: '${staticWebAppName}-${resourceToken}'
     location: location
     gitHubOrg: gitHubOrg
     gitHubRepo: gitHubRepo
@@ -60,13 +60,15 @@ module staticWebApp 'modules/static-web-app.bicep' = {
     appLocation: appLocation
     outputLocation: outputLocation
     tags: tags
-    resourceToken: resourceToken
   }
 }
 
 // Outputs
 output resourceGroupId string = rg.id
+output resourceGroupName string = rg.name
 output staticWebAppId string = staticWebApp.outputs.staticWebAppId
 output staticWebAppName string = staticWebApp.outputs.staticWebAppName
 output staticWebAppDefaultHostname string = staticWebApp.outputs.defaultHostname
-output staticWebAppApiToken string = staticWebApp.outputs.apiToken
+
+// Note: API token should be retrieved dynamically via Azure CLI for security
+// Example: az staticwebapp secrets list --name <app-name> --resource-group <rg-name>

@@ -41,14 +41,26 @@ These are set up by the PowerShell scripts in the `scripts/` directory:
 
 ### 1. Infrastructure Deployment (`.github/workflows/deploy-infrastructure.yml`)
 
+This workflow implements Azure deployment best practices with comprehensive validation, retry logic, and multi-environment support.
+
 **Triggers:**
 - Push to `main` branch with changes in `infra/` directory
-- Pull requests with changes in `infra/` directory
-- Manual dispatch
+- Pull requests with changes in `infra/` directory  
+- Manual dispatch with environment selection
 
-**Steps:**
-1. **Validate**: Bicep template validation and What-If analysis
-2. **Deploy**: Deploy infrastructure to Azure
+**Pipeline Stages:**
+1. **Validate & Lint**: Bicep template validation and linting
+2. **Pre-deployment Checks**: Resource group verification and template analysis
+3. **Deploy**: Infrastructure deployment with retry logic (up to 3 attempts)
+4. **Post-deployment**: Validation and summary reporting
+
+**Features:**
+- ✅ **What-If Analysis**: Shows changes before deployment
+- ✅ **PR Integration**: Adds deployment preview comments to PRs
+- ✅ **Retry Logic**: Automatically retries failed deployments
+- ✅ **Multi-environment**: Supports production and staging environments
+- ✅ **Security**: Uses OIDC authentication without long-lived secrets
+- ✅ **Monitoring**: Comprehensive logging and error reporting
 3. **Configure**: Automatically update Static Web App deployment token
 4. **Summary**: Provide deployment summary with links
 

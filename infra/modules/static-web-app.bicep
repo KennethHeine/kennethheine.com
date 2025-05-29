@@ -1,7 +1,8 @@
 // Static Web App Bicep module
 // Deploys Azure Static Web App with GitHub integration
+// Uses latest API version and follows security best practices
 
-@description('Name of the static web app')
+@description('Name of the static web app (should include unique suffix)')
 param staticWebAppName string
 
 @description('Location for the static web app')
@@ -19,14 +20,11 @@ param gitHubBranch string
 @description('Path to the app code within the repo')
 param appLocation string
 
-@description('Path to the build output')
+@description('Path to the build output (leave empty for static sites)')
 param outputLocation string
 
 @description('Tags to apply to the resource')
 param tags object
-
-@description('Resource token for unique naming')
-param resourceToken string
 
 @description('SKU for the static web app')
 @allowed([
@@ -35,13 +33,17 @@ param resourceToken string
 ])
 param sku string = 'Free'
 
+@description('Enable staging environments for pull requests')
+param allowConfigFileUpdates bool = true
+
+@description('Enterprise-grade edge locations (requires Standard SKU)')
+param enterpriseGradeCdnStatus string = 'Disabled'
+
 // Static Web App resource
-resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
-  name: '${staticWebAppName}-${resourceToken}'
+resource staticWebApp 'Microsoft.Web/staticSites@2023-12-01' = {
+  name: staticWebAppName
   location: location
-  tags: union(tags, {
-    'azd-service-name': staticWebAppName
-  })
+  tags: tags
   sku: {
     name: sku
     tier: sku
@@ -49,21 +51,24 @@ resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
   properties: {
     repositoryUrl: 'https://github.com/${gitHubOrg}/${gitHubRepo}'
     branch: gitHubBranch
+    allowConfigFileUpdates: allowConfigFileUpdates
+    enterpriseGradeCdnStatus: enterpriseGradeCdnStatus
     buildProperties: {
       appLocation: appLocation
       outputLocation: outputLocation
       appBuildCommand: ''
       apiBuildCommand: ''
     }
-    // Enable staging environments
-    stagingEnvironmentPolicy: 'Enabled'
-    // Allow only GitHub deployments
-    allowConfigFileUpdates: true
+    provider: 'GitHub'
   }
 }
 
-// Output the API token for GitHub Actions
+// Outputs - Following security best practices by not exposing secrets
 output staticWebAppId string = staticWebApp.id
 output staticWebAppName string = staticWebApp.name
 output defaultHostname string = staticWebApp.properties.defaultHostname
-output apiToken string = staticWebApp.listSecrets().properties.apiKey
+output repositoryUrl string = staticWebApp.properties.repositoryUrl
+output branch string = staticWebApp.properties.branch
+
+// Note: Deployment token should be retrieved dynamically using Azure CLI
+// az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query "properties.apiKey" --output tsv
