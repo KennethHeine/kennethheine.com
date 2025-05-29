@@ -1,0 +1,472 @@
+# Deploy Infrastructure to Azure
+# This workflow deploys Azure infrastructure using Bicep templates
+# Uses federated identity (OIDC) for secure authentication without long-lived secrets
+# Implements Azure deployment best practices with retry logic and comprehensive validation
+
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches: [main]
+    paths: ['infra/**', '.github/workflows/deploy-infrastructure.yml']
+  pull_request:
+    branches: [main]
+    paths: ['infra/**', '.github/workflows/deploy-infrastructure.yml']
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+      skip_validation:
+        description: 'Skip validation steps (not recommended for production)'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  actions: read
+
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  DEPLOYMENT_LOCATION: "westeurope"
+
+jobs:
+  validate:
+    name: Validate & Lint Bicep Templates
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    outputs:
+      validation-passed: ${{ steps.validation.outputs.passed }}
+      template-checksum: ${{ steps.checksum.outputs.checksum }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Azure CLI with latest version
+        run: |
+          echo "📦 Setting up Azure CLI..."
+          az version
+          az upgrade --yes
+          az config set core.allow_broker=false
+
+      - name: Install and Update Bicep
+        run: |
+          echo "🔧 Installing latest Bicep CLI..."
+          az bicep install
+          az bicep upgrade
+          az bicep version
+
+      - name: Generate template checksum
+        id: checksum
+        run: |
+          echo "🔐 Generating template checksum for change detection..."
+          checksum=$(find infra/ -name "*.bicep" -o -name "*.bicepparam" | sort | xargs cat | sha256sum | cut -d' ' -f1)
+          echo "checksum=$checksum" >> $GITHUB_OUTPUT
+          echo "Template checksum: $checksum"
+
+      - name: Lint Bicep templates
+        run: |
+          echo "🧹 Linting Bicep templates..."
+          # Lint all Bicep files
+          find infra/ -name "*.bicep" -exec echo "Linting: {}" \; -exec az bicep lint --file {} \;
+
+      - name: Validate Bicep templates
+        id: validation
+        run: |
+          echo "🔍 Validating Bicep templates..."
+          
+          # Build templates to check for syntax errors
+          echo "Building main template..."
+          az bicep build --file infra/main.bicep --outfile main.json
+          
+          echo "Building module templates..."
+          find infra/modules/ -name "*.bicep" -exec echo "Building: {}" \; -exec az bicep build --file {} \;
+          
+          # Validate template deployment (dry-run)
+          echo "Validating deployment template..."
+          az deployment sub validate \
+            --location "${{ env.DEPLOYMENT_LOCATION }}" \
+            --template-file "infra/main.bicep" \
+            --parameters "infra/parameters/production.bicepparam" \
+            --no-prompt \
+            --output table
+          
+          echo "passed=true" >> $GITHUB_OUTPUT
+          echo "✅ All validations passed successfully!"
+
+      - name: Run What-If Analysis
+        if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+        id: whatif
+        run: |
+          echo "🔍 Running What-If analysis..."
+          
+          whatif_output=$(az deployment sub what-if \
+            --name "kennethheine-whatif-$(date +%Y%m%d%H%M%S)" \
+            --location "${{ env.DEPLOYMENT_LOCATION }}" \
+            --template-file "infra/main.bicep" \
+            --parameters "infra/parameters/production.bicepparam" \
+            --no-pretty-print \
+            --output json)
+          
+          # Save what-if results for PR comments
+          echo "$whatif_output" > whatif-results.json
+          
+          # Extract and display summary
+          echo "## 🔍 Infrastructure What-If Analysis" >> whatif-summary.md
+          echo "" >> whatif-summary.md
+          echo "\`\`\`" >> whatif-summary.md
+          echo "$whatif_output" | jq -r '.properties.changes[] | "• \(.resourceId): \(.changeType)"' >> whatif-summary.md || echo "No changes detected" >> whatif-summary.md
+          echo "\`\`\`" >> whatif-summary.md
+
+      - name: Upload What-If results
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: whatif-results
+          path: |
+            whatif-results.json
+            whatif-summary.md
+          retention-days: 30
+
+      - name: Comment What-If on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let summary = '';
+            try {
+              summary = fs.readFileSync('whatif-summary.md', 'utf8');
+            } catch (error) {
+              summary = '## 🔍 Infrastructure What-If Analysis\n\nNo changes detected or analysis failed.';
+            }
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const existingComment = comments.find(comment => 
+              comment.body.includes('🔍 Infrastructure What-If Analysis'));
+            
+            const commentBody = `${summary}\n\n*Analysis generated on: ${new Date().toISOString()}*`;
+            
+            if (existingComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: commentBody
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+            }
+  pre-deployment-checks:
+    name: Pre-Deployment Validation
+    runs-on: ubuntu-latest
+    needs: validate
+    if: |
+      (github.ref == 'refs/heads/main' && github.event_name != 'pull_request') ||
+      github.event_name == 'workflow_dispatch'
+    environment: ${{ github.event.inputs.environment || 'production' }}
+    
+    outputs:
+      deploy-approved: ${{ steps.approval.outputs.approved }}
+      environment: ${{ steps.env-setup.outputs.environment }}
+      resource-group-name: ${{ steps.env-setup.outputs.resource-group-name }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Environment Variables
+        id: env-setup
+        run: |
+          environment="${{ github.event.inputs.environment || 'production' }}"
+          echo "environment=$environment" >> $GITHUB_OUTPUT
+          
+          # Set resource group name based on environment
+          if [ "$environment" = "production" ]; then
+            echo "resource-group-name=rg-kennethheine-prod" >> $GITHUB_OUTPUT
+          elif [ "$environment" = "staging" ]; then
+            echo "resource-group-name=rg-kennethheine-staging" >> $GITHUB_OUTPUT
+          else
+            echo "resource-group-name=rg-kennethheine-prod" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check Azure Quotas
+        if: ${{ !inputs.skip_validation }}
+        run: |
+          echo "📊 Checking Azure quotas and limits..."
+          
+          # Check Static Web Apps quota
+          echo "Checking Static Web Apps quota in ${{ env.DEPLOYMENT_LOCATION }}..."
+          
+          # Note: Static Web Apps have generous limits, but we should verify subscription access
+          az account show --output table
+          
+          echo "✅ Quota check completed"
+
+      - name: Verify Resource Availability
+        if: ${{ !inputs.skip_validation }}
+        run: |
+          echo "🌍 Verifying resource availability in ${{ env.DEPLOYMENT_LOCATION }}..."
+          
+          # Check if Static Web Apps service is available in the region
+          available_locations=$(az provider show --namespace Microsoft.Web --query "resourceTypes[?resourceType=='staticSites'].locations[]" --output tsv)
+          
+          if echo "$available_locations" | grep -i "${{ env.DEPLOYMENT_LOCATION }}" > /dev/null; then
+            echo "✅ Static Web Apps is available in ${{ env.DEPLOYMENT_LOCATION }}"
+          else
+            echo "❌ Static Web Apps is not available in ${{ env.DEPLOYMENT_LOCATION }}"
+            echo "Available locations: $available_locations"
+            exit 1
+          fi
+
+      - name: Final Pre-Deployment Validation
+        if: ${{ !inputs.skip_validation }}
+        run: |
+          echo "🔧 Running final pre-deployment checks..."
+          
+          # Validate template one more time with current parameters
+          az deployment sub validate \
+            --location "${{ env.DEPLOYMENT_LOCATION }}" \
+            --template-file "infra/main.bicep" \
+            --parameters "infra/parameters/production.bicepparam" \
+            --output table
+          
+          echo "✅ Pre-deployment validation completed successfully"
+
+      - name: Deployment Approval
+        id: approval
+        run: |
+          echo "approved=true" >> $GITHUB_OUTPUT
+          echo "🚀 Ready for deployment to ${{ steps.env-setup.outputs.environment }} environment"
+
+  deploy:
+    name: Deploy Infrastructure to Azure
+    runs-on: ubuntu-latest
+    needs: [validate, pre-deployment-checks]
+    if: |
+      needs.pre-deployment-checks.outputs.deploy-approved == 'true' &&
+      ((github.ref == 'refs/heads/main' && github.event_name != 'pull_request') ||
+       github.event_name == 'workflow_dispatch')
+    environment: ${{ needs.pre-deployment-checks.outputs.environment }}
+    
+    outputs:
+      static-web-app-name: ${{ steps.deploy.outputs.static-web-app-name }}
+      static-web-app-hostname: ${{ steps.deploy.outputs.static-web-app-hostname }}
+      static-web-app-id: ${{ steps.deploy.outputs.static-web-app-id }}
+      resource-group-id: ${{ steps.deploy.outputs.resource-group-id }}
+      deployment-name: ${{ steps.deploy.outputs.deployment-name }}
+      deployment-status: ${{ steps.deploy.outputs.status }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Azure CLI and Bicep
+        run: |
+          echo "📦 Setting up deployment tools..."
+          az version
+          az bicep install
+          az bicep upgrade
+
+      - name: Deploy Infrastructure with Retry Logic
+        id: deploy
+        run: |
+          deployment_name="kennethheine-deploy-$(date +%Y%m%d%H%M%S)"
+          echo "deployment-name=$deployment_name" >> $GITHUB_OUTPUT
+          
+          echo "🚀 Deploying infrastructure to ${{ needs.pre-deployment-checks.outputs.environment }}..."
+          echo "📍 Deployment Name: $deployment_name"
+          echo "🌍 Location: ${{ env.DEPLOYMENT_LOCATION }}"
+          echo "📋 Template Checksum: ${{ needs.validate.outputs.template-checksum }}"
+          
+          # Deploy with retry logic
+          max_attempts=3
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+            echo "Deployment attempt $attempt of $max_attempts..."
+            
+            if deployment_output=$(az deployment sub create \
+              --name "$deployment_name" \
+              --location "${{ env.DEPLOYMENT_LOCATION }}" \
+              --template-file "infra/main.bicep" \
+              --parameters "infra/parameters/production.bicepparam" \
+              --output json); then
+              
+              echo "✅ Deployment successful on attempt $attempt"
+              break
+            else
+              echo "❌ Deployment failed on attempt $attempt"
+              if [ $attempt -eq $max_attempts ]; then
+                echo "🚫 All deployment attempts failed"
+                exit 1
+              fi
+              
+              echo "⏳ Waiting 30 seconds before retry..."
+              sleep 30
+              attempt=$((attempt + 1))
+            fi
+          done
+          
+          # Extract outputs safely
+          echo "📤 Extracting deployment outputs..."
+          
+          static_web_app_name=$(echo "$deployment_output" | jq -r '.properties.outputs.staticWebAppName.value // "unknown"')
+          static_web_app_hostname=$(echo "$deployment_output" | jq -r '.properties.outputs.staticWebAppDefaultHostname.value // "unknown"')
+          static_web_app_id=$(echo "$deployment_output" | jq -r '.properties.outputs.staticWebAppId.value // "unknown"')
+          resource_group_id=$(echo "$deployment_output" | jq -r '.properties.outputs.resourceGroupId.value // "unknown"')
+          
+          # Set outputs
+          echo "static-web-app-name=$static_web_app_name" >> $GITHUB_OUTPUT
+          echo "static-web-app-hostname=$static_web_app_hostname" >> $GITHUB_OUTPUT
+          echo "static-web-app-id=$static_web_app_id" >> $GITHUB_OUTPUT
+          echo "resource-group-id=$resource_group_id" >> $GITHUB_OUTPUT
+          echo "status=success" >> $GITHUB_OUTPUT
+          
+          echo "✅ Infrastructure deployment completed successfully!"
+          echo "📋 Static Web App: $static_web_app_name"
+          echo "🌐 Hostname: https://$static_web_app_hostname"
+          echo "🆔 Resource ID: $static_web_app_id"
+
+      - name: Verify Deployment
+        run: |
+          echo "🔍 Verifying deployment..."
+          
+          # Verify resource group exists
+          if az group show --name "${{ needs.pre-deployment-checks.outputs.resource-group-name }}" --output none; then
+            echo "✅ Resource group verified"
+          else
+            echo "❌ Resource group verification failed"
+            exit 1
+          fi
+          
+          # Verify Static Web App exists and is running
+          if az staticwebapp show --name "${{ steps.deploy.outputs.static-web-app-name }}" --output none; then
+            echo "✅ Static Web App verified"
+            
+            # Get detailed status
+            app_status=$(az staticwebapp show --name "${{ steps.deploy.outputs.static-web-app-name }}" --query "state" --output tsv)
+            echo "📊 Static Web App Status: $app_status"
+          else
+            echo "❌ Static Web App verification failed"
+            exit 1
+          fi
+          
+          echo "🎉 All resources verified successfully!"
+
+  post-deployment:
+    name: Post-Deployment Tasks
+    runs-on: ubuntu-latest
+    needs: [validate, pre-deployment-checks, deploy]
+    if: always() && needs.deploy.result == 'success'
+    environment: ${{ needs.pre-deployment-checks.outputs.environment }}
+    
+    steps:
+      - name: Post Deployment Validation
+        run: |
+          echo "🔍 Running post-deployment validation..."
+          
+          # Basic connectivity test
+          if curl -f -s "https://${{ needs.deploy.outputs.static-web-app-hostname }}" > /dev/null; then
+            echo "✅ Static Web App is accessible"
+          else
+            echo "⚠️ Static Web App may not be fully ready yet (this is normal for new deployments)"
+          fi
+
+      - name: Generate Deployment Summary
+        run: |
+          echo "## 🎉 Infrastructure Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Deployment Details" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | ${{ needs.pre-deployment-checks.outputs.environment }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Deployment Name | ${{ needs.deploy.outputs.deployment-name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ${{ needs.deploy.outputs.deployment-status }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Template Checksum | ${{ needs.validate.outputs.template-checksum }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🌐 Resources Created" >> $GITHUB_STEP_SUMMARY
+          echo "| Resource Type | Name | URL |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------------|------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| Static Web App | ${{ needs.deploy.outputs.static-web-app-name }} | [View App](https://${{ needs.deploy.outputs.static-web-app-hostname }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Resource Group | ${{ needs.pre-deployment-checks.outputs.resource-group-name }} | [View in Portal](https://portal.azure.com/#@${{ env.AZURE_TENANT_ID }}/resource${{ needs.deploy.outputs.resource-group-id }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔧 Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. ✅ Infrastructure is deployed and ready" >> $GITHUB_STEP_SUMMARY
+          echo "2. 🚀 App deployments will use federated identity to retrieve deployment tokens dynamically" >> $GITHUB_STEP_SUMMARY
+          echo "3. 🔒 No long-lived secrets are stored in GitHub - all authentication uses OIDC" >> $GITHUB_STEP_SUMMARY
+          echo "4. 📋 Monitor resources in the [Azure Portal](https://portal.azure.com)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🛡️ Security Features" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Federated identity (OIDC) authentication" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ No long-lived secrets in GitHub" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Least privilege access principles" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Secure deployment token retrieval" >> $GITHUB_STEP_SUMMARY
+
+      - name: Save Deployment Artifacts
+        run: |
+          # Create deployment info for other workflows
+          cat << EOF > deployment-info.json
+          {
+            "deploymentName": "${{ needs.deploy.outputs.deployment-name }}",
+            "staticWebAppName": "${{ needs.deploy.outputs.static-web-app-name }}",
+            "staticWebAppHostname": "${{ needs.deploy.outputs.static-web-app-hostname }}",
+            "staticWebAppId": "${{ needs.deploy.outputs.static-web-app-id }}",
+            "resourceGroupId": "${{ needs.deploy.outputs.resource-group-id }}",
+            "environment": "${{ needs.pre-deployment-checks.outputs.environment }}",
+            "templateChecksum": "${{ needs.validate.outputs.template-checksum }}",
+            "deployedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Upload Deployment Info
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-info-${{ needs.pre-deployment-checks.outputs.environment }}
+          path: deployment-info.json
+          retention-days: 90

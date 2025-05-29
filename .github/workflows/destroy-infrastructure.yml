@@ -1,0 +1,66 @@
+# Destroy Infrastructure in Azure
+# This workflow deletes the resource group and all resources for the specified environment
+# Uses federated identity for secure authentication
+
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+
+jobs:
+  destroy:
+    name: Destroy Azure Resource Group
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Azure Login using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set Resource Group Name
+        id: set-rg
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "production" ]; then
+            echo "rg_name=rg-kennethheine-prod" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.environment }}" = "staging" ]; then
+            echo "rg_name=rg-kennethheine-staging" >> $GITHUB_OUTPUT
+          else
+            echo "rg_name=rg-kennethheine-prod" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Confirm Destruction
+        run: |
+          echo "⚠️  You are about to delete resource group: ${{ steps.set-rg.outputs.rg_name }} in subscription ${{ env.AZURE_SUBSCRIPTION_ID }}"
+          echo "This action is irreversible!"
+
+      - name: Destroy Resource Group
+        run: |
+          az group delete --name "${{ steps.set-rg.outputs.rg_name }}" --yes --no-wait
+          echo "🗑️ Deletion initiated for resource group: ${{ steps.set-rg.outputs.rg_name }}"
+
+      - name: Post Destruction Summary
+        run: |
+          echo "## 🗑️ Destruction Initiated" >> $GITHUB_STEP_SUMMARY
+          echo "Resource group ${{ steps.set-rg.outputs.rg_name }} is being deleted." >> $GITHUB_STEP_SUMMARY
+          echo "Check the Azure Portal for status."

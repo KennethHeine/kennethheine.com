@@ -211,6 +211,12 @@ function Add-FederatedCredential {
 # Add credentials for different scenarios
 Add-FederatedCredential -Name "github-environment-production" -Subject "repo:$GitHubOrg/${GitHubRepo}:environment:production" -Description "GitHub Actions production environment"
 
+# Add credentials for GitHub Actions workflows (for federated identity)
+Add-FederatedCredential -Name "github-actions-main-branch" -Subject "repo:$GitHubOrg/${GitHubRepo}:ref:refs/heads/main" -Description "GitHub Actions main branch deployments"
+
+# Add credentials for pull requests (for What-If analysis)
+Add-FederatedCredential -Name "github-actions-pull-requests" -Subject "repo:$GitHubOrg/${GitHubRepo}:pull_request" -Description "GitHub Actions pull request validation"
+
 # Show summary
 Write-Host ""
 Write-Host "🎉 App Registration and RBAC setup completed!" -ForegroundColor Green
