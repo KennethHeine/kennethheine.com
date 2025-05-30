@@ -1,7 +1,7 @@
 // Main Bicep template for kennethheine.com infrastructure
 // This template deploys a Static Web App with GitHub integration
 
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
 @description('Name of the resource group')
 param resourceGroupName string = 'rg-kennethheine-prod'
