@@ -71,6 +71,6 @@ jobs:
             --location "${{ env.DEPLOYMENT_LOCATION }}" \
             --template-file "infra/main.bicep" \
             --parameters "infra/parameters/production.bicepparam" \
-            --verbose
+            --debug
 
           echo "✅ Infrastructure deployment completed!"
