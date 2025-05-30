@@ -27,6 +27,7 @@ jobs:
     outputs:
       changes-detected: ${{ steps.whatif.outputs.changes-detected }}
       summary: ${{ steps.whatif.outputs.summary }}
+      detailed-changes: ${{ steps.whatif.outputs.DETAILED_CHANGES }}
 
     steps:
       - name: Checkout code
@@ -81,22 +82,36 @@ jobs:
           
           echo "📋 What-If Analysis Results:"
           echo "$whatif_output"
-          
-          # Check if changes are detected
+            # Check if changes are detected
           if echo "$whatif_output" | grep -q "No changes detected"; then
             echo "changes-detected=false" >> $GITHUB_OUTPUT
             echo "summary=No infrastructure changes detected" >> $GITHUB_OUTPUT
             echo "✅ No changes detected - infrastructure is up to date"
           else
             echo "changes-detected=true" >> $GITHUB_OUTPUT
-            # Extract resource count from output
-            create_count=$(echo "$whatif_output" | grep -o "Create: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
-            modify_count=$(echo "$whatif_output" | grep -o "Modify: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
-            delete_count=$(echo "$whatif_output" | grep -o "Delete: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+            
+            # Extract resource count from Azure what-if output format: "Resource changes: X to create, Y to modify, Z to delete."
+            resource_changes_line=$(echo "$whatif_output" | grep "Resource changes:" || echo "")
+            
+            if [ -n "$resource_changes_line" ]; then
+              create_count=$(echo "$resource_changes_line" | grep -o "[0-9]* to create" | grep -o "[0-9]*" || echo "0")
+              modify_count=$(echo "$resource_changes_line" | grep -o "[0-9]* to modify" | grep -o "[0-9]*" || echo "0")
+              delete_count=$(echo "$resource_changes_line" | grep -o "[0-9]* to delete" | grep -o "[0-9]*" || echo "0")
+            else
+              # Fallback to old format parsing
+              create_count=$(echo "$whatif_output" | grep -o "Create: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+              modify_count=$(echo "$whatif_output" | grep -o "Modify: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+              delete_count=$(echo "$whatif_output" | grep -o "Delete: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+            fi
             
             summary="Changes detected - Create: ${create_count}, Modify: ${modify_count}, Delete: ${delete_count}"
             echo "summary=$summary" >> $GITHUB_OUTPUT
             echo "🔄 $summary"
+              # Store detailed changes for summary
+            detailed_changes=$(echo "$whatif_output" | sed -n '/The deployment will update the following scope:/,/Resource changes:/p' | head -n -1)
+            echo "DETAILED_CHANGES<<EOF" >> $GITHUB_OUTPUT
+            echo "$detailed_changes" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
 
       - name: Create What-If Summary
@@ -123,6 +138,27 @@ jobs:
           **Results:**
           - Changes Detected: \`${{ steps.whatif.outputs.changes-detected }}\`
           - Summary: \`${{ steps.whatif.outputs.summary }}\`
+          
+          EOF
+          
+          # Add detailed changes if they exist
+          if [ "${{ steps.whatif.outputs.changes-detected }}" == "true" ] && [ -n "${{ steps.whatif.outputs.DETAILED_CHANGES }}" ]; then
+            cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          
+          **📋 Detailed Changes:**
+          ```
+          ${{ steps.whatif.outputs.DETAILED_CHANGES }}
+          ```
+          
+          **Legend:**
+          - `+` = Resource will be created
+          - `~` = Resource will be modified
+          - `-` = Resource will be deleted
+          
+          EOF
+          fi
+          
+          cat >> $GITHUB_STEP_SUMMARY << EOF
           
           ${{ steps.whatif.outputs.changes-detected == 'true' && format('⚠️ **Action Required**: Changes detected in infrastructure. {0}', github.event_name == 'pull_request' && 'Review the what-if output above before merging.' || 'Review the what-if output above before proceeding with deployment.') || '✅ **No Action Required**: Infrastructure is up to date.' }}
           EOF
