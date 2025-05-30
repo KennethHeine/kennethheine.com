@@ -34,6 +34,13 @@ jobs:
           tenant-id: ${{ env.AZURE_TENANT_ID }}
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Verify Azure CLI and Authentication
+        run: |
+          echo "🔍 Verifying Azure CLI setup..."
+          az version
+          az account show
+          echo "✅ Authentication verified"
+
       - name: Deploy Infrastructure
         run: |
           deployment_name="kennethheine-deploy-$(date +%Y%m%d%H%M%S)"
@@ -42,10 +49,24 @@ jobs:
           echo "📍 Deployment Name: $deployment_name"
           echo "🌍 Location: ${{ env.DEPLOYMENT_LOCATION }}"
           
+          # Check if files exist
+          if [ ! -f "infra/main.bicep" ]; then
+            echo "❌ main.bicep file not found"
+            exit 1
+          fi
+          
+          if [ ! -f "infra/parameters/production.bicepparam" ]; then
+            echo "❌ production.bicepparam file not found"
+            exit 1
+          fi
+          
+          echo "📁 Files verified, starting deployment..."
+          
           az deployment sub create \
             --name "$deployment_name" \
             --location "${{ env.DEPLOYMENT_LOCATION }}" \
             --template-file "infra/main.bicep" \
-            --parameters "infra/parameters/production.bicepparam"
+            --parameters "infra/parameters/production.bicepparam" \
+            --verbose
           
           echo "✅ Infrastructure deployment completed!"
