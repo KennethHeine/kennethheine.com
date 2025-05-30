@@ -1,6 +1,3 @@
-# Deploy Infrastructure to Azure
-# Simple workflow to deploy Bicep infrastructure
-
 name: Deploy Infrastructure
 
 on:
@@ -22,10 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment: production
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug Files
+        run: |
+          echo "Listing files in infra/parameters:"
+          ls -la infra/parameters
 
       - name: Azure Login using OIDC
         uses: azure/login@v2
@@ -68,5 +72,5 @@ jobs:
             --template-file "infra/main.bicep" \
             --parameters "infra/parameters/production.bicepparam" \
             --verbose
-          
+
           echo "✅ Infrastructure deployment completed!"
