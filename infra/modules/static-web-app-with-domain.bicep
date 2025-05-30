@@ -86,7 +86,7 @@ output repositoryUrl string = staticWebApp.properties.repositoryUrl
 output branch string = staticWebApp.properties.branch
 output customDomainName string = !empty(customDomainName) ? customDomainName : ''
 output customDomainValidationToken string = !empty(customDomainName) ? customDomain.properties.validationToken : ''
-output customDomainValidationMethod string = !empty(customDomainName) ? customDomain.properties.validationMethod : ''
+// Note: validationMethod is write-only and cannot be output
 
 // Note: Deployment token should be retrieved dynamically using Azure CLI
 // az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query "properties.apiKey" --output tsv
