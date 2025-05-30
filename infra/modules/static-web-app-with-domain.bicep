@@ -71,7 +71,10 @@ resource customDomain 'Microsoft.Web/staticSites/customDomains@2024-04-01' = if 
   name: customDomainName
   parent: staticWebApp
   properties: {
-    validationMethod: 'cname-delegation'
+    // Apex domains (like kennethheine.com) must use dns-txt-token validation
+    // Subdomains (like www.kennethheine.com) can use cname-delegation
+    // Apex domain detection: split by '.' and check if it has exactly 2 parts (domain.tld)
+    validationMethod: length(split(customDomainName, '.')) == 2 ? 'dns-txt-token' : 'cname-delegation'
   }
 }
 
@@ -82,11 +85,19 @@ output defaultHostname string = staticWebApp.properties.defaultHostname
 output repositoryUrl string = staticWebApp.properties.repositoryUrl
 output branch string = staticWebApp.properties.branch
 output customDomainName string = !empty(customDomainName) ? customDomainName : ''
-output customDomainValidationToken string = !empty(customDomainName) ? customDomain.properties.domainName : ''
+output customDomainValidationToken string = !empty(customDomainName) ? customDomain.properties.validationToken : ''
+// Note: validationMethod is write-only and cannot be output
 
 // Note: Deployment token should be retrieved dynamically using Azure CLI
 // az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query "properties.apiKey" --output tsv
 
-// Note: For custom domain setup, you'll need to:
-// 1. Create a CNAME record pointing your domain to the default hostname
-// 2. Azure will automatically validate the domain and issue an SSL certificate
+// Note: For custom domain setup:
+// APEX DOMAINS (like kennethheine.com):
+// 1. Create a TXT record with name "@" and value from the validation token
+// 2. Azure will validate the domain using DNS TXT record verification
+// 
+// SUBDOMAINS (like www.kennethheine.com):
+// 1. Create a CNAME record pointing to the default hostname
+// 2. Azure will validate using CNAME delegation
+//
+// SSL certificate will be automatically provisioned after validation
