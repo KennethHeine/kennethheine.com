@@ -65,12 +65,11 @@ jobs:
           fi
           
           echo "📁 Files verified, starting deployment..."
-          
-          az deployment sub create \
+            az deployment group create \
             --name "$deployment_name" \
-            --location "${{ env.DEPLOYMENT_LOCATION }}" \
+            --resource-group "rg-kennethheine-prod" \
             --template-file "infra/main.bicep" \
             --parameters "infra/parameters/production.bicepparam" \
-            --debug
+            --verbose
 
           echo "✅ Infrastructure deployment completed!"

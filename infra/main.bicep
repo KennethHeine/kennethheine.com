@@ -3,9 +3,6 @@
 
 targetScope = 'resourceGroup'
 
-@description('Name of the resource group')
-param resourceGroupName string = 'rg-kennethheine-prod'
-
 @description('Location for all resources')
 param location string = 'westeurope'
 
@@ -36,20 +33,10 @@ param tags object = {
 }
 
 @description('Resource token for unique naming')
-var resourceToken = toLower(uniqueString(subscription().id, resourceGroupName))
+var resourceToken = toLower(uniqueString(subscription().id, resourceGroup().name))
 
-// Create resource group
-resource rg 'Microsoft.Resources/resourceGroups@2023-07-01' = {
-  name: resourceGroupName
-  location: location
-  tags: union(tags, {
-    project: 'kennethheine-com'
-  })
-}
-
-// Deploy static web app in the resource group
+// Deploy static web app in the existing resource group
 module staticWebApp 'modules/static-web-app.bicep' = {
-  scope: rg
   name: 'deploy-static-web-app'
   params: {
     staticWebAppName: '${staticWebAppName}-${resourceToken}'
@@ -64,8 +51,8 @@ module staticWebApp 'modules/static-web-app.bicep' = {
 }
 
 // Outputs
-output resourceGroupId string = rg.id
-output resourceGroupName string = rg.name
+output resourceGroupId string = resourceGroup().id
+output resourceGroupName string = resourceGroup().name
 output staticWebAppId string = staticWebApp.outputs.staticWebAppId
 output staticWebAppName string = staticWebApp.outputs.staticWebAppName
 output staticWebAppDefaultHostname string = staticWebApp.outputs.defaultHostname

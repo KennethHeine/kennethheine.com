@@ -1,7 +1,6 @@
 using '../main.bicep'
 
 // Production environment parameters
-param resourceGroupName = 'rg-kennethheine-prod'
 param location = 'westeurope'
 param staticWebAppName = 'swa-kennethheine-com'
 param gitHubOrg = 'KS-Cloud-org'
