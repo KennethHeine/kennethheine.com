@@ -1,5 +1,5 @@
 // Static Web App Bicep module
-// Deploys Azure Static Web App with GitHub integration
+// Deploys Azure Static Web App with GitHub integration and custom domain support
 // Uses latest API version and follows security best practices
 
 @description('Name of the static web app (should include unique suffix)')
@@ -39,6 +39,9 @@ param allowConfigFileUpdates bool = true
 @description('Enterprise-grade edge locations (requires Standard SKU)')
 param enterpriseGradeCdnStatus string = 'Disabled'
 
+@description('Custom domain name to configure (optional)')
+param customDomainName string = ''
+
 // Static Web App resource
 resource staticWebApp 'Microsoft.Web/staticSites@2024-04-01' = {
   name: staticWebAppName
@@ -63,12 +66,27 @@ resource staticWebApp 'Microsoft.Web/staticSites@2024-04-01' = {
   }
 }
 
+// Custom domain configuration (only if domain name is provided)
+resource customDomain 'Microsoft.Web/staticSites/customDomains@2024-04-01' = if (!empty(customDomainName)) {
+  name: customDomainName
+  parent: staticWebApp
+  properties: {
+    validationMethod: 'cname-delegation'
+  }
+}
+
 // Outputs - Following security best practices by not exposing secrets
 output staticWebAppId string = staticWebApp.id
 output staticWebAppName string = staticWebApp.name
 output defaultHostname string = staticWebApp.properties.defaultHostname
 output repositoryUrl string = staticWebApp.properties.repositoryUrl
 output branch string = staticWebApp.properties.branch
+output customDomainName string = !empty(customDomainName) ? customDomainName : ''
+output customDomainValidationToken string = !empty(customDomainName) ? customDomain.properties.domainName : ''
 
 // Note: Deployment token should be retrieved dynamically using Azure CLI
 // az staticwebapp secrets list --name <app-name> --resource-group <rg-name> --query "properties.apiKey" --output tsv
+
+// Note: For custom domain setup, you'll need to:
+// 1. Create a CNAME record pointing your domain to the default hostname
+// 2. Azure will automatically validate the domain and issue an SSL certificate
