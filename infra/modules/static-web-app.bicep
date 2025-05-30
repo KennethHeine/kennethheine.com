@@ -40,7 +40,7 @@ param allowConfigFileUpdates bool = true
 param enterpriseGradeCdnStatus string = 'Disabled'
 
 // Static Web App resource
-resource staticWebApp 'Microsoft.Web/staticSites@2023-12-01' = {
+resource staticWebApp 'Microsoft.Web/staticSites@2024-04-01' = {
   name: staticWebAppName
   location: location
   tags: tags

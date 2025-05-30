@@ -36,14 +36,14 @@ param tags object = {
 }
 
 @description('Resource token for unique naming')
-var resourceToken = toLower(uniqueString(subscription().id, resourceGroupName, location))
+var resourceToken = toLower(uniqueString(subscription().id, resourceGroupName))
 
 // Create resource group
 resource rg 'Microsoft.Resources/resourceGroups@2023-07-01' = {
   name: resourceGroupName
   location: location
   tags: union(tags, {
-    'azd-env-name': resourceGroupName
+    project: 'kennethheine-com'
   })
 }
 
