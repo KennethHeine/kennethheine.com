@@ -2,6 +2,12 @@ name: Deploy Infrastructure
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths: ['infra/**', '.github/workflows/deploy-infrastructure.yml']
+  push:
+    branches: [main]
+    paths: ['infra/**']
 
 permissions:
   id-token: write
@@ -14,10 +20,118 @@ env:
   DEPLOYMENT_LOCATION: "westeurope"
 
 jobs:
+  whatif:
+    name: What-If Analysis
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+    outputs:
+      changes-detected: ${{ steps.whatif.outputs.changes-detected }}
+      summary: ${{ steps.whatif.outputs.summary }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure CLI and Authentication
+        run: |
+          echo "🔍 Verifying Azure CLI setup..."
+          az version
+          az account show
+          echo "✅ Authentication verified"
+
+      - name: Run What-If Analysis
+        id: whatif
+        run: |
+          deployment_name="kennethheine-whatif-$(date +%Y%m%d%H%M%S)"
+          
+          echo "🔍 Running What-If analysis..."
+          echo "📍 Deployment Name: $deployment_name"
+          echo "🌍 Location: ${{ env.DEPLOYMENT_LOCATION }}"
+          echo "🔄 Event: ${{ github.event_name }}"
+          
+          # Check if files exist
+          if [ ! -f "infra/main.bicep" ]; then
+            echo "❌ main.bicep file not found"
+            exit 1
+          fi
+          
+          if [ ! -f "infra/parameters/production.bicepparam" ]; then
+            echo "❌ production.bicepparam file not found"
+            exit 1
+          fi
+          
+          echo "📁 Files verified, running what-if analysis..."
+          
+          # Run what-if and capture output
+          whatif_output=$(az deployment group what-if \
+            --name "$deployment_name" \
+            --resource-group "rg-kennethheine-prod" \
+            --template-file "infra/main.bicep" \
+            --parameters "infra/parameters/production.bicepparam" \
+            --result-format "FullResourcePayloads" 2>&1)
+          
+          echo "📋 What-If Analysis Results:"
+          echo "$whatif_output"
+          
+          # Check if changes are detected
+          if echo "$whatif_output" | grep -q "No changes detected"; then
+            echo "changes-detected=false" >> $GITHUB_OUTPUT
+            echo "summary=No infrastructure changes detected" >> $GITHUB_OUTPUT
+            echo "✅ No changes detected - infrastructure is up to date"
+          else
+            echo "changes-detected=true" >> $GITHUB_OUTPUT
+            # Extract resource count from output
+            create_count=$(echo "$whatif_output" | grep -o "Create: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+            modify_count=$(echo "$whatif_output" | grep -o "Modify: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+            delete_count=$(echo "$whatif_output" | grep -o "Delete: [0-9]*" | head -1 | grep -o "[0-9]*" || echo "0")
+            
+            summary="Changes detected - Create: ${create_count}, Modify: ${modify_count}, Delete: ${delete_count}"
+            echo "summary=$summary" >> $GITHUB_OUTPUT
+            echo "🔄 $summary"
+          fi
+
+      - name: Create What-If Summary
+        run: |
+          # Determine context emoji and message
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            context="🔀 **Pull Request Analysis**"
+            action_msg="Merge this PR to deploy changes to production"
+          else
+            context="🚀 **Main Branch Analysis**"
+            action_msg="Ready to deploy to production environment"
+          fi
+          
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🔍 Infrastructure What-If Analysis
+          
+          $context
+          
+          **Deployment Details:**
+          - 📍 Resource Group: \`rg-kennethheine-prod\`
+          - 🌍 Location: \`${{ env.DEPLOYMENT_LOCATION }}\`
+          - 📅 Analysis Time: \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`
+          
+          **Results:**
+          - Changes Detected: \`${{ steps.whatif.outputs.changes-detected }}\`
+          - Summary: \`${{ steps.whatif.outputs.summary }}\`
+          
+          ${{ steps.whatif.outputs.changes-detected == 'true' && format('⚠️ **Action Required**: Changes detected in infrastructure. {0}', github.event_name == 'pull_request' && 'Review the what-if output above before merging.' || 'Review the what-if output above before proceeding with deployment.') || '✅ **No Action Required**: Infrastructure is up to date.' }}
+          EOF
+
   deploy:
     name: Deploy Infrastructure
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && needs.whatif.outputs.changes-detected == 'true'
+    needs: whatif
     environment: production
 
     steps:
@@ -65,11 +179,46 @@ jobs:
           fi
           
           echo "📁 Files verified, starting deployment..."
-            az deployment group create \
+          deployment_output=$(az deployment group create \
             --name "$deployment_name" \
             --resource-group "rg-kennethheine-prod" \
             --template-file "infra/main.bicep" \
             --parameters "infra/parameters/production.bicepparam" \
-            --verbose
+            --verbose 2>&1)
+          
+          deployment_status=$?
+          echo "$deployment_output"
+          
+          if [ $deployment_status -eq 0 ]; then
+            echo "✅ Infrastructure deployment completed successfully!"
+          else
+            echo "❌ Infrastructure deployment failed!"
+            exit 1
+          fi
 
-          echo "✅ Infrastructure deployment completed!"
+      - name: Create Deployment Summary
+        if: always()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🚀 Infrastructure Deployment Results
+          
+          **Deployment Details:**
+          - 📍 Resource Group: `rg-kennethheine-prod`
+          - 🌍 Location: `${{ env.DEPLOYMENT_LOCATION }}`
+          - 📅 Deployment Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
+          - 🔗 Environment: `production`
+          
+          **Pre-deployment Analysis:**
+          - Changes Detected: `${{ needs.whatif.outputs.changes-detected }}`
+          - Summary: `${{ needs.whatif.outputs.summary }}`
+          
+          **Deployment Status:**
+          ${{ job.status == 'success' && '✅ **SUCCESS**: Infrastructure deployed successfully!' || '❌ **FAILED**: Deployment encountered errors. Check logs above.' }}
+          
+          **Next Steps:**
+          ${{ job.status == 'success' && '- 🌐 Visit the [Azure Portal](https://portal.azure.com) to verify resources
+          - 📊 Monitor the Static Web App deployment status
+          - 🔧 Configure custom domains and SSL certificates if needed' || '- 📋 Review deployment logs for error details
+          - 🔧 Fix any configuration issues
+          - 🔄 Re-run the workflow after fixes' }}
+          EOF
