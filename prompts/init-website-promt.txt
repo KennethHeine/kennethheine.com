@@ -1,0 +1,45 @@
+You are a senior full-stack engineer.
+
+**Goal**  
+Build a modern, fully **static** personal-brand website with four routes:
+
+1. `/` – Home (hero banner, tagline, profile photo, CTA buttons)  
+2. `/about` – About Me (short bio, skills grid, timeline or milestones)  
+3. `/blog` – Blog index that reads local Markdown/MDX files from `/content/posts/*`.  
+   Each post should be prerendered at `/blog/[slug]`.  
+4. `/contact` – Simple placeholder page (headline + paragraph + `mailto:` link).  
+   *No* form, *no* client-side validation, *no* JS required here.
+
+**Tech stack**  
+- **Next.js 14** with `output: 'export'` in `next.config.js` (static HTML in `out/`)  
+- TypeScript  
+- Tailwind CSS (dark + light themes)  
+- `next-seo` for meta tags  
+- MDX via `next-mdx-remote` for blog posts  
+- Jest + React Testing Library for unit tests  
+- Absolutely **no** serverless functions or API routes.
+
+**Design & accessibility**  
+- Clean, minimalist look, generous whitespace  
+- Fluid headline sizes; body ≈ 1 rem  
+- Use Tailwind `prose` classes for blog content  
+- Accessible colour contrast, focus outlines, `alt` text everywhere  
+- Mobile-first: stacks nicely on < 640 px screens
+
+**Requirements**  
+1. Generate the full project tree (`app/`, `components/`, `content/posts/`, etc.).  
+2. Provide boilerplate code for every route with placeholder content.  
+3. Add a sample Markdown post (`hello-world.mdx`) with front-matter (`title`, `date`, `summary`, `tags`).  
+4. Create a shared `Layout.tsx` (header, footer, dark-mode toggle); header highlights the active route.  
+5. Tailwind config with a custom `brand` palette and fonts.  
+6. `/contact` page must contain *only* static placeholder text—no form elements.  
+7. Unit tests for the blog list (titles & dates render correctly).  
+8. `README.md` covering local development (`pnpm dev`) and static export (`pnpm build && pnpm export`).  
+9. Comment every file so a beginner can follow along.  
+10. **Output files one at a time** in clearly delimited code blocks, e.g.  
+    ```
+// --- file: next.config.mjs ---
+    ```  
+    Continue until the entire scaffold (code + tests + docs) is complete.
+
+Stop when finished.
