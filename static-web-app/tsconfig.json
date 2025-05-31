@@ -1,0 +1,63 @@
+// --- file: tsconfig.json ---
+{
+  "compilerOptions": {
+    // Target modern JavaScript for better performance
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
+    
+    // Module system configuration
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": false,
+    
+    // Enable strict type checking
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    // JSX configuration
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    
+    // Path resolution for cleaner imports
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/types/*": ["./types/*"],
+      "@/app/*": ["./app/*"]
+    },
+    
+    // Additional compiler options
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    
+    // Plugin configuration for Next.js
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  
+  // Include patterns for TypeScript compilation
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  
+  // Exclude patterns
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out",
+    "dist"
+  ]
+}

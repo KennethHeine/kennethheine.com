@@ -1,0 +1,288 @@
+---
+title: "Building Modern Static Sites with Next.js 14"
+date: "2025-05-30"
+summary: "Learn how to build lightning-fast static websites using Next.js 14's app router, static export features, and modern best practices for performance and SEO."
+tags: ["nextjs", "static-sites", "performance", "seo", "web-development"]
+---
+
+# Building Modern Static Sites with Next.js 14
+
+Static sites are making a huge comeback, and for good reason. They're fast, secure, and incredibly cost-effective to host. With Next.js 14's enhanced static export capabilities, building static sites has never been easier or more powerful.
+
+## Why Choose Static Sites?
+
+### Performance Benefits
+- **Lightning-fast loading** - No server-side processing delays
+- **Global CDN distribution** - Content served from edge locations
+- **Optimized assets** - Automatic image optimization and code splitting
+- **Prefetching** - Smart resource preloading for instant navigation
+
+### Developer Experience
+- **Modern tooling** - Hot reload, TypeScript support, and excellent DevTools
+- **Component-based** - Reusable UI components with React
+- **Build-time optimization** - Generated at build time for maximum performance
+- **SEO-friendly** - Pre-rendered HTML for search engines and social sharing
+
+### Cost and Maintenance
+- **Low hosting costs** - Serve from CDNs or static hosting platforms
+- **High availability** - No servers to crash or maintain
+- **Scalability** - Handle traffic spikes without infrastructure concerns
+- **Security** - Reduced attack surface with no dynamic server components
+
+## Setting Up Next.js 14 for Static Export
+
+Let's walk through setting up a Next.js project optimized for static generation:
+
+### 1. Project Configuration
+
+```javascript
+// next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
+  experimental: {
+    isrMemoryCacheSize: 0,
+  }
+}
+
+export default nextConfig
+```
+
+### 2. Static Generation Strategies
+
+```typescript
+// app/blog/[slug]/page.tsx
+export async function generateStaticParams() {
+  const posts = getAllPosts()
+  
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+
+export async function generateMetadata({ params }: Props) {
+  const post = getPostBySlug(params.slug)
+  
+  return {
+    title: post.title,
+    description: post.summary,
+    openGraph: {
+      title: post.title,
+      description: post.summary,
+      type: 'article',
+    },
+  }
+}
+```
+
+### 3. Optimized Image Handling
+
+For static sites, we need to handle images carefully:
+
+```typescript
+// components/OptimizedImage.tsx
+import Image from 'next/image'
+
+interface OptimizedImageProps {
+  src: string
+  alt: string
+  width: number
+  height: number
+  priority?: boolean
+}
+
+export function OptimizedImage({ 
+  src, 
+  alt, 
+  width, 
+  height, 
+  priority = false 
+}: OptimizedImageProps) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      priority={priority}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="rounded-lg shadow-sm"
+    />
+  )
+}
+```
+
+## Advanced Static Site Patterns
+
+### Dynamic Routes with Static Data
+
+```typescript
+// lib/blog.ts
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
+
+const postsDirectory = path.join(process.cwd(), 'content/posts')
+
+export function getAllPosts() {
+  const fileNames = fs.readdirSync(postsDirectory)
+  
+  const allPostsData = fileNames
+    .filter(name => name.endsWith('.mdx'))
+    .map((fileName) => {
+      const slug = fileName.replace(/\.mdx$/, '')
+      const fullPath = path.join(postsDirectory, fileName)
+      const fileContents = fs.readFileSync(fullPath, 'utf8')
+      const { data, content } = matter(fileContents)
+      
+      return {
+        slug,
+        content,
+        ...data,
+      } as BlogPost
+    })
+  
+  return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
+}
+```
+
+### Build-Time Validation
+
+```typescript
+// scripts/validate-content.ts
+import { getAllPosts } from '../lib/blog'
+
+function validateContent() {
+  const posts = getAllPosts()
+  
+  posts.forEach(post => {
+    // Validate required fields
+    if (!post.title || !post.date || !post.summary) {
+      throw new Error(`Missing required fields in post: ${post.slug}`)
+    }
+    
+    // Validate date format
+    if (!Date.parse(post.date)) {
+      throw new Error(`Invalid date format in post: ${post.slug}`)
+    }
+    
+    console.log(`✅ Validated: ${post.title}`)
+  })
+  
+  console.log(`🎉 All ${posts.length} posts validated successfully!`)
+}
+
+validateContent()
+```
+
+## Performance Optimization Techniques
+
+### 1. Bundle Analysis
+
+```json
+{
+  "scripts": {
+    "analyze": "ANALYZE=true next build",
+    "build": "next build"
+  }
+}
+```
+
+### 2. Critical CSS Inlining
+
+```typescript
+// app/layout.tsx
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true
+})
+```
+
+### 3. Resource Hints
+
+```typescript
+// app/layout.tsx
+export default function RootLayout() {
+  return (
+    <html>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://analytics.google.com" />
+      </head>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+## Deployment Strategies
+
+### GitHub Actions Workflow
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy Static Site
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          output_location: "out"
+```
+
+## Best Practices and Gotchas
+
+### ✅ Do's
+- Use `generateStaticParams` for dynamic routes
+- Optimize images with proper sizing and formats
+- Implement proper error boundaries
+- Use semantic HTML for accessibility
+- Leverage browser caching with proper headers
+
+### ❌ Don'ts
+- Don't use server-side only features in static exports
+- Avoid large bundle sizes with unnecessary dependencies
+- Don't forget to handle 404 pages properly
+- Avoid hardcoded URLs that break in different environments
+
+## Conclusion
+
+Next.js 14 provides an excellent foundation for building modern static sites that are both developer-friendly and performant. The combination of React's component model, TypeScript's type safety, and Next.js's optimization features makes it a powerful choice for static site generation.
+
+The key is to embrace the static-first mindset while leveraging modern tooling for the best developer experience. With proper setup and optimization, you can build sites that load instantly and scale effortlessly.
+
+---
+
+*Want to see this in action? This very blog is built using these exact techniques! Check out the [source code](https://github.com/kennethheine/kennethheine.com) to see how it all comes together.*
