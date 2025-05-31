@@ -1,0 +1,236 @@
+/* --- file: app/globals.css --- */
+/* Global styles and Tailwind CSS imports */
+
+/* Import Tailwind CSS base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+/* Base layer customizations */
+@layer base {
+  /* Set default font family */
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+  
+  /* Smooth scrolling for internal links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Remove default margins and set base styles */
+  body {
+    @apply text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900;
+    @apply transition-colors duration-300;
+  }
+  
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold leading-tight;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  
+  h4 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+  
+  h5 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+  
+  h6 {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+  
+  /* Paragraph styles */
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+  
+  /* Link styles */
+  a {
+    @apply text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300;
+    @apply transition-colors duration-200;
+  }
+  
+  /* Focus styles for accessibility */
+  *:focus {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+  }
+  
+  /* Code styles */
+  code {
+    @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded;
+  }
+  
+  pre {
+    @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto;
+  }
+  
+  pre code {
+    @apply bg-transparent p-0;
+  }
+}
+
+/* Component layer customizations */
+@layer components {
+  /* Button component styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium;
+    @apply transition-all duration-200 ease-in-out;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply bg-brand-600 text-white hover:bg-brand-700;
+    @apply focus:ring-brand-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+    @apply dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600;
+    @apply focus:ring-gray-500;
+  }
+  
+  .btn-outline {
+    @apply border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white;
+    @apply dark:border-brand-400 dark:text-brand-400 dark:hover:bg-brand-400 dark:hover:text-gray-900;
+    @apply focus:ring-brand-500;
+  }
+  
+  /* Card component styles */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md;
+    @apply border border-gray-200 dark:border-gray-700;
+    @apply transition-all duration-200;
+  }
+  
+  .card:hover {
+    @apply shadow-lg transform -translate-y-1;
+  }
+  
+  /* Navigation styles */
+  .nav-link {
+    @apply text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400;
+    @apply transition-colors duration-200;
+    @apply font-medium;
+  }
+  
+  .nav-link.active {
+    @apply text-brand-600 dark:text-brand-400;
+  }
+  
+  /* Container styles */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Section spacing */
+  .section {
+    @apply py-16 md:py-24;
+  }
+  
+  /* Hero section styles */
+  .hero {
+    @apply min-h-screen flex items-center justify-center;
+    @apply bg-gradient-to-br from-brand-50 to-blue-50;
+    @apply dark:from-gray-900 dark:to-gray-800;
+  }
+  
+  /* Prose styles for blog content */
+  .prose-custom {
+    @apply prose prose-lg dark:prose-invert max-w-none;
+    @apply prose-headings:text-gray-900 dark:prose-headings:text-gray-100;
+    @apply prose-p:text-gray-700 dark:prose-p:text-gray-300;
+    @apply prose-a:text-brand-600 dark:prose-a:text-brand-400;
+    @apply prose-code:text-brand-600 dark:prose-code:text-brand-400;
+    @apply prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800;
+  }
+}
+
+/* Utility layer customizations */
+@layer utilities {
+  /* Custom animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  /* Gradient text utility */
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-600 to-blue-600;
+    @apply bg-clip-text text-transparent;
+  }
+  
+  /* Backdrop blur utility */
+  .backdrop-blur-custom {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  /* Hide scrollbar utility */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    @apply text-black bg-white;
+  }
+  
+  a {
+    @apply text-black no-underline;
+  }
+  
+  .card {
+    @apply shadow-none border border-gray-300;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
