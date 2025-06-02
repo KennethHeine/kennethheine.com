@@ -25,11 +25,10 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative py-20 sm:py-32">
         <Container>
-          <div className="mx-auto max-w-4xl text-center">
-            {/* Profile Photo */}
+          <div className="mx-auto max-w-4xl text-center">            {/* Profile Photo */}
             <div className="relative mx-auto mb-8 h-32 w-32 overflow-hidden rounded-full ring-4 ring-brand-500/20 dark:ring-brand-400/20">
               <Image
-                src="/profile-photo.jpg"
+                src="/images/profile-photo.jpg"
                 alt="Kenneth Heine - Profile Photo"
                 fill
                 className="object-cover"
@@ -49,10 +48,9 @@ export default function HomePage() {
             </p>
             
             {/* CTA Buttons */}
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Link
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">              <Link
                 href="/about"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-brand-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:bg-brand-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:bg-brand-950 dark:hover:bg-brand-900 dark:focus:ring-offset-gray-900"
               >
                 Learn More About Me
                 <ArrowRightIcon className="h-4 w-4" />

@@ -107,11 +107,10 @@ export default function AboutPage() {  // Skills organized by category
                 </p>
               </div>
 
-              {/* Profile Photo */}
-              <div className="relative">
+              {/* Profile Photo */}              <div className="relative">
                 <div className="aspect-square overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-800">
                   <Image
-                    src="/about-photo.jpg"
+                    src="/images/about-photo.jpg"
                     alt="Kenneth Heine - About Photo"
                     width={400}
                     height={400}
@@ -206,17 +205,16 @@ export default function AboutPage() {  // Skills organized by category
       {/* Personal Interests */}
       <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
         <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
+          <div className="mx-auto max-w-3xl text-center">            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
               Beyond the Code
             </h2>            <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-300">
-              When I&apos;m not immersed in code, I enjoy exploring new places, photography, 
-              reading about emerging technologies, and spending time in nature. I believe 
-              that diverse experiences make me a better developer and problem solver.
+              In my free time, I enjoy spending quality time with my wife and our three wonderful sons. 
+              Together, we engage in outdoor activities, maintain our kitchen garden, and participate 
+              actively in football. I believe that these diverse experiences with family and nature 
+              make me a better version of my self.
             </p>
-            
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              {['Photography', 'Travel', 'Hiking', 'Reading', 'Open Source', 'Mentoring'].map((interest) => (
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+              {['Family Time', 'Football', 'Gardening', 'Outdoor Activities', 'Coaching', 'Community'].map((interest) => (
                 <span
                   key={interest}
                   className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"

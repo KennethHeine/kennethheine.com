@@ -35,10 +35,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://kennethheine.com',
     siteName: 'Kenneth Heine',    title: 'Kenneth Heine - AI & Automation for Developers',
-    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
-    images: [
+    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',    images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Kenneth Heine - AI & Automation for Developers',
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Kenneth Heine - AI & Automation for Developers',
     description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
-    images: ['/og-image.jpg'],
+    images: ['/images/og-image.jpg'],
   },
   robots: {
     index: true,

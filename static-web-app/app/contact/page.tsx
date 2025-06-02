@@ -54,10 +54,9 @@ export default function ContactPage() {
                 and build scalable solutions.
               </p>
               
-              <div className="mt-8">
-                <a
+              <div className="mt-8">                <a
                   href="mailto:hello@kennethheine.com"
-                  className="inline-flex items-center gap-3 rounded-lg bg-brand-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-brand-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                  className="inline-flex items-center gap-3 rounded-lg bg-brand-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-brand-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:bg-brand-950 dark:hover:bg-brand-900 dark:focus:ring-offset-gray-800"
                 >
                   <MailIcon className="h-5 w-5" />
                   hello@kennethheine.com
