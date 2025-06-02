@@ -29,17 +29,27 @@ This directory contains GitHub Actions workflows for deploying and managing the 
 3. **Deploy** - Deploy infrastructure with retry logic and verification
 4. **Post-deployment** - Generate summaries and save deployment artifacts
 
-### 2. Destroy Infrastructure (`destroy-infrastructure.yml`)
+### 2. Deploy Frontend (`deploy-frontend.yml`)
 
-**Purpose**: Safely destroys Azure resource groups and all contained resources.
+**Purpose**: Deploys Next.js application to Azure Static Web Apps with automatic preview environments.
 
 **Triggers**:
-- Manual dispatch only (for safety)
+- Push to `main` branch (when static-web-app files change)
+- Pull requests to `main` branch (creates preview deployments)
+- Manual dispatch
 
 **Key Features**:
-- ✅ **Manual Only**: Requires explicit user action
-- ✅ **Environment Selection**: Choose production or staging
-- ✅ **Safe Deletion**: Uses Azure CLI with confirmation
+- ✅ **Next.js Support**: Full Next.js 14 build and static export
+- ✅ **Preview Deployments**: Automatic preview environments for PRs
+- ✅ **Comprehensive Validation**: Frontend structure, dependencies, and build validation
+- ✅ **Dynamic Configuration**: Extracts deployment settings from infrastructure parameters
+- ✅ **Automated Testing**: Lint checks, build validation, and output verification
+- ✅ **PR Integration**: Comments with preview URLs and deployment status
+
+**Jobs Flow**:
+1. **Validate** - Structure validation, dependency installation, Next.js build, and testing
+2. **Deploy** (main branch) - Production deployment to Azure Static Web Apps
+3. **Preview** (PRs) - Preview deployment with automatic URL generation and PR comments
 
 ## Security Features
 

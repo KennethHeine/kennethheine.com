@@ -1,8 +1,9 @@
 # kennethheine.com
 
 [![Deploy Infrastructure](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml)
+[![Deploy Frontend](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml)
 
-A modern static website deployed on Azure Static Web Apps using Infrastructure as Code (IaC) with Bicep templates and GitHub Actions.
+A modern Next.js website deployed on Azure Static Web Apps using Infrastructure as Code (IaC) with Bicep templates and GitHub Actions CI/CD pipelines.
 
 ## 🏗️ Architecture
 
@@ -21,6 +22,14 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 - ✅ **Multi-environment**: Support for production and staging environments
 - ✅ **Automated Deployment**: GitHub Actions workflow with comprehensive validation
 
+### Frontend Application
+- ✅ **Next.js 14**: Modern React framework with App Router and static export
+- ✅ **TypeScript**: Full type safety with strict configuration
+- ✅ **Tailwind CSS**: Utility-first CSS framework with dark/light theme
+- ✅ **MDX Blog**: Blog system with syntax highlighting and gray-matter
+- ✅ **Testing**: Jest + React Testing Library with comprehensive coverage
+- ✅ **Preview Deployments**: Automatic preview environments for pull requests
+
 ### Security
 - ✅ **OIDC Authentication**: No secrets stored in GitHub
 - ✅ **Least Privilege**: Minimal RBAC permissions
@@ -32,6 +41,8 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 - ✅ **Validation Pipeline**: Comprehensive template validation
 - ✅ **Retry Logic**: Automatic handling of transient failures
 - ✅ **Deployment Artifacts**: Complete deployment information tracking
+- ✅ **Preview Environments**: Automatic preview deployments for frontend changes
+- ✅ **Dual Pipelines**: Separate workflows for infrastructure and frontend deployments
 
 ## 📁 Project Structure
 
@@ -39,13 +50,13 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 kennethheine.com/
 ├── .github/workflows/          # GitHub Actions workflows
 │   ├── deploy-infrastructure.yml
-│   ├── destroy-infrastructure.yml
+│   ├── deploy-frontend.yml
 │   └── README.md
 ├── infra/                      # Bicep infrastructure templates
 │   ├── main.bicep
 │   ├── bicepconfig.json
 │   ├── modules/
-│   │   └── static-web-app.bicep
+│   │   └── static-web-app-with-domain.bicep
 │   ├── parameters/
 │   │   └── production.bicepparam
 │   └── README.md
@@ -54,11 +65,16 @@ kennethheine.com/
 │   ├── 2-create-app-registration.ps1
 │   ├── 3-setup-github-secrets.ps1
 │   └── README.md
-└── static-web-app/            # Website source code
-    ├── src/
-    │   ├── index.html
-    │   ├── css/
-    │   └── js/
+└── static-web-app/            # Next.js application source code
+    ├── app/                   # Next.js 14 App Router
+    ├── components/            # React components
+    ├── content/               # MDX blog posts
+    ├── lib/                   # Utility functions
+    ├── public/                # Static assets
+    ├── __tests__/             # Jest test files
+    ├── out/                   # Static export output
+    ├── package.json
+    ├── next.config.mjs
     ├── staticwebapp.config.json
     └── README.md
 ```
@@ -118,23 +134,34 @@ git push origin main
 - **Purpose**: Deploy Azure infrastructure using Bicep templates
 - **Features**: Validation, What-If analysis, retry logic, comprehensive reporting
 
-### Destroy Infrastructure
-- **Triggers**: Manual dispatch only
-- **Purpose**: Safely destroy Azure resources
-- **Features**: Environment selection, confirmation prompts
+### Deploy Frontend
+- **Triggers**: Push to main, PR to main (for changes in static-web-app/)
+- **Purpose**: Deploy Next.js application to Azure Static Web Apps
+- **Features**: Next.js build validation, preview deployments, automated testing
+
+### Preview Deployments
+- **Automatic**: Created for every pull request
+- **URL Format**: `https://{swa-name}-{pr-number}.{region}.azurestaticapps.net`
+- **Cleanup**: Automatically removed when PR is closed or merged
 
 ## 🔧 Development
 
 ### Local Development
 ```bash
-# Navigate to the static web app directory
+# Navigate to the Next.js application directory
 cd static-web-app
 
-# Install dependencies (if using a build process)
+# Install dependencies
 npm install
 
-# Serve locally (if using a static server)
-npx serve src
+# Start development server
+npm run dev
+
+# Run tests
+npm test
+
+# Build for production
+npm run build
 ```
 
 ### Infrastructure Changes
