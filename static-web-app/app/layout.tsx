@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   creator: 'Kenneth Heine',
   publisher: 'Kenneth Heine',
   metadataBase: new URL('https://kennethheine.com'),
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',

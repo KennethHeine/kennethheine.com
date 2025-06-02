@@ -80,11 +80,10 @@ export default function ContactPage() {
                   <svg className="h-6 w-6 text-brand-600 dark:text-brand-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                   </svg>
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-gray-900 dark:text-white">
+                </div>                <h3 className="mt-4 text-base font-semibold text-gray-900 dark:text-white">
                   Quick Response
                 </h3>                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  I&apos;ll get back to you within 24-48 hours
+                  I&apos;ll get back to you within 24 hours
                 </p>
               </div>
               
