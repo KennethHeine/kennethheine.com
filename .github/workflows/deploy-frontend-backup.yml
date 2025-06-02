@@ -1,0 +1,353 @@
+name: Deploy Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['static-web-app/**', '!static-web-app/README.md']
+  pull_request:
+    branches: [main]
+    paths: ['static-web-app/**', '!static-web-app/README.md']
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  STATIC_WEB_APP_NAME: "swa-kennethheine-com-dkwcwwqm6kfxy"
+  RESOURCE_GROUP_NAME: "rg-kennethheine-prod"
+
+jobs:
+  validate:
+    name: Validate Frontend Code
+    runs-on: ubuntu-latest
+    outputs:
+      app-location: ${{ steps.config.outputs.app-location }}
+      output-location: ${{ steps.config.outputs.output-location }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package.json'
+
+      - name: Validate Frontend Structure
+        run: |
+          echo "🔍 Validating frontend project structure..."
+            # Check required files for Next.js project
+          required_files=(
+            "static-web-app/package.json"
+            "static-web-app/next.config.mjs"
+            "static-web-app/staticwebapp.config.json"
+            "static-web-app/app/layout.tsx"
+            "static-web-app/app/page.tsx"
+          )
+          
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Required file missing: $file"
+              exit 1
+            else
+              echo "✅ Found: $file"
+            fi
+          done
+          
+                    echo "📁 Frontend structure validation completed successfully!"
+
+      - name: Install Dependencies
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing frontend dependencies..."
+          npm ci
+          echo "✅ Dependencies installed successfully!"
+
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for static export..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
+
+      - name: Lint and Validate Code
+        working-directory: static-web-app
+        run: |
+          echo "🔍 Running code validation..."
+            # Validate Next.js build output
+          echo "📄 Validating Next.js build output..."
+          if [ ! -d "out" ]; then
+            echo "❌ Build output directory 'out' not found"
+            exit 1
+          fi
+          
+          if [ ! -f "out/index.html" ]; then
+            echo "❌ Main index.html not found in build output"
+            exit 1
+          fi
+          
+          echo "✅ Next.js build output validated successfully"
+          
+          # Check for common issues
+          echo "🔍 Checking for common issues..."
+          if grep -r "localhost" src/ --exclude-dir=node_modules; then
+            echo "⚠️ Warning: Found localhost references in code"
+          fi
+          
+          echo "✅ Code validation completed!"
+
+      - name: Extract Configuration
+        id: config
+        run: |
+          echo "📋 Extracting deployment configuration..."
+          
+          # Get app location from parameters file
+          app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
+          output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
+          
+          echo "app-location=$app_location" >> $GITHUB_OUTPUT
+          echo "output-location=$output_location" >> $GITHUB_OUTPUT
+          
+          echo "📍 App Location: $app_location"
+          echo "📤 Output Location: $output_location"
+
+  deploy:
+    name: Deploy to Azure Static Web Apps
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure Authentication
+        run: |
+          echo "🔍 Verifying Azure CLI setup..."
+          az version
+          az account show
+          echo "✅ Authentication verified"
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving Static Web App deployment token..."
+          
+          # Get the deployment token for the Static Web App          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \
+            --output tsv)
+          
+          if [ -z "$deployment_token" ]; then
+            echo "❌ Failed to retrieve deployment token"
+            exit 1
+          fi
+          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved successfully"
+
+      - name: Setup Node.js for Deployment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package.json'
+
+      - name: Install Dependencies for Deployment
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing frontend dependencies for deployment..."
+          npm ci
+          echo "✅ Dependencies installed successfully!"
+
+            - name: Build Next.js Application for Deployment
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for production deployment..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: ${{ needs.validate.outputs.app-location }}
+          output_location: ${{ needs.validate.outputs.output-location }}
+
+      - name: Verify Deployment
+        run: |
+          echo "🔍 Verifying deployment status..."
+          
+          # Get Static Web App details
+          swa_details=$(az staticwebapp show \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --output json)
+          
+          default_hostname=$(echo "$swa_details" | jq -r '.defaultHostname')
+          custom_domains=$(echo "$swa_details" | jq -r '.customDomains[]?.name // empty' | tr '\n' ', ' | sed 's/,$//')
+          
+          echo "🌐 Default URL: https://$default_hostname"
+          if [ -n "$custom_domains" ]; then
+            echo "🔗 Custom Domains: $custom_domains"
+          fi
+          
+          echo "✅ Deployment verification completed!"
+
+      - name: Create Deployment Summary
+        if: always()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🚀 Frontend Deployment Results
+          
+          **Deployment Details:**
+          - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
+          - 📁 App Location: `${{ needs.validate.outputs.app-location }}`
+          - 📤 Output Location: `${{ needs.validate.outputs.output-location }}`
+          - 📅 Deployment Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
+          - 🔗 Environment: `production`
+          
+          **Deployment Status:**
+          ${{ job.status == 'success' && '✅ **SUCCESS**: Frontend deployed successfully!' || '❌ **FAILED**: Deployment encountered errors. Check logs above.' }}
+          
+          EOF
+          
+          if [ "${{ job.status }}" == "success" ]; then
+            # Get deployment URLs
+            swa_details=$(az staticwebapp show \
+              --name "${{ env.STATIC_WEB_APP_NAME }}" \
+              --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+              --output json 2>/dev/null || echo '{}')
+            
+            default_hostname=$(echo "$swa_details" | jq -r '.defaultHostname // "N/A"')
+            
+            cat >> $GITHUB_STEP_SUMMARY << EOF
+          **🌐 Access Your Website:**
+          - Default URL: [https://$default_hostname](https://$default_hostname)
+          
+          **Next Steps:**
+          - 🌐 Test the deployed website functionality
+          - 🔧 Verify custom domain configuration (if applicable)
+          - 📊 Monitor application performance and logs
+          - 🔄 Set up monitoring alerts for production usage
+          EOF
+          else
+            cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          **Next Steps:**
+          - 📋 Review deployment logs for error details
+          - 🔧 Fix any configuration or code issues
+          - 🔄 Re-run the workflow after fixes
+          - 🆘 Check Azure Static Web Apps documentation for troubleshooting
+          EOF
+          fi
+  preview:
+    name: Deploy Preview (PR Only)
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package.json'
+
+      - name: Install Dependencies
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing frontend dependencies for preview..."
+          npm ci
+          echo "✅ Dependencies installed successfully!"
+
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for preview deployment..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving Static Web App deployment token for preview..."
+          
+          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \
+            --output tsv)
+            echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved for preview"      - name: Deploy Preview to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: ${{ needs.validate.outputs.app-location }}
+          output_location: ${{ needs.validate.outputs.output-location }}
+          skip_app_build: true
+
+      - name: Comment PR with Preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const comment = `## 🔍 Preview Deployment
+            
+            Your changes have been deployed to a preview environment!
+            
+            **Preview Details:**
+            - 📁 App Location: \`${{ needs.validate.outputs.app-location }}\`
+            - 🔗 Environment: \`preview\`
+            - 📅 Deployed: \`${new Date().toISOString()}\`
+            
+            **🌐 Preview URL:** The preview URL will be available in the Azure Static Web Apps deployment details.
+            
+            **Note:** Preview deployments are automatically cleaned up when the PR is closed.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
