@@ -85,7 +85,7 @@ output defaultHostname string = staticWebApp.properties.defaultHostname
 output repositoryUrl string = staticWebApp.properties.repositoryUrl
 output branch string = staticWebApp.properties.branch
 output customDomainName string = !empty(customDomainName) ? customDomainName : ''
-output customDomainValidationToken string = !empty(customDomainName) ? customDomain.properties.validationToken : ''
+output customDomainValidationToken string = !empty(customDomainName) ? (customDomain.properties.?validationToken ?? 'Domain already configured') : ''
 // Note: validationMethod is write-only and cannot be output
 
 // Note: Deployment token should be retrieved dynamically using Azure CLI
