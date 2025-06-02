@@ -17,11 +17,9 @@ const nextConfig = {
   
   // Configure asset prefix for CDN if needed
   assetPrefix: '',
-  
-  // Disable server-side features for static export
+    // Disable server-side features for static export
   experimental: {
-    // Disable ISR for static export
-    isrMemoryCacheSize: 0,
+    // No experimental features needed for static export
   },
   
   // Configure MDX support

@@ -31,11 +31,11 @@
       "@/types/*": ["./types/*"],
       "@/app/*": ["./app/*"]
     },
-    
-    // Additional compiler options
+      // Additional compiler options
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
+    "types": ["jest", "@testing-library/jest-dom"],
     
     // Plugin configuration for Next.js
     "plugins": [
@@ -44,10 +44,10 @@
       }
     ]
   },
-  
-  // Include patterns for TypeScript compilation
+    // Include patterns for TypeScript compilation
   "include": [
     "next-env.d.ts",
+    "jest.setup.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"

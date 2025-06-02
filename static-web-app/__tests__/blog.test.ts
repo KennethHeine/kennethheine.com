@@ -37,7 +37,6 @@ describe('Blog utilities', () => {
       expect(result).toEqual(['post1', 'post2'])
     })
   })
-
   describe('getPostBySlug', () => {
     it('returns blog post with frontmatter and content', () => {
       const mockFileContent = 'title: Test Post\ndate: 2023-01-01\n---\nContent here'
@@ -53,8 +52,12 @@ describe('Blog utilities', () => {
       mockedFs.readFileSync.mockReturnValue(mockFileContent)
       mockedMatter.mockReturnValue({
         data: mockFrontmatter,
-        content: 'Content here'
-      })
+        content: 'Content here',
+        orig: mockFileContent,
+        language: '',
+        matter: '',
+        stringify: jest.fn()
+      } as any)
 
       const result = getPostBySlug('test')
 
@@ -71,7 +74,6 @@ describe('Blog utilities', () => {
       })
     })
   })
-
   describe('getAllPosts', () => {
     it('returns all published posts sorted by date', () => {
       // Mock getPostSlugs to return some slugs
@@ -80,19 +82,30 @@ describe('Blog utilities', () => {
       mockedFs.readdirSync.mockReturnValue(['post1.mdx', 'post2.mdx'] as any)
 
       // Mock file reads for each post
+      const mockContent1 = 'title: Post 1\ndate: 2023-01-01\n---\nContent 1'
+      const mockContent2 = 'title: Post 2\ndate: 2023-01-02\n---\nContent 2'
+      
       mockedFs.readFileSync
-        .mockReturnValueOnce('title: Post 1\ndate: 2023-01-01\n---\nContent 1')
-        .mockReturnValueOnce('title: Post 2\ndate: 2023-01-02\n---\nContent 2')
+        .mockReturnValueOnce(mockContent1)
+        .mockReturnValueOnce(mockContent2)
 
       mockedMatter
         .mockReturnValueOnce({
           data: { title: 'Post 1', date: '2023-01-01', published: true },
-          content: 'Content 1'
-        })
+          content: 'Content 1',
+          orig: mockContent1,
+          language: '',
+          matter: '',
+          stringify: jest.fn()
+        } as any)
         .mockReturnValueOnce({
           data: { title: 'Post 2', date: '2023-01-02', published: true },
-          content: 'Content 2'
-        })
+          content: 'Content 2',
+          orig: mockContent2,
+          language: '',
+          matter: '',
+          stringify: jest.fn()
+        } as any)
 
       const result = getAllPosts()
 
