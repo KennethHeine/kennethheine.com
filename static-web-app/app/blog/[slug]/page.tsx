@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
  * - Back to blog navigation
  * - Responsive prose styling
  */
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default function BlogPostPage({ params }: BlogPostPageProps) {
   const post = getPostBySlug(params.slug)
 
   // If post doesn't exist, show 404

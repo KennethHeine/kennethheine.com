@@ -20,7 +20,7 @@ export const metadata: Metadata = {
  * - Responsive grid layout
  * - Links to individual blog posts
  */
-export default async function BlogPage() {
+export default function BlogPage() {
   // Get all blog posts at build time
   const posts: BlogPost[] = getAllPosts()
 

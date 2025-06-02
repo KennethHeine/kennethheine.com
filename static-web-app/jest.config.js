@@ -13,8 +13,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   
   // Test environment
-  testEnvironment: 'jsdom',
-  // Module name mapping for path aliases
+  testEnvironment: 'jsdom',  // Module name mapping for path aliases
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^@/components/(.*)$': '<rootDir>/components/$1',
@@ -22,6 +21,11 @@ const customJestConfig = {
     '^@/types/(.*)$': '<rootDir>/types/$1',
     '^@/app/(.*)$': '<rootDir>/app/$1',
   },
+  
+  // Transform ignore patterns for ES modules
+  transformIgnorePatterns: [
+    'node_modules/(?!(next-mdx-remote)/)'
+  ],
   
   // Test file patterns
   testMatch: [

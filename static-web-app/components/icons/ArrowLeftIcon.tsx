@@ -1,5 +1,5 @@
 // --- file: components/icons/ArrowLeftIcon.tsx ---
-interface ArrowLeftIconProps {
+interface ArrowLeftIconProps extends React.SVGProps<SVGSVGElement> {
   className?: string
 }
 
@@ -7,14 +7,14 @@ interface ArrowLeftIconProps {
  * Arrow Left icon component
  * Used for back navigation buttons
  */
-export function ArrowLeftIcon({ className = 'h-4 w-4' }: ArrowLeftIconProps) {
-  return (
-    <svg
+export function ArrowLeftIcon({ className = 'h-4 w-4', ...props }: ArrowLeftIconProps) {
+  return (    <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
+      {...props}
     >
       <path
         strokeLinecap="round"
