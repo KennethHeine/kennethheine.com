@@ -45,9 +45,9 @@ jobs:
       - name: Validate Frontend Structure
         run: |
           echo "🔍 Validating frontend project structure..."
-          
-          # Check required files
-          required_files=(            "static-web-app/package.json"
+            # Check required files for Next.js project
+          required_files=(
+            "static-web-app/package.json"
             "static-web-app/next.config.mjs"
             "static-web-app/staticwebapp.config.json"
             "static-web-app/app/layout.tsx"
@@ -63,7 +63,7 @@ jobs:
             fi
           done
           
-          echo "📁 Frontend structure validation completed successfully!"
+                    echo "📁 Frontend structure validation completed successfully!"
 
       - name: Install Dependencies
         working-directory: static-web-app
@@ -72,29 +72,30 @@ jobs:
           npm ci
           echo "✅ Dependencies installed successfully!"
 
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for static export..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
+
       - name: Lint and Validate Code
         working-directory: static-web-app
         run: |
           echo "🔍 Running code validation..."
+            # Validate Next.js build output
+          echo "📄 Validating Next.js build output..."
+          if [ ! -d "out" ]; then
+            echo "❌ Build output directory 'out' not found"
+            exit 1
+          fi
           
-          # Validate HTML structure
-          echo "📄 Validating HTML files..."
-          find src -name "*.html" -type f | while read file; do
-            echo "  Checking: $file"
-            # Basic HTML validation - check for required tags
-            if ! grep -q "<html" "$file"; then
-              echo "❌ Missing <html> tag in $file"
-              exit 1
-            fi
-            if ! grep -q "<head" "$file"; then
-              echo "❌ Missing <head> tag in $file"
-              exit 1
-            fi
-            if ! grep -q "<body" "$file"; then
-              echo "❌ Missing <body> tag in $file"
-              exit 1
-            fi
-          done
+          if [ ! -f "out/index.html" ]; then
+            echo "❌ Main index.html not found in build output"
+            exit 1
+          fi
+          
+          echo "✅ Next.js build output validated successfully"
           
           # Check for common issues
           echo "🔍 Checking for common issues..."
@@ -162,8 +163,7 @@ jobs:
             echo "❌ Failed to retrieve deployment token"
             exit 1
           fi
-          
-          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+            echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
           echo "✅ Deployment token retrieved successfully"
 
       - name: Deploy to Azure Static Web Apps
@@ -174,7 +174,7 @@ jobs:
           action: "upload"
           app_location: ${{ needs.validate.outputs.app-location }}
           output_location: ${{ needs.validate.outputs.output-location }}
-          skip_app_build: false
+          skip_app_build: true
 
       - name: Verify Deployment
         run: |
@@ -272,8 +272,7 @@ jobs:
             --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
             --query "properties.apiKey" \
             --output tsv)
-          
-          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+            echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
           echo "✅ Deployment token retrieved for preview"
 
       - name: Deploy Preview to Azure Static Web Apps
@@ -284,7 +283,7 @@ jobs:
           action: "upload"
           app_location: ${{ needs.validate.outputs.app-location }}
           output_location: ${{ needs.validate.outputs.output-location }}
-          skip_app_build: false
+          skip_app_build: true
 
       - name: Comment PR with Preview URL
         uses: actions/github-script@v7
