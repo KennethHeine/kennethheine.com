@@ -21,10 +21,9 @@ const customJestConfig = {
     '^@/types/(.*)$': '<rootDir>/types/$1',
     '^@/app/(.*)$': '<rootDir>/app/$1',
   },
-  
-  // Transform ignore patterns for ES modules
+    // Transform ignore patterns for ES modules
   transformIgnorePatterns: [
-    'node_modules/(?!(next-mdx-remote)/)'
+    'node_modules/(?!(next-mdx-remote|@mdx-js)/)'
   ],
   
   // Test file patterns
@@ -32,8 +31,7 @@ const customJestConfig = {
     '**/__tests__/**/*.(ts|tsx|js|jsx)',
     '**/*.(test|spec).(ts|tsx|js|jsx)'
   ],
-  
-  // Coverage configuration
+    // Coverage configuration
   collectCoverageFrom: [
     'app/**/*.{ts,tsx}',
     'components/**/*.{ts,tsx}',
@@ -41,7 +39,7 @@ const customJestConfig = {
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
-    // Coverage thresholds
+  // Coverage thresholds
   coverageThreshold: {
     global: {
       branches: 70,
@@ -50,6 +48,8 @@ const customJestConfig = {
       statements: 70,
     },
   },
+  // Default coverage reporters
+  coverageReporters: ['text-summary', 'lcov'],
 }
 
 // Create and export the Jest configuration

@@ -3,6 +3,7 @@
 
 // Import Jest DOM matchers for better assertions
 import '@testing-library/jest-dom'
+import React from 'react'
 
 // Mock Next.js router for testing
 jest.mock('next/router', () => ({
@@ -109,6 +110,14 @@ beforeAll(() => {
     originalError.call(console, ...args)
   }
 })
+
+// Mock next-mdx-remote for MDX content rendering
+jest.mock('next-mdx-remote/rsc', () => ({
+  MDXRemote: ({ source, components }) => {
+    return React.createElement('div', { 'data-testid': 'mdx-content' }, 
+      typeof source === 'string' ? source : 'Mocked MDX Content')
+  },
+}))
 
 afterAll(() => {
   console.warn = originalWarn

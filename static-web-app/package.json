@@ -2,8 +2,7 @@
   "name": "personal-brand-website",
   "version": "1.0.0",
   "description": "A modern static personal brand website built with Next.js 14",
-  "private": true,
-  "scripts": {
+  "private": true,  "scripts": {
     "dev": "next dev",
     "build": "next build && npm run copy-config",
     "copy-config": "node -e \"require('fs').copyFileSync('staticwebapp.config.json', 'out/staticwebapp.config.json')\"",
@@ -12,12 +11,13 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test:coverage": "jest --coverage --coverageReporters=\"text-summary\" --coverageReporters=\"lcov\"",
+    "test:coverage:detail": "jest --coverage",
     "swa:init": "npx swa init --yes",
     "swa:build": "npx swa build",
     "swa:start": "npx swa start out --port 3000",
     "swa:deploy": "npx swa deploy --env production"
-  },  "dependencies": {
+  },"dependencies": {
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.1",
