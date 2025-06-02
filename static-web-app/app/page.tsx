@@ -8,7 +8,7 @@ import Container from '@/components/Container'
 // SEO metadata for the home page
 export const metadata: Metadata = {
   title: 'Home',
-  description: 'Welcome to Kenneth Heine\'s personal website. Full-stack developer passionate about creating exceptional digital experiences.',
+  description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
 }
 
 /**
@@ -43,12 +43,9 @@ export default function HomePage() {
               <span className="bg-gradient-to-r from-brand-500 to-brand-600 bg-clip-text text-transparent">
                 Kenneth Heine
               </span>
-            </h1>
-            
-            {/* Tagline */}
+            </h1>            {/* Tagline */}
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 sm:text-xl">
-              Full-stack developer passionate about creating exceptional digital experiences 
-              with modern web technologies and clean, maintainable code.
+              AI, Automation & Cloud Architecture for Developers: Learn how to save time, increase code quality, and build smarter with modern tools and Azure expertise.
             </p>
             
             {/* CTA Buttons */}
@@ -75,36 +72,33 @@ export default function HomePage() {
       
       {/* Quick Introduction */}
       <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
+        <Container>          <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
-              Building the Web, One Line at a Time
-            </h2>
-            <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-300">
-              With years of experience in full-stack development, I specialize in creating 
-              scalable web applications using TypeScript, React, Next.js, and modern cloud 
-              technologies. I believe in writing clean, maintainable code and delivering 
-              exceptional user experiences.
-            </p>
-            
-            {/* Quick Stats */}
+              Work Smarter, Not Harder
+            </h2>            <p className="mt-6 text-base leading-7 text-gray-600 dark:text-gray-300">
+              I help developers and DevOps teams understand and implement the latest AI and 
+              automation tools, while designing scalable cloud architectures on Azure. Together, 
+              we can free up time, reduce errors, and focus on the fun and creative parts of coding. 
+              With hands-on experience applying AI to real-world development pipelines and building 
+              robust cloud solutions, I break down complex concepts into practical, actionable strategies.
+            </p>              {/* Quick Stats */}
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
               <div className="text-center">
                 <div className="text-3xl font-bold text-brand-500 dark:text-brand-400">5+</div>
                 <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Years Experience
+                  Years Cloud & DevOps
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-brand-500 dark:text-brand-400">50+</div>
+                <div className="text-3xl font-bold text-brand-500 dark:text-brand-400">100+</div>
                 <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Projects Completed
+                  Azure Deployments
                 </div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-brand-500 dark:text-brand-400">∞</div>
                 <div className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Learning Mindset
+                  AI Learning Mindset
                 </div>
               </div>
             </div>
@@ -121,12 +115,11 @@ export default function HomePage() {
             
             <div className="mt-12 grid gap-8 sm:grid-cols-2">
               {/* Latest Blog Post Preview */}
-              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Latest from the Blog
+              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800">                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Latest AI, DevOps & Cloud Insights
                 </h3>                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                  Sharing insights about web development, best practices, and the latest 
-                  technologies I&apos;m exploring.
+                  Practical tutorials and guides on GitHub Copilot, CI/CD automation, 
+                  Azure cloud architecture, GPT APIs, and smart integrations that save time and improve software quality.
                 </p>
                 <Link
                   href="/blog"

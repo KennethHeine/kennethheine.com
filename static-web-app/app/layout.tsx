@@ -21,11 +21,11 @@ const jetbrainsMono = JetBrains_Mono({
 // SEO metadata for the entire site
 export const metadata: Metadata = {
   title: {
-    default: 'Kenneth Heine - Full-Stack Developer',
+    default: 'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
     template: '%s | Kenneth Heine'
   },
-  description: 'Personal website of Kenneth Heine, a passionate full-stack developer specializing in modern web technologies.',
-  keywords: ['Kenneth Heine', 'Full-Stack Developer', 'Web Development', 'TypeScript', 'React', 'Next.js'],
+  description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+  keywords: ['Kenneth Heine', 'AI Automation', 'DevOps', 'Azure Cloud Architecture', 'GitHub Copilot', 'CI/CD', 'Development Workflows', 'GPT APIs', 'Infrastructure as Code'],
   authors: [{ name: 'Kenneth Heine' }],
   creator: 'Kenneth Heine',
   publisher: 'Kenneth Heine',
@@ -34,22 +34,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://kennethheine.com',
-    siteName: 'Kenneth Heine',
-    title: 'Kenneth Heine - Full-Stack Developer',
-    description: 'Personal website of Kenneth Heine, a passionate full-stack developer specializing in modern web technologies.',
+    siteName: 'Kenneth Heine',    title: 'Kenneth Heine - AI & Automation for Developers',
+    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kenneth Heine - Full-Stack Developer',
+        alt: 'Kenneth Heine - AI & Automation for Developers',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kenneth Heine - Full-Stack Developer',
-    description: 'Personal website of Kenneth Heine, a passionate full-stack developer specializing in modern web technologies.',
+    title: 'Kenneth Heine - AI & Automation for Developers',
+    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
     images: ['/og-image.jpg'],
   },
   robots: {

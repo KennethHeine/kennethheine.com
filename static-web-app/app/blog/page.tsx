@@ -9,7 +9,7 @@ import type { BlogPost } from '@/types/blog'
 // SEO metadata for the blog page
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Thoughts, tutorials, and insights about web development, technology, and software engineering.',
+  description: 'AI automation, DevOps, and Azure cloud architecture insights. Practical tutorials on GitHub Copilot, CI/CD automation, and scalable cloud solutions.',
 }
 
 /**
@@ -29,13 +29,12 @@ export default async function BlogPage() {
       {/* Header Section */}
       <section className="py-20 sm:py-32">
         <Container>
-          <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-              Blog
+          <div className="mx-auto max-w-4xl text-center">            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              AI, DevOps & Cloud Architecture Insights
             </h1>
             <p className="mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300">
-              Thoughts, tutorials, and insights about web development, technology, 
-              and the ever-evolving world of software engineering.
+              Practical tutorials and guides on GitHub Copilot, CI/CD automation, 
+              Azure cloud architecture, GPT APIs, and smart integrations that save time and improve software quality.
             </p>
           </div>
         </Container>

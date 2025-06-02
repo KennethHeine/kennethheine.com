@@ -6,7 +6,7 @@ import { MailIcon } from '@/components/icons/MailIcon'
 // SEO metadata for the contact page
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Get in touch with Kenneth Heine. I\'d love to hear about your project or just connect.',
+  description: 'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
 }
 
 /**
@@ -29,13 +29,12 @@ export default function ContactPage() {
             </div>
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
               Let&apos;s Connect
-            </h1>
-            
-            <p className="mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300">
-              I&apos;m always excited to hear about new opportunities, interesting projects, 
-              or just to connect with fellow developers and tech enthusiasts. Whether 
-              you have a project in mind, want to collaborate, or simply want to say 
-              hello, I&apos;d love to hear from you.
+            </h1>              <p className="mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300">
+              Interested in AI automation, DevOps consulting, Azure cloud architecture, or optimizing your development 
+              workflows? I&apos;d love to discuss how AI, automation, and scalable cloud solutions can help your team work 
+              smarter and deliver better software. Whether you want to explore GitHub Copilot 
+              integration, CI/CD automation, Azure architecture design, or just connect about the latest AI tools, 
+              let&apos;s chat!
             </p>
           </div>
         </Container>
@@ -48,11 +47,11 @@ export default function ContactPage() {
             <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                 Get in Touch
-              </h2>
-              
-              <p className="mt-4 text-gray-600 dark:text-gray-300">
-                The best way to reach me is via email. I typically respond within 
-                24-48 hours and look forward to our conversation.
+              </h2>              <p className="mt-4 text-gray-600 dark:text-gray-300">
+                Ready to explore AI automation and cloud architecture for your development workflow? I offer 
+                consulting on GitHub Copilot implementation, CI/CD automation, Azure cloud architecture design, 
+                and smart development integrations. Let&apos;s discuss how to make your team more productive 
+                and build scalable solutions.
               </p>
               
               <div className="mt-8">
