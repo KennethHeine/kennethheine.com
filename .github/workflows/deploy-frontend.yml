@@ -242,7 +242,6 @@ jobs:
           - 🆘 Check Azure Static Web Apps documentation for troubleshooting
           EOF
           fi
-
   preview:
     name: Deploy Preview (PR Only)
     runs-on: ubuntu-latest
@@ -254,6 +253,27 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package.json'
+
+      - name: Install Dependencies
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing frontend dependencies for preview..."
+          npm ci
+          echo "✅ Dependencies installed successfully!"
+
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for preview deployment..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
 
       - name: Azure Login using OIDC
         uses: azure/login@v2
