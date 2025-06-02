@@ -112,14 +112,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <footer className="border-t border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
         <Container>
           <div className="py-12">
-            <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
-              {/* Footer brand */}
+            <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">              {/* Footer brand */}
               <div className="text-center sm:text-left">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Kenneth Heine
                 </h3>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                  Full-Stack Developer
+                  AI DevOps Expert & Azure Cloud
                 </p>
               </div>
 
