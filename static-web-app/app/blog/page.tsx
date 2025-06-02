@@ -2,7 +2,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
-import Container from '@/components/Container'
+import { Container } from '@/components/ui'
 import { formatDate } from '@/lib/utils'
 import type { BlogPost } from '@/types/blog'
 

@@ -4,9 +4,9 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllPosts, getPostBySlug } from '@/lib/blog'
-import Container from '@/components/Container'
+import { Container } from '@/components/ui'
 import { formatDate } from '@/lib/utils'
-import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon'
+import { ArrowLeftIcon } from '@/components/ui/icons/ArrowLeftIcon'
 
 // Type for page props
 interface BlogPostPageProps {

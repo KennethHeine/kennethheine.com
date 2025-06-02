@@ -1,4 +1,4 @@
-// --- file: components/icons/ArrowLeftIcon.tsx ---
+// --- file: components/ui/icons/ArrowLeftIcon.tsx ---
 interface ArrowLeftIconProps {
   className?: string
 }
@@ -19,7 +19,7 @@ export function ArrowLeftIcon({ className = 'h-4 w-4' }: ArrowLeftIconProps) {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+        d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
       />
     </svg>
   )

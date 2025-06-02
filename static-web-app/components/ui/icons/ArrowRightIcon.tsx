@@ -1,4 +1,4 @@
-// --- file: components/icons/ArrowRightIcon.tsx ---
+// --- file: components/ui/icons/ArrowRightIcon.tsx ---
 interface ArrowRightIconProps {
   className?: string
 }

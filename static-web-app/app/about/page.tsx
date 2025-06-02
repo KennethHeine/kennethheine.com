@@ -1,9 +1,7 @@
 // --- file: app/about/page.tsx ---
 import { Metadata } from 'next'
 import Image from 'next/image'
-import Container from '@/components/Container'
-import SkillBadge from '@/components/SkillBadge'
-import { TimelineItem } from '@/components/TimelineItem'
+import { Container, SkillBadge, TimelineItem } from '@/components/ui'
 
 // SEO metadata for the about page
 export const metadata: Metadata = {

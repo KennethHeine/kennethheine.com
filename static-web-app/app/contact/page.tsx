@@ -1,7 +1,7 @@
 // --- file: app/contact/page.tsx ---
 import { Metadata } from 'next'
-import Container from '@/components/Container'
-import { MailIcon } from '@/components/icons/MailIcon'
+import { Container } from '@/components/ui'
+import { MailIcon } from '@/components/ui/icons/MailIcon'
 
 // SEO metadata for the contact page
 export const metadata: Metadata = {

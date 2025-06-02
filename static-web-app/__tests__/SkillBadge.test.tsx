@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import SkillBadge from '../components/SkillBadge'
+import { SkillBadge } from '@/components/ui'
 
 describe('SkillBadge component', () => {
   it('renders skill name correctly', () => {

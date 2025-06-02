@@ -1,4 +1,4 @@
-// --- file: components/icons/MailIcon.tsx ---
+// --- file: components/ui/icons/MailIcon.tsx ---
 interface MailIconProps {
   className?: string
 }

@@ -1,4 +1,4 @@
-// --- file: components/SkillBadge.tsx ---
+// --- file: components/ui/SkillBadge.tsx ---
 interface SkillBadgeProps {
   skill: string
 }

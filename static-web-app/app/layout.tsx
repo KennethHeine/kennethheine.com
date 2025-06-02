@@ -2,8 +2,8 @@
 import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import { Layout } from '@/components/Layout'
-import { ThemeProvider } from '@/components/ThemeProvider'
+import { Layout } from '@/components/layout/Layout'
+import { ThemeProvider } from '@/components/ui'
 
 // Configure Google Fonts
 const inter = Inter({ 

@@ -176,9 +176,6 @@ export interface APIResponse<T = unknown> {
   }
 }
 
-// Theme preference type
-export type Theme = 'light' | 'dark' | 'system'
-
 // Loading state type
 export type LoadingState = 'idle' | 'loading' | 'success' | 'error'
 
