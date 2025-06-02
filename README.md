@@ -3,6 +3,10 @@
 [![Deploy Infrastructure](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml)
 [![Deploy Frontend](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml)
 
+## 🌐 Live Site
+
+**🎉 [Visit the Live Website → kennethheine.com](https://kennethheine.com) 🎉**
+
 A modern Next.js website deployed on Azure Static Web Apps using Infrastructure as Code (IaC) with Bicep templates and GitHub Actions CI/CD pipelines.
 
 ## 🏗️ Architecture
@@ -19,7 +23,7 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 ### Infrastructure
 - ✅ **Infrastructure as Code**: Complete Bicep template structure
 - ✅ **Federated Identity**: Secure authentication without long-lived secrets
-- ✅ **Multi-environment**: Support for production and staging environments
+- ✅ **Production Environment**: Fully configured and deployed
 - ✅ **Automated Deployment**: GitHub Actions workflow with comprehensive validation
 
 ### Frontend Application
@@ -49,8 +53,9 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 ```
 kennethheine.com/
 ├── .github/workflows/          # GitHub Actions workflows
-│   ├── deploy-infrastructure.yml
-│   ├── deploy-frontend.yml
+│   ├── deploy-infrastructure.yml  # Infrastructure deployment pipeline
+│   ├── deploy-frontend.yml        # Frontend deployment pipeline
+│   ├── destroy-infrastructure.yml # Infrastructure cleanup pipeline
 │   └── README.md
 ├── infra/                      # Bicep infrastructure templates
 │   ├── main.bicep
@@ -61,22 +66,41 @@ kennethheine.com/
 │   │   └── production.bicepparam
 │   └── README.md
 ├── scripts/                    # PowerShell setup scripts
+│   ├── 0-enable-resource-providers-cli.ps1
 │   ├── 1-create-resource-group.ps1
 │   ├── 2-create-app-registration.ps1
 │   ├── 3-setup-github-secrets.ps1
+│   ├── 4-fix-custom-domain-permissions.ps1
 │   └── README.md
-└── static-web-app/            # Next.js application source code
-    ├── app/                   # Next.js 14 App Router
-    ├── components/            # React components
-    ├── content/               # MDX blog posts
-    ├── lib/                   # Utility functions
-    ├── public/                # Static assets
-    ├── __tests__/             # Jest test files
-    ├── out/                   # Static export output
-    ├── package.json
-    ├── next.config.mjs
-    ├── staticwebapp.config.json
-    └── README.md
+├── static-web-app/            # Next.js application source code
+│   ├── app/                   # Next.js 14 App Router pages
+│   │   ├── layout.tsx         # Root layout
+│   │   ├── page.tsx           # Homepage
+│   │   ├── about/             # About page
+│   │   ├── blog/              # Blog pages
+│   │   └── contact/           # Contact page
+│   ├── components/            # Reusable React components
+│   ├── content/               # MDX blog posts
+│   │   └── posts/             # Blog post files
+│   ├── lib/                   # Utility functions and helpers
+│   ├── public/                # Static assets and images
+│   ├── __tests__/             # Jest test files
+│   ├── coverage/              # Test coverage reports
+│   ├── types/                 # TypeScript type definitions
+│   ├── src/                   # Legacy HTML files (for reference)
+│   ├── package.json
+│   ├── next.config.mjs
+│   ├── tailwind.config.ts
+│   ├── tsconfig.json
+│   ├── jest.config.js
+│   ├── staticwebapp.config.json
+│   └── README.md
+├── prompts/                   # Development prompts and documentation
+├── .copilot-instructions.md   # AI development guidelines and best practices
+├── .gitignore                 # Git ignore patterns
+├── CUSTOM_DOMAIN_FIX.md       # Custom domain configuration troubleshooting
+├── INFRASTRUCTURE_STATUS.md   # Current infrastructure deployment status
+└── PREVIEW_DEPLOYMENT_FIX.md  # Preview deployment troubleshooting guide
 ```
 
 ## 🛠️ Setup Instructions
@@ -92,6 +116,9 @@ kennethheine.com/
 Run the setup scripts in order:
 
 ```powershell
+# 0. Enable required Azure resource providers (if needed)
+.\scripts\0-enable-resource-providers-cli.ps1
+
 # 1. Create resource group (optional - can be done via Bicep)
 .\scripts\1-create-resource-group.ps1
 
@@ -100,6 +127,9 @@ Run the setup scripts in order:
 
 # 3. Configure GitHub repository secrets
 .\scripts\3-setup-github-secrets.ps1
+
+# 4. Fix custom domain permissions (if using custom domain)
+.\scripts\4-fix-custom-domain-permissions.ps1
 ```
 
 ### 2. GitHub Repository Configuration
@@ -125,7 +155,7 @@ git push origin main
 1. Go to the Actions tab in GitHub
 2. Select "Deploy Infrastructure"
 3. Click "Run workflow"
-4. Choose environment (production/staging)
+4. Choose the production environment
 
 ## 📋 Available Workflows
 
@@ -138,6 +168,11 @@ git push origin main
 - **Triggers**: Push to main, PR to main (for changes in static-web-app/)
 - **Purpose**: Deploy Next.js application to Azure Static Web Apps
 - **Features**: Next.js build validation, preview deployments, automated testing
+
+### Destroy Infrastructure
+- **Triggers**: Manual dispatch only (for safety)
+- **Purpose**: Safely destroy Azure resources
+- **Features**: Environment selection, confirmation prompts
 
 ### Preview Deployments
 - **Automatic**: Created for every pull request
@@ -172,11 +207,14 @@ npm run build
 4. Review What-If analysis in PR comments
 5. Merge to deploy changes
 
-### Adding New Environments
+### Adding New Environments (Optional)
+
+To add additional environments beyond production:
 
 1. Create new parameter file: `infra/parameters/{environment}.bicepparam`
 2. Update workflow to include new environment option
 3. Configure federated credentials for new environment
+4. Update Azure resource naming to avoid conflicts
 
 ## 📊 Monitoring
 
@@ -192,16 +230,26 @@ npm run build
 
 ## 🔗 Links
 
-- **Live Website**: [https://kennethheine.com](https://kennethheine.com)
+- **Live Website**: [https://delightful-plant-090231a03.6.azurestaticapps.net](https://delightful-plant-090231a03.6.azurestaticapps.net) (Default Azure URL)
+- **Custom Domain**: [https://kennethheine.com](https://kennethheine.com) ✅ **LIVE!**
 - **Azure Portal**: [Static Web App Resource](https://portal.azure.com)
 - **GitHub Actions**: [Workflow Runs](https://github.com/KS-Cloud-org/kennethheine.com/actions)
 
 ## 📚 Documentation
 
+### Primary Documentation
 - [Infrastructure Documentation](./infra/README.md)
 - [Workflow Documentation](./.github/workflows/README.md)
 - [Setup Scripts Documentation](./scripts/README.md)
 - [Static Web App Documentation](./static-web-app/README.md)
+
+### Troubleshooting & Status
+- [Infrastructure Status](./INFRASTRUCTURE_STATUS.md) - Current deployment status and configuration
+- [Custom Domain Fix](./CUSTOM_DOMAIN_FIX.md) - Custom domain configuration troubleshooting
+- [Preview Deployment Fix](./PREVIEW_DEPLOYMENT_FIX.md) - Preview deployment troubleshooting guide
+
+### Development Guidelines
+- [Copilot Instructions](./.copilot-instructions.md) - AI-assisted development guidelines and best practices
 
 ## 🤝 Contributing
 
@@ -213,7 +261,7 @@ npm run build
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open source. See individual files for specific licensing information.
 
 ## 🙏 Acknowledgments
 

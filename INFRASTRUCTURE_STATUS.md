@@ -21,7 +21,7 @@ Your Infrastructure as Code (IaC) setup has been successfully deployed and is fu
 - ✅ Updated to latest Static Web Apps API version (2023-12-01)
 - ✅ Implemented unique resource naming using resource tokens
 - ✅ Added comprehensive resource tagging strategy
-- ✅ Created multi-environment support (production/staging)
+- ✅ Configured production environment deployment
 
 ### 3. **Deployment Pipeline**
 - ✅ Enhanced GitHub Actions workflow with 4-stage validation pipeline
@@ -57,7 +57,8 @@ Your Infrastructure as Code (IaC) setup has been successfully deployed and is fu
 Your infrastructure and Next.js application are fully deployed and operational:
 
 ```
-🌐 Production URL: https://delightful-plant-090231a03.6.azurestaticapps.net
+🌐 Production URL: https://kennethheine.com (Custom Domain ✅ LIVE!)
+🔗 Azure URL: https://delightful-plant-090231a03.6.azurestaticapps.net
 🔄 Preview Deployments: Working (automatic for PRs)
 🏗️ Infrastructure: Deployed and stable
 📱 Application: Next.js 14 with TypeScript and Tailwind CSS
@@ -73,7 +74,7 @@ Your infrastructure and Next.js application are fully deployed and operational:
 - **Infrastructure Pipeline**: ✅ Operational
 - **Frontend Pipeline**: ✅ Operational  
 - **Preview Environments**: ✅ Working for all PRs
-- **Custom Domain**: 🔄 In progress (validation phase)
+- **Custom Domain**: ✅ Live and operational (kennethheine.com)
 
 ## 🔐 Security Considerations
 
