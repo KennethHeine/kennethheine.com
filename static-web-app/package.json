@@ -2,10 +2,10 @@
   "name": "personal-brand-website",
   "version": "1.0.0",
   "description": "A modern static personal brand website built with Next.js 14",
-  "private": true,
-  "scripts": {
+  "private": true,  "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && npm run copy-config",
+    "copy-config": "node -e \"require('fs').copyFileSync('staticwebapp.config.json', 'out/staticwebapp.config.json')\"",
     "export": "next build",
     "start": "next start",
     "lint": "next lint",
