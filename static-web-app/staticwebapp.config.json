@@ -1,11 +1,22 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/css/*", "/js/*"]
+    "exclude": ["/images/*", "/favicon.svg", "/_next/*", "/css/*", "/js/*"]
   },
   "responseOverrides": {
     "404": {
       "rewrite": "/index.html"
     }
-  }
+  },
+  "globalHeaders": {
+    "cache-control": "no-cache"
+  },
+  "routes": [
+    {
+      "route": "/images/*",
+      "headers": {
+        "cache-control": "public, max-age=604800"
+      }
+    }
+  ]
 }
