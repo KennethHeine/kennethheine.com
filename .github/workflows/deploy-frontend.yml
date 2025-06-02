@@ -47,10 +47,11 @@ jobs:
           echo "🔍 Validating frontend project structure..."
           
           # Check required files
-          required_files=(
-            "static-web-app/src/index.html"
-            "static-web-app/package.json"
+          required_files=(            "static-web-app/package.json"
+            "static-web-app/next.config.mjs"
             "static-web-app/staticwebapp.config.json"
+            "static-web-app/app/layout.tsx"
+            "static-web-app/app/page.tsx"
           )
           
           for file in "${required_files[@]}"; do
