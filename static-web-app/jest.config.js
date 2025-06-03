@@ -38,18 +38,29 @@ const customJestConfig = {
     'lib/**/*.{ts,tsx}',
     '!**/*.d.ts',
     '!**/node_modules/**',
+    '!**/__tests__/**',
+    '!**/coverage/**',
+    '!**/*.config.*',
+    '!**/globals.css',
   ],
-  // Coverage thresholds
+  // Coverage thresholds - maintain current high levels
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 70,
-      lines: 70,
-      statements: 70,
+      branches: 85,
+      functions: 85, 
+      lines: 86,
+      statements: 85
     },
+    // Per-file thresholds for critical files
+    './app/layout.tsx': {
+      branches: 90,
+      functions: 90,
+      lines: 90,
+      statements: 90
+    }
   },
-  // Default coverage reporters
-  coverageReporters: ['text-summary', 'lcov'],
+  // Enhanced coverage reporters
+  coverageReporters: ['text-summary', 'lcov', 'html', 'json-summary', 'cobertura'],
 }
 
 // Create and export the Jest configuration
