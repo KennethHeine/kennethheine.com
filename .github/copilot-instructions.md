@@ -1,31 +1,95 @@
 # Copilot Instructions for kennethheine.com
 
-This project is a modern Infrastructure as Code (IaC) implementation for deploying Azure Static Web Apps using Bicep templates and GitHub Actions.
+This project is a modern Infrastructure as Code (IaC) implementation for deploying Azure Static Web Apps using Bicep templates and GitHub Actions. It features a comprehensive CI/CD pipeline with automated testing, preview deployments, and production releases.
 
 ## 📋 Project Overview
 
-**Project Type:** Azure Static Web App with Infrastructure as Code and Next.js Frontend
-**Tech Stack:** Bicep, GitHub Actions, Next.js 14, TypeScript, Tailwind CSS, PowerShell
-**Deployment:** Azure Static Web Apps with federated identity authentication and preview deployments
-**Author:** Kenneth Sølberg
+**Project Type:** Azure Static Web App with Infrastructure as Code and Next.js Frontend  
+**Tech Stack:** Bicep, GitHub Actions, Next.js 14, TypeScript, Tailwind CSS, PowerShell, MDX  
+**Deployment:** Azure Static Web Apps with federated identity authentication and preview deployments  
+**Testing:** Jest + React Testing Library with comprehensive coverage  
+**Content:** MDX-based blog system with gray-matter frontmatter processing  
+**Author:** Kenneth Sølberg  
+**Last Updated:** June 2025
 
 ## 🏗️ Architecture & Structure
 
 ### Core Components
 - **`infra/`** - Bicep Infrastructure as Code templates (deployed and operational)
+  - `main.bicep` - Main infrastructure template
+  - `modules/` - Reusable Bicep modules for Static Web Apps
+  - `parameters/` - Environment-specific parameters
+  - `bicepconfig.json` - Bicep analyzer configuration
 - **`static-web-app/`** - Next.js 14 application with TypeScript and Tailwind CSS
+  - `app/` - Next.js App Router pages and layouts
+  - `components/` - Reusable React components
+  - `content/` - MDX blog posts and content
+  - `lib/` - Utility functions and blog processing logic
+  - `types/` - TypeScript type definitions
+  - `__tests__/` - Jest test suites with comprehensive coverage
+  - `staticwebapp.config.json` - Azure Static Web Apps routing configuration
 - **`.github/workflows/`** - CI/CD pipeline definitions (infrastructure and frontend)
-- **`scripts/`** - PowerShell automation scripts for Azure setup
+  - `deploy-infrastructure.yml` - Infrastructure deployment with what-if analysis
+  - `deploy-frontend.yml` - Frontend deployment with preview environments
+  - `destroy-infrastructure.yml` - Safe infrastructure teardown workflow
+- **`scripts/`** - PowerShell automation scripts for Azure setup and configuration
 
 ### Key Technologies
-- **Azure Static Web Apps** - Primary hosting platform (deployed)
-- **Bicep** - Infrastructure as Code language
-- **Next.js 14** - React framework with App Router and static export
-- **TypeScript** - Type-safe JavaScript with strict configuration
-- **Tailwind CSS** - Utility-first CSS framework
-- **GitHub Actions** - CI/CD automation with dual pipelines
-- **OIDC/Federated Identity** - Secure authentication without secrets
-- **PowerShell** - Azure configuration automation
+- **Azure Static Web Apps** - Primary hosting platform with custom domain support (deployed)
+- **Bicep** - Infrastructure as Code language with analyzer rules enabled
+- **Next.js 14** - React framework with App Router, static export, and TypeScript
+- **TypeScript** - Type-safe JavaScript with strict configuration and comprehensive types
+- **Tailwind CSS** - Utility-first CSS framework with custom design system
+- **GitHub Actions** - CI/CD automation with dual pipelines and OIDC authentication
+- **OIDC/Federated Identity** - Secure authentication without secrets storage
+- **PowerShell** - Azure configuration automation and setup scripts
+- **Jest + React Testing Library** - Comprehensive testing framework with coverage reports
+- **MDX** - Markdown with JSX for rich blog content and documentation
+- **Gray-matter** - YAML frontmatter processing for blog metadata
+
+### Project File Structure
+```
+kennethheine.com/
+├── infra/                          # Infrastructure as Code
+│   ├── main.bicep                  # Main Bicep template
+│   ├── bicepconfig.json           # Bicep analyzer configuration
+│   ├── modules/                   # Reusable Bicep modules
+│   │   └── static-web-app-with-domain.bicep
+│   └── parameters/                # Environment-specific parameters
+│       └── production.bicepparam
+├── static-web-app/                # Next.js application
+│   ├── app/                       # Next.js App Router
+│   │   ├── layout.tsx            # Root layout with theme provider
+│   │   ├── page.tsx              # Home page
+│   │   ├── about/page.tsx        # About page
+│   │   ├── blog/                 # Blog pages
+│   │   └── contact/page.tsx      # Contact page
+│   ├── components/               # React components
+│   │   ├── Layout.tsx            # Main layout component
+│   │   ├── ThemeProvider.tsx     # Dark/light theme provider
+│   │   ├── ThemeToggle.tsx       # Theme toggle button
+│   │   └── icons/                # Icon components
+│   ├── content/                  # MDX blog posts
+│   │   └── posts/                # Blog post MDX files
+│   ├── lib/                      # Utility functions
+│   │   ├── blog.ts               # Blog processing logic
+│   │   └── utils.ts              # Common utilities
+│   ├── types/                    # TypeScript definitions
+│   ├── __tests__/                # Jest test suites
+│   ├── staticwebapp.config.json  # Azure SWA configuration
+│   ├── next.config.mjs           # Next.js configuration
+│   └── package.json              # Dependencies and scripts
+├── .github/workflows/            # CI/CD pipelines
+│   ├── deploy-infrastructure.yml # Infrastructure deployment
+│   ├── deploy-frontend.yml       # Frontend deployment
+│   └── destroy-infrastructure.yml # Safe teardown
+└── scripts/                      # PowerShell automation
+    ├── 0-enable-resource-providers-cli.ps1
+    ├── 1-create-resource-group.ps1
+    ├── 2-create-app-registration.ps1
+    ├── 3-setup-github-secrets.ps1
+    └── 4-fix-custom-domain-permissions.ps1
+```
 
 ## 🎯 Code Generation Guidelines
 
@@ -37,6 +101,8 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 - Apply consistent tagging strategy with project, environment, and managedBy tags
 - Use modular approach - create reusable modules in `infra/modules/`
 - Enable Bicep analyzer rules for security and best practices
+- Target scope should be 'resourceGroup' for this project
+- Use secure parameters (`@secure()`) for sensitive values
 
 ### GitHub Actions Workflows
 - Use federated identity (OIDC) for Azure authentication - never store secrets
@@ -45,6 +111,8 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 - Implement proper error handling and validation steps
 - Create detailed GitHub step summaries with status information
 - Use environment protection for production deployments
+- Support both PR-triggered previews and main branch deployments
+- Include manual workflow dispatch for ad-hoc deployments
 
 ### PowerShell Scripts
 - Follow PowerShell best practices with proper error handling
@@ -52,6 +120,8 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 - Include verbose output for troubleshooting
 - Implement retry logic for transient Azure failures
 - Use approved PowerShell verbs (Get-, Set-, New-, Remove-)
+- Add parameter validation and help documentation
+- Support both interactive and automated execution modes
 
 ### Frontend Development
 - **Next.js 14**: Use App Router, TypeScript, and static export configuration
@@ -62,6 +132,8 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 - **Theme Support**: Implement dark/light theme switching with persistence
 - **Accessibility**: Follow WCAG guidelines and semantic HTML
 - **Performance**: Optimize for Core Web Vitals and static generation
+- **Static Export**: Configure for Azure Static Web Apps deployment
+- **Routing**: Use Azure SWA routing configuration in `staticwebapp.config.json`
 
 ## 🚀 Deployment Philosophy
 
