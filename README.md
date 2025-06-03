@@ -2,6 +2,8 @@
 
 [![Deploy Infrastructure](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-infrastructure.yml)
 [![Deploy Frontend](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml/badge.svg)](https://github.com/KS-Cloud-org/kennethheine.com/actions/workflows/deploy-frontend.yml)
+[![Test Coverage](https://github.com/KennethHeine/kennethheine.com/actions/workflows/test-coverage.yml/badge.svg)](https://github.com/KennethHeine/kennethheine.com/actions/workflows/test-coverage.yml)
+[![codecov](https://codecov.io/gh/KennethHeine/kennethheine.com/branch/main/graph/badge.svg)](https://codecov.io/gh/KennethHeine/kennethheine.com)
 
 ## 🌐 Live Site
 
