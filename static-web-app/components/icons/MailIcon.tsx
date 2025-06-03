@@ -1,5 +1,5 @@
 // --- file: components/icons/MailIcon.tsx ---
-interface MailIconProps {
+interface MailIconProps extends React.SVGProps<SVGSVGElement> {
   className?: string
 }
 
@@ -7,14 +7,14 @@ interface MailIconProps {
  * Mail icon component
  * Used for contact page and email links
  */
-export function MailIcon({ className = 'h-5 w-5' }: MailIconProps) {
-  return (
-    <svg
+export function MailIcon({ className = 'h-5 w-5', ...props }: MailIconProps) {
+  return (    <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
+      {...props}
     >
       <path
         strokeLinecap="round"
