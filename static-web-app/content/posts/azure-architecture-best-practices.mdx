@@ -1,8 +1,8 @@
 ---
-title: "Azure Cloud Architecture Best Practices: Building Scalable and Resilient Applications"
-date: "2025-01-15"
-summary: "Learn essential Azure architecture patterns and best practices for building scalable, secure, and cost-effective cloud applications. From App Service to Container Apps and everything in between."
-tags: ["Azure", "Cloud Architecture", "Best Practices", "Scalability", "DevOps"]
+title: 'Azure Cloud Architecture Best Practices: Building Scalable and Resilient Applications'
+date: '2025-01-15'
+summary: 'Learn essential Azure architecture patterns and best practices for building scalable, secure, and cost-effective cloud applications. From App Service to Container Apps and everything in between.'
+tags: ['Azure', 'Cloud Architecture', 'Best Practices', 'Scalability', 'DevOps']
 ---
 
 # Azure Cloud Architecture Best Practices: Building Scalable and Resilient Applications
@@ -14,12 +14,14 @@ Building applications in the cloud requires a different mindset than traditional
 Before diving into architecture patterns, it's crucial to understand Azure's core service categories:
 
 ### Compute Services
+
 - **Azure App Service**: Perfect for web applications and APIs
 - **Azure Functions**: Serverless computing for event-driven scenarios
 - **Azure Container Apps**: Managed containers with Kubernetes-like features
 - **Azure Kubernetes Service (AKS)**: Full Kubernetes orchestration
 
 ### Storage and Databases
+
 - **Azure Storage**: Blob, File, Queue, and Table storage
 - **Azure SQL Database**: Managed relational database
 - **Azure Cosmos DB**: Globally distributed NoSQL database
@@ -40,6 +42,7 @@ Storage → Azure Blob Storage (for files/images)
 ```
 
 ### Key Benefits:
+
 - **Auto-scaling**: App Service and Container Apps scale based on demand
 - **Global distribution**: Static Web Apps deploy to edge locations worldwide
 - **Integrated security**: Built-in authentication and SSL certificates
@@ -62,6 +65,7 @@ Data Storage → Multiple Azure SQL/Cosmos DB instances
 ```
 
 ### Implementation Tips:
+
 1. **Use Azure Service Bus** for reliable message delivery between services
 2. **Implement Circuit Breaker patterns** to handle service failures gracefully
 3. **Design for idempotency** to handle message duplication
@@ -125,6 +129,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
 ## Security Best Practices
 
 ### 1. Use Azure Key Vault for Secrets
+
 Never store connection strings or API keys in your application code:
 
 ```typescript
@@ -133,11 +138,15 @@ const connectionString = process.env.DB_CONNECTION; // ❌
 
 // Use Azure Key Vault with Managed Identity
 const credential = new DefaultAzureCredential();
-const client = new SecretClient("https://your-vault.vault.azure.net/", credential);
-const secret = await client.getSecret("database-connection-string"); // ✅
+const client = new SecretClient(
+  'https://your-vault.vault.azure.net/',
+  credential
+);
+const secret = await client.getSecret('database-connection-string'); // ✅
 ```
 
 ### 2. Implement Managed Identity
+
 Use Azure Managed Identity to authenticate between services without managing credentials:
 
 ```bicep
@@ -151,6 +160,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
 ```
 
 ### 3. Network Security
+
 - Use **Azure Virtual Networks** to isolate your resources
 - Implement **Network Security Groups** for traffic filtering
 - Enable **Azure Private Link** for secure database connections
@@ -158,6 +168,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
 ## Performance and Scalability
 
 ### Auto-scaling Configuration
+
 Configure your applications to scale automatically:
 
 ```bicep
@@ -203,6 +214,7 @@ resource autoScale 'Microsoft.Insights/autoscalesettings@2022-10-01' = {
 ```
 
 ### Caching Strategy
+
 Implement caching at multiple levels:
 
 1. **Browser caching** for static assets
@@ -218,15 +230,13 @@ Use Azure Monitor and Application Insights for comprehensive observability:
 import { ApplicationInsights } from '@azure/monitor-opentelemetry-node';
 
 // Initialize Application Insights
-ApplicationInsights.setup()
-  .setSamplingPercentage(100)
-  .start();
+ApplicationInsights.setup().setSamplingPercentage(100).start();
 
 // Custom telemetry
 const appInsights = require('applicationinsights');
 appInsights.defaultClient.trackEvent({
   name: 'UserLogin',
-  properties: { userId: user.id, method: 'oauth' }
+  properties: { userId: user.id, method: 'oauth' },
 });
 ```
 
@@ -241,6 +251,7 @@ appInsights.defaultClient.trackEvent({
 ## Disaster Recovery and Backup
 
 ### Automated Backups
+
 Configure automatic backups for your databases and critical data:
 
 ```bicep
@@ -254,6 +265,7 @@ resource sqlDatabase 'Microsoft.Sql/servers/databases@2022-05-01-preview' = {
 ```
 
 ### Multi-Region Deployment
+
 For mission-critical applications, consider multi-region deployment:
 
 ```bicep
@@ -300,4 +312,4 @@ Remember, the best architecture is one that meets your current needs while provi
 
 ---
 
-*Want to learn more about Azure architecture? I offer consulting services to help teams design and implement scalable cloud solutions. [Get in touch](/contact) to discuss your specific needs.*
+_Want to learn more about Azure architecture? I offer consulting services to help teams design and implement scalable cloud solutions. [Get in touch](/contact) to discuss your specific needs._

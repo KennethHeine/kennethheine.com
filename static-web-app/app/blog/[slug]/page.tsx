@@ -1,18 +1,18 @@
 // --- file: app/blog/[slug]/page.tsx ---
-import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import { getAllPosts, getPostBySlug } from '@/lib/blog'
-import Container from '@/components/Container'
-import { formatDate } from '@/lib/utils'
-import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon'
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { getAllPosts, getPostBySlug } from '@/lib/blog';
+import Container from '@/components/Container';
+import { formatDate } from '@/lib/utils';
+import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 
 // Type for page props
 interface BlogPostPageProps {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }
 
 /**
@@ -20,24 +20,26 @@ interface BlogPostPageProps {
  * This enables static generation for each blog post
  */
 export async function generateStaticParams() {
-  const posts = getAllPosts()
-  
-  return posts.map((post) => ({
+  const posts = getAllPosts();
+
+  return posts.map(post => ({
     slug: post.slug,
-  }))
+  }));
 }
 
 /**
  * Generate metadata for each blog post
  * This provides SEO metadata specific to each post
  */
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = getPostBySlug(params.slug)
-  
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
+  const post = getPostBySlug(params.slug);
+
   if (!post) {
     return {
       title: 'Post Not Found',
-    }
+    };
   }
   return {
     title: post.title,
@@ -49,12 +51,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       publishedTime: post.date,
       authors: ['Kenneth Heine'],
       tags: post.tags,
-    },    twitter: {
+    },
+    twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
     },
-  }
+  };
 }
 
 /**
@@ -66,59 +69,59 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
  * - Responsive prose styling
  */
 export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = getPostBySlug(params.slug)
+  const post = getPostBySlug(params.slug);
 
   // If post doesn't exist, show 404
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
     <main>
       <article>
         {/* Header Section */}
-        <section className="py-20 sm:py-32">
+        <section className='py-20 sm:py-32'>
           <Container>
-            <div className="mx-auto max-w-3xl">
+            <div className='mx-auto max-w-3xl'>
               {/* Back to blog link */}
               <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300"
+                href='/blog'
+                className='inline-flex items-center gap-2 text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300'
               >
-                <ArrowLeftIcon className="h-4 w-4" />
+                <ArrowLeftIcon className='h-4 w-4' />
                 Back to Blog
               </Link>
 
               {/* Post header */}
-              <header className="mt-8">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              <header className='mt-8'>
+                <h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl'>
                   {post.title}
                 </h1>
-                
-                <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <time 
+                <div className='mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+                  <time
                     dateTime={post.date}
-                    className="text-sm text-gray-500 dark:text-gray-400"
+                    className='text-sm text-gray-500 dark:text-gray-400'
                   >
                     {formatDate(post.date)}
                   </time>
-                  
+
                   {/* Tags */}
                   {post.tags && post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
+                    <div className='flex flex-wrap gap-2'>
+                      {post.tags.map(tag => (
                         <span
                           key={tag}
-                          className="inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-700 dark:bg-brand-900/20 dark:text-brand-300"
+                          className='inline-flex items-center rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-700 dark:bg-brand-900/20 dark:text-brand-300'
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   )}
-                </div>                {/* Summary */}
+                </div>{' '}
+                {/* Summary */}
                 {post.excerpt && (
-                  <p className="mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300">
+                  <p className='mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300'>
                     {post.excerpt}
                   </p>
                 )}
@@ -128,10 +131,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         </section>
 
         {/* Post Content */}
-        <section className="pb-20">
+        <section className='pb-20'>
           <Container>
-            <div className="mx-auto max-w-3xl">
-              <div className="prose prose-gray max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-brand-400 prose-code:rounded prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm dark:prose-code:bg-gray-800 prose-pre:overflow-x-auto prose-pre:rounded-lg prose-pre:bg-gray-900 prose-pre:p-4 dark:prose-pre:bg-gray-800">
+            <div className='mx-auto max-w-3xl'>
+              <div className='prose prose-gray max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-brand-400 prose-code:rounded prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm dark:prose-code:bg-gray-800 prose-pre:overflow-x-auto prose-pre:rounded-lg prose-pre:bg-gray-900 prose-pre:p-4 dark:prose-pre:bg-gray-800'>
                 <MDXRemote source={post.content} />
               </div>
             </div>
@@ -140,15 +143,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </article>
 
       {/* Navigation to other posts */}
-      <section className="border-t border-gray-200 py-12 dark:border-gray-700">
+      <section className='border-t border-gray-200 py-12 dark:border-gray-700'>
         <Container>
-          <div className="mx-auto max-w-3xl">
-            <div className="flex justify-center">
+          <div className='mx-auto max-w-3xl'>
+            <div className='flex justify-center'>
               <Link
-                href="/blog"
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-900"
+                href='/blog'
+                className='inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-900'
               >
-                <ArrowLeftIcon className="h-4 w-4" />
+                <ArrowLeftIcon className='h-4 w-4' />
                 View All Posts
               </Link>
             </div>
@@ -156,5 +159,5 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         </Container>
       </section>
     </main>
-  )
+  );
 }

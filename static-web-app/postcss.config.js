@@ -6,4 +6,4 @@ module.exports = {
     // Enable autoprefixer for cross-browser compatibility
     autoprefixer: {},
   },
-}
+};

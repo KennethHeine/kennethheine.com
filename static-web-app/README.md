@@ -46,46 +46,54 @@ A modern, fully static personal brand website built with Next.js 14, TypeScript,
 ## 🛠️ Tech Stack
 
 ### Core Framework
+
 - **Next.js 14**: React framework with App Router and static export
 - **TypeScript**: Type-safe JavaScript with strict configuration
 - **React 18**: Latest React with concurrent features
 
 ### Styling & UI
+
 - **Tailwind CSS**: Utility-first CSS framework
 - **@tailwindcss/typography**: Beautiful typography for blog content
 - **@tailwindcss/forms**: Enhanced form styling
 - **clsx & tailwind-merge**: Conditional and merged class names
 
 ### Content & SEO
+
 - **next-mdx-remote**: MDX processing for blog posts
 - **gray-matter**: Front matter parsing for blog metadata
 - **next-seo**: SEO optimization with meta tags
 - **remark & remark-html**: Markdown processing
 
 ### Testing
+
 - **Jest**: JavaScript testing framework
 - **React Testing Library**: React component testing utilities
 - **@testing-library/jest-dom**: Custom Jest matchers
 
 ### Development & Deployment
+
 - **ESLint**: Code linting with Next.js configuration
 - **Azure Static Web Apps CLI**: Local development and deployment
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - Git
 
 ### Installation
 
 1. **Clone the repository**:
+
    ```bash
    git clone <repository-url>
    cd static-web-app
    ```
 
 2. **Install dependencies**:
+
    ```bash
    npm install
    ```
@@ -119,12 +127,13 @@ A modern, fully static personal brand website built with Next.js 14, TypeScript,
 ### Adding Blog Posts
 
 1. Create a new MDX file in `content/blog/`:
+
    ```markdown
    ---
-   title: "Your Post Title"
-   date: "2024-01-01"
-   excerpt: "Brief description of your post"
-   tags: ["tag1", "tag2"]
+   title: 'Your Post Title'
+   date: '2024-01-01'
+   excerpt: 'Brief description of your post'
+   tags: ['tag1', 'tag2']
    ---
 
    # Your blog content in MDX format
@@ -173,8 +182,9 @@ Current test coverage: 100% (6 test suites, 32 tests)
 ## 📱 Responsive Design
 
 The website is built mobile-first with breakpoints:
+
 - **sm**: 640px and up
-- **md**: 768px and up  
+- **md**: 768px and up
 - **lg**: 1024px and up
 - **xl**: 1280px and up
 
@@ -192,11 +202,13 @@ The website is built mobile-first with breakpoints:
 ### Azure Static Web Apps
 
 1. **Prerequisites**:
+
    - Azure account
    - GitHub repository
    - Azure Static Web Apps CLI
 
 2. **Local Testing**:
+
    ```bash
    npm run build
    npm run swa:start
@@ -210,6 +222,7 @@ The website is built mobile-first with breakpoints:
 ### Build Configuration
 
 The site uses Next.js static export configuration:
+
 - `output: 'export'` in `next.config.js`
 - Generates static HTML, CSS, and JS files
 - No server-side functionality required

@@ -5,7 +5,7 @@ This directory contains placeholder image files for the website. In a real deplo
 ## Required Images:
 
 - `profile-photo.jpg` - Profile photo for the home page hero section (recommended: 400x400px)
-- `about-photo.jpg` - Photo for the about page (recommended: 600x400px) 
+- `about-photo.jpg` - Photo for the about page (recommended: 600x400px)
 - `og-image.jpg` - Open Graph image for social media sharing (recommended: 1200x630px)
 
 ## Image Guidelines:
@@ -18,11 +18,13 @@ This directory contains placeholder image files for the website. In a real deplo
 ## Generating Placeholder Images:
 
 You can create placeholder images using online tools like:
+
 - https://placeholder.com/
 - https://picsum.photos/
 - https://via.placeholder.com/
 
 Example URLs:
+
 - Profile: https://via.placeholder.com/400x400/6366f1/ffffff?text=Profile
 - About: https://via.placeholder.com/600x400/8b5cf6/ffffff?text=About
 - OG: https://via.placeholder.com/1200x630/3b82f6/ffffff?text=OG+Image

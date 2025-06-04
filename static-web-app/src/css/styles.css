@@ -1,112 +1,112 @@
 /* Modern Static Web App Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 header {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 header h1 {
-    color: white;
-    text-align: center;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
+  color: white;
+  text-align: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 header h1:hover {
-    color: #ffd700;
+  color: #ffd700;
 }
 
 nav {
-    text-align: center;
+  text-align: center;
 }
 
 nav a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    margin: 0 0.5rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    display: inline-block;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
 nav a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 main {
-    background: white;
-    margin: 2rem auto;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
+  background: white;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
 }
 
 section {
-    margin-bottom: 2rem;
-    padding: 1rem 0;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
 }
 
 section h2 {
-    color: #667eea;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #667eea;
-    padding-bottom: 0.5rem;
+  color: #667eea;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
 }
 
 section p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #555;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
 }
 
 footer {
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: auto;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .container {
-        padding: 0 10px;
-    }
-    
-    nav a {
-        display: block;
-        margin: 0.25rem 0;
-    }
-    
-    main {
-        margin: 1rem;
-        padding: 1rem;
-    }
+  .container {
+    padding: 0 10px;
+  }
+
+  nav a {
+    display: block;
+    margin: 0.25rem 0;
+  }
+
+  main {
+    margin: 1rem;
+    padding: 1rem;
+  }
 }

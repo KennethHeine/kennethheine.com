@@ -7,192 +7,192 @@
 // Navigation link interface
 export interface NavLink {
   /** Display text for the link */
-  label: string
-  
+  label: string;
+
   /** URL path or external link */
-  href: string
-  
+  href: string;
+
   /** Whether this link should open in a new tab */
-  external?: boolean
-  
+  external?: boolean;
+
   /** Optional icon name or component */
-  icon?: string
-  
+  icon?: string;
+
   /** Whether this link is currently active */
-  active?: boolean
+  active?: boolean;
 }
 
 // Social media link interface
 export interface SocialLink {
   /** Platform name (e.g., 'twitter', 'linkedin', 'github') */
-  platform: string
-  
+  platform: string;
+
   /** Display label */
-  label: string
-  
+  label: string;
+
   /** Full URL to profile */
-  url: string
-  
+  url: string;
+
   /** Optional icon component or class name */
-  icon?: string
-  
+  icon?: string;
+
   /** Platform brand color (hex) */
-  color?: string
+  color?: string;
 }
 
 // SEO metadata interface
 export interface SEOData {
   /** Page title */
-  title: string
-  
+  title: string;
+
   /** Meta description */
-  description: string
-  
+  description: string;
+
   /** Canonical URL */
-  canonical?: string
-  
+  canonical?: string;
+
   /** Open Graph image URL */
-  image?: string
-  
+  image?: string;
+
   /** Open Graph type */
-  type?: 'website' | 'article' | 'profile'
-  
+  type?: 'website' | 'article' | 'profile';
+
   /** Article specific data */
   article?: {
-    author?: string
-    publishedTime?: string
-    modifiedTime?: string
-    tags?: string[]
-  }
-  
+    author?: string;
+    publishedTime?: string;
+    modifiedTime?: string;
+    tags?: string[];
+  };
+
   /** Twitter card type */
-  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player'
-  
+  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
+
   /** Additional meta tags */
   additionalMetaTags?: Array<{
-    name?: string
-    property?: string
-    content: string
-  }>
+    name?: string;
+    property?: string;
+    content: string;
+  }>;
 }
 
 // Skill/Technology interface
 export interface Skill {
   /** Skill name */
-  name: string
-  
+  name: string;
+
   /** Skill category */
-  category: 'frontend' | 'backend' | 'database' | 'devops' | 'design' | 'other'
-  
+  category: 'frontend' | 'backend' | 'database' | 'devops' | 'design' | 'other';
+
   /** Proficiency level (1-5) */
-  level: 1 | 2 | 3 | 4 | 5
-  
+  level: 1 | 2 | 3 | 4 | 5;
+
   /** Optional icon or logo */
-  icon?: string
-  
+  icon?: string;
+
   /** Optional description */
-  description?: string
-  
+  description?: string;
+
   /** Years of experience */
-  experience?: number
+  experience?: number;
 }
 
 // Project interface
 export interface Project {
   /** Unique project identifier */
-  id: string
-  
+  id: string;
+
   /** Project title */
-  title: string
-  
+  title: string;
+
   /** Project description */
-  description: string
-  
+  description: string;
+
   /** Array of technologies used */
-  technologies: string[]
-  
+  technologies: string[];
+
   /** Live demo URL */
-  demoUrl?: string
-  
+  demoUrl?: string;
+
   /** Source code URL */
-  sourceUrl?: string
-  
+  sourceUrl?: string;
+
   /** Project image/screenshot */
-  image?: string
-  
+  image?: string;
+
   /** Project category */
-  category: 'web' | 'mobile' | 'desktop' | 'library' | 'other'
-  
+  category: 'web' | 'mobile' | 'desktop' | 'library' | 'other';
+
   /** Project status */
-  status: 'planning' | 'in-progress' | 'completed' | 'archived'
-  
+  status: 'planning' | 'in-progress' | 'completed' | 'archived';
+
   /** Whether to feature this project */
-  featured?: boolean
-  
+  featured?: boolean;
+
   /** Project start date */
-  startDate?: string
-  
+  startDate?: string;
+
   /** Project completion date */
-  endDate?: string
+  endDate?: string;
 }
 
 // Contact form data interface
 export interface ContactForm {
   /** Sender's name */
-  name: string
-  
+  name: string;
+
   /** Sender's email */
-  email: string
-  
+  email: string;
+
   /** Message subject */
-  subject: string
-  
+  subject: string;
+
   /** Message content */
-  message: string
-  
+  message: string;
+
   /** Optional company/organization */
-  company?: string
-  
+  company?: string;
+
   /** Optional phone number */
-  phone?: string
+  phone?: string;
 }
 
 // API response interface
 export interface APIResponse<T = unknown> {
   /** Whether the request was successful */
-  success: boolean
-  
+  success: boolean;
+
   /** Response data */
-  data?: T
-  
+  data?: T;
+
   /** Error message if request failed */
-  error?: string
-  
+  error?: string;
+
   /** Additional metadata */
   meta?: {
-    timestamp: string
-    requestId?: string
-    [key: string]: unknown
-  }
+    timestamp: string;
+    requestId?: string;
+    [key: string]: unknown;
+  };
 }
 
 // Theme preference type
-export type Theme = 'light' | 'dark' | 'system'
+export type Theme = 'light' | 'dark' | 'system';
 
 // Loading state type
-export type LoadingState = 'idle' | 'loading' | 'success' | 'error'
+export type LoadingState = 'idle' | 'loading' | 'success' | 'error';
 
 // Generic component props interface
 export interface ComponentProps {
   /** Optional CSS class name */
-  className?: string
-  
+  className?: string;
+
   /** Optional inline styles */
-  style?: React.CSSProperties
-  
+  style?: React.CSSProperties;
+
   /** Optional test ID for testing */
-  testId?: string
-  
+  testId?: string;
+
   /** Optional children elements */
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
