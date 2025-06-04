@@ -1,69 +1,75 @@
 // --- file: components/MobileMenu.tsx ---
-'use client'
+'use client';
 
-import Link from 'next/link'
+import Link from 'next/link';
 
 interface NavigationItem {
-  name: string
-  href: string
+  name: string;
+  href: string;
 }
 
 interface MobileMenuProps {
-  open: boolean
-  onClose: () => void
-  navigation: NavigationItem[]
-  pathname: string
+  open: boolean;
+  onClose: () => void;
+  navigation: NavigationItem[];
+  pathname: string;
 }
 
 /**
  * Mobile menu component
  * Slide-out menu for mobile navigation
  */
-export function MobileMenu({ open, onClose, navigation, pathname }: MobileMenuProps) {
-  if (!open) return null
+export function MobileMenu({
+  open,
+  onClose,
+  navigation,
+  pathname,
+}: MobileMenuProps) {
+  if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 md:hidden">
+    <div className='fixed inset-0 z-50 md:hidden'>
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 bg-black/20 backdrop-blur-sm"
+      <div
+        className='fixed inset-0 bg-black/20 backdrop-blur-sm'
         onClick={onClose}
       />
-      
+
       {/* Menu panel */}
-      <div className="fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl dark:bg-gray-900">
-        <div className="flex h-16 items-center justify-between px-4">
-          <span className="text-lg font-semibold text-gray-900 dark:text-white">
+      <div className='fixed inset-y-0 right-0 w-full max-w-sm bg-white shadow-xl dark:bg-gray-900'>
+        <div className='flex h-16 items-center justify-between px-4'>
+          <span className='text-lg font-semibold text-gray-900 dark:text-white'>
             Menu
           </span>
           <button
-            type="button"
+            type='button'
             onClick={onClose}
-            className="rounded-md p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-            aria-label="Close menu"
+            className='rounded-md p-2 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300'
+            aria-label='Close menu'
           >
             <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
               strokeWidth={1.5}
-              stroke="currentColor"
+              stroke='currentColor'
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M6 18L18 6M6 6l12 12'
               />
             </svg>
           </button>
         </div>
-        
-        <nav className="px-4 py-6">
-          <div className="space-y-1">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href || 
-                (item.href !== '/' && pathname.startsWith(item.href))
-              
+
+        <nav className='px-4 py-6'>
+          <div className='space-y-1'>
+            {navigation.map(item => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== '/' && pathname.startsWith(item.href));
+
               return (
                 <Link
                   key={item.name}
@@ -77,11 +83,11 @@ export function MobileMenu({ open, onClose, navigation, pathname }: MobileMenuPr
                 >
                   {item.name}
                 </Link>
-              )
+              );
             })}
           </div>
         </nav>
       </div>
     </div>
-  )
+  );
 }

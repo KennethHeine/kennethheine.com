@@ -3,41 +3,41 @@
 const nextConfig = {
   // Enable static export for Azure Static Web Apps
   output: 'export',
-  
+
   // Configure trailing slash behavior
   trailingSlash: true,
-  
+
   // Disable image optimization for static export
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-  
+
   // Configure base path if needed (empty for custom domain)
   basePath: '',
-  
+
   // Configure asset prefix for CDN if needed
   assetPrefix: '',
-    // Disable server-side features for static export
+  // Disable server-side features for static export
   experimental: {
     // No experimental features needed for static export
   },
-  
+
   // Configure MDX support
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  
+
   // Enable strict mode for better development experience
   reactStrictMode: true,
-  
+
   // Configure ESLint
   eslint: {
-    dirs: ['app', 'components', 'lib', 'types']
+    dirs: ['app', 'components', 'lib', 'types'],
   },
-  
+
   // Configure TypeScript
   typescript: {
     // Type checking is handled by the CI/CD pipeline
-    ignoreBuildErrors: false
-  }
-}
+    ignoreBuildErrors: false,
+  },
+};
 
-export default nextConfig
+export default nextConfig;

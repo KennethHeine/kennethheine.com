@@ -1,31 +1,43 @@
 // --- file: app/layout.tsx ---
-import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono } from 'next/font/google'
-import './globals.css'
-import { Layout } from '@/components/Layout'
-import { ThemeProvider } from '@/components/ThemeProvider'
+import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import './globals.css';
+import { Layout } from '@/components/Layout';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 // Configure Google Fonts
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
-})
+});
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-})
+});
 
 // SEO metadata for the entire site
 export const metadata: Metadata = {
   title: {
-    default: 'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
-    template: '%s | Kenneth Heine'
+    default:
+      'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
+    template: '%s | Kenneth Heine',
   },
-  description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
-  keywords: ['Kenneth Heine', 'AI Automation', 'DevOps', 'Azure Cloud Architecture', 'GitHub Copilot', 'CI/CD', 'Development Workflows', 'GPT APIs', 'Infrastructure as Code'],
+  description:
+    'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+  keywords: [
+    'Kenneth Heine',
+    'AI Automation',
+    'DevOps',
+    'Azure Cloud Architecture',
+    'GitHub Copilot',
+    'CI/CD',
+    'Development Workflows',
+    'GPT APIs',
+    'Infrastructure as Code',
+  ],
   authors: [{ name: 'Kenneth Heine' }],
   creator: 'Kenneth Heine',
   publisher: 'Kenneth Heine',
@@ -39,8 +51,11 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://kennethheine.com',
-    siteName: 'Kenneth Heine',    title: 'Kenneth Heine - AI & Automation for Developers',
-    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',    images: [
+    siteName: 'Kenneth Heine',
+    title: 'Kenneth Heine - AI & Automation for Developers',
+    description:
+      'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
+    images: [
       {
         url: '/images/og-image.jpg',
         width: 1200,
@@ -52,7 +67,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Kenneth Heine - AI & Automation for Developers',
-    description: 'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
+    description:
+      'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
     images: ['/images/og-image.jpg'],
   },
   robots: {
@@ -70,7 +86,7 @@ export const metadata: Metadata = {
     // Add verification codes when available
     // google: 'your-google-verification-code',
   },
-}
+};
 
 /**
  * Root layout component for the entire application
@@ -82,20 +98,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body 
+    <html lang='en' suppressHydrationWarning>
+      <body
         className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider>
-          <Layout>
-            {children}
-          </Layout>
+          <Layout>{children}</Layout>
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

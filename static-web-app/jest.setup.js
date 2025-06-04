@@ -2,8 +2,8 @@
 // Jest setup file for testing configuration
 
 // Import Jest DOM matchers for better assertions
-import '@testing-library/jest-dom'
-import React from 'react'
+import '@testing-library/jest-dom';
+import React from 'react';
 
 // Mock Next.js router for testing
 jest.mock('next/router', () => ({
@@ -30,9 +30,9 @@ jest.mock('next/router', () => ({
       defaultLocale: 'en',
       domainLocales: [],
       isPreview: false,
-    }
+    };
   },
-}))
+}));
 
 // Mock Next.js navigation for app directory
 jest.mock('next/navigation', () => ({
@@ -44,15 +44,15 @@ jest.mock('next/navigation', () => ({
       back: jest.fn(),
       forward: jest.fn(),
       refresh: jest.fn(),
-    }
+    };
   },
   useSearchParams() {
-    return new URLSearchParams()
+    return new URLSearchParams();
   },
   usePathname() {
-    return '/'
+    return '/';
   },
-}))
+}));
 
 // Mock IntersectionObserver for components that use it
 global.IntersectionObserver = class IntersectionObserver {
@@ -60,7 +60,7 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock ResizeObserver for components that use it
 global.ResizeObserver = class ResizeObserver {
@@ -68,7 +68,7 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock matchMedia for responsive design tests
 Object.defineProperty(window, 'matchMedia', {
@@ -83,11 +83,11 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
-})
+});
 
 // Suppress console warnings in tests unless explicitly needed
-const originalWarn = console.warn
-const originalError = console.error
+const originalWarn = console.warn;
+const originalError = console.error;
 
 beforeAll(() => {
   console.warn = (...args) => {
@@ -95,31 +95,34 @@ beforeAll(() => {
       typeof args[0] === 'string' &&
       args[0].includes('ReactDOM.render is no longer supported')
     ) {
-      return
+      return;
     }
-    originalWarn.call(console, ...args)
-  }
+    originalWarn.call(console, ...args);
+  };
 
   console.error = (...args) => {
     if (
       typeof args[0] === 'string' &&
       args[0].includes('Warning: ReactDOM.render is no longer supported')
     ) {
-      return
+      return;
     }
-    originalError.call(console, ...args)
-  }
-})
+    originalError.call(console, ...args);
+  };
+});
 
 // Mock next-mdx-remote for MDX content rendering
 jest.mock('next-mdx-remote/rsc', () => ({
   MDXRemote: ({ source, components }) => {
-    return React.createElement('div', { 'data-testid': 'mdx-content' }, 
-      typeof source === 'string' ? source : 'Mocked MDX Content')
+    return React.createElement(
+      'div',
+      { 'data-testid': 'mdx-content' },
+      typeof source === 'string' ? source : 'Mocked MDX Content'
+    );
   },
-}))
+}));
 
 afterAll(() => {
-  console.warn = originalWarn
-  console.error = originalError
-})
+  console.warn = originalWarn;
+  console.error = originalError;
+});

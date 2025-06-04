@@ -7,95 +7,95 @@
 // Basic blog post interface with all necessary fields
 export interface BlogPost {
   /** Unique identifier for the blog post (usually the filename without extension) */
-  slug: string
-  
+  slug: string;
+
   /** The title of the blog post */
-  title: string
-  
+  title: string;
+
   /** Publication date in ISO string format (YYYY-MM-DD) */
-  date: string
-  
+  date: string;
+
   /** Brief summary/description of the post */
-  summary: string
-  
+  summary: string;
+
   /** Array of tags associated with the post */
-  tags: string[]
-  
+  tags: string[];
+
   /** The full MDX/Markdown content of the post */
-  content: string
-  
+  content: string;
+
   /** Optional author name */
-  author?: string
-  
+  author?: string;
+
   /** Optional featured image URL */
-  image?: string
-  
+  image?: string;
+
   /** Whether the post is published (default: true) */
-  published?: boolean
+  published?: boolean;
 }
 
 // Type for blog listing/preview (without full content)
 export interface BlogPostPreview {
   /** Unique identifier for the blog post */
-  slug: string
-  
+  slug: string;
+
   /** The title of the blog post */
-  title: string
-  
+  title: string;
+
   /** Publication date in ISO string format */
-  date: string
-  
+  date: string;
+
   /** Brief summary/description of the post */
-  summary: string
-  
+  summary: string;
+
   /** Array of tags associated with the post */
-  tags: string[]
-  
+  tags: string[];
+
   /** Optional author name */
-  author?: string
-  
+  author?: string;
+
   /** Optional featured image URL */
-  image?: string
+  image?: string;
 }
 
 // Type for pagination metadata
 export interface PaginationInfo {
   /** Current page number (1-based) */
-  currentPage: number
-  
+  currentPage: number;
+
   /** Total number of pages */
-  totalPages: number
-  
+  totalPages: number;
+
   /** Total number of posts */
-  totalPosts: number
-  
+  totalPosts: number;
+
   /** Number of posts per page */
-  postsPerPage: number
-  
+  postsPerPage: number;
+
   /** Whether there's a previous page */
-  hasPrevious: boolean
-  
+  hasPrevious: boolean;
+
   /** Whether there's a next page */
-  hasNext: boolean
+  hasNext: boolean;
 }
 
 // Type for paginated blog posts response
 export interface PaginatedPosts {
   /** Array of blog post previews */
-  posts: BlogPostPreview[]
-  
+  posts: BlogPostPreview[];
+
   /** Pagination metadata */
-  pagination: PaginationInfo
+  pagination: PaginationInfo;
 }
 
 // Type for tag information
 export interface TagInfo {
   /** Tag name */
-  name: string
-  
+  name: string;
+
   /** Number of posts with this tag */
-  count: number
-  
+  count: number;
+
   /** URL-friendly slug for the tag */
-  slug: string
+  slug: string;
 }
