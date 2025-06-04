@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+cd static-web-app && npx --no -- commitlint --edit $1
