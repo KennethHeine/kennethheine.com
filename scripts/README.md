@@ -1,11 +1,15 @@
 # Azure Static Web App Deployment Scripts
 
-This folder contains scripts to set up Azure resources and GitHub OIDC authentication for deploying your static web app to Azure.
+This folder contains scripts to set up Azure resources, GitHub OIDC authentication, and local development environment for deploying your static web app to Azure.
 
 ## 🎯 Overview
 
-The deployment process is split into 3 main steps:
+The setup process includes:
 
+### Development Environment Setup
+1. **Local Development Setup** - Automated environment configuration for new developers
+
+### Azure Deployment Process
 1. **Create Resource Group** - Sets up the Azure resource group
 2. **Create App Registration** - Sets up Azure AD app registration with federated credentials for GitHub OIDC
 3. **Setup GitHub Secrets** - Adds required secrets to your GitHub repository
@@ -22,6 +26,25 @@ The deployment process is split into 3 main steps:
 
 ## 🚀 Quick Start
 
+### New Developer Setup
+
+If you're setting up the development environment for the first time:
+
+```powershell
+# Clone the repository
+git clone https://github.com/KennethHeine/kennethheine.com.git
+cd kennethheine.com
+
+# Run automated development environment setup
+.\scripts\setup-dev-environment.ps1
+```
+
+See [docs/local-development.md](../docs/local-development.md) for detailed setup instructions and troubleshooting.
+
+### Azure Deployment Setup
+
+For setting up Azure infrastructure and CI/CD (typically done once per project):
+
 ### PowerShell Execution
 ```powershell
 # Step 1: Create Resource Group
@@ -36,6 +59,9 @@ The deployment process is split into 3 main steps:
 
 ## 📂 Available Scripts
 
+### Development Environment Scripts (.ps1)
+- `setup-dev-environment.ps1` - Automated local development environment setup
+
 ### Azure Deployment Scripts (.ps1)
 - `0-enable-resource-providers-cli.ps1` - Enables required Azure resource providers
 - `1-create-resource-group.ps1` - Creates Azure resource group
@@ -49,6 +75,21 @@ The deployment process is split into 3 main steps:
 ## 🔧 Customization
 
 All scripts accept parameters for customization:
+
+### Development Environment Setup
+```powershell
+# Full automated setup
+.\setup-dev-environment.ps1
+
+# Preview mode (see what would be installed)
+.\setup-dev-environment.ps1 -WhatIf
+
+# Skip VS Code installation
+.\setup-dev-environment.ps1 -SkipVSCode
+
+# Skip project dependency installation
+.\setup-dev-environment.ps1 -SkipProjectDeps
+```
 
 ### Script 1: Create Resource Group
 ```powershell
