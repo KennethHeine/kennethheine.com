@@ -36,10 +36,15 @@ The deployment process is split into 3 main steps:
 
 ## 📂 Available Scripts
 
-### PowerShell Scripts (.ps1)
+### Azure Deployment Scripts (.ps1)
+- `0-enable-resource-providers-cli.ps1` - Enables required Azure resource providers
 - `1-create-resource-group.ps1` - Creates Azure resource group
 - `2-create-app-registration.ps1` - Creates app registration and sets up RBAC
 - `3-setup-github-secrets.ps1` - Adds secrets to GitHub repository
+- `4-fix-custom-domain-permissions.ps1` - Fixes custom domain configuration
+
+### GitHub Configuration Scripts (.ps1)
+- `setup-branch-protection.ps1` - Configures GitHub branch protection rules
 
 ## 🔧 Customization
 
@@ -58,6 +63,11 @@ All scripts accept parameters for customization:
 ### Script 3: Setup GitHub Secrets
 ```powershell
 .\3-setup-github-secrets.ps1 -GitHubOrg "myorg" -GitHubRepo "myrepo"
+```
+
+### GitHub Configuration Script
+```powershell
+.\setup-branch-protection.ps1 -Owner "myorg" -Repository "myrepo" -RequiredReviews 2
 ```
 
 ## 🔑 What Gets Created
