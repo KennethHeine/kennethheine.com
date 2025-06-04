@@ -124,22 +124,22 @@ describe('RootLayout', () => {
     try {
       // Test the actual RootLayout function call
       const result = RootLayout({ children: mockChildren });
-      
+
       // Verify the result is a valid React element
       expect(result).toBeDefined();
       expect(result.type).toBe('html');
       expect(result.props.lang).toBe('en');
       expect(result.props.suppressHydrationWarning).toBe(true);
-      
+
       // Check that the result contains the expected structure
       expect(result.props.children).toBeDefined();
       expect(result.props.children.type).toBe('body');
-      
+
       // Verify body props
       const bodyElement = result.props.children;
       expect(bodyElement.props.className).toContain('font-sans antialiased');
       expect(bodyElement.props.suppressHydrationWarning).toBe(true);
-      
+
       // Verify the nested structure (ThemeProvider > Layout > children)
       const bodyChildren = bodyElement.props.children;
       expect(bodyChildren).toBeDefined();
@@ -189,7 +189,7 @@ describe('RootLayout', () => {
     expect(resultNull).toBeDefined();
     expect(resultNull.type).toBe('html');
 
-    // Test with undefined children  
+    // Test with undefined children
     const resultUndefined = RootLayout({ children: undefined });
     expect(resultUndefined).toBeDefined();
     expect(resultUndefined.type).toBe('html');
