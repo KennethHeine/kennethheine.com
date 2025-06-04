@@ -41,6 +41,7 @@
 4. **Create GitHub issue using the temp file**
    ```powershell
    gh issue create --title "Issue Title" --body-file "temp-issue.md" --label "enhancement,phase-0,foundation" --assignee "@me"
+   gh issue list --limit 3 --search "Issue Title"
    ```
 
 5. **Validate that the issue was created with body content**
