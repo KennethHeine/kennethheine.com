@@ -12,6 +12,9 @@ Welcome to the contributing guide for Kenneth Heine's personal website! This doc
 - [Commit Standards](#commit-standards)
 - [Pull Request Process](#pull-request-process)
 - [Deployment Guidelines](#deployment-guidelines)
+- [Architecture Decision Records](#architecture-decision-records)
+- [Additional Resources](#additional-resources)
+- [Getting Help](#getting-help)
 
 ## 🚀 Getting Started
 
@@ -415,9 +418,49 @@ npm run check        # Validate changes
 - **Preview:** Unique URLs for each PR
 - **Local:** Development server only
 
+## 📐 Architecture Decision Records
+
+### Overview
+
+Architecture Decision Records (ADRs) document significant architectural decisions for transparency and knowledge sharing. All major technical decisions should be documented as ADRs.
+
+### When to Create an ADR
+
+Create an ADR for decisions about:
+
+- **Technology Choices:** Frameworks, libraries, platforms, tools
+- **Architecture Patterns:** Design patterns, data flow, component structure
+- **Infrastructure:** Hosting, deployment, CI/CD, monitoring
+- **Development Process:** Workflows, standards, conventions
+- **Security & Compliance:** Authentication, authorization, data handling
+
+### ADR Process
+
+1. **Identify Decision:** Recognize when an architectural decision needs documentation
+2. **Research Options:** Investigate alternatives and gather context
+3. **Create ADR:** Use the [ADR template](./docs/architecture/adr-template.md)
+4. **Review & Discuss:** Get team feedback on the proposed decision
+5. **Finalize:** Mark as "Accepted" and implement the decision
+6. **Update Index:** Add to the [ADR README](./docs/architecture/README.md)
+
+### ADR Guidelines
+
+- **Be Concise:** Keep ADRs focused and readable
+- **Include Context:** Explain the situation that requires a decision
+- **Document Alternatives:** Show what options were considered and why they were rejected
+- **Note Consequences:** List positive, negative, and neutral outcomes
+- **Use Template:** Follow the established [ADR template](./docs/architecture/adr-template.md)
+- **Update Status:** Keep ADR status current (Proposed, Accepted, Deprecated, Superseded)
+
+### Existing ADRs
+
+See [Architecture Decision Records](./docs/architecture/README.md) for the complete list of current ADRs and process documentation.
+
 ## 📚 Additional Resources
 
+- [Architecture Decision Records](./docs/architecture/README.md)
 - [Detailed Coding Standards](./docs/coding-standards.md)
+- [Documentation Standards](./docs/documentation-standards.md)
 - [Next.js 14 Documentation](https://nextjs.org/docs)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
