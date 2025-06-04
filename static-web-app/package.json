@@ -23,7 +23,8 @@
     "swa:init": "npx swa init --yes",
     "swa:build": "npx swa build",
     "swa:start": "npx swa start out --port 3000",
-    "swa:deploy": "npx swa deploy --env production"
+    "swa:deploy": "npx swa deploy --env production",
+    "prepare": "cd .. && git config core.hooksPath .husky || true"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.10",
@@ -41,6 +42,8 @@
   },
   "devDependencies": {
     "@azure/static-web-apps-cli": "^2.0.6",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/react": "^15.0.0",
     "@types/jest": "^29.5.14",
@@ -54,6 +57,7 @@
     "eslint-config-next": "^14.2.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.38",
