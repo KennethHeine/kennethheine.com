@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+  "extends": ["@microsoft/tsdoc/tsdoc.json"],
+  "tagDefinitions": [
+    {
+      "tagName": "@component",
+      "syntaxKind": "modifier",
+      "allowMultiple": false,
+      "description": "Identifies a React component"
+    },
+    {
+      "tagName": "@hook",
+      "syntaxKind": "modifier",
+      "allowMultiple": false,
+      "description": "Identifies a React hook"
+    },
+    {
+      "tagName": "@utility",
+      "syntaxKind": "modifier",
+      "allowMultiple": false,
+      "description": "Identifies a utility function"
+    }
+  ],
+  "supportedHtmlElements": [
+    "a",
+    "b",
+    "code",
+    "em",
+    "i",
+    "li",
+    "ol",
+    "p",
+    "pre",
+    "strong",
+    "ul"
+  ],
+  "reportUnsupportedHtmlElements": true,
+  "noStandardTags": false,
+  "allowUnrecognizedTags": false
+}
