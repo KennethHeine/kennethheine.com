@@ -13,6 +13,7 @@ This directory contains all project documentation, improvement plans, and progre
 
 - [Master Progress Tracker](./progress-tracking/master-progress.md)
 - [Current Sprint](./progress-tracking/current-sprint.md)
+- [Architecture Decision Records](./architecture/README.md)
 - [Phase 0: Foundation](./improvement-plan/phase-0-foundation.md)
 - [Phase 1: Testing](./improvement-plan/phase-1-testing.md)
 - [Phase 2: Frontend](./improvement-plan/phase-2-frontend.md)
