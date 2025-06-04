@@ -29,6 +29,27 @@ const eslintConfig = [
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
 
+      // Documentation rules
+      'valid-jsdoc': ['warn', {
+        requireReturn: false,
+        requireReturnDescription: false,
+        requireParamDescription: true,
+        prefer: {
+          return: 'returns',
+          arg: 'param',
+          argument: 'param'
+        }
+      }],
+      'require-jsdoc': ['warn', {
+        require: {
+          FunctionDeclaration: true,
+          MethodDefinition: false,
+          ClassDeclaration: true,
+          ArrowFunctionExpression: false,
+          FunctionExpression: false
+        }
+      }],
+
       // General JavaScript/ES6+ rules
       'prefer-const': 'error',
       'no-var': 'error',

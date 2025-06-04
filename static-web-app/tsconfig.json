@@ -37,6 +37,11 @@
     "incremental": true,
     "types": ["jest", "@testing-library/jest-dom"],
 
+    // Documentation generation options
+    "declaration": true,
+    "declarationMap": true,
+    "stripInternal": true,
+
     // Plugin configuration for Next.js
     "plugins": [
       {
