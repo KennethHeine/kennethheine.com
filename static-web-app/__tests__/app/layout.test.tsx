@@ -114,6 +114,91 @@ describe('RootLayout', () => {
     expect(RootLayout).toBeDefined();
     expect(typeof RootLayout).toBe('function');
   });
+
+  // Test the actual RootLayout function to achieve function coverage
+  it('renders RootLayout component with proper structure', () => {
+    // Create a container div to simulate a proper DOM environment
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    try {
+      // Test the actual RootLayout function call
+      const result = RootLayout({ children: mockChildren });
+      
+      // Verify the result is a valid React element
+      expect(result).toBeDefined();
+      expect(result.type).toBe('html');
+      expect(result.props.lang).toBe('en');
+      expect(result.props.suppressHydrationWarning).toBe(true);
+      
+      // Check that the result contains the expected structure
+      expect(result.props.children).toBeDefined();
+      expect(result.props.children.type).toBe('body');
+      
+      // Verify body props
+      const bodyElement = result.props.children;
+      expect(bodyElement.props.className).toContain('font-sans antialiased');
+      expect(bodyElement.props.suppressHydrationWarning).toBe(true);
+      
+      // Verify the nested structure (ThemeProvider > Layout > children)
+      const bodyChildren = bodyElement.props.children;
+      expect(bodyChildren).toBeDefined();
+    } finally {
+      // Clean up
+      document.body.removeChild(container);
+    }
+  });
+
+  // Test RootLayout with different children to ensure function flexibility
+  it('handles different children types in RootLayout', () => {
+    const stringChild = 'Simple string child';
+    const elementChild = <div>Element child</div>;
+    const fragmentChild = (
+      <>
+        <span>Fragment</span>
+        <span>Content</span>
+      </>
+    );
+
+    // Test with string children
+    const result1 = RootLayout({ children: stringChild });
+    expect(result1).toBeDefined();
+    expect(result1.type).toBe('html');
+
+    // Test with element children
+    const result2 = RootLayout({ children: elementChild });
+    expect(result2).toBeDefined();
+    expect(result2.type).toBe('html');
+
+    // Test with fragment children
+    const result3 = RootLayout({ children: fragmentChild });
+    expect(result3).toBeDefined();
+    expect(result3.type).toBe('html');
+
+    // All should have the same basic structure
+    [result1, result2, result3].forEach(result => {
+      expect(result.props.lang).toBe('en');
+      expect(result.props.children.type).toBe('body');
+    });
+  });
+
+  // Test RootLayout error handling
+  it('handles edge cases in RootLayout gracefully', () => {
+    // Test with null children
+    const resultNull = RootLayout({ children: null });
+    expect(resultNull).toBeDefined();
+    expect(resultNull.type).toBe('html');
+
+    // Test with undefined children  
+    const resultUndefined = RootLayout({ children: undefined });
+    expect(resultUndefined).toBeDefined();
+    expect(resultUndefined.type).toBe('html');
+
+    // Test with empty array children
+    const resultArray = RootLayout({ children: [] });
+    expect(resultArray).toBeDefined();
+    expect(resultArray.type).toBe('html');
+  });
 });
 
 describe('metadata configuration', () => {
