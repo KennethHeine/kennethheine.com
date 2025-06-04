@@ -1,0 +1,61 @@
+{
+  "recommendations": [
+    // Essential Development
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+
+    // React/Next.js Development
+    "dsznajder.es7-react-js-snippets",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "zignd.html-css-class-completion",
+
+    // Testing
+    "orta.vscode-jest",
+    "ms-playwright.playwright",
+    "hbenl.vscode-test-explorer",
+
+    // Azure & Infrastructure
+    "ms-azuretools.vscode-bicep",
+    "ms-azuretools.vscode-azureresourcegroups",
+    "ms-azuretools.vscode-azurestaticwebapps",
+    "ms-vscode.azure-account",
+
+    // Git & GitHub
+    "github.vscode-pull-request-github",
+    "github.copilot",
+    "github.copilot-chat",
+    "eamodio.gitlens",
+
+    // Markdown & Documentation
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "unifiedjs.vscode-mdx",
+
+    // PowerShell (for scripts)
+    "ms-vscode.powershell",
+
+    // Code Quality & Analysis
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "gruntfuggly.todo-tree",
+    "aaron-bond.better-comments",
+
+    // UI/UX Enhancements
+    "pkief.material-icon-theme",
+    "github.github-vscode-theme",
+    "ms-vscode.vscode-json",
+
+    // Additional Productivity
+    "formulahendry.auto-close-tag",
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.hexeditor"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript",
+    "hookyqr.beautify"
+  ]
+}
