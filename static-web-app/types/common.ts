@@ -5,6 +5,9 @@
  */
 
 // Navigation link interface
+/**
+ * @deprecated Use NavLink from '@/types/navigation' instead
+ */
 export interface NavLink {
   /** Display text for the link */
   label: string;
@@ -23,6 +26,9 @@ export interface NavLink {
 }
 
 // Social media link interface
+/**
+ * @deprecated Use SocialLink from '@/types/navigation' instead
+ */
 export interface SocialLink {
   /** Platform name (e.g., 'twitter', 'linkedin', 'github') */
   platform: string;
@@ -177,6 +183,9 @@ export interface APIResponse<T = unknown> {
 }
 
 // Theme preference type
+/**
+ * @deprecated Use Theme from '@/types/theme' instead  
+ */
 export type Theme = 'light' | 'dark' | 'system';
 
 // Loading state type

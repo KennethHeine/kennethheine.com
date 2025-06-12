@@ -3,7 +3,7 @@ import {
   getPostBySlug,
   getPostsByTag,
   getAllTags,
-} from '@/lib/blog-new';
+} from '@/lib/blog';
 import fs from 'fs';
 import path from 'path';
 

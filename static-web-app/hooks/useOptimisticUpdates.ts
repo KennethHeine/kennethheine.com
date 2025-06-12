@@ -6,28 +6,14 @@
 'use client';
 
 import { useCallback, useState, useTransition } from 'react';
-
-interface UseOptimisticUpdatesOptions<T> {
-  /** Reducer function for optimistic updates */
-  reducer?: (state: T, optimisticValue: Partial<T>) => T;
-  /** Validation function for optimistic updates */
-  validator?: (value: Partial<T>) => boolean;
-  /** Rollback delay in milliseconds */
-  rollbackDelay?: number;
-}
-
-interface UseOptimisticUpdatesReturn<T> {
-  /** Optimistic state */
-  optimisticState: T;
-  /** Add optimistic update */
-  addOptimistic: (update: Partial<T>) => void;
-  /** Whether update is pending */
-  isPending: boolean;
-  /** Start transition */
-  startTransition: (action: () => void | Promise<void>) => void;
-  /** Reset to original state */
-  resetOptimistic: () => void;
-}
+import type {
+  OptimisticUpdateOptions,
+  UseOptimisticReturn,
+  OptimisticListItem,
+  UseOptimisticListReturn,
+  FormFieldErrors,
+  UseOptimisticFormReturn,
+} from '@/types/react-19';
 
 /**
  * Enhanced optimistic updates hook using React 19 patterns
@@ -65,8 +51,8 @@ interface UseOptimisticUpdatesReturn<T> {
  */
 export function useOptimisticUpdates<T>(
   initialState: T,
-  options: UseOptimisticUpdatesOptions<T> = {}
-): UseOptimisticUpdatesReturn<T> {
+  options: OptimisticUpdateOptions<T> = {}
+): UseOptimisticReturn<T> {
   const {
     reducer = (state: T, optimisticValue: Partial<T>) => ({
       ...state,
@@ -117,16 +103,9 @@ export function useOptimisticUpdates<T>(
  * 
  * Provides common list operations with optimistic updates.
  */
-export function useOptimisticList<T extends { id: string | number }>(
+export function useOptimisticList<T extends OptimisticListItem>(
   initialItems: T[]
-): {
-  items: T[];
-  addItem: (item: T) => void;
-  updateItem: (id: string | number, updates: Partial<T>) => void;
-  removeItem: (id: string | number) => void;
-  isPending: boolean;
-  startTransition: (action: () => void | Promise<void>) => void;
-} {
+): UseOptimisticListReturn<T> {
   const [isPending, startTransition] = useTransition();
   const [optimisticItems, setOptimisticItems] = useState<T[]>(initialItems);
 
@@ -173,17 +152,10 @@ export function useOptimisticList<T extends { id: string | number }>(
 export function useOptimisticForm<T extends Record<string, any>>(
   initialData: T,
   submitFn: (data: T) => Promise<void>
-): {
-  data: T;
-  updateField: (field: keyof T, value: any) => void;
-  submit: () => Promise<void>;
-  isSubmitting: boolean;
-  errors: Record<keyof T, string>;
-  reset: () => void;
-} {
+): UseOptimisticFormReturn<T> {
   const [isPending, startTransition] = useTransition();
   const [optimisticData, setOptimisticData] = useState<T>(initialData);
-  const [errors, setErrors] = useState<Record<keyof T, string>>({} as Record<keyof T, string>);
+  const [errors, setErrors] = useState<FormFieldErrors<T>>({} as FormFieldErrors<T>);
 
   const updateField = useCallback(
     (field: keyof T, value: any) => {
@@ -212,7 +184,7 @@ export function useOptimisticForm<T extends Record<string, any>>(
           } catch (error) {
             setErrors({
               _form: error instanceof Error ? error.message : 'Submission failed',
-            } as Record<keyof T, string>);
+            } as FormFieldErrors<T>);
             reject(error);
           }
         });
@@ -224,7 +196,7 @@ export function useOptimisticForm<T extends Record<string, any>>(
 
   const reset = useCallback(() => {
     setOptimisticData(initialData);
-    setErrors({} as Record<keyof T, string>);
+    setErrors({} as FormFieldErrors<T>);
   }, [initialData]);
 
   return {

@@ -15,41 +15,60 @@ export function getPostSlugs(): string[] {
 
   const allFiles = fs.readdirSync(postsDirectory);
   return allFiles
-    .filter(fileName => fileName.endsWith('.mdx'))
-    .map(fileName => fileName.replace(/\.mdx$/, ''));
+    .filter(fileName => fileName.endsWith('.mdx') || fileName.endsWith('.md'))
+    .map(fileName => fileName.replace(/\.(mdx|md)$/, ''));
 }
 
 /**
  * Get a single post by slug
  */
-export function getPostBySlug(slug: string): BlogPost {
-  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data, content } = matter(fileContents);
+export function getPostBySlug(slug: string): BlogPost | null {
+  try {
+    // Try .mdx first
+    let fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    let fileContents: string;
+    
+    try {
+      fileContents = fs.readFileSync(fullPath, 'utf8');
+    } catch {
+      // If .mdx fails, try .md
+      fullPath = path.join(postsDirectory, `${slug}.md`);
+      fileContents = fs.readFileSync(fullPath, 'utf8');
+    }
 
-  const frontmatter = data as BlogPostFrontmatter;
+    const { data, content } = matter(fileContents);
+    const frontmatter = data as BlogPostFrontmatter;
 
-  return {
-    slug,
-    title: frontmatter.title || '',
-    date: frontmatter.date || '',
-    excerpt: frontmatter.excerpt || '',
-    tags: frontmatter.tags || [],
-    published: frontmatter.published !== false, // Default to true if not specified
-    content,
-    author: frontmatter.author,
-    coverImage: frontmatter.coverImage,
-  };
+    return {
+      slug,
+      title: frontmatter.title || 'Untitled',
+      date: frontmatter.date || new Date().toISOString().split('T')[0],
+      excerpt: frontmatter.excerpt || frontmatter.summary || '',
+      tags: frontmatter.tags || [],
+      published: frontmatter.published !== false, // Default to true if not specified
+      content,
+      author: frontmatter.author,
+      coverImage: frontmatter.coverImage,
+    };
+  } catch (error) {
+    console.error(`Error reading post ${slug}:`, error);
+    return null;
+  }
 }
 
 /**
  * Get all published posts, sorted by date (newest first)
  */
 export function getAllPosts(): BlogPost[] {
+  if (!fs.existsSync(postsDirectory)) {
+    console.warn('Posts directory not found, returning empty array');
+    return [];
+  }
+
   const slugs = getPostSlugs();
   const posts = slugs
     .map(slug => getPostBySlug(slug))
-    .filter(post => post.published)
+    .filter((post): post is BlogPost => post !== null && post.published)
     .sort((a, b) => (a.date > b.date ? -1 : 1));
 
   return posts;
@@ -71,5 +90,5 @@ export function getPostsByTag(tag: string): BlogPost[] {
 export function getAllTags(): string[] {
   const allPosts = getAllPosts();
   const allTags = allPosts.flatMap(post => post.tags);
-  return Array.from(new Set(allTags));
+  return Array.from(new Set(allTags)).sort();
 }
