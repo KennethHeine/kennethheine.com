@@ -5,7 +5,7 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 ## 📋 Project Overview
 
 **Project Type:** Azure Static Web App with Infrastructure as Code and Next.js Frontend  
-**Tech Stack:** Bicep, GitHub Actions, Next.js 14, TypeScript, Tailwind CSS, PowerShell, MDX  
+**Tech Stack:** Bicep, GitHub Actions, Next.js 15, TypeScript, Tailwind CSS, PowerShell, MDX  
 **Deployment:** Azure Static Web Apps with federated identity authentication and preview deployments  
 **Testing:** Jest + React Testing Library with comprehensive coverage  
 **Content:** MDX-based blog system with gray-matter frontmatter processing  
@@ -20,7 +20,7 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
   - `modules/` - Reusable Bicep modules for Static Web Apps
   - `parameters/` - Environment-specific parameters
   - `bicepconfig.json` - Bicep analyzer configuration
-- **`static-web-app/`** - Next.js 14 application with TypeScript and Tailwind CSS
+- **`static-web-app/`** - Next.js 15 application with TypeScript and Tailwind CSS
   - `app/` - Next.js App Router pages and layouts
   - `components/` - Reusable React components
   - `content/` - MDX blog posts and content
@@ -37,9 +37,10 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 ### Key Technologies
 - **Azure Static Web Apps** - Primary hosting platform with custom domain support (deployed)
 - **Bicep** - Infrastructure as Code language with analyzer rules enabled
-- **Next.js 14** - React framework with App Router, static export, and TypeScript
+- **Next.js 15 (15.x.x, Node.js 22 LTS)** - React framework with App Router, static export, and TypeScript
 - **TypeScript** - Type-safe JavaScript with strict configuration and comprehensive types
-- **Tailwind CSS** - Utility-first CSS framework with custom design system
+- **Tailwind CSS v4** - Modern utility-first CSS framework with CSS variable-based theming
+- **PostCSS** - CSS processing with Tailwind CSS v4 PostCSS plugin
 - **GitHub Actions** - CI/CD automation with dual pipelines and OIDC authentication
 - **OIDC/Federated Identity** - Secure authentication without secrets storage
 - **PowerShell** - Azure configuration automation and setup scripts
@@ -59,6 +60,7 @@ kennethheine.com/
 │       └── production.bicepparam
 ├── static-web-app/                # Next.js application
 │   ├── app/                       # Next.js App Router
+│   │   ├── globals.css           # Global styles with Tailwind v4 config
 │   │   ├── layout.tsx            # Root layout with theme provider
 │   │   ├── page.tsx              # Home page
 │   │   ├── about/page.tsx        # About page
@@ -77,6 +79,7 @@ kennethheine.com/
 │   ├── types/                    # TypeScript definitions
 │   ├── __tests__/                # Jest test suites
 │   ├── staticwebapp.config.json  # Azure SWA configuration
+│   ├── postcss.config.js         # PostCSS config with Tailwind v4 plugin
 │   ├── next.config.mjs           # Next.js configuration
 │   └── package.json              # Dependencies and scripts
 ├── .github/workflows/            # CI/CD pipelines
@@ -124,12 +127,18 @@ kennethheine.com/
 - Support both interactive and automated execution modes
 
 ### Frontend Development
-- **Next.js 14**: Use App Router, TypeScript, and static export configuration
+- **Next.js 15**: Use App Router, TypeScript, and static export configuration (Node.js 22 LTS)
 - **Component Structure**: Follow the established patterns in `components/` directory
-- **Styling**: Use Tailwind CSS with the configured design system
+- **Styling**: Use Tailwind CSS v4 with CSS variable-based theming and `@utility` syntax
+- **CSS Configuration**: Theme configuration in CSS using `@theme` directive in `app/globals.css`, not JavaScript config files
+- **PostCSS**: Use `@tailwindcss/postcss` plugin for v4 compatibility (no autoprefixer needed)
+- **Custom Utilities**: Define using `@utility` directive instead of `@layer utilities`
+- **Browser Support**: Target Safari 16.4+, Chrome 111+, Firefox 128+ (Tailwind v4 requirements)
+- **CSS Import**: Use `@import 'tailwindcss'` instead of `@tailwind` directives
+- **Theming**: CSS variable-based theming with light/dark mode support via custom variants
 - **Testing**: Maintain Jest + React Testing Library test coverage
 - **Blog System**: Use MDX files in `content/` directory with gray-matter processing
-- **Theme Support**: Implement dark/light theme switching with persistence
+- **Theme Support**: Implement dark/light theme switching with persistence using CSS variables
 - **Accessibility**: Follow WCAG guidelines and semantic HTML
 - **Performance**: Optimize for Core Web Vitals and static generation
 - **Static Export**: Configure for Azure Static Web Apps deployment
@@ -186,6 +195,10 @@ ALL deployments must go through GitHub Actions:
 - ✅ **Frontend**: Next.js application deployed with preview environments working
 - ✅ **Pipelines**: Both infrastructure and frontend GitHub Actions workflows operational
 - ✅ **Preview URLs**: Working correctly for pull requests  
+- ✅ **Tailwind CSS v4**: Successfully upgraded from v3 to v4 with CSS variable-based theming, PostCSS plugin integration, and modern browser compatibility
+- ✅ **Dependencies**: Updated to latest compatible versions (Node.js 22 LTS)
+- ✅ **CSS Configuration**: Migrated from JavaScript config to CSS-based theming in `app/globals.css` with @theme directive
+- ✅ **Custom Utilities**: Converted from @layer to @utility syntax for better v4 compatibility
 - 🔄 **Custom Domain**: In progress (DNS validation phase)
 - **CI/CD only**: All production changes must go through the pipeline
 
