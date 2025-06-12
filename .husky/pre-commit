@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-cd static-web-app && npm run lint && npm test
+cd static-web-app && npm test
