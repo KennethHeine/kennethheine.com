@@ -51,7 +51,8 @@ const config: Config = {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         serif: ['Georgia', 'serif'],
-        mono: ['Fira Code', 'monospace'],
+        mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', 'monospace'],
+        inter: ['Inter', 'system-ui', 'sans-serif'],
       },
 
       // Fluid typography scale

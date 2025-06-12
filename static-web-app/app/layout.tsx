@@ -1,22 +1,8 @@
 // --- file: app/layout.tsx ---
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Layout } from '@/components/Layout';
 import { ThemeProvider } from '@/components/ThemeProvider';
-
-// Configure Google Fonts
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 // SEO metadata for the entire site
 export const metadata: Metadata = {
@@ -102,10 +88,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
-        suppressHydrationWarning
-      >
+      <head>
+        {/* Load Google Fonts via CSS link to avoid build-time fetching issues */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="font-inter antialiased" suppressHydrationWarning>
         <ThemeProvider>
           <Layout>{children}</Layout>
         </ThemeProvider>

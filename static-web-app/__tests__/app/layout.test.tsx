@@ -131,13 +131,21 @@ describe('RootLayout', () => {
       expect(result.props.lang).toBe('en');
       expect(result.props.suppressHydrationWarning).toBe(true);
 
-      // Check that the result contains the expected structure
+      // Check that the result contains the expected structure (head and body)
       expect(result.props.children).toBeDefined();
-      expect(result.props.children.type).toBe('body');
+      
+      // The children should be an array with head and body elements
+      const children = Array.isArray(result.props.children) ? result.props.children : [result.props.children];
+      
+      // Find the head and body elements
+      const headElement = children.find(child => child?.type === 'head');
+      const bodyElement = children.find(child => child?.type === 'body');
+      
+      expect(headElement).toBeDefined();
+      expect(bodyElement).toBeDefined();
 
       // Verify body props
-      const bodyElement = result.props.children;
-      expect(bodyElement.props.className).toContain('font-sans antialiased');
+      expect(bodyElement.props.className).toContain('font-inter antialiased');
       expect(bodyElement.props.suppressHydrationWarning).toBe(true);
 
       // Verify the nested structure (ThemeProvider > Layout > children)
@@ -178,7 +186,14 @@ describe('RootLayout', () => {
     // All should have the same basic structure
     [result1, result2, result3].forEach(result => {
       expect(result.props.lang).toBe('en');
-      expect(result.props.children.type).toBe('body');
+      
+      // The children should include both head and body
+      const children = Array.isArray(result.props.children) ? result.props.children : [result.props.children];
+      const headElement = children.find(child => child?.type === 'head');
+      const bodyElement = children.find(child => child?.type === 'body');
+      
+      expect(headElement).toBeDefined();
+      expect(bodyElement).toBeDefined();
     });
   });
 
