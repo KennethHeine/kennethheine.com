@@ -1,9 +1,9 @@
 // --- file: app/about/page.tsx ---
+import Container from '@/components/layout/Container';
+import SkillBadge from '@/components/ui/SkillBadge';
+import { TimelineItem } from '@/components/ui/TimelineItem';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Container from '@/components/Container';
-import SkillBadge from '@/components/SkillBadge';
-import { TimelineItem } from '@/components/TimelineItem';
 
 // SEO metadata for the about page
 export const metadata: Metadata = {

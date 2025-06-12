@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ContactPage from '../../app/contact/page';
-import { ThemeProvider } from '../../components/ThemeProvider';
+import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
 const PageWithProvider = () => (
   <ThemeProvider>

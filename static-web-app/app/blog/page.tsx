@@ -1,10 +1,10 @@
 // --- file: app/blog/page.tsx ---
-import { Metadata } from 'next';
-import Link from 'next/link';
+import Container from '@/components/layout/Container';
 import { getAllPosts } from '@/lib/blog';
-import Container from '@/components/Container';
 import { formatDate } from '@/lib/utils';
 import type { BlogPost } from '@/types/blog';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
 // SEO metadata for the blog page
 export const metadata: Metadata = {

@@ -1,12 +1,12 @@
 // --- file: components/Layout.tsx ---
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { MobileMenu } from '../navigation/MobileMenu';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import Container from './Container';
-import { ThemeToggle } from './ThemeToggle';
-import { MobileMenu } from './MobileMenu';
 
 /**
  * Main layout component that wraps all pages
