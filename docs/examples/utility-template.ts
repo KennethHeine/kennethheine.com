@@ -1,6 +1,6 @@
 /**
  * @fileoverview Example utility functions with comprehensive documentation
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  */
 
 /**
