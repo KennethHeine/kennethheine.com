@@ -8,7 +8,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches: [main]
-    paths: ['static-web-app/**', '!static-web-app/README.md']
+    paths: ['static-web-app/**', '!static-web-app/README.md', '.github/workflows/deploy-frontend.yml']
 
 permissions:
   id-token: write
