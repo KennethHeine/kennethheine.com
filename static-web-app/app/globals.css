@@ -2,13 +2,243 @@
 /* Global styles and Tailwind CSS imports */
 
 /* Import Tailwind CSS base, components, and utilities */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 /* Import Inter font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')
+layer(utilities);
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap')
+layer(utilities);
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-brand-50: #f0f9ff;
+  --color-brand-100: #e0f2fe;
+  --color-brand-200: #bae6fd;
+  --color-brand-300: #7dd3fc;
+  --color-brand-400: #38bdf8;
+  --color-brand-500: #0ea5e9;
+  --color-brand-600: #0284c7;
+  --color-brand-700: #0369a1;
+  --color-brand-800: #075985;
+  --color-brand-900: #0c4a6e;
+  --color-brand-950: #082f49;
+
+  --color-success-50: #f0fdf4;
+  --color-success-500: #22c55e;
+  --color-success-600: #16a34a;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+
+  --color-error-50: #fef2f2;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Fira Code, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+  --text-9xl: 8rem;
+
+  --animate-fade-in: fadeIn 0.5s ease-in-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-pulse-slow: pulse 3s infinite;
+
+  --breakpoint-xs: 475px;
+  --breakpoint-3xl: 1680px;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slideUp {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+/* Component layer customizations */
+@utility btn {
+  /* Button component styles */
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium;
+  @apply transition-all duration-200 ease-in-out;
+  @apply focus:outline-hidden focus:ring-2 focus:ring-offset-2;
+}
+@utility btn-primary {
+  @apply bg-brand-600 text-white hover:bg-brand-700;
+  @apply focus:ring-brand-500;
+}
+@utility btn-secondary {
+  @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+  @apply dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600;
+  @apply focus:ring-gray-500;
+}
+@utility btn-outline {
+  @apply border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white;
+  @apply dark:border-brand-400 dark:text-brand-400 dark:hover:bg-brand-400 dark:hover:text-gray-900;
+  @apply focus:ring-brand-500;
+}
+@utility card {
+  /* Card component styles */
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-md;
+  @apply border border-gray-200 dark:border-gray-700;
+  @apply transition-all duration-200;
+
+  &:hover {
+    @apply shadow-lg transform -translate-y-1;
+  }
+}
+@utility nav-link {
+  /* Navigation styles */
+  @apply text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400;
+  @apply transition-colors duration-200;
+  @apply font-medium;
+
+  &.active {
+    @apply text-brand-600 dark:text-brand-400;
+  }
+}
+@utility active {
+  &.nav-link {
+    @apply text-brand-600 dark:text-brand-400;
+  }
+}
+@utility container-custom {
+  /* Container styles */
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+@utility section {
+  /* Section spacing */
+  @apply py-16 md:py-24;
+}
+@utility hero {
+  /* Hero section styles */
+  @apply min-h-screen flex items-center justify-center;
+  @apply bg-linear-to-br from-brand-50 to-blue-50;
+  @apply dark:from-gray-900 dark:to-gray-800;
+}
+@utility prose-custom {
+  /* Prose styles for blog content */
+  max-width: none;
+  color: var(--color-gray-700);
+  line-height: 1.75;
+}
+
+@utility prose-headings {
+  color: var(--color-gray-900);
+  font-weight: 600;
+  line-height: 1.25;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+@utility prose-h1 {
+  font-size: 2.25rem;
+}
+
+@utility prose-h2 {
+  font-size: 1.875rem;
+}
+
+@utility prose-h3 {
+  font-size: 1.5rem;
+}
+
+@utility prose-p {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@utility prose-links {
+  color: var(--color-brand-600);
+  text-decoration: underline;
+}
+
+@utility prose-code {
+  color: var(--color-brand-600);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+@utility prose-pre {
+  background-color: var(--color-gray-100);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Utility layer customizations */
+@utility animate-fade-in {
+  /* Custom animation utilities */
+  animation: fadeIn 0.5s ease-in-out;
+}
+@utility animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+@utility gradient-text {
+  /* Gradient text utility */
+  @apply bg-linear-to-r from-brand-600 to-blue-600;
+  @apply bg-clip-text text-transparent;
+}
+@utility backdrop-blur-custom {
+  /* Backdrop blur utility */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+@utility hide-scrollbar {
+  /* Hide scrollbar utility */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 /* Base layer customizations */
 @layer base {
@@ -75,12 +305,12 @@
 
   /* Focus styles for accessibility */
   *:focus {
-    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    @apply outline-hidden ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
   }
 
   /* Code styles */
   code {
-    @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded;
+    @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded-sm;
   }
 
   pre {
@@ -89,116 +319,6 @@
 
   pre code {
     @apply bg-transparent p-0;
-  }
-}
-
-/* Component layer customizations */
-@layer components {
-  /* Button component styles */
-  .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium;
-    @apply transition-all duration-200 ease-in-out;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
-  }
-
-  .btn-primary {
-    @apply bg-brand-600 text-white hover:bg-brand-700;
-    @apply focus:ring-brand-500;
-  }
-
-  .btn-secondary {
-    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
-    @apply dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600;
-    @apply focus:ring-gray-500;
-  }
-
-  .btn-outline {
-    @apply border border-brand-600 text-brand-600 hover:bg-brand-600 hover:text-white;
-    @apply dark:border-brand-400 dark:text-brand-400 dark:hover:bg-brand-400 dark:hover:text-gray-900;
-    @apply focus:ring-brand-500;
-  }
-
-  /* Card component styles */
-  .card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md;
-    @apply border border-gray-200 dark:border-gray-700;
-    @apply transition-all duration-200;
-  }
-
-  .card:hover {
-    @apply shadow-lg transform -translate-y-1;
-  }
-
-  /* Navigation styles */
-  .nav-link {
-    @apply text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400;
-    @apply transition-colors duration-200;
-    @apply font-medium;
-  }
-
-  .nav-link.active {
-    @apply text-brand-600 dark:text-brand-400;
-  }
-
-  /* Container styles */
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  /* Section spacing */
-  .section {
-    @apply py-16 md:py-24;
-  }
-
-  /* Hero section styles */
-  .hero {
-    @apply min-h-screen flex items-center justify-center;
-    @apply bg-gradient-to-br from-brand-50 to-blue-50;
-    @apply dark:from-gray-900 dark:to-gray-800;
-  }
-
-  /* Prose styles for blog content */
-  .prose-custom {
-    @apply prose prose-lg dark:prose-invert max-w-none;
-    @apply prose-headings:text-gray-900 dark:prose-headings:text-gray-100;
-    @apply prose-p:text-gray-700 dark:prose-p:text-gray-300;
-    @apply prose-a:text-brand-600 dark:prose-a:text-brand-400;
-    @apply prose-code:text-brand-600 dark:prose-code:text-brand-400;
-    @apply prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800;
-  }
-}
-
-/* Utility layer customizations */
-@layer utilities {
-  /* Custom animation utilities */
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out;
-  }
-
-  /* Gradient text utility */
-  .gradient-text {
-    @apply bg-gradient-to-r from-brand-600 to-blue-600;
-    @apply bg-clip-text text-transparent;
-  }
-
-  /* Backdrop blur utility */
-  .backdrop-blur-custom {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  /* Hide scrollbar utility */
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 }
 
