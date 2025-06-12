@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths: ['static-web-app/**', '!static-web-app/README.md']
   pull_request:
+    types: [opened, synchronize, reopened, closed]
     branches: [main]
     paths: ['static-web-app/**', '!static-web-app/README.md']
 
@@ -25,6 +26,7 @@ jobs:
   validate:
     name: Validate Frontend Code
     runs-on: ubuntu-latest
+    if: github.event.action != 'closed'
     outputs:
       app-location: ${{ steps.config.outputs.app-location }}
       output-location: ${{ steps.config.outputs.output-location }}
@@ -241,12 +243,11 @@ jobs:
           - 🆘 Check Azure Static Web Apps documentation for troubleshooting
           EOF
           fi
-
   preview:
     name: Deploy Preview (PR Only)
     runs-on: ubuntu-latest
     needs: validate
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
 
     steps:
       - name: Checkout code
@@ -303,8 +304,7 @@ jobs:
             - 📅 Deployed: \`${new Date().toISOString()}\`
             
             **🌐 Preview URL:** The preview URL will be available in the Azure Static Web Apps deployment details.
-            
-            **Note:** Preview deployments are automatically cleaned up when the PR is closed.`;
+              **Note:** Preview deployments are automatically cleaned up when the PR is closed.`;
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -312,3 +312,88 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
+  cleanup-preview:
+    name: Cleanup Preview Environment
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving Static Web App deployment token for cleanup..."
+          
+          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \          --output tsv)
+          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved for cleanup"
+
+      - name: Cleanup Preview Environment
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "close"
+          app_location: "/"
+          skip_app_build: true
+
+      - name: Comment PR with Cleanup Confirmation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## 🧹 Preview Environment Cleaned Up
+            
+            The preview environment for this pull request has been successfully removed.
+            
+            **Cleanup Details:**
+            - 🗑️ Preview environment deleted
+            - 📅 Cleaned up: \`${new Date().toISOString()}\`
+            - 🔗 Status: \`${{ github.event.action == 'closed' && github.event.pull_request.merged && 'Merged and cleaned up' || 'Closed and cleaned up' }}\`
+            
+            Thank you for your contribution! 🎉`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Create Cleanup Summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🧹 Preview Environment Cleanup
+          
+          **Cleanup Status:** ✅ **SUCCESS** - Preview environment removed successfully!
+          
+          **Details:**
+          - 🔗 Pull Request: `#${{ github.event.number }}`
+          - 📁 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
+          - 🗑️ Action: `Preview environment cleanup`
+          - 📅 Cleanup Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
+          - 🔄 Trigger: `${{ github.event.action == 'closed' && github.event.pull_request.merged && 'PR merged' || 'PR closed' }}`
+          
+          **Environment Status:**
+          - 🌐 Preview URL: `Deactivated and removed`
+          - 💾 Resources: `Cleaned up automatically`
+          - 🔒 Security: `No dangling resources or access`
+          
+          **Next Steps:**
+          - 🎯 Preview environment has been completely removed
+          - 🔍 No manual cleanup required
+          - 📊 Monitor main deployment for production updates
+          EOF
