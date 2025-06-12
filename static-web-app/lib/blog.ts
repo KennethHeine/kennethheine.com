@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+
 import matter from 'gray-matter';
-import { BlogPost, BlogPostFrontmatter } from '../types/blog';
+
+import type { BlogPost, BlogPostFrontmatter } from '../types/blog';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 

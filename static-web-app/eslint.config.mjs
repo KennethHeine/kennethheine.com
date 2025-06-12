@@ -1,6 +1,8 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import { FlatCompat } from '@eslint/eslintrc';
+import prettierPlugin from 'eslint-plugin-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,13 +12,38 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  {
+    ignores: [
+      '.next/**',
+      'node_modules/**',
+      'out/**',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.ts',
+      '**/*.d.ts',
+      'coverage/**',
+      'dist/**',
+      'build/**',
+      'src/js/**', // Legacy JS files
+    ],
+  },
   ...compat.extends(
     'next/core-web-vitals',
     'next/typescript',
     'prettier' // Must be last to override other configs
-  ),
+  ).map(config => {
+    // Disable problematic import resolver that has native binding issues
+    if (config.settings?.['import/resolver']) {
+      const newConfig = { ...config };
+      delete newConfig.settings['import/resolver'];
+      return newConfig;
+    }
+    return config;
+  }),
   {
-    plugins: ['prettier'],
+    plugins: {
+      prettier: prettierPlugin,
+    },
     rules: {
       // Prettier integration
       'prettier/prettier': 'error',
@@ -25,36 +52,11 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
       '@typescript-eslint/no-inferrable-types': 'error',
       '@typescript-eslint/consistent-type-imports': 'error',
 
-      // Documentation rules
-      'valid-jsdoc': [
-        'warn',
-        {
-          requireReturn: false,
-          requireReturnDescription: false,
-          requireParamDescription: true,
-          prefer: {
-            return: 'returns',
-            arg: 'param',
-            argument: 'param',
-          },
-        },
-      ],
-      'require-jsdoc': [
-        'warn',
-        {
-          require: {
-            FunctionDeclaration: true,
-            MethodDefinition: false,
-            ClassDeclaration: true,
-            ArrowFunctionExpression: false,
-            FunctionExpression: false,
-          },
-        },
-      ],
+      // Documentation rules (relaxed)
+      // Note: 'require-jsdoc' and 'valid-jsdoc' rules were removed in ESLint 9
 
       // General JavaScript/ES6+ rules
       'prefer-const': 'error',
@@ -119,6 +121,9 @@ const eslintConfig = [
     rules: {
       'no-magic-numbers': 'off',
       'max-lines-per-function': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      'import/order': 'off', // Relax import order for test files
     },
   },
 ];

@@ -1,5 +1,6 @@
 // --- file: app/contact/page.tsx ---
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+
 import Container from '@/components/Container';
 import { MailIcon } from '@/components/icons/MailIcon';
 

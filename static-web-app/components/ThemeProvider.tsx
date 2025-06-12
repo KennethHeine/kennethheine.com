@@ -6,7 +6,7 @@ import {
   useContext,
   useEffect,
   useState,
-  ReactNode,
+  type ReactNode,
 } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
@@ -42,7 +42,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Apply theme changes to document
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     const root = window.document.documentElement;
 
@@ -69,7 +71,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Listen for system theme changes
   useEffect(() => {
-    if (!mounted || theme !== 'system') return;
+    if (!mounted || theme !== 'system') {
+      return;
+    }
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 

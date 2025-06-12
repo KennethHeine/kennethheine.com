@@ -1,12 +1,13 @@
 // --- file: app/blog/[slug]/page.tsx ---
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { getAllPosts, getPostBySlug } from '@/lib/blog';
+
 import Container from '@/components/Container';
-import { formatDate } from '@/lib/utils';
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
+import { getAllPosts, getPostBySlug } from '@/lib/blog';
+import { formatDate } from '@/lib/utils';
 
 // Type for page props
 interface BlogPostPageProps {

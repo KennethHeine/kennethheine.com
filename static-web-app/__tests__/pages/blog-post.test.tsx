@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import Page, {
   generateStaticParams,
   generateMetadata,
@@ -29,7 +30,7 @@ jest.mock('next-mdx-remote/serialize', () => ({
 }));
 
 // Import the mocked functions after mocking
-const { getPostBySlug, getAllPosts, getPostSlugs } = require('../../lib/blog');
+const { getPostBySlug, getAllPosts } = require('../../lib/blog');
 
 const mockPost = {
   slug: 'test-post',
@@ -195,7 +196,6 @@ describe('Blog Post Page', () => {
     // This should call notFound() without rendering anything
     // We can't actually render this because notFound() is meant to stop execution
     expect(() => {
-      const BlogPostPage = require('../../app/blog/[slug]/page').default;
       const post = getPostBySlug('non-existent');
       if (!post) {
         notFound();

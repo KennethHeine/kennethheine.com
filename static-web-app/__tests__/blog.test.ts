@@ -1,7 +1,9 @@
-import { getPostSlugs, getPostBySlug, getAllPosts } from '../lib/blog';
 import fs from 'fs';
 import path from 'path';
+
 import matter from 'gray-matter';
+
+import { getPostSlugs, getPostBySlug, getAllPosts } from '../lib/blog';
 
 // Mock fs module
 jest.mock('fs');

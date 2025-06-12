@@ -1,6 +1,7 @@
 // --- file: app/layout.tsx ---
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
+
 import './globals.css';
 import { Layout } from '@/components/Layout';
 import { ThemeProvider } from '@/components/ThemeProvider';

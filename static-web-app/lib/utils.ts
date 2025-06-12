@@ -108,11 +108,7 @@ export function slugify(text: string): string {
  * @param suffix - Suffix to add when truncated
  * @returns Truncated text
  */
-export function truncate(
-  text: string,
-  length: number,
-  suffix: string = '...'
-): string {
+export function truncate(text: string, length: number, suffix = '...'): string {
   if (text.length <= length) {
     return text;
   }
@@ -126,7 +122,9 @@ export function truncate(
  * @returns Capitalized text
  */
 export function capitalize(text: string): string {
-  if (!text) return text;
+  if (!text) {
+    return text;
+  }
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
 
@@ -212,7 +210,7 @@ export function isValidEmail(email: string): boolean {
  * @param length - Length of the ID
  * @returns Random ID string
  */
-export function generateId(length: number = 8): string {
+export function generateId(length = 8): string {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let result = '';
@@ -232,7 +230,7 @@ export function generateId(length: number = 8): string {
  */
 export function calculateReadingTime(
   content: string,
-  wordsPerMinute: number = 200
+  wordsPerMinute = 200
 ): number {
   const words = content.trim().split(/\s+/).length;
   const readingTime = Math.ceil(words / wordsPerMinute);

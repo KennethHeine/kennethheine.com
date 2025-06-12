@@ -1,8 +1,9 @@
 // --- file: app/blog/page.tsx ---
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getAllPosts } from '@/lib/blog';
+
 import Container from '@/components/Container';
+import { getAllPosts } from '@/lib/blog';
 import { formatDate } from '@/lib/utils';
 import type { BlogPost } from '@/types/blog';
 

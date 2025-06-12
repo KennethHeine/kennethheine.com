@@ -1,5 +1,6 @@
 // --- file: components/Container.tsx ---
-import { ReactNode, ElementType } from 'react';
+import type { ReactNode, ElementType } from 'react';
+
 import { cn } from '../lib/utils';
 
 interface ContainerProps {

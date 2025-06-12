@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import SkillBadge from '../components/SkillBadge';
 
 describe('SkillBadge component', () => {

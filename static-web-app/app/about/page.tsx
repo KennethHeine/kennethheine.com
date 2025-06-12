@@ -1,6 +1,7 @@
 // --- file: app/about/page.tsx ---
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Image from 'next/image';
+
 import Container from '@/components/Container';
 import SkillBadge from '@/components/SkillBadge';
 import { TimelineItem } from '@/components/TimelineItem';

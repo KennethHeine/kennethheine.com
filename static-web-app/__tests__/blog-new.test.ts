@@ -1,11 +1,12 @@
+import fs from 'fs';
+import path from 'path';
+
 import {
   getAllPosts,
   getPostBySlug,
   getPostsByTag,
   getAllTags,
 } from '@/lib/blog-new';
-import fs from 'fs';
-import path from 'path';
 
 // Mock fs and path modules
 jest.mock('fs');

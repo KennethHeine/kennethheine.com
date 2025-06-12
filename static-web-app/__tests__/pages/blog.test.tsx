@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+
 import Page from '../../app/blog/page';
 import { ThemeProvider } from '../../components/ThemeProvider';
 
