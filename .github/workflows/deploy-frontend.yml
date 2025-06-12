@@ -334,11 +334,11 @@ jobs:
         id: swa-token
         run: |
           echo "🔑 Retrieving Static Web App deployment token for cleanup..."
-          
-          deployment_token=$(az staticwebapp secrets list \
+            deployment_token=$(az staticwebapp secrets list \
             --name "${{ env.STATIC_WEB_APP_NAME }}" \
             --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
-            --query "properties.apiKey" \          --output tsv)
+            --query "properties.apiKey" \
+            --output tsv)
           echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
           echo "✅ Deployment token retrieved for cleanup"
 
