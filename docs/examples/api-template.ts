@@ -1,6 +1,6 @@
 /**
  * @fileoverview Example API interfaces with comprehensive documentation
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  */
 
 /**

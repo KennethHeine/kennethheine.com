@@ -1,12 +1,12 @@
 /**
  * @fileoverview Example React component with comprehensive documentation
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  */
 
 'use client';
 
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 /**
  * A reusable card component for displaying content with optional actions

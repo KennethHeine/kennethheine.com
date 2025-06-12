@@ -9,7 +9,7 @@ This project is a modern Infrastructure as Code (IaC) implementation for deployi
 **Deployment:** Azure Static Web Apps with federated identity authentication and preview deployments  
 **Testing:** Jest + React Testing Library with comprehensive coverage  
 **Content:** MDX-based blog system with gray-matter frontmatter processing  
-**Author:** Kenneth Sølberg  
+**Author:** Kenneth Heine  
 **Last Updated:** June 2025
 
 ## 🏗️ Architecture & Structure

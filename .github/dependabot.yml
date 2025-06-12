@@ -20,12 +20,11 @@ updates:
         patterns:
           - "@azure/*"
       dev-dependencies:
-        dependency-type: "development"
-    # Add reviewers and assignees (optional - customize with your GitHub username)
+        dependency-type: "development"    # Add reviewers and assignees (optional - customize with your GitHub username)
     reviewers:
-      - "KennethSølberg"
+      - "KennethHeine"
     assignees:
-      - "KennethSølberg"
+      - "KennethHeine"
     # Commit message configuration
     commit-message:
       prefix: "deps"

@@ -71,8 +71,7 @@
     "tailwindcss",
     "static-site",
     "personal-website",
-    "azure-static-web-apps"
-  ],
-  "author": "Kenneth Sølberg",
+    "azure-static-web-apps"  ],
+  "author": "Kenneth Heine",
   "license": "MIT"
 }

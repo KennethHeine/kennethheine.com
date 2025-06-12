@@ -71,7 +71,7 @@ Specific configuration choices:
 
 ## Authors
 
-- Kenneth Sølberg
+- Kenneth Heine
 
 ---
 

@@ -74,7 +74,7 @@ Key implementation choices:
 
 ## Authors
 
-- Kenneth Sølberg
+- Kenneth Heine
 
 ---
 

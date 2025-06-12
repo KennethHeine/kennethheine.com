@@ -1,11 +1,11 @@
 /**
  * @fileoverview Example React hooks with comprehensive documentation
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  */
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Configuration options for localStorage hook

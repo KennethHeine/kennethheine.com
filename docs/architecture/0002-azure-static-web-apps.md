@@ -77,7 +77,7 @@ Key configuration:
 
 ## Authors
 
-- Kenneth Sølberg
+- Kenneth Heine
 
 ---
 

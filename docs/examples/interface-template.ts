@@ -1,6 +1,6 @@
 /**
  * @fileoverview Example TypeScript interfaces with comprehensive documentation
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  */
 
 /**

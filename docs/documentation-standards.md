@@ -165,7 +165,7 @@ type NavigationItem = {
 ```typescript
 /**
  * @fileoverview Brief description of the module's purpose
- * @author Kenneth Sølberg
+ * @author Kenneth Heine
  * @since 1.0.0
  */
 ```
