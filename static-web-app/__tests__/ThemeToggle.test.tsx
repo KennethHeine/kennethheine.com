@@ -1,5 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 // Mock the theme context
 const mockSetTheme = jest.fn();
@@ -10,13 +10,13 @@ const createMockTheme = (currentTheme: string) => ({
   setTheme: mockSetTheme,
 });
 
-jest.mock('../components/ThemeProvider', () => ({
-  ...jest.requireActual('../components/ThemeProvider'),
+jest.mock('../components/providers/ThemeProvider', () => ({
+  ...jest.requireActual('../components/providers/ThemeProvider'),
   useTheme: jest.fn(),
 }));
 
 // Import the mocked useTheme after mocking
-const { useTheme } = require('../components/ThemeProvider');
+const { useTheme } = require('../components/providers/ThemeProvider');
 
 describe('ThemeToggle component', () => {
   beforeEach(() => {

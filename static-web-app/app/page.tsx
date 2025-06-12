@@ -1,9 +1,9 @@
 // --- file: app/page.tsx ---
+import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
+import Container from '@/components/layout/Container';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
-import Container from '@/components/Container';
 
 // SEO metadata for the home page
 export const metadata: Metadata = {

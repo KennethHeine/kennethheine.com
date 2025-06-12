@@ -1,7 +1,7 @@
 // --- file: components/ThemeToggle.tsx ---
 'use client';
 
-import { useTheme } from './ThemeProvider';
+import { useTheme } from '../providers/ThemeProvider';
 
 /**
  * Theme toggle button component

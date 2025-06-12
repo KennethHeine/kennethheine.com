@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { TimelineItem } from '../../components/TimelineItem';
+import { TimelineItem } from '../../components/ui/TimelineItem';
 
 interface TimelineItemProps {
   item: {

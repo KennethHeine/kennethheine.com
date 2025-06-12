@@ -17,22 +17,22 @@ jest.mock('next/font/google', () => ({
 }));
 
 // Mock the Layout component
-jest.mock('../../components/Layout', () => ({
+jest.mock('../../components/layout/Layout', () => ({
   Layout: ({ children }: { children: React.ReactNode }) => (
     <div data-testid='layout-wrapper'>{children}</div>
   ),
 }));
 
 // Mock the ThemeProvider component
-jest.mock('../../components/ThemeProvider', () => ({
+jest.mock('../../components/providers/ThemeProvider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => (
     <div data-testid='theme-provider-wrapper'>{children}</div>
   ),
 }));
 
 // Import the mocked components for use in tests
-import { Layout } from '../../components/Layout';
-import { ThemeProvider } from '../../components/ThemeProvider';
+import { Layout } from '../../components/layout/Layout';
+import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
 describe('RootLayout', () => {
   const mockChildren = <div data-testid='test-children'>Test Content</div>;

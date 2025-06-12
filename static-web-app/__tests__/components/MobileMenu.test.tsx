@@ -1,6 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MobileMenu } from '../../components/MobileMenu';
-import { ThemeProvider } from '../../components/ThemeProvider';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { MobileMenu } from '../../components/navigation/MobileMenu';
+import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
