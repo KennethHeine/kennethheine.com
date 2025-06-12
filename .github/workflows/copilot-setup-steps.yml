@@ -1,0 +1,105 @@
+name: "Copilot Setup Steps"
+
+# Automatically run the setup steps when they are changed to allow for easy validation, and
+# allow manual testing through the repository's "Actions" tab
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Set the permissions to the lowest permissions possible needed for your steps.
+    # Copilot will be given its own token for its operations.
+    permissions:
+      contents: read
+
+    steps:
+      # 🏗️ Environment Setup
+      - name: "🔍 Checkout repository"
+        uses: actions/checkout@v4
+
+      # 📦 Node.js Setup for Frontend Development
+      - name: "⚡ Setup Node.js 22"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: "static-web-app/package-lock.json"      # 🏗️ Install Frontend Dependencies
+      - name: "📦 Install JavaScript dependencies"
+        working-directory: ./static-web-app
+        run: |
+          npm ci --prefer-offline --no-audit
+          echo "✅ Node.js dependencies installed successfully"
+
+      # 🧪 Validate Project Setup
+      - name: "🧪 Validate project configuration"
+        working-directory: ./static-web-app
+        run: |
+          echo "🔍 Validating TypeScript configuration..."
+          npx tsc --noEmit
+          
+          echo "🔍 Validating ESLint configuration..."
+          npm run lint
+          
+          echo "🔍 Validating Prettier configuration..."
+          npm run format:check
+          
+          echo "✅ All validation checks passed"
+
+      # 🧪 Run Test Suite
+      - name: "🧪 Run test suite"
+        working-directory: ./static-web-app
+        run: |
+          echo "🧪 Running Jest test suite..."
+          npm test -- --coverage --watchAll=false
+          echo "✅ All tests passed successfully"
+
+      # 📊 Cache Test Results and Coverage
+      - name: "📊 Cache test results"
+        uses: actions/cache@v4
+        with:
+          path: |
+            static-web-app/coverage
+            static-web-app/.next
+          key: test-cache-${{ runner.os }}-${{ hashFiles('static-web-app/package-lock.json') }}
+          restore-keys: |
+            test-cache-${{ runner.os }}-
+
+      # 🔧 Install Additional Development Tools
+      - name: "🔧 Setup additional development tools"
+        run: |
+          echo "🔧 Installing additional tools..."
+          
+          # Install global npm packages commonly used in development
+          npm install -g @types/node typescript
+          
+          # Verify installations
+          echo "✅ Node.js version: $(node --version)"
+          echo "✅ npm version: $(npm --version)"
+          echo "✅ TypeScript version: $(npx tsc --version)"
+
+      # 📋 Environment Summary
+      - name: "📋 Environment summary"
+        run: |
+          echo "🎯 Copilot Environment Ready!"
+          echo "================================"
+          echo "📂 Project: kennethheine.com"
+          echo "🏗️ Type: Next.js Static Web Application"
+          echo "⚡ Frontend: Next.js 14 + TypeScript + Tailwind CSS"
+          echo "🧪 Testing: Jest + React Testing Library"
+          echo "🎨 Linting: ESLint + Prettier"
+          echo "📦 Package Manager: npm"
+          echo "🔧 TypeScript: Available for type checking"
+          echo "📝 MDX: Available for content processing"
+          echo "================================"
+          echo "🚀 Environment is ready for Copilot coding agent!"
+          echo "💡 Focus: JavaScript/TypeScript frontend development"
