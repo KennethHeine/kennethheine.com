@@ -32,7 +32,6 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-          cache-dependency-path: "static-web-app/package-lock.json"      
 
       - name: "📦 Install JavaScript dependencies"
         working-directory: ./static-web-app
