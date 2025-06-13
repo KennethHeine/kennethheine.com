@@ -45,7 +45,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
     return {
       slug,
       title: frontmatter.title || 'Untitled',
-      date: frontmatter.date || new Date().toISOString().split('T')[0],
+      date: frontmatter.date instanceof Date 
+        ? frontmatter.date.toISOString().split('T')[0]
+        : frontmatter.date || new Date().toISOString().split('T')[0],
       excerpt: frontmatter.excerpt || frontmatter.summary || '',
       tags: frontmatter.tags || [],
       published: frontmatter.published !== false, // Default to true if not specified
