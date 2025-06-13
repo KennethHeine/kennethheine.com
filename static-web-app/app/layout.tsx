@@ -90,9 +90,11 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body
         className={`font-sans antialiased`}
-        style={{
-          fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-        } as React.CSSProperties}
+        style={
+          {
+            fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+          } as React.CSSProperties
+        }
         suppressHydrationWarning
       >
         <ThemeProvider>

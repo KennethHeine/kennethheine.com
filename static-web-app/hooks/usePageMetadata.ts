@@ -52,17 +52,17 @@ interface UsePageMetadataReturn extends PageMetadata {
 
 /**
  * Hook for managing page metadata and SEO
- * 
+ *
  * Features:
  * - Dynamic title and description updates
  * - Open Graph and Twitter Card support
  * - Structured data (JSON-LD) generation
  * - Client-side head manipulation
  * - TypeScript support
- * 
+ *
  * @param options - Configuration options
  * @returns Metadata state and controls
- * 
+ *
  * @example
  * ```typescript
  * const {
@@ -75,7 +75,7 @@ interface UsePageMetadataReturn extends PageMetadata {
  *     description: 'AI, DevOps & Cloud Architecture'
  *   }
  * });
- * 
+ *
  * // Update page metadata
  * updateMetadata({
  *   title: 'Blog Post Title',
@@ -96,7 +96,8 @@ export function usePageMetadata(
 
   const [metadata, setMetadata] = useState<PageMetadata>({
     title: 'Kenneth Heine - AI, Automation & Cloud Architecture',
-    description: 'Kenneth Heine helps developers work smarter with AI, automation, and Azure cloud architecture.',
+    description:
+      'Kenneth Heine helps developers work smarter with AI, automation, and Azure cloud architecture.',
     keywords: ['Kenneth Heine', 'AI', 'DevOps', 'Azure', 'Cloud Architecture'],
     ogType: 'website',
     twitterCard: 'summary_large_image',
@@ -113,52 +114,60 @@ export function usePageMetadata(
     }
 
     // Update meta tags
-    const updateMetaTag = (name: string, content: string | undefined, attribute = 'name') => {
+    const updateMetaTag = (
+      name: string,
+      content: string | undefined,
+      attribute = 'name'
+    ) => {
       if (!content) return;
-      
-      let element = document.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement;
-      
+
+      let element = document.querySelector(
+        `meta[${attribute}="${name}"]`
+      ) as HTMLMetaElement;
+
       if (!element) {
         element = document.createElement('meta');
         element.setAttribute(attribute, name);
         document.head.appendChild(element);
       }
-      
+
       element.content = content;
     };
 
     // Basic meta tags
     updateMetaTag('description', metadata.description);
     updateMetaTag('keywords', metadata.keywords?.join(', '));
-    
+
     // Open Graph tags
     updateMetaTag('og:title', metadata.title, 'property');
     updateMetaTag('og:description', metadata.description, 'property');
     updateMetaTag('og:type', metadata.ogType, 'property');
     updateMetaTag('og:site_name', siteName, 'property');
     updateMetaTag('og:image', metadata.ogImage, 'property');
-    
+
     // Twitter Card tags
     updateMetaTag('twitter:card', metadata.twitterCard);
     updateMetaTag('twitter:title', metadata.title);
     updateMetaTag('twitter:description', metadata.description);
     updateMetaTag('twitter:image', metadata.ogImage);
-    
+
     // Canonical URL
     if (metadata.canonical) {
-      let linkElement = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-      
+      let linkElement = document.querySelector(
+        'link[rel="canonical"]'
+      ) as HTMLLinkElement;
+
       if (!linkElement) {
         linkElement = document.createElement('link');
         linkElement.rel = 'canonical';
         document.head.appendChild(linkElement);
       }
-      
-      linkElement.href = metadata.canonical.startsWith('http') 
-        ? metadata.canonical 
+
+      linkElement.href = metadata.canonical.startsWith('http')
+        ? metadata.canonical
         : `${baseUrl}${metadata.canonical}`;
     }
-    
+
     // Robots meta tag
     if (metadata.noIndex) {
       updateMetaTag('robots', 'noindex, nofollow');
@@ -174,7 +183,9 @@ export function usePageMetadata(
     const structuredDataScript = getStructuredDataScript();
     if (structuredDataScript) {
       // Remove existing structured data
-      const existingScript = document.querySelector('script[type="application/ld+json"]');
+      const existingScript = document.querySelector(
+        'script[type="application/ld+json"]'
+      );
       if (existingScript) {
         existingScript.remove();
       }
@@ -197,8 +208,15 @@ export function usePageMetadata(
   const resetMetadata = () => {
     setMetadata({
       title: 'Kenneth Heine - AI, Automation & Cloud Architecture',
-      description: 'Kenneth Heine helps developers work smarter with AI, automation, and Azure cloud architecture.',
-      keywords: ['Kenneth Heine', 'AI', 'DevOps', 'Azure', 'Cloud Architecture'],
+      description:
+        'Kenneth Heine helps developers work smarter with AI, automation, and Azure cloud architecture.',
+      keywords: [
+        'Kenneth Heine',
+        'AI',
+        'DevOps',
+        'Azure',
+        'Cloud Architecture',
+      ],
       ogType: 'website',
       twitterCard: 'summary_large_image',
       ...defaults,
@@ -207,17 +225,17 @@ export function usePageMetadata(
 
   const getFormattedTitle = (): string => {
     if (!metadata.title) return siteName;
-    
+
     if (metadata.title === siteName || metadata.title.includes(siteName)) {
       return metadata.title;
     }
-    
+
     return `${metadata.title} | ${siteName}`;
   };
 
   const getStructuredDataScript = (): string | null => {
     if (!metadata.structuredData) return null;
-    
+
     try {
       return JSON.stringify(metadata.structuredData, null, 2);
     } catch (error) {

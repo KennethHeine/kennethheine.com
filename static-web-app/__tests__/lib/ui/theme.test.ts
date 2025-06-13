@@ -7,11 +7,15 @@ describe('UI Theme utilities', () => {
     });
 
     it('handles conditional classes', () => {
-      expect(cn('base', true && 'conditional', false && 'hidden')).toBe('base conditional');
+      expect(cn('base', true && 'conditional', false && 'hidden')).toBe(
+        'base conditional'
+      );
     });
 
     it('filters out falsy values', () => {
-      expect(cn('base', null, undefined, false, '', 'valid')).toBe('base valid');
+      expect(cn('base', null, undefined, false, '', 'valid')).toBe(
+        'base valid'
+      );
     });
 
     it('handles Tailwind CSS conflicts by using twMerge', () => {
@@ -25,23 +29,27 @@ describe('UI Theme utilities', () => {
     });
 
     it('handles objects with conditional classes', () => {
-      expect(cn({
-        'base': true,
-        'conditional': false,
-        'active': true
-      })).toBe('base active');
+      expect(
+        cn({
+          base: true,
+          conditional: false,
+          active: true,
+        })
+      ).toBe('base active');
     });
 
     it('handles nested conditionals', () => {
       const isActive = true;
       const isDisabled = false;
-      
-      expect(cn(
-        'btn',
-        isActive && 'btn-active',
-        isDisabled && 'btn-disabled',
-        !isDisabled && 'btn-enabled'
-      )).toBe('btn btn-active btn-enabled');
+
+      expect(
+        cn(
+          'btn',
+          isActive && 'btn-active',
+          isDisabled && 'btn-disabled',
+          !isDisabled && 'btn-enabled'
+        )
+      ).toBe('btn btn-active btn-enabled');
     });
 
     it('handles empty input', () => {
@@ -51,15 +59,16 @@ describe('UI Theme utilities', () => {
     it('handles complex Tailwind class conflicts', () => {
       // Test margin conflicts
       expect(cn('mx-4', 'mx-auto')).toBe('mx-auto');
-      // Test padding conflicts  
+      // Test padding conflicts
       expect(cn('px-2', 'px-4', 'py-2')).toBe('px-4 py-2');
       // Test background color conflicts
       expect(cn('bg-red-500', 'bg-blue-500')).toBe('bg-blue-500');
     });
 
     it('preserves non-conflicting classes', () => {
-      expect(cn('flex', 'items-center', 'justify-between', 'p-4'))
-        .toBe('flex items-center justify-between p-4');
+      expect(cn('flex', 'items-center', 'justify-between', 'p-4')).toBe(
+        'flex items-center justify-between p-4'
+      );
     });
   });
 
@@ -218,14 +227,14 @@ describe('UI Theme utilities', () => {
     it('handles this context correctly', () => {
       const obj = {
         value: 'test',
-        method: function(this: { value: string }) {
+        method: function (this: { value: string }) {
           return this.value;
-        }
+        },
       };
 
       const mockMethod = jest.fn(obj.method);
       obj.method = mockMethod;
-      
+
       const debouncedMethod = debounce(obj.method.bind(obj), 100);
       debouncedMethod();
 
@@ -240,7 +249,7 @@ describe('UI Theme utilities', () => {
       const debouncedFn = debounce(mockFn, 100);
 
       debouncedFn();
-      
+
       // The error should be thrown when the timer executes
       expect(() => {
         jest.advanceTimersByTime(100);

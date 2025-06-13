@@ -114,7 +114,14 @@ export enum HTTPStatus {
 /**
  * HTTP methods
  */
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
+export type HTTPMethod =
+  | 'GET'
+  | 'POST'
+  | 'PUT'
+  | 'PATCH'
+  | 'DELETE'
+  | 'HEAD'
+  | 'OPTIONS';
 
 /**
  * API request configuration interface
@@ -276,7 +283,12 @@ export interface AnalyticsEvent {
   /** Event name */
   name: string;
   /** Event category */
-  category: 'page_view' | 'user_interaction' | 'form_submission' | 'error' | 'custom';
+  category:
+    | 'page_view'
+    | 'user_interaction'
+    | 'form_submission'
+    | 'error'
+    | 'custom';
   /** Event properties */
   properties: Record<string, unknown>;
   /** Event timestamp */

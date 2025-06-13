@@ -49,14 +49,20 @@ describe('SEO Metadata utilities', () => {
 
     it('handles missing author field', () => {
       const postWithoutAuthor = { ...mockPost, author: undefined };
-      const result = generateBlogPostMetadata(postWithoutAuthor, 'https://example.com');
+      const result = generateBlogPostMetadata(
+        postWithoutAuthor,
+        'https://example.com'
+      );
 
       expect(result.author).toBe('Kenneth Heine');
     });
 
     it('handles missing cover image', () => {
       const postWithoutImage = { ...mockPost, coverImage: undefined };
-      const result = generateBlogPostMetadata(postWithoutImage, 'https://example.com');
+      const result = generateBlogPostMetadata(
+        postWithoutImage,
+        'https://example.com'
+      );
 
       expect(result.image).toBeUndefined();
     });
@@ -125,10 +131,7 @@ describe('SEO Metadata utilities', () => {
     });
 
     it('handles empty path and base URL', () => {
-      const result = generatePageMetadata(
-        'Test Page',
-        'Test description'
-      );
+      const result = generatePageMetadata('Test Page', 'Test description');
 
       expect(result).toEqual({
         title: 'Test Page',
@@ -161,7 +164,10 @@ describe('SEO Metadata utilities', () => {
     });
 
     it('handles path with query parameters', () => {
-      const result = generateCanonicalUrl('/blog?page=2', 'https://example.com');
+      const result = generateCanonicalUrl(
+        '/blog?page=2',
+        'https://example.com'
+      );
       expect(result).toBe('https://example.com/blog?page=2');
     });
   });

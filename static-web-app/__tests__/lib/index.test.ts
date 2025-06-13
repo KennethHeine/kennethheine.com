@@ -60,9 +60,15 @@ describe('Library Index - Re-exports', () => {
     });
 
     it('SEO re-exports match original module exports', () => {
-      expect(libIndex.generateBlogPostMetadata).toBe(seoModule.generateBlogPostMetadata);
-      expect(libIndex.generatePageMetadata).toBe(seoModule.generatePageMetadata);
-      expect(libIndex.generateCanonicalUrl).toBe(seoModule.generateCanonicalUrl);
+      expect(libIndex.generateBlogPostMetadata).toBe(
+        seoModule.generateBlogPostMetadata
+      );
+      expect(libIndex.generatePageMetadata).toBe(
+        seoModule.generatePageMetadata
+      );
+      expect(libIndex.generateCanonicalUrl).toBe(
+        seoModule.generateCanonicalUrl
+      );
     });
   });
 
@@ -107,15 +113,31 @@ describe('Library Index - Re-exports', () => {
     it('maintains all legacy import paths', () => {
       // Test that all the legacy explicit re-exports are available
       const legacyExports = [
-        'getPostSlugs', 'getPostBySlug', 'getAllPosts', 'getPostsByTag', 'getAllTags',
-        'cn', 'truncate', 'debounce',
-        'formatDate', 'formatRelativeDate', 'slugify', 'capitalize', 'pluralize',
-        'deepClone', 'isValidEmail', 'generateId', 'calculateReadingTime', 'formatReadingTime'
+        'getPostSlugs',
+        'getPostBySlug',
+        'getAllPosts',
+        'getPostsByTag',
+        'getAllTags',
+        'cn',
+        'truncate',
+        'debounce',
+        'formatDate',
+        'formatRelativeDate',
+        'slugify',
+        'capitalize',
+        'pluralize',
+        'deepClone',
+        'isValidEmail',
+        'generateId',
+        'calculateReadingTime',
+        'formatReadingTime',
       ];
 
       legacyExports.forEach(exportName => {
         expect(libIndex).toHaveProperty(exportName);
-        expect(typeof (libIndex as Record<string, unknown>)[exportName]).toBe('function');
+        expect(typeof (libIndex as Record<string, unknown>)[exportName]).toBe(
+          'function'
+        );
       });
     });
 
@@ -123,10 +145,10 @@ describe('Library Index - Re-exports', () => {
       // Verify that wildcard exports (* from) work correctly
       // This tests that users can import everything from the index
       const indexKeys = Object.keys(libIndex);
-      
+
       // Should include exports from all modules
       expect(indexKeys.length).toBeGreaterThan(20); // We have many utilities
-      
+
       // Check for presence of key functions from each module
       expect(indexKeys).toContain('getAllPosts'); // from blog
       expect(indexKeys).toContain('cn'); // from ui
@@ -139,7 +161,7 @@ describe('Library Index - Re-exports', () => {
     it('does not have naming conflicts between modules', () => {
       // Ensure that functions with the same name from different modules
       // are properly handled (e.g., truncate exists in both ui/theme and utils)
-      
+
       // The explicit re-exports should take precedence
       expect(libIndex.truncate).toBeDefined();
       expect(libIndex.cn).toBeDefined();
@@ -148,15 +170,22 @@ describe('Library Index - Re-exports', () => {
 
     it('provides comprehensive function coverage', () => {
       // Test that we have a good spread of utility functions
-      const functionNames = Object.keys(libIndex).filter(key => 
-        typeof (libIndex as Record<string, unknown>)[key] === 'function'
+      const functionNames = Object.keys(libIndex).filter(
+        key => typeof (libIndex as Record<string, unknown>)[key] === 'function'
       );
 
       // Should have utilities for all major categories
-      const hasBlogUtils = functionNames.some(name => name.includes('Post') || name.includes('Tag'));
-      const hasUIUtils = functionNames.includes('cn') || functionNames.includes('isMobile');
-      const hasSEOUtils = functionNames.some(name => name.includes('Metadata') || name.includes('Canonical'));
-      const hasGeneralUtils = functionNames.includes('formatDate') || functionNames.includes('slugify');
+      const hasBlogUtils = functionNames.some(
+        name => name.includes('Post') || name.includes('Tag')
+      );
+      const hasUIUtils =
+        functionNames.includes('cn') || functionNames.includes('isMobile');
+      const hasSEOUtils = functionNames.some(
+        name => name.includes('Metadata') || name.includes('Canonical')
+      );
+      const hasGeneralUtils =
+        functionNames.includes('formatDate') ||
+        functionNames.includes('slugify');
 
       expect(hasBlogUtils).toBe(true);
       expect(hasUIUtils).toBe(true);
@@ -168,8 +197,9 @@ describe('Library Index - Re-exports', () => {
   describe('Import patterns compatibility', () => {
     it('supports named imports pattern', () => {
       // Test that users can destructure specific functions
-      const { getAllPosts, cn, formatDate, generateBlogPostMetadata } = libIndex;
-      
+      const { getAllPosts, cn, formatDate, generateBlogPostMetadata } =
+        libIndex;
+
       expect(typeof getAllPosts).toBe('function');
       expect(typeof cn).toBe('function');
       expect(typeof formatDate).toBe('function');
@@ -188,7 +218,7 @@ describe('Library Index - Re-exports', () => {
       // Test that users can mix specific and wildcard imports
       const { getAllPosts } = libIndex;
       const cnFunction = libIndex.cn;
-      
+
       expect(typeof getAllPosts).toBe('function');
       expect(typeof cnFunction).toBe('function');
       expect(getAllPosts).toBe(libIndex.getAllPosts);
@@ -198,8 +228,8 @@ describe('Library Index - Re-exports', () => {
   describe('Type safety and exports integrity', () => {
     it('exports only functions (no undefined exports)', () => {
       const exportEntries = Object.entries(libIndex);
-      
-      exportEntries.forEach(([key, value]) => {
+
+      exportEntries.forEach(([_key, value]) => {
         // All exports should be defined functions
         expect(value).toBeDefined();
         expect(typeof value).toBe('function');
@@ -211,7 +241,7 @@ describe('Library Index - Re-exports', () => {
       // they should be properly re-exported without conflicts
       const functionRefs = Object.values(libIndex);
       const uniqueRefs = new Set(functionRefs);
-      
+
       // This test verifies we don't have accidental duplicate exports
       // Note: Some functions might legitimately be the same reference
       expect(functionRefs.length).toBeGreaterThan(0);

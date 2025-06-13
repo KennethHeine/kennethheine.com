@@ -6,7 +6,7 @@
 // Blog utilities
 export * from './blog';
 
-// UI utilities  
+// UI utilities
 export * from './ui';
 
 // SEO utilities
@@ -25,11 +25,7 @@ export {
   getAllTags,
 } from './blog';
 
-export {
-  cn,
-  truncate,
-  debounce,
-} from './ui';
+export { cn, truncate, debounce } from './ui';
 
 export {
   formatDate,

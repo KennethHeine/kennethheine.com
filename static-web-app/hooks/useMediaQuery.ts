@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface UseMediaQueryOptions {
   /** Default value when SSR or matchMedia is not available */
@@ -16,26 +16,26 @@ interface UseMediaQueryOptions {
 
 /**
  * Media query hook for responsive design
- * 
+ *
  * Features:
  * - SSR safe initialization
  * - Automatic cleanup
  * - TypeScript support
  * - Performance optimized
- * 
+ *
  * @param query - CSS media query string
  * @param options - Configuration options
  * @returns Whether the media query matches
- * 
+ *
  * @example
  * ```typescript
  * const isMobile = useMediaQuery('(max-width: 768px)');
  * const isDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
  * const isLandscape = useMediaQuery('(orientation: landscape)');
- * 
+ *
  * // With default value
- * const isDesktop = useMediaQuery('(min-width: 1024px)', { 
- *   defaultValue: false 
+ * const isDesktop = useMediaQuery('(min-width: 1024px)', {
+ *   defaultValue: false
  * });
  * ```
  */
@@ -60,12 +60,15 @@ export function useMediaQuery(
 
   useEffect(() => {
     // Check if we're in the browser and matchMedia is available
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    if (
+      typeof window === 'undefined' ||
+      typeof window.matchMedia !== 'function'
+    ) {
       return;
     }
 
     const mediaQuery = window.matchMedia(query);
-    
+
     // Set initial value if we didn't initialize on mount
     if (!initializeOnMount) {
       setMatches(mediaQuery.matches);
@@ -103,7 +106,9 @@ export function useIsMobile(defaultValue = false): boolean {
  * Hook for tablet breakpoint (768px - 1024px)
  */
 export function useIsTablet(defaultValue = false): boolean {
-  return useMediaQuery('(min-width: 768px) and (max-width: 1024px)', { defaultValue });
+  return useMediaQuery('(min-width: 768px) and (max-width: 1024px)', {
+    defaultValue,
+  });
 }
 
 /**

@@ -31,6 +31,7 @@ const nextConfig = {
   // Configure ESLint
   eslint: {
     dirs: ['app', 'components', 'lib', 'types'],
+    ignoreDuringBuilds: false, // Keep ESLint during builds but allow warnings
   },
 
   // Configure TypeScript

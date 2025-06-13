@@ -22,13 +22,15 @@ export function processFrontmatter(content: string): {
  * @param data - Frontmatter data to validate
  * @returns True if valid, false otherwise
  */
-export function validateFrontmatter(data: unknown): data is BlogPostFrontmatter {
+export function validateFrontmatter(
+  data: unknown
+): data is BlogPostFrontmatter {
   if (!data || typeof data !== 'object') {
     return false;
   }
 
   const frontmatter = data as Record<string, unknown>;
-  
+
   // Title is required
   if (typeof frontmatter.title !== 'string' || !frontmatter.title.trim()) {
     return false;
@@ -46,8 +48,11 @@ export function validateFrontmatter(data: unknown): data is BlogPostFrontmatter 
   }
 
   // Tags should be an array of strings if provided
-  if (frontmatter.tags && (!Array.isArray(frontmatter.tags) || 
-      !frontmatter.tags.every(tag => typeof tag === 'string'))) {
+  if (
+    frontmatter.tags &&
+    (!Array.isArray(frontmatter.tags) ||
+      !frontmatter.tags.every(tag => typeof tag === 'string'))
+  ) {
     return false;
   }
 

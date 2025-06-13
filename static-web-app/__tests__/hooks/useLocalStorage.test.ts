@@ -23,7 +23,7 @@ describe('useLocalStorage', () => {
   });
 
   it('initializes with initial value when localStorage is empty', () => {
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
@@ -33,7 +33,7 @@ describe('useLocalStorage', () => {
   it('loads value from localStorage', () => {
     mockLocalStorage.getItem.mockReturnValue('"stored-value"');
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
@@ -41,7 +41,7 @@ describe('useLocalStorage', () => {
   });
 
   it('sets value and updates localStorage', () => {
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
@@ -57,9 +57,7 @@ describe('useLocalStorage', () => {
   });
 
   it('supports function updates', () => {
-    const { result } = renderHook(() => 
-      useLocalStorage('test-key', 5)
-    );
+    const { result } = renderHook(() => useLocalStorage('test-key', 5));
 
     act(() => {
       result.current[1](prev => prev + 1);
@@ -69,7 +67,7 @@ describe('useLocalStorage', () => {
   });
 
   it('removes value and resets to initial', () => {
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
@@ -89,7 +87,7 @@ describe('useLocalStorage', () => {
     const initialObject = { name: 'test', count: 0 };
     const newObject = { name: 'updated', count: 5 };
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-object', initialObject)
     );
 
@@ -111,7 +109,7 @@ describe('useLocalStorage', () => {
 
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 
@@ -129,7 +127,7 @@ describe('useLocalStorage', () => {
 
     mockLocalStorage.getItem.mockReturnValue('stored-value');
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial', { serializer: customSerializer })
     );
 
@@ -142,25 +140,26 @@ describe('useLocalStorage', () => {
     expect(customSerializer.write).toHaveBeenCalledWith('new-value');
   });
   it('validates values when validator is provided', () => {
-    const validator = (value: unknown): value is string => 
+    const validator = (value: unknown): value is string =>
       typeof value === 'string';
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial', { validator })
     );
 
     act(() => {
       result.current[1]('valid-string');
-    });    expect(result.current[0]).toBe('valid-string');
+    });
+    expect(result.current[0]).toBe('valid-string');
     // Note: Can't test validator calls since it's not a mock
   });
   it('rejects invalid values when validator is provided', () => {
-    const validator = (value: unknown): value is string => 
+    const validator = (value: unknown): value is string =>
       typeof value === 'string';
 
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial', { validator })
     );
 
@@ -176,9 +175,7 @@ describe('useLocalStorage', () => {
   });
 
   it('handles storage events for cross-tab sync', () => {
-    const { result } = renderHook(() => 
-      useLocalStorage('test-key', 'initial')
-    );
+    const { result } = renderHook(() => useLocalStorage('test-key', 'initial'));
 
     // Simulate storage event from another tab
     const storageEvent = new StorageEvent('storage', {
@@ -194,9 +191,7 @@ describe('useLocalStorage', () => {
   });
 
   it('handles storage event removal', () => {
-    const { result } = renderHook(() => 
-      useLocalStorage('test-key', 'initial')
-    );
+    const { result } = renderHook(() => useLocalStorage('test-key', 'initial'));
 
     // Set a value first
     act(() => {
@@ -221,7 +216,7 @@ describe('useLocalStorage', () => {
     const originalWindow = global.window;
     delete (global as any).window;
 
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useLocalStorage('test-key', 'initial-value')
     );
 

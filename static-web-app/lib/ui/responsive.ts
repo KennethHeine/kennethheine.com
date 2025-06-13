@@ -7,7 +7,7 @@ export function isMobile(width?: number): boolean {
   if (typeof window === 'undefined' || !window) {
     return false; // SSR fallback
   }
-  
+
   const screenWidth = width ?? window.innerWidth;
   return screenWidth < 768; // Tailwind's md breakpoint
 }
@@ -21,7 +21,7 @@ export function isTablet(width?: number): boolean {
   if (typeof window === 'undefined' || !window) {
     return false; // SSR fallback
   }
-  
+
   const screenWidth = width ?? window.innerWidth;
   return screenWidth >= 768 && screenWidth < 1024; // Between md and lg
 }
@@ -35,7 +35,7 @@ export function isDesktop(width?: number): boolean {
   if (typeof window === 'undefined' || !window) {
     return true; // SSR fallback to desktop
   }
-  
+
   const screenWidth = width ?? window.innerWidth;
   return screenWidth >= 1024; // Tailwind's lg breakpoint
 }
@@ -45,13 +45,15 @@ export function isDesktop(width?: number): boolean {
  * @param width - Screen width to check (default: window.innerWidth)
  * @returns Breakpoint name ('mobile' | 'tablet' | 'desktop')
  */
-export function getCurrentBreakpoint(width?: number): 'mobile' | 'tablet' | 'desktop' {
+export function getCurrentBreakpoint(
+  width?: number
+): 'mobile' | 'tablet' | 'desktop' {
   if (typeof window === 'undefined' || !window) {
     return 'desktop'; // SSR fallback
   }
-  
+
   const screenWidth = width ?? window.innerWidth;
-  
+
   if (screenWidth < 768) return 'mobile';
   if (screenWidth < 1024) return 'tablet';
   return 'desktop';

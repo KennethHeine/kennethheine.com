@@ -123,7 +123,9 @@ Paragraph 2.`;
       const result = processFrontmatter(content);
 
       expect(result.data.title).toBe('Multiline Test');
-      expect(result.data.description).toBe('This is a multiline\ndescription that spans\nmultiple lines.\n');
+      expect(result.data.description).toBe(
+        'This is a multiline\ndescription that spans\nmultiple lines.\n'
+      );
       expect(result.content).toContain('# Heading');
       expect(result.content).toContain('Paragraph 1.');
     });
@@ -139,7 +141,9 @@ Content with special characters.`;
 
       const result = processFrontmatter(content);
 
-      expect(result.data.title).toBe('Special Characters: & < > quotes and apostrophes');
+      expect(result.data.title).toBe(
+        'Special Characters: & < > quotes and apostrophes'
+      );
       expect(result.data.slug).toBe('special-chars-test');
       expect(result.data.emoji).toBe('🚀');
     });

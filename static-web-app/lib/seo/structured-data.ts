@@ -6,7 +6,10 @@ import { BlogPost } from '../../types/blog';
  * @param baseUrl - Base URL of the site
  * @returns JSON-LD structured data object
  */
-export function generateBlogPostStructuredData(post: BlogPost, baseUrl: string = '') {
+export function generateBlogPostStructuredData(
+  post: BlogPost,
+  baseUrl: string = ''
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',

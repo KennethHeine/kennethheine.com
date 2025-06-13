@@ -113,7 +113,7 @@ beforeAll(() => {
 
 // Mock next-mdx-remote for MDX content rendering
 jest.mock('next-mdx-remote/rsc', () => ({
-  MDXRemote: ({ source, components }) => {
+  MDXRemote: ({ source, components: _components }) => {
     return React.createElement(
       'div',
       { 'data-testid': 'mdx-content' },

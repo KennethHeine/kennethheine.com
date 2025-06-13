@@ -17,15 +17,15 @@ import type {
 
 /**
  * Enhanced optimistic updates hook using React 19 patterns
- * 
+ *
  * Provides optimistic UI updates with manual rollback capability,
  * validation, and custom reducers for complex state updates.
- * 
+ *
  * @template T - Type of the state
  * @param initialState - Initial state value
  * @param options - Configuration options
  * @returns Optimistic state and controls
- * 
+ *
  * @example
  * ```typescript
  * const { optimisticState, addOptimistic, startTransition } = useOptimisticUpdates(
@@ -37,11 +37,11 @@ import type {
  *     })
  *   }
  * );
- * 
+ *
  * const handleAddPost = async (post) => {
  *   // Optimistically add post
  *   addOptimistic({ newPost: post });
- *   
+ *
  *   // Perform actual update
  *   startTransition(async () => {
  *     await addPostToAPI(post);
@@ -100,7 +100,7 @@ export function useOptimisticUpdates<T>(
 
 /**
  * Optimistic list operations hook
- * 
+ *
  * Provides common list operations with optimistic updates.
  */
 export function useOptimisticList<T extends OptimisticListItem>(
@@ -109,32 +109,19 @@ export function useOptimisticList<T extends OptimisticListItem>(
   const [isPending, startTransition] = useTransition();
   const [optimisticItems, setOptimisticItems] = useState<T[]>(initialItems);
 
-  const addItem = useCallback(
-    (item: T) => {
-      setOptimisticItems(current => [...current, item]);
-    },
-    []
-  );
+  const addItem = useCallback((item: T) => {
+    setOptimisticItems(current => [...current, item]);
+  }, []);
 
-  const updateItem = useCallback(
-    (id: string | number, updates: Partial<T>) => {
-      setOptimisticItems(current =>
-        current.map(item =>
-          item.id === id ? { ...item, ...updates } : item
-        )
-      );
-    },
-    []
-  );
+  const updateItem = useCallback((id: string | number, updates: Partial<T>) => {
+    setOptimisticItems(current =>
+      current.map(item => (item.id === id ? { ...item, ...updates } : item))
+    );
+  }, []);
 
-  const removeItem = useCallback(
-    (id: string | number) => {
-      setOptimisticItems(current =>
-        current.filter(item => item.id !== id)
-      );
-    },
-    []
-  );
+  const removeItem = useCallback((id: string | number) => {
+    setOptimisticItems(current => current.filter(item => item.id !== id));
+  }, []);
 
   return {
     items: optimisticItems,
@@ -155,12 +142,14 @@ export function useOptimisticForm<T extends Record<string, any>>(
 ): UseOptimisticFormReturn<T> {
   const [isPending, startTransition] = useTransition();
   const [optimisticData, setOptimisticData] = useState<T>(initialData);
-  const [errors, setErrors] = useState<FormFieldErrors<T>>({} as FormFieldErrors<T>);
+  const [errors, setErrors] = useState<FormFieldErrors<T>>(
+    {} as FormFieldErrors<T>
+  );
 
   const updateField = useCallback(
     (field: keyof T, value: any) => {
       setOptimisticData(current => ({ ...current, [field]: value }));
-      
+
       // Clear error for this field
       if (errors[field]) {
         setErrors(prev => {
@@ -183,13 +172,14 @@ export function useOptimisticForm<T extends Record<string, any>>(
             resolve();
           } catch (error) {
             setErrors({
-              _form: error instanceof Error ? error.message : 'Submission failed',
+              _form:
+                error instanceof Error ? error.message : 'Submission failed',
             } as FormFieldErrors<T>);
             reject(error);
           }
         });
       });
-    } catch (error) {
+    } catch {
       // Error is already handled above
     }
   }, [optimisticData, submitFn, startTransition]);

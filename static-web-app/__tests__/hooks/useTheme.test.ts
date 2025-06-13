@@ -39,13 +39,14 @@ describe('useTheme', () => {
   });
 
   it('initializes with default theme', () => {
-    const { result } = renderHook(() => useTheme());    expect(result.current.theme).toBe('system');
+    const { result } = renderHook(() => useTheme());
+    expect(result.current.theme).toBe('system');
     expect(result.current.mounted).toBe(true); // Mounted immediately in test environment
   });
 
   it('loads theme from localStorage', () => {
     mockLocalStorage.getItem.mockReturnValue('dark');
-    
+
     const { result } = renderHook(() => useTheme());
 
     // Wait for effect to run
@@ -126,7 +127,7 @@ describe('useTheme', () => {
   });
 
   it('uses custom storage key', () => {
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useTheme({ storageKey: 'custom-theme' })
     );
 
@@ -134,7 +135,10 @@ describe('useTheme', () => {
       result.current.setTheme('dark');
     });
 
-    expect(mockLocalStorage.setItem).toHaveBeenCalledWith('custom-theme', 'dark');
+    expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+      'custom-theme',
+      'dark'
+    );
   });
 
   it('handles localStorage errors gracefully', () => {

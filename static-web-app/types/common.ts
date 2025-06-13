@@ -184,7 +184,7 @@ export interface APIResponse<T = unknown> {
 
 // Theme preference type
 /**
- * @deprecated Use Theme from '@/types/theme' instead  
+ * @deprecated Use Theme from '@/types/theme' instead
  */
 export type Theme = 'light' | 'dark' | 'system';
 
