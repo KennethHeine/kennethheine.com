@@ -118,5 +118,75 @@ describe('Card', () => {
       expect(screen.getByText('Body')).toBeInTheDocument();
       expect(screen.getByText('Footer')).toBeInTheDocument();
     });
+
+    it('compound components forward ref correctly', () => {
+      const headerRef = jest.fn();
+      const bodyRef = jest.fn();
+      const footerRef = jest.fn();
+
+      render(
+        <Card>
+          <Card.Header ref={headerRef}>Header</Card.Header>
+          <Card.Body ref={bodyRef}>Body</Card.Body>
+          <Card.Footer ref={footerRef}>Footer</Card.Footer>
+        </Card>
+      );
+
+      expect(headerRef).toHaveBeenCalled();
+      expect(bodyRef).toHaveBeenCalled();
+      expect(footerRef).toHaveBeenCalled();
+    });
+
+    it('compound components accept custom className', () => {
+      render(
+        <Card>
+          <Card.Header className='custom-header'>Header</Card.Header>
+          <Card.Body className='custom-body'>Body</Card.Body>
+          <Card.Footer className='custom-footer'>Footer</Card.Footer>
+        </Card>
+      );
+
+      expect(screen.getByText('Header')).toHaveClass('custom-header');
+      expect(screen.getByText('Body')).toHaveClass('custom-body');
+      expect(screen.getByText('Footer')).toHaveClass('custom-footer');
+    });
+
+    it('compound components forward other props', () => {
+      render(
+        <Card>
+          <Card.Header data-testid='header-test' title='Header title'>
+            Header
+          </Card.Header>
+          <Card.Body data-testid='body-test' title='Body title'>
+            Body
+          </Card.Body>
+          <Card.Footer data-testid='footer-test' title='Footer title'>
+            Footer
+          </Card.Footer>
+        </Card>
+      );
+
+      expect(screen.getByTestId('header-test')).toHaveAttribute(
+        'title',
+        'Header title'
+      );
+      expect(screen.getByTestId('body-test')).toHaveAttribute(
+        'title',
+        'Body title'
+      );
+      expect(screen.getByTestId('footer-test')).toHaveAttribute(
+        'title',
+        'Footer title'
+      );
+    });
+  });
+
+  describe('Component displayName', () => {
+    it('has correct displayName for all components', () => {
+      expect(Card.displayName).toBe('Card');
+      expect(Card.Header.displayName).toBe('CardHeader');
+      expect(Card.Body.displayName).toBe('CardBody');
+      expect(Card.Footer.displayName).toBe('CardFooter');
+    });
   });
 });
