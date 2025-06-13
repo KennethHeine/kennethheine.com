@@ -45,8 +45,8 @@ export interface BlogPostFrontmatter {
   /** The title of the blog post */
   title: string;
 
-  /** Publication date in ISO string format */
-  date: string;
+  /** Publication date (can be string or Date object from gray-matter) */
+  date: string | Date;
 
   /** Brief summary/description of the post */
   excerpt?: string;
