@@ -4,7 +4,7 @@
  * @returns True if mobile
  */
 export function isMobile(width?: number): boolean {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !window) {
     return false; // SSR fallback
   }
   
@@ -18,7 +18,7 @@ export function isMobile(width?: number): boolean {
  * @returns True if tablet
  */
 export function isTablet(width?: number): boolean {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !window) {
     return false; // SSR fallback
   }
   
@@ -32,7 +32,7 @@ export function isTablet(width?: number): boolean {
  * @returns True if desktop
  */
 export function isDesktop(width?: number): boolean {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !window) {
     return true; // SSR fallback to desktop
   }
   
@@ -46,7 +46,7 @@ export function isDesktop(width?: number): boolean {
  * @returns Breakpoint name ('mobile' | 'tablet' | 'desktop')
  */
 export function getCurrentBreakpoint(width?: number): 'mobile' | 'tablet' | 'desktop' {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !window) {
     return 'desktop'; // SSR fallback
   }
   

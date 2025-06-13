@@ -35,7 +35,10 @@ export function validateFrontmatter(data: unknown): data is BlogPostFrontmatter 
   }
 
   // Date should be a valid date string if provided
-  if (frontmatter.date && typeof frontmatter.date === 'string') {
+  if (frontmatter.date) {
+    if (typeof frontmatter.date !== 'string') {
+      return false;
+    }
     const date = new Date(frontmatter.date);
     if (isNaN(date.getTime())) {
       return false;
