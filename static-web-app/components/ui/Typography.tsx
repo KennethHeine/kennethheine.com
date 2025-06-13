@@ -3,6 +3,7 @@
 
 import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
+import type { BaseComponentProps } from '../../types/ui';
 
 /**
  * Typography variants for different text elements
@@ -41,16 +42,19 @@ export type TypographyElement =
 
 /**
  * Typography component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
  */
-export interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
+export interface TypographyProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLElement>, keyof BaseComponentProps> {
   /** Typography variant for styling */
   variant?: TypographyVariant;
   /** HTML element to render as */
   as?: TypographyElement;
-  /** Custom className for additional styling */
-  className?: string;
-  /** Typography content */
-  children?: React.ReactNode;
 }
 
 /**

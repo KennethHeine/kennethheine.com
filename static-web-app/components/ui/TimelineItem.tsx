@@ -1,11 +1,28 @@
 // --- file: components/TimelineItem.tsx ---
-interface TimelineItemProps {
-  item: {
-    year: string;
-    title: string;
-    company: string;
-    description: string;
-  };
+import type { BaseComponentProps } from '../../types/ui';
+
+/**
+ * Timeline item data interface
+ */
+export interface TimelineItemData {
+  year: string;
+  title: string;
+  company: string;
+  description: string;
+}
+
+/**
+ * Timeline item component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
+ */
+interface TimelineItemProps extends BaseComponentProps {
+  /** Timeline item data */
+  item: TimelineItemData;
+  /** Index in the timeline (for styling alternation) */
   index: number;
 }
 

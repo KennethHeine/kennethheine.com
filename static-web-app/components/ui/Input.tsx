@@ -3,11 +3,7 @@
 
 import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
-
-/**
- * Input size variants
- */
-export type InputSize = 'sm' | 'md' | 'lg';
+import type { BaseComponentProps, ComponentSize } from '../../types/ui';
 
 /**
  * Input visual variants
@@ -16,13 +12,23 @@ export type InputVariant = 'default' | 'error' | 'success';
 
 /**
  * Input component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Uses centralized ComponentSize type
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
  */
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+  extends BaseComponentProps,
+    Omit<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      keyof BaseComponentProps | 'size'
+    > {
   /** Visual variant of the input */
   variant?: InputVariant;
   /** Size of the input */
-  size?: InputSize;
+  size?: ComponentSize;
   /** Label for the input */
   label?: string;
   /** Helper text to display below the input */
@@ -33,18 +39,27 @@ export interface InputProps
   startIcon?: React.ReactNode;
   /** Icon to display at the end of the input */
   endIcon?: React.ReactNode;
-  /** Custom className for additional styling */
-  className?: string;
+  /** Input change handler - follows onAction naming pattern */
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  /** Input focus handler - follows onAction naming pattern */
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  /** Input blur handler - follows onAction naming pattern */
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 /**
- * Label component props
+ * Label component props interface
+ *
+ * Follows consistent prop patterns for form components
  */
 export interface LabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  extends BaseComponentProps,
+    Omit<
+      React.LabelHTMLAttributes<HTMLLabelElement>,
+      keyof BaseComponentProps
+    > {
+  /** Whether the field is required */
   required?: boolean;
-  className?: string;
-  children?: React.ReactNode;
 }
 
 /**
@@ -62,10 +77,12 @@ const inputVariants: Record<InputVariant, string> = {
 /**
  * Input size styles mapping
  */
-const inputSizes: Record<InputSize, string> = {
+const inputSizes: Record<ComponentSize, string> = {
+  xs: 'px-2 py-1 text-xs',
   sm: 'px-3 py-1.5 text-sm',
   md: 'px-4 py-2 text-base',
   lg: 'px-4 py-3 text-lg',
+  xl: 'px-5 py-4 text-xl',
 };
 
 /**
