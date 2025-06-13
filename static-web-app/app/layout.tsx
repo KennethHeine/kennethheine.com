@@ -2,21 +2,7 @@
 import { Layout } from '@/components/layout/Layout';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-
-// Configure Google Fonts
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 // SEO metadata for the entire site
 export const metadata: Metadata = {
@@ -103,7 +89,10 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+        className={`font-sans antialiased`}
+        style={{
+          fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
+        } as React.CSSProperties}
         suppressHydrationWarning
       >
         <ThemeProvider>
