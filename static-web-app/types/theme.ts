@@ -267,22 +267,22 @@ export interface CSSCustomProperties {
   '--color-primary-800': string;
   '--color-primary-900': string;
   '--color-primary-950': string;
-  
+
   /** Background color variables */
   '--color-background': string;
   '--color-foreground': string;
   '--color-surface': string;
   '--color-surface-secondary': string;
-  
+
   /** Text color variables */
   '--color-text': string;
   '--color-text-secondary': string;
   '--color-text-muted': string;
-  
+
   /** Border color variables */
   '--color-border': string;
   '--color-border-secondary': string;
-  
+
   /** Additional custom properties */
   [key: `--${string}`]: string;
 }

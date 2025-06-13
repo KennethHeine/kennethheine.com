@@ -19,13 +19,17 @@ describe('SEO Structured Data utilities', () => {
     };
 
     it('generates complete structured data for blog post with all fields', () => {
-      const result = generateBlogPostStructuredData(mockPost, 'https://example.com');
+      const result = generateBlogPostStructuredData(
+        mockPost,
+        'https://example.com'
+      );
 
       expect(result).toEqual({
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         headline: 'Understanding JavaScript Closures',
-        description: 'A comprehensive guide to understanding closures in JavaScript',
+        description:
+          'A comprehensive guide to understanding closures in JavaScript',
         author: {
           '@type': 'Person',
           name: 'Jane Developer',
@@ -50,7 +54,8 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'BlogPosting',
         headline: 'Understanding JavaScript Closures',
-        description: 'A comprehensive guide to understanding closures in JavaScript',
+        description:
+          'A comprehensive guide to understanding closures in JavaScript',
         author: {
           '@type': 'Person',
           name: 'Jane Developer',
@@ -70,7 +75,10 @@ describe('SEO Structured Data utilities', () => {
 
     it('handles missing author field', () => {
       const postWithoutAuthor = { ...mockPost, author: undefined };
-      const result = generateBlogPostStructuredData(postWithoutAuthor, 'https://example.com');
+      const result = generateBlogPostStructuredData(
+        postWithoutAuthor,
+        'https://example.com'
+      );
 
       expect(result.author).toEqual({
         '@type': 'Person',
@@ -80,7 +88,10 @@ describe('SEO Structured Data utilities', () => {
 
     it('handles missing cover image', () => {
       const postWithoutImage = { ...mockPost, coverImage: undefined };
-      const result = generateBlogPostStructuredData(postWithoutImage, 'https://example.com');
+      const result = generateBlogPostStructuredData(
+        postWithoutImage,
+        'https://example.com'
+      );
 
       expect(result.image).toBeUndefined();
     });
@@ -100,7 +111,10 @@ describe('SEO Structured Data utilities', () => {
     });
 
     it('uses post date for both published and modified dates', () => {
-      const result = generateBlogPostStructuredData(mockPost, 'https://example.com');
+      const result = generateBlogPostStructuredData(
+        mockPost,
+        'https://example.com'
+      );
 
       expect(result.datePublished).toBe('2024-01-15');
       expect(result.dateModified).toBe('2024-01-15');
@@ -114,7 +128,10 @@ describe('SEO Structured Data utilities', () => {
     });
 
     it('includes publisher information with Kenneth Heine as default', () => {
-      const result = generateBlogPostStructuredData(mockPost, 'https://example.com');
+      const result = generateBlogPostStructuredData(
+        mockPost,
+        'https://example.com'
+      );
 
       expect(result.publisher).toEqual({
         '@type': 'Person',
@@ -193,7 +210,9 @@ describe('SEO Structured Data utilities', () => {
       const result = generateWebsiteStructuredData('https://example.com');
 
       expect(result.name).toBe('Kenneth Heine');
-      expect(result.description).toBe('Personal website and blog of Kenneth Heine');
+      expect(result.description).toBe(
+        'Personal website and blog of Kenneth Heine'
+      );
       expect(result.author.name).toBe('Kenneth Heine');
     });
   });

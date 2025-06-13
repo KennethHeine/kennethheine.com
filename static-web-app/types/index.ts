@@ -1,14 +1,14 @@
 /**
  * Centralized type exports for the application
  * This file re-exports all types from their respective modules for easier importing
- * 
+ *
  * @example
  * ```typescript
  * // Instead of multiple imports:
  * import { BlogPost } from '@/types/blog';
  * import { ButtonProps } from '@/types/ui';
  * import { Theme } from '@/types/theme';
- * 
+ *
  * // Use a single import:
  * import type { BlogPost, ButtonProps, Theme } from '@/types';
  * ```
@@ -157,7 +157,8 @@ export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 /**
  * Utility type for making specific properties required
  */
-export type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type RequiredBy<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
 
 /**
  * Utility type for deep partial
@@ -215,14 +216,13 @@ export type Awaited<T> = T extends Promise<infer U> ? U : T;
 /**
  * Utility type for component ref types
  */
-export type ComponentRef<T> = T extends React.ComponentType<any> 
-  ? React.ComponentRef<T>
-  : never;
+export type ComponentRef<T> =
+  T extends React.ComponentType<any> ? React.ComponentRef<T> : never;
 
 /**
  * Utility type for HTML element props
  */
-export type HTMLElementProps<T extends keyof React.JSX.IntrinsicElements> = 
+export type HTMLElementProps<T extends keyof React.JSX.IntrinsicElements> =
   React.JSX.IntrinsicElements[T];
 
 /**
@@ -230,4 +230,6 @@ export type HTMLElementProps<T extends keyof React.JSX.IntrinsicElements> =
  */
 export type PolymorphicProps<T = 'div'> = {
   as?: T;
-} & (T extends keyof React.JSX.IntrinsicElements ? React.JSX.IntrinsicElements[T] : {});
+} & (T extends keyof React.JSX.IntrinsicElements
+  ? React.JSX.IntrinsicElements[T]
+  : {});

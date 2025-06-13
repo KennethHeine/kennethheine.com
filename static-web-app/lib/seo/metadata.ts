@@ -46,6 +46,9 @@ export function generatePageMetadata(
  * @param baseUrl - Base URL of the site
  * @returns Canonical URL
  */
-export function generateCanonicalUrl(path: string, baseUrl: string = ''): string {
+export function generateCanonicalUrl(
+  path: string,
+  baseUrl: string = ''
+): string {
   return `${baseUrl}${path}`;
 }

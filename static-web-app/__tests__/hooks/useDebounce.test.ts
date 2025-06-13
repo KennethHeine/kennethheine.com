@@ -3,7 +3,11 @@
  */
 
 import { act, renderHook } from '@testing-library/react';
-import { useDebounce, useDebouncedCallback, useDebouncedValue } from '../../hooks/useDebounce';
+import {
+  useDebounce,
+  useDebouncedCallback,
+  useDebouncedValue,
+} from '../../hooks/useDebounce';
 
 // Mock timers
 jest.useFakeTimers();
@@ -69,7 +73,8 @@ describe('useDebounce', () => {
     const { result, rerender } = renderHook(
       ({ value }) => useDebounce(value, { delay: 300, leading: true }),
       { initialProps: { value: 'initial' } }
-    );    expect(result.current).toBe('initial');
+    );
+    expect(result.current).toBe('initial');
 
     // Change value - should update immediately with leading: true
     rerender({ value: 'changed' });
@@ -100,7 +105,7 @@ describe('useDebouncedCallback', () => {
 
   it('debounces callback execution', () => {
     const callback = jest.fn();
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useDebouncedCallback(callback, { delay: 300 })
     );
 
@@ -121,7 +126,7 @@ describe('useDebouncedCallback', () => {
 
   it('supports leading edge execution', () => {
     const callback = jest.fn();
-    const { result } = renderHook(() => 
+    const { result } = renderHook(() =>
       useDebouncedCallback(callback, { delay: 300, leading: true })
     );
 

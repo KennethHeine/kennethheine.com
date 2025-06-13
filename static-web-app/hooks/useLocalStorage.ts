@@ -22,35 +22,35 @@ interface UseLocalStorageOptions<T> {
 type UseLocalStorageReturn<T> = [
   value: T,
   setValue: (value: T | ((prev: T) => T)) => void,
-  removeValue: () => void
+  removeValue: () => void,
 ];
 
 /**
  * localStorage hook with SSR compatibility and type safety
- * 
+ *
  * Features:
  * - SSR safe initialization
  * - Cross-tab synchronization
  * - Custom serialization support
  * - Type validation
  * - Error handling
- * 
+ *
  * @template T - Type of the stored value
  * @param key - localStorage key
  * @param initialValue - Initial value when key doesn't exist
  * @param options - Configuration options
  * @returns Tuple containing [value, setValue, removeValue]
- * 
+ *
  * @example
  * ```typescript
  * const [theme, setTheme, removeTheme] = useLocalStorage('theme', 'light');
- * 
+ *
  * // Update theme
  * setTheme('dark');
- * 
+ *
  * // Remove theme (resets to initial value)
  * removeTheme();
- * 
+ *
  * // With custom serializer
  * const [settings, setSettings] = useLocalStorage('settings', {}, {
  *   serializer: {
@@ -90,20 +90,20 @@ export function useLocalStorage<T>(
 
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      
+
       if (item === null) {
         return initialValue;
       }
 
       // Parse stored value
       const parsed = serializer.read(item) as T;
-      
+
       // Validate if validator is provided
       if (validator && !validator(parsed)) {
         console.warn(`Invalid value in localStorage for key "${key}":`, parsed);
         return initialValue;
       }
-      
+
       return parsed;
     } catch (error) {
       console.warn(`Error reading localStorage key "${key}":`, error);
@@ -119,17 +119,21 @@ export function useLocalStorage<T>(
     (value: T | ((val: T) => T)) => {
       try {
         // Allow value to be a function so we have the same API as useState
-        const valueToStore = value instanceof Function ? value(storedValue) : value;
-        
+        const valueToStore =
+          value instanceof Function ? value(storedValue) : value;
+
         // Validate if validator is provided
         if (validator && !validator(valueToStore)) {
-          console.warn(`Invalid value for localStorage key "${key}":`, valueToStore);
+          console.warn(
+            `Invalid value for localStorage key "${key}":`,
+            valueToStore
+          );
           return;
         }
-        
+
         // Save state
         setStoredValue(valueToStore);
-        
+
         // Save to local storage
         if (typeof window !== 'undefined') {
           window.localStorage.setItem(key, serializer.write(valueToStore));
@@ -173,23 +177,29 @@ export function useLocalStorage<T>(
         } else {
           try {
             const parsed = serializer.read(e.newValue) as T;
-            
+
             // Validate if validator is provided
             if (validator && !validator(parsed)) {
-              console.warn(`Invalid value from storage event for key "${key}":`, parsed);
+              console.warn(
+                `Invalid value from storage event for key "${key}":`,
+                parsed
+              );
               return;
             }
-            
+
             setStoredValue(parsed);
           } catch (error) {
-            console.warn(`Error parsing storage event for key "${key}":`, error);
+            console.warn(
+              `Error parsing storage event for key "${key}":`,
+              error
+            );
           }
         }
       }
     };
 
     window.addEventListener('storage', handleStorageChange);
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };

@@ -2,7 +2,7 @@
 /**
  * General utility functions for common operations throughout the application
  * This module provides helper functions for formatting, validation, and other utilities
- * 
+ *
  * Note: UI-specific utilities have been moved to lib/ui/ but cn() is kept here for backward compatibility
  */
 
@@ -191,7 +191,7 @@ export function deepClone<T>(obj: T): T {
   if (typeof obj === 'object') {
     const cloned = {} as T;
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         cloned[key] = deepClone(obj[key]);
       }
     }

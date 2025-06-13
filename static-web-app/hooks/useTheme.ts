@@ -34,24 +34,24 @@ interface UseThemeReturn {
 
 /**
  * Enhanced theme management hook with React 19 patterns
- * 
+ *
  * Features:
  * - System theme detection
  * - localStorage persistence
  * - Cross-tab synchronization
  * - SSR compatibility
  * - React 19 optimized patterns
- * 
+ *
  * @param options - Configuration options
  * @returns Theme state and controls
- * 
+ *
  * @example
  * ```typescript
  * const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
- * 
+ *
  * // Set specific theme
  * setTheme('dark');
- * 
+ *
  * // Toggle between light/dark
  * toggleTheme();
  * ```
@@ -67,17 +67,18 @@ export function useTheme(options: UseThemeOptions = {}): UseThemeReturn {
   const [mounted, setMounted] = useState(false);
 
   // Calculate resolved theme
-  const resolvedTheme: ResolvedTheme = 
-    theme === 'system' 
-      ? (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches 
-          ? 'dark' 
-          : 'light')
+  const resolvedTheme: ResolvedTheme =
+    theme === 'system'
+      ? typeof window !== 'undefined' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light'
       : theme;
 
   // Set mounted after hydration
   useEffect(() => {
     setMounted(true);
-    
+
     // Load theme from localStorage
     try {
       const savedTheme = localStorage.getItem(storageKey) as Theme | null;
@@ -94,13 +95,13 @@ export function useTheme(options: UseThemeOptions = {}): UseThemeReturn {
     if (!mounted) return;
 
     const root = document.documentElement;
-    
+
     // Remove existing theme classes
     root.classList.remove('light', 'dark');
-    
+
     // Apply resolved theme
     root.classList.add(resolvedTheme);
-    
+
     // Save to localStorage
     try {
       localStorage.setItem(storageKey, theme);
@@ -114,7 +115,7 @@ export function useTheme(options: UseThemeOptions = {}): UseThemeReturn {
     if (!mounted || theme !== 'system') return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleChange = () => {
       const root = document.documentElement;
       root.classList.remove('light', 'dark');

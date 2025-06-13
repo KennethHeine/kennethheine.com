@@ -54,7 +54,9 @@ describe('Responsive utilities', () => {
           const screenWidth = width ?? window.innerWidth;
           return screenWidth >= 1024;
         },
-        getCurrentBreakpoint: (width?: number): 'mobile' | 'tablet' | 'desktop' => {
+        getCurrentBreakpoint: (
+          width?: number
+        ): 'mobile' | 'tablet' | 'desktop' => {
           if (typeof window === 'undefined' || !window) {
             return 'desktop'; // SSR fallback
           }
@@ -62,7 +64,7 @@ describe('Responsive utilities', () => {
           if (screenWidth < 768) return 'mobile';
           if (screenWidth < 1024) return 'tablet';
           return 'desktop';
-        }
+        },
       };
 
       // Test SSR fallbacks directly
@@ -75,11 +77,11 @@ describe('Responsive utilities', () => {
     it('handles null window object', () => {
       // Test with null window (simulate edge case)
       const originalWindow = global.window;
-      
+
       try {
         // @ts-ignore - Temporarily set window to null
         global.window = null as any;
-        
+
         expect(isMobile()).toBe(false);
         expect(isTablet()).toBe(false);
         expect(isDesktop()).toBe(true);
@@ -199,8 +201,8 @@ describe('Responsive utilities', () => {
       // Test the intended behavior: when there's no window.innerWidth, use provided width
       const desktopWidth = 1200;
       expect(isDesktop(desktopWidth)).toBe(true);
-      
-      const mobileWidth = 400;  
+
+      const mobileWidth = 400;
       expect(isDesktop(mobileWidth)).toBe(false);
     });
 
@@ -277,7 +279,7 @@ describe('Responsive utilities', () => {
 
       testWidths.forEach(width => {
         const breakpoint = getCurrentBreakpoint(width);
-        
+
         if (breakpoint === 'mobile') {
           expect(isMobile(width)).toBe(true);
           expect(isTablet(width)).toBe(false);

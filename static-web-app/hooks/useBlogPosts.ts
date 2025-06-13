@@ -6,7 +6,7 @@
 'use client';
 
 import { useCallback, useMemo, useState, useTransition } from 'react';
-import { getAllPosts, getPostBySlug, getPostsByTag, getAllTags } from '@/lib/blog';
+import { getAllPosts, getPostBySlug, getAllTags } from '@/lib/blog';
 import type { BlogPost } from '@/types/blog';
 
 interface UseBlogPostsOptions {
@@ -47,31 +47,33 @@ interface UseBlogPostsReturn {
 
 /**
  * Enhanced blog posts hook with React 19 patterns
- * 
+ *
  * Features:
  * - Client-side search and filtering
  * - Pagination support
  * - Tag filtering
  * - React 19 transitions for smooth UX
  * - Optimistic updates
- * 
+ *
  * @param options - Configuration options
  * @returns Blog posts state and controls
- * 
+ *
  * @example
  * ```typescript
  * const { posts, tags, filterByTag, setSearchQuery } = useBlogPosts({
  *   pageSize: 10
  * });
- * 
+ *
  * // Filter by tag
  * filterByTag('azure');
- * 
+ *
  * // Search posts
  * setSearchQuery('Next.js');
  * ```
  */
-export function useBlogPosts(options: UseBlogPostsOptions = {}): UseBlogPostsReturn {
+export function useBlogPosts(
+  options: UseBlogPostsOptions = {}
+): UseBlogPostsReturn {
   const {
     initialPosts = [],
     tag: initialTag = null,
@@ -80,7 +82,9 @@ export function useBlogPosts(options: UseBlogPostsOptions = {}): UseBlogPostsRet
   } = options;
 
   const [isPending, startTransition] = useTransition();
-  const [allPosts] = useState<BlogPost[]>(() => initialPosts.length > 0 ? initialPosts : getAllPosts());
+  const [allPosts] = useState<BlogPost[]>(() =>
+    initialPosts.length > 0 ? initialPosts : getAllPosts()
+  );
   const [searchQuery, setSearchQueryState] = useState(initialSearchQuery);
   const [currentTag, setCurrentTag] = useState<string | null>(initialTag);
   const [displayCount, setDisplayCount] = useState(pageSize);
@@ -96,19 +100,21 @@ export function useBlogPosts(options: UseBlogPostsOptions = {}): UseBlogPostsRet
 
       // Filter by tag
       if (currentTag) {
-        filtered = filtered.filter(post => 
-          post.tags && post.tags.includes(currentTag)
+        filtered = filtered.filter(
+          post => post.tags && post.tags.includes(currentTag)
         );
       }
 
       // Search in title, excerpt, and content
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
-        filtered = filtered.filter(post => 
-          post.title.toLowerCase().includes(query) ||
-          (post.excerpt && post.excerpt.toLowerCase().includes(query)) ||
-          (post.content && post.content.toLowerCase().includes(query)) ||
-          (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+        filtered = filtered.filter(
+          post =>
+            post.title.toLowerCase().includes(query) ||
+            (post.excerpt && post.excerpt.toLowerCase().includes(query)) ||
+            (post.content && post.content.toLowerCase().includes(query)) ||
+            (post.tags &&
+              post.tags.some(tag => tag.toLowerCase().includes(query)))
         );
       }
 
@@ -127,21 +133,27 @@ export function useBlogPosts(options: UseBlogPostsOptions = {}): UseBlogPostsRet
   // Check if more posts are available
   const hasMore = displayCount < filteredPosts.length;
 
-  const setSearchQuery = useCallback((query: string) => {
-    startTransition(() => {
-      setSearchQueryState(query);
-      setDisplayCount(pageSize); // Reset pagination when searching
-      setError(null);
-    });
-  }, [pageSize]);
+  const setSearchQuery = useCallback(
+    (query: string) => {
+      startTransition(() => {
+        setSearchQueryState(query);
+        setDisplayCount(pageSize); // Reset pagination when searching
+        setError(null);
+      });
+    },
+    [pageSize]
+  );
 
-  const filterByTag = useCallback((tag: string | null) => {
-    startTransition(() => {
-      setCurrentTag(tag);
-      setDisplayCount(pageSize); // Reset pagination when filtering
-      setError(null);
-    });
-  }, [pageSize]);
+  const filterByTag = useCallback(
+    (tag: string | null) => {
+      startTransition(() => {
+        setCurrentTag(tag);
+        setDisplayCount(pageSize); // Reset pagination when filtering
+        setError(null);
+      });
+    },
+    [pageSize]
+  );
 
   const loadMore = useCallback(() => {
     startTransition(() => {
@@ -197,16 +209,16 @@ interface UsePostReturn {
 
 /**
  * Individual blog post hook with navigation
- * 
+ *
  * @param options - Configuration options
  * @returns Post state and navigation controls
  */
 export function usePost(options: UsePostOptions): UsePostReturn {
   const { slug, optimistic = true } = options;
-  
+
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  
+
   // Get post data
   const post = useMemo(() => {
     try {
@@ -220,14 +232,15 @@ export function usePost(options: UsePostOptions): UsePostReturn {
   // Get related posts based on tags
   const relatedPosts = useMemo(() => {
     if (!post || !post.tags || post.tags.length === 0) return [];
-    
+
     try {
       const allPosts = getAllPosts();
       return allPosts
-        .filter(p => 
-          p.slug !== post.slug && 
-          p.tags && 
-          p.tags.some(tag => post.tags!.includes(tag))
+        .filter(
+          p =>
+            p.slug !== post.slug &&
+            p.tags &&
+            p.tags.some(tag => post.tags!.includes(tag))
         )
         .slice(0, 3); // Limit to 3 related posts
     } catch (err) {
@@ -238,7 +251,7 @@ export function usePost(options: UsePostOptions): UsePostReturn {
 
   const nextPost = useCallback(() => {
     if (!optimistic) return;
-    
+
     startTransition(() => {
       // Implementation would depend on routing setup
       console.log('Navigate to next post');
@@ -247,7 +260,7 @@ export function usePost(options: UsePostOptions): UsePostReturn {
 
   const previousPost = useCallback(() => {
     if (!optimistic) return;
-    
+
     startTransition(() => {
       // Implementation would depend on routing setup
       console.log('Navigate to previous post');
