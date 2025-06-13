@@ -304,25 +304,25 @@ describe('ThemeToggle component', () => {
     });
 
     it('supports different sizes', () => {
-      const { rerender } = render(<ThemeToggle size="xs" />);
+      const { rerender } = render(<ThemeToggle size='xs' />);
       let button = screen.getByRole('button');
       let svg = button.querySelector('svg');
       expect(svg).toHaveClass('h-3', 'w-3');
       expect(button).toHaveClass('p-1');
 
-      rerender(<ThemeToggle size="sm" />);
+      rerender(<ThemeToggle size='sm' />);
       button = screen.getByRole('button');
       svg = button.querySelector('svg');
       expect(svg).toHaveClass('h-4', 'w-4');
       expect(button).toHaveClass('p-1.5');
 
-      rerender(<ThemeToggle size="lg" />);
+      rerender(<ThemeToggle size='lg' />);
       button = screen.getByRole('button');
       svg = button.querySelector('svg');
       expect(svg).toHaveClass('h-6', 'w-6');
       expect(button).toHaveClass('p-2.5');
 
-      rerender(<ThemeToggle size="xl" />);
+      rerender(<ThemeToggle size='xl' />);
       button = screen.getByRole('button');
       svg = button.querySelector('svg');
       expect(svg).toHaveClass('h-7', 'w-7');

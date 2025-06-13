@@ -13,8 +13,9 @@ describe('SEO Structured Data utilities', () => {
       excerpt: 'A comprehensive guide to understanding closures in JavaScript',
       content: 'Detailed content about closures...',
       tags: ['javascript', 'programming', 'web-development'],
+      published: true,
       author: 'Jane Developer',
-      readingTime: '8 min read',
+      readingTime: 8,
       coverImage: '/images/closures-cover.jpg',
     };
 

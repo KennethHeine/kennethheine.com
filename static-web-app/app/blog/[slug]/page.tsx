@@ -4,9 +4,9 @@ import Container from '@/components/layout/Container';
 import { getAllPosts, getPostBySlug } from '@/lib/blog';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { EnhancedBlogContent } from '@/components/blog/EnhancedBlogContent';
 
 // Type for page props
 interface BlogPostPageProps {
@@ -133,11 +133,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Post Content */}
         <section className='pb-20'>
           <Container>
-            <div className='mx-auto max-w-3xl'>
-              <div className='prose prose-gray max-w-none dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline dark:prose-a:text-brand-400 prose-code:rounded prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm dark:prose-code:bg-gray-800 prose-pre:overflow-x-auto prose-pre:rounded-lg prose-pre:bg-gray-900 prose-pre:p-4 dark:prose-pre:bg-gray-800'>
-                <MDXRemote source={post.content} />
-              </div>
-            </div>
+            <EnhancedBlogContent post={post} />
           </Container>
         </section>
       </article>

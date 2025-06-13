@@ -18,6 +18,15 @@ jest.mock('../../lib/blog', () => ({
   getPostSlugs: jest.fn(),
 }));
 
+// Mock EnhancedBlogContent component
+jest.mock('../../components/blog/EnhancedBlogContent', () => ({
+  EnhancedBlogContent: ({ post }: { post: any }) => (
+    <div data-testid='enhanced-blog-content'>
+      Enhanced blog content for: {post.title}
+    </div>
+  ),
+}));
+
 // Mock MDX processing
 jest.mock('next-mdx-remote/serialize', () => ({
   serialize: jest.fn(() =>

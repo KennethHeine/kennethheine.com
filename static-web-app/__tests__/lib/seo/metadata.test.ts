@@ -14,8 +14,9 @@ describe('SEO Metadata utilities', () => {
       excerpt: 'This is a test blog post excerpt',
       content: 'Test content',
       tags: ['javascript', 'testing'],
+      published: true,
       author: 'Test Author',
-      readingTime: '5 min read',
+      readingTime: 5,
       coverImage: '/images/test-cover.jpg',
     };
 
