@@ -4,33 +4,23 @@
  *
  * Essential reusable UI components built with Tailwind CSS v4
  * and following consistent design patterns and accessibility standards.
+ *
+ * All components follow standardized prop patterns:
+ * - Extend BaseComponentProps for consistent props (className, children, style, testId)
+ * - Use centralized ComponentSize and ComponentVariant types
+ * - Event handlers follow onAction naming pattern
+ * - Support forwardRef pattern for DOM access
  */
 
 // Core UI Components
-export {
-  default as Button,
-  type ButtonProps,
-  type ButtonSize,
-  type ButtonVariant,
-} from './Button';
-export {
-  default as Card,
-  type CardProps,
-  type CardSize,
-  type CardVariant,
-} from './Card';
-export {
-  default as Badge,
-  type BadgeProps,
-  type BadgeSize,
-  type BadgeVariant,
-} from './Badge';
+export { default as Button, type ButtonProps } from './Button';
+export { default as Card, type CardProps, type CardVariant } from './Card';
+export { default as Badge, type BadgeProps, type BadgeVariant } from './Badge';
 export {
   default as Input,
   Label,
   type InputProps,
   type LabelProps,
-  type InputSize,
   type InputVariant,
 } from './Input';
 export { default as Modal, type ModalProps, type ModalSize } from './Modal';
@@ -49,7 +39,16 @@ export {
   type TypographyElement,
 } from './Typography';
 
+// Specialized components
+export { ThemeToggle, type ThemeToggleProps } from './ThemeToggle';
+export { TimelineItem, type TimelineItemData } from './TimelineItem';
+
 // Legacy components (deprecated)
 export { default as SkillBadge } from './SkillBadge';
-export { ThemeToggle } from './ThemeToggle';
-export { TimelineItem } from './TimelineItem';
+
+// Centralized types (re-exported from types/ui.ts)
+export type {
+  BaseComponentProps,
+  ComponentSize,
+  ComponentVariant,
+} from '../../types/ui';

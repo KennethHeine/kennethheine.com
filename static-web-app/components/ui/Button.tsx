@@ -3,41 +3,39 @@
 
 import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
-
-/**
- * Button size variants
- */
-export type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
-
-/**
- * Button visual variants
- */
-export type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'outline'
-  | 'ghost'
-  | 'danger';
+import type {
+  BaseComponentProps,
+  ComponentSize,
+  ComponentVariant,
+} from '../../types/ui';
 
 /**
  * Button component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Uses centralized ComponentSize and ComponentVariant types
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
  */
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  extends BaseComponentProps,
+    Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      keyof BaseComponentProps
+    > {
   /** Visual variant of the button */
-  variant?: ButtonVariant;
+  variant?: ComponentVariant | 'danger';
   /** Size of the button */
-  size?: ButtonSize;
+  size?: ComponentSize;
   /** Whether the button is in a loading state */
   loading?: boolean;
   /** Icon to display before the text */
   icon?: React.ReactNode;
   /** Icon to display after the text */
   iconAfter?: React.ReactNode;
-  /** Custom className for additional styling */
-  className?: string;
-  /** Button content */
-  children?: React.ReactNode;
+  /** Button click handler - follows onAction naming pattern */
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 /**
@@ -48,19 +46,22 @@ const buttonBaseStyles = 'btn';
 /**
  * Button variant styles mapping
  */
-const buttonVariants: Record<ButtonVariant, string> = {
+const buttonVariants: Record<ComponentVariant | 'danger', string> = {
   primary: 'btn-primary',
   secondary: 'btn-secondary',
   outline: 'btn-outline',
   ghost:
     'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300',
+  destructive:
+    'bg-error-500 text-white hover:bg-error-600 focus:ring-error-500',
   danger: 'bg-error-500 text-white hover:bg-error-600 focus:ring-error-500',
 };
 
 /**
  * Button size styles mapping
  */
-const buttonSizes: Record<ButtonSize, string> = {
+const buttonSizes: Record<ComponentSize, string> = {
+  xs: 'px-2 py-1 text-xs',
   sm: 'px-3 py-1.5 text-sm',
   md: 'px-4 py-2 text-base',
   lg: 'px-6 py-3 text-lg',

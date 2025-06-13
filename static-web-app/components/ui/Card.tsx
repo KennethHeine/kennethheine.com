@@ -3,11 +3,7 @@
 
 import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
-
-/**
- * Card size variants
- */
-export type CardSize = 'sm' | 'md' | 'lg';
+import type { BaseComponentProps, ComponentSize } from '../../types/ui';
 
 /**
  * Card visual variants
@@ -16,45 +12,54 @@ export type CardVariant = 'default' | 'elevated' | 'outlined' | 'subtle';
 
 /**
  * Card component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Uses centralized ComponentSize type
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
  */
-export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {
   /** Visual variant of the card */
   variant?: CardVariant;
   /** Size/padding of the card */
-  size?: CardSize;
+  size?: ComponentSize;
   /** Whether the card is hoverable */
   hoverable?: boolean;
   /** Whether the card is clickable */
   clickable?: boolean;
-  /** Custom className for additional styling */
-  className?: string;
-  /** Card content */
-  children?: React.ReactNode;
+  /** Card click handler - follows onAction naming pattern */
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 /**
- * Card header component props
+ * Card header component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  children?: React.ReactNode;
-}
+export interface CardHeaderProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
- * Card body component props
+ * Card body component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface CardBodyProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  children?: React.ReactNode;
-}
+export interface CardBodyProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
- * Card footer component props
+ * Card footer component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  children?: React.ReactNode;
-}
+export interface CardFooterProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
  * Base card styles using Tailwind CSS and design tokens
@@ -74,10 +79,12 @@ const cardVariants: Record<CardVariant, string> = {
 /**
  * Card size styles mapping
  */
-const cardSizes: Record<CardSize, string> = {
+const cardSizes: Record<ComponentSize, string> = {
+  xs: 'p-2',
   sm: 'p-4',
   md: 'p-6',
   lg: 'p-8',
+  xl: 'p-10',
 };
 
 /**

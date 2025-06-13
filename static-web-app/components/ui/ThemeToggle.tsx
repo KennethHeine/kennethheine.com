@@ -2,15 +2,45 @@
 'use client';
 
 import { useTheme } from '../providers/ThemeProvider';
+import { cn } from '../../lib/utils';
+import type { BaseComponentProps, ComponentSize } from '../../types/ui';
+
+/**
+ * Theme toggle component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Uses centralized ComponentSize type
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
+ */
+export interface ThemeToggleProps extends BaseComponentProps {
+  /** Size of the toggle button */
+  size?: ComponentSize;
+  /** Whether to show text label alongside icon */
+  showLabel?: boolean;
+  /** Custom click handler - follows onAction naming pattern */
+  onClick?: () => void;
+}
 
 /**
  * Theme toggle button component
  * Cycles between light, dark, and system themes
  */
-export function ThemeToggle() {
+export function ThemeToggle({
+  size = 'md',
+  showLabel = false,
+  className,
+  onClick,
+  ...props
+}: ThemeToggleProps = {}) {
   const { theme, setTheme } = useTheme();
 
   const handleToggle = () => {
+    if (onClick) {
+      onClick();
+    }
+
     if (theme === 'light') {
       setTheme('dark');
     } else if (theme === 'dark') {
@@ -20,17 +50,31 @@ export function ThemeToggle() {
     }
   };
 
+  // Size mapping for icons and padding
+  const sizeClasses: Record<ComponentSize, { icon: string; padding: string }> =
+    {
+      xs: { icon: 'h-3 w-3', padding: 'p-1' },
+      sm: { icon: 'h-4 w-4', padding: 'p-1.5' },
+      md: { icon: 'h-5 w-5', padding: 'p-2' },
+      lg: { icon: 'h-6 w-6', padding: 'p-2.5' },
+      xl: { icon: 'h-7 w-7', padding: 'p-3' },
+    };
+
+  const { icon: iconSize, padding } = sizeClasses[size];
+
   const getIcon = () => {
+    const baseIconProps = {
+      className: iconSize,
+      fill: 'none',
+      viewBox: '0 0 24 24',
+      strokeWidth: 1.5,
+      stroke: 'currentColor',
+    };
+
     switch (theme) {
       case 'light':
         return (
-          <svg
-            className='h-5 w-5'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-          >
+          <svg {...baseIconProps}>
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -40,13 +84,7 @@ export function ThemeToggle() {
         );
       case 'dark':
         return (
-          <svg
-            className='h-5 w-5'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-          >
+          <svg {...baseIconProps}>
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -56,13 +94,7 @@ export function ThemeToggle() {
         );
       case 'system':
         return (
-          <svg
-            className='h-5 w-5'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-          >
+          <svg {...baseIconProps}>
             <path
               strokeLinecap='round'
               strokeLinejoin='round'
@@ -87,11 +119,23 @@ export function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className='rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white transition-colors'
+      className={cn(
+        'rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white transition-colors',
+        padding,
+        className
+      )}
       aria-label={getLabel()}
       title={getLabel()}
+      {...props}
     >
-      {getIcon()}
+      <div className={cn('flex items-center gap-2')}>
+        {getIcon()}
+        {showLabel && (
+          <span className='text-sm font-medium'>
+            {theme === 'light' ? 'Light' : theme === 'dark' ? 'Dark' : 'System'}
+          </span>
+        )}
+      </div>
     </button>
   );
 }

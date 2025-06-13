@@ -3,19 +3,26 @@
 
 import { forwardRef, useEffect } from 'react';
 import { cn } from '../../lib/utils';
+import type { BaseComponentProps, ComponentSize } from '../../types/ui';
 
 /**
- * Modal size variants
+ * Modal size variants extending ComponentSize with additional options
  */
-export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type ModalSize = ComponentSize | 'full';
 
 /**
  * Modal component props interface
+ *
+ * Follows consistent prop patterns:
+ * - Extends BaseComponentProps for standard props (className, children, style, testId)
+ * - Uses centralized ComponentSize type with extensions
+ * - Event handlers follow onAction naming pattern
+ * - Supports forwardRef pattern for DOM access
  */
-export interface ModalProps {
+export interface ModalProps extends BaseComponentProps {
   /** Whether the modal is open */
   open: boolean;
-  /** Function to call when the modal should be closed */
+  /** Function to call when the modal should be closed - follows onAction naming pattern */
   onClose: () => void;
   /** Size of the modal */
   size?: ModalSize;
@@ -23,44 +30,45 @@ export interface ModalProps {
   closeOnBackdropClick?: boolean;
   /** Whether pressing escape closes the modal */
   closeOnEscape?: boolean;
-  /** Custom className for additional styling */
-  className?: string;
-  /** Modal content */
-  children?: React.ReactNode;
 }
 
 /**
- * Modal header component props
+ * Modal header component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Function to call when close button is clicked */
+export interface ModalHeaderProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {
+  /** Function to call when close button is clicked - follows onAction naming pattern */
   onClose?: () => void;
   /** Whether to show the close button */
   showCloseButton?: boolean;
-  className?: string;
-  children?: React.ReactNode;
 }
 
 /**
- * Modal body component props
+ * Modal body component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface ModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  children?: React.ReactNode;
-}
+export interface ModalBodyProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
- * Modal footer component props
+ * Modal footer component props interface
+ *
+ * Follows consistent prop patterns for compound components
  */
-export interface ModalFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
-  children?: React.ReactNode;
-}
+export interface ModalFooterProps
+  extends BaseComponentProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
  * Modal size styles mapping
  */
 const modalSizes: Record<ModalSize, string> = {
+  xs: 'max-w-xs',
   sm: 'max-w-md',
   md: 'max-w-lg',
   lg: 'max-w-2xl',

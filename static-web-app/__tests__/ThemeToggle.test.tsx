@@ -251,4 +251,82 @@ describe('ThemeToggle component', () => {
       expect(button).toHaveClass('dark:hover:text-white', 'transition-colors');
     });
   });
+
+  describe('props and customization', () => {
+    beforeEach(() => {
+      useTheme.mockReturnValue(createMockTheme('light'));
+    });
+
+    it('calls custom onClick handler when provided', () => {
+      const customOnClick = jest.fn();
+      render(<ThemeToggle onClick={customOnClick} />);
+
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      expect(customOnClick).toHaveBeenCalledTimes(1);
+      expect(mockSetTheme).toHaveBeenCalledWith('dark');
+    });
+
+    it('works without custom onClick handler', () => {
+      render(<ThemeToggle onClick={undefined} />);
+
+      const button = screen.getByRole('button');
+      fireEvent.click(button);
+
+      expect(mockSetTheme).toHaveBeenCalledWith('dark');
+    });
+
+    it('renders with showLabel prop for light theme', () => {
+      render(<ThemeToggle showLabel={true} />);
+
+      const button = screen.getByRole('button');
+      expect(button).toBeInTheDocument();
+      expect(screen.getByText('Light')).toBeInTheDocument();
+    });
+
+    it('renders with showLabel prop for dark theme', () => {
+      useTheme.mockReturnValue(createMockTheme('dark'));
+      render(<ThemeToggle showLabel={true} />);
+
+      const button = screen.getByRole('button');
+      expect(button).toBeInTheDocument();
+      expect(screen.getByText('Dark')).toBeInTheDocument();
+    });
+
+    it('renders with showLabel prop for system theme', () => {
+      useTheme.mockReturnValue(createMockTheme('system'));
+      render(<ThemeToggle showLabel={true} />);
+
+      const button = screen.getByRole('button');
+      expect(button).toBeInTheDocument();
+      expect(screen.getByText('System')).toBeInTheDocument();
+    });
+
+    it('supports different sizes', () => {
+      const { rerender } = render(<ThemeToggle size="xs" />);
+      let button = screen.getByRole('button');
+      let svg = button.querySelector('svg');
+      expect(svg).toHaveClass('h-3', 'w-3');
+      expect(button).toHaveClass('p-1');
+
+      rerender(<ThemeToggle size="sm" />);
+      button = screen.getByRole('button');
+      svg = button.querySelector('svg');
+      expect(svg).toHaveClass('h-4', 'w-4');
+      expect(button).toHaveClass('p-1.5');
+
+      rerender(<ThemeToggle size="lg" />);
+      button = screen.getByRole('button');
+      svg = button.querySelector('svg');
+      expect(svg).toHaveClass('h-6', 'w-6');
+      expect(button).toHaveClass('p-2.5');
+
+      rerender(<ThemeToggle size="xl" />);
+      button = screen.getByRole('button');
+      svg = button.querySelector('svg');
+      expect(svg).toHaveClass('h-7', 'w-7');
+      expect(button).toHaveClass('p-3');
+    });
+  });
 });
