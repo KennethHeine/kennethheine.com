@@ -33,5 +33,5 @@ Next phases in order of priority:
 3. **Phase 3** - Performance & SEO (Medium)
 4. **Phase 4** - Infrastructure Enhancements (Medium)
 5. **Phase 5** - User Experience (Medium)
-6. **Phase 6** - Security & Compliance (Low)
+6. **Phase 6** - Security & Compliance (Medium, revised scope)
 7. **Phase 7** - Analytics & BI (Low)
