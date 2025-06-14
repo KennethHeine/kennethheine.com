@@ -1,12 +1,12 @@
 // --- file: app/blog/[slug]/page.tsx ---
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import Container from '@/components/layout/Container';
-import { getAllPosts, getPostBySlug } from '@/lib/blog';
+import { getAllPosts, getPostBySlug, getRelatedPosts } from '@/lib/blog';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { EnhancedBlogContent } from '@/components/blog/EnhancedBlogContent';
+import { EnhancedBlogContent, RelatedPosts } from '@/components/blog';
 
 // Type for page props
 interface BlogPostPageProps {
@@ -76,6 +76,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  // Get related posts
+  const relatedPosts = getRelatedPosts(post, 3);
+
   return (
     <main>
       <article>
@@ -98,12 +101,21 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   {post.title}
                 </h1>
                 <div className='mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-                  <time
-                    dateTime={post.date}
-                    className='text-sm text-gray-500 dark:text-gray-400'
-                  >
-                    {formatDate(post.date)}
-                  </time>
+                  <div className='flex items-center gap-4'>
+                    <time
+                      dateTime={post.date}
+                      className='text-sm text-gray-500 dark:text-gray-400'
+                    >
+                      {formatDate(post.date)}
+                    </time>
+
+                    {/* Category badge */}
+                    {post.category && (
+                      <span className='inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 dark:bg-blue-900/20 dark:text-blue-300'>
+                        {post.category}
+                      </span>
+                    )}
+                  </div>
 
                   {/* Tags */}
                   {post.tags && post.tags.length > 0 && (
@@ -137,6 +149,17 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
           </Container>
         </section>
       </article>
+
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <section className='border-t border-gray-200 bg-gray-50 py-20 dark:border-gray-700 dark:bg-gray-900/50'>
+          <Container>
+            <div className='mx-auto max-w-6xl'>
+              <RelatedPosts posts={relatedPosts} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Navigation to other posts */}
       <section className='border-t border-gray-200 py-12 dark:border-gray-700'>

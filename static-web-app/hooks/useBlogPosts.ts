@@ -6,14 +6,15 @@
 'use client';
 
 import { useCallback, useMemo, useState, useTransition } from 'react';
-import { getAllPosts, getPostBySlug, getAllTags } from '@/lib/blog';
 import type { BlogPost } from '@/types/blog';
 
 interface UseBlogPostsOptions {
-  /** Initial posts to display */
-  initialPosts?: BlogPost[];
+  /** Initial posts to display (required for client-side operation) */
+  initialPosts: BlogPost[];
   /** Filter by tag */
   tag?: string;
+  /** Filter by category */
+  category?: string;
   /** Search query */
   searchQuery?: string;
   /** Number of posts per page */
@@ -25,6 +26,8 @@ interface UseBlogPostsReturn {
   posts: BlogPost[];
   /** All available tags */
   tags: string[];
+  /** All available categories */
+  categories: string[];
   /** Loading state */
   loading: boolean;
   /** Error state */
@@ -37,6 +40,10 @@ interface UseBlogPostsReturn {
   filterByTag: (tag: string | null) => void;
   /** Current tag filter */
   currentTag: string | null;
+  /** Filter by category */
+  filterByCategory: (category: string | null) => void;
+  /** Current category filter */
+  currentCategory: string | null;
   /** Load more posts */
   loadMore: () => void;
   /** Whether more posts are available */
@@ -71,27 +78,37 @@ interface UseBlogPostsReturn {
  * setSearchQuery('Next.js');
  * ```
  */
-export function useBlogPosts(
-  options: UseBlogPostsOptions = {}
-): UseBlogPostsReturn {
+export function useBlogPosts(options: UseBlogPostsOptions): UseBlogPostsReturn {
   const {
-    initialPosts = [],
+    initialPosts,
     tag: initialTag = null,
+    category: initialCategory = null,
     searchQuery: initialSearchQuery = '',
     pageSize = 10,
   } = options;
 
   const [isPending, startTransition] = useTransition();
-  const [allPosts] = useState<BlogPost[]>(() =>
-    initialPosts.length > 0 ? initialPosts : getAllPosts()
-  );
+  const [allPosts] = useState<BlogPost[]>(() => initialPosts);
   const [searchQuery, setSearchQueryState] = useState(initialSearchQuery);
   const [currentTag, setCurrentTag] = useState<string | null>(initialTag);
+  const [currentCategory, setCurrentCategory] = useState<string | null>(
+    initialCategory
+  );
   const [displayCount, setDisplayCount] = useState(pageSize);
   const [error, setError] = useState<string | null>(null);
 
-  // Get all available tags
-  const tags = useMemo(() => getAllTags(), []);
+  // Get all available tags and categories from the provided posts
+  const tags = useMemo(() => {
+    const allTags = allPosts.flatMap(post => post.tags);
+    return Array.from(new Set(allTags)).sort();
+  }, [allPosts]);
+
+  const categories = useMemo(() => {
+    const allCategories = allPosts
+      .map(post => post.category)
+      .filter((category): category is string => Boolean(category));
+    return Array.from(new Set(allCategories)).sort();
+  }, [allPosts]);
 
   // Filter and search posts
   const filteredPosts = useMemo(() => {
@@ -103,6 +120,11 @@ export function useBlogPosts(
         filtered = filtered.filter(
           post => post.tags && post.tags.includes(currentTag)
         );
+      }
+
+      // Filter by category
+      if (currentCategory) {
+        filtered = filtered.filter(post => post.category === currentCategory);
       }
 
       // Search in title, excerpt, and content
@@ -123,7 +145,7 @@ export function useBlogPosts(
       setError(err instanceof Error ? err.message : 'Failed to filter posts');
       return allPosts;
     }
-  }, [allPosts, currentTag, searchQuery]);
+  }, [allPosts, currentTag, currentCategory, searchQuery]);
 
   // Get posts to display (with pagination)
   const posts = useMemo(() => {
@@ -155,6 +177,17 @@ export function useBlogPosts(
     [pageSize]
   );
 
+  const filterByCategory = useCallback(
+    (category: string | null) => {
+      startTransition(() => {
+        setCurrentCategory(category);
+        setDisplayCount(pageSize); // Reset pagination when filtering
+        setError(null);
+      });
+    },
+    [pageSize]
+  );
+
   const loadMore = useCallback(() => {
     startTransition(() => {
       setDisplayCount(current => current + pageSize);
@@ -165,6 +198,7 @@ export function useBlogPosts(
     startTransition(() => {
       setSearchQueryState('');
       setCurrentTag(null);
+      setCurrentCategory(null);
       setDisplayCount(pageSize);
       setError(null);
     });
@@ -173,106 +207,17 @@ export function useBlogPosts(
   return {
     posts,
     tags,
+    categories,
     loading: isPending,
     error,
     searchQuery,
     setSearchQuery,
     filterByTag,
     currentTag,
+    filterByCategory,
+    currentCategory,
     loadMore,
     hasMore,
     resetFilters,
-  };
-}
-
-interface UsePostOptions {
-  /** Post slug */
-  slug: string;
-  /** Enable optimistic loading */
-  optimistic?: boolean;
-}
-
-interface UsePostReturn {
-  /** Current post */
-  post: BlogPost | null;
-  /** Loading state */
-  loading: boolean;
-  /** Error state */
-  error: string | null;
-  /** Related posts */
-  relatedPosts: BlogPost[];
-  /** Navigate to next post */
-  nextPost: () => void;
-  /** Navigate to previous post */
-  previousPost: () => void;
-}
-
-/**
- * Individual blog post hook with navigation
- *
- * @param options - Configuration options
- * @returns Post state and navigation controls
- */
-export function usePost(options: UsePostOptions): UsePostReturn {
-  const { slug, optimistic = true } = options;
-
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
-
-  // Get post data
-  const post = useMemo(() => {
-    try {
-      return getPostBySlug(slug);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load post');
-      return null;
-    }
-  }, [slug]);
-
-  // Get related posts based on tags
-  const relatedPosts = useMemo(() => {
-    if (!post || !post.tags || post.tags.length === 0) return [];
-
-    try {
-      const allPosts = getAllPosts();
-      return allPosts
-        .filter(
-          p =>
-            p.slug !== post.slug &&
-            p.tags &&
-            p.tags.some(tag => post.tags!.includes(tag))
-        )
-        .slice(0, 3); // Limit to 3 related posts
-    } catch (err) {
-      console.warn('Failed to load related posts:', err);
-      return [];
-    }
-  }, [post]);
-
-  const nextPost = useCallback(() => {
-    if (!optimistic) return;
-
-    startTransition(() => {
-      // Implementation would depend on routing setup
-      console.log('Navigate to next post');
-    });
-  }, [optimistic]);
-
-  const previousPost = useCallback(() => {
-    if (!optimistic) return;
-
-    startTransition(() => {
-      // Implementation would depend on routing setup
-      console.log('Navigate to previous post');
-    });
-  }, [optimistic]);
-
-  return {
-    post,
-    loading: isPending,
-    error,
-    relatedPosts,
-    nextPost,
-    previousPost,
   };
 }

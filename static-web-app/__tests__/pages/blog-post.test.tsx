@@ -16,6 +16,7 @@ jest.mock('../../lib/blog', () => ({
   getPostBySlug: jest.fn(),
   getAllPosts: jest.fn(),
   getPostSlugs: jest.fn(),
+  getRelatedPosts: jest.fn(),
 }));
 
 // Mock EnhancedBlogContent component
@@ -24,6 +25,13 @@ jest.mock('../../components/blog/EnhancedBlogContent', () => ({
     <div data-testid='enhanced-blog-content'>
       Enhanced blog content for: {post.title}
     </div>
+  ),
+}));
+
+// Mock RelatedPosts component
+jest.mock('../../components/blog/RelatedPosts', () => ({
+  RelatedPosts: ({ posts }: { posts: any[] }) => (
+    <div data-testid='related-posts'>Related posts: {posts.length} posts</div>
   ),
 }));
 
@@ -38,7 +46,11 @@ jest.mock('next-mdx-remote/serialize', () => ({
 }));
 
 // Import the mocked functions after mocking
-const { getPostBySlug, getAllPosts } = require('../../lib/blog');
+const {
+  getPostBySlug,
+  getAllPosts,
+  getRelatedPosts,
+} = require('../../lib/blog');
 
 const mockPost = {
   slug: 'test-post',
@@ -164,6 +176,7 @@ describe('Blog Post Page', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getPostBySlug.mockReturnValue(mockPost);
+    getRelatedPosts.mockReturnValue([]);
   });
 
   it('renders blog post title', async () => {
