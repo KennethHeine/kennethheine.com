@@ -8,7 +8,7 @@ export { useTheme } from './useTheme';
 export type { Theme, ResolvedTheme } from './useTheme';
 
 // Blog data management
-export { useBlogPosts, usePost } from './useBlogPosts';
+export { useBlogPosts } from './useBlogPosts';
 
 // Local storage
 export { useLocalStorage } from './useLocalStorage';

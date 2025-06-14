@@ -25,6 +25,9 @@ export interface BlogPost {
   /** Array of tags associated with the post */
   tags: string[];
 
+  /** Category of the post (typically one per post) */
+  category?: string;
+
   /** Whether the post is published (default: true) */
   published: boolean;
 
@@ -57,6 +60,9 @@ export interface BlogPostFrontmatter {
   /** Array of tags associated with the post */
   tags?: string[];
 
+  /** Category of the post (typically one per post) */
+  category?: string;
+
   /** Whether the post is published (default: true) */
   published?: boolean;
 
@@ -85,6 +91,9 @@ export interface BlogPostPreview {
 
   /** Array of tags associated with the post */
   tags: string[];
+
+  /** Category of the post */
+  category?: string;
 
   /** Optional author name */
   author?: string;
@@ -151,5 +160,19 @@ export interface BlogTag {
   count: number;
 
   /** URL-friendly slug for the tag */
+  slug: string;
+}
+
+/**
+ * Blog category information interface
+ */
+export interface BlogCategory {
+  /** Category name */
+  name: string;
+
+  /** Number of posts in this category */
+  count: number;
+
+  /** URL-friendly slug for the category */
   slug: string;
 }

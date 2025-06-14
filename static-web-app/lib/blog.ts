@@ -11,4 +11,11 @@
 // Re-export all blog functions to maintain backward compatibility
 export { getPostSlugs, getPostBySlug } from './blog/parser';
 
-export { getAllPosts, getPostsByTag, getAllTags } from './blog/search';
+export {
+  getAllPosts,
+  getPostsByTag,
+  getAllTags,
+  getAllCategories,
+  getPostsByCategory,
+  getRelatedPosts,
+} from './blog/search';

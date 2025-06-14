@@ -51,6 +51,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
           : frontmatter.date || new Date().toISOString().split('T')[0],
       excerpt: frontmatter.excerpt || frontmatter.summary || '',
       tags: frontmatter.tags || [],
+      category: frontmatter.category,
       published: frontmatter.published !== false, // Default to true if not specified
       content,
       author: frontmatter.author,
