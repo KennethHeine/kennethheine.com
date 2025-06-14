@@ -4,6 +4,9 @@
 /* Import Tailwind CSS base, components, and utilities */
 @import 'tailwindcss';
 
+/* Import Prism.js CSS for syntax highlighting */
+@import 'prismjs/themes/prism-tomorrow.css';
+
 /* 
  * Google Fonts - these will load at runtime but won't block the build
  * We have fallbacks defined in the theme configuration

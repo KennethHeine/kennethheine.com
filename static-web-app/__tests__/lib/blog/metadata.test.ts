@@ -93,7 +93,7 @@ Content here.`;
       const content = `---
 title: "Date Test"
 date: "2024-01-15"
-publishedAt: "2024-01-15T10:30:00Z"
+published: true
 ---
 
 Date content.`;
@@ -102,15 +102,15 @@ Date content.`;
 
       expect(result.data.title).toBe('Date Test');
       expect(result.data.date).toBe('2024-01-15');
-      expect(result.data.publishedAt).toBe('2024-01-15T10:30:00Z');
+      expect(result.data.published).toBe(true);
     });
 
     it('handles multiline content correctly', () => {
       const content = `---
 title: "Multiline Test"
-description: |
+excerpt: |
   This is a multiline
-  description that spans
+  excerpt that spans
   multiple lines.
 ---
 
@@ -123,8 +123,8 @@ Paragraph 2.`;
       const result = processFrontmatter(content);
 
       expect(result.data.title).toBe('Multiline Test');
-      expect(result.data.description).toBe(
-        'This is a multiline\ndescription that spans\nmultiple lines.\n'
+      expect(result.data.excerpt).toBe(
+        'This is a multiline\nexcerpt that spans\nmultiple lines.\n'
       );
       expect(result.content).toContain('# Heading');
       expect(result.content).toContain('Paragraph 1.');
@@ -133,8 +133,7 @@ Paragraph 2.`;
     it('handles special characters in frontmatter', () => {
       const content = `---
 title: "Special Characters: & < > quotes and apostrophes"
-slug: "special-chars-test"
-emoji: "🚀"
+tags: ["special", "test"]
 ---
 
 Content with special characters.`;
@@ -144,8 +143,7 @@ Content with special characters.`;
       expect(result.data.title).toBe(
         'Special Characters: & < > quotes and apostrophes'
       );
-      expect(result.data.slug).toBe('special-chars-test');
-      expect(result.data.emoji).toBe('🚀');
+      expect(result.data.tags).toEqual(['special', 'test']);
     });
   });
 

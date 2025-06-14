@@ -2,6 +2,8 @@ import { render } from '@testing-library/react';
 import { ArrowLeftIcon } from '../../components/icons/ArrowLeftIcon';
 import { ArrowRightIcon } from '../../components/icons/ArrowRightIcon';
 import { MailIcon } from '../../components/icons/MailIcon';
+import { CheckIcon } from '../../components/icons/CheckIcon';
+import { CopyIcon } from '../../components/icons/CopyIcon';
 
 describe('Icon components', () => {
   describe('ArrowLeftIcon', () => {
@@ -106,6 +108,91 @@ describe('Icon components', () => {
 
       const svg = container.querySelector('svg');
       expect(svg).toHaveAttribute('aria-hidden', 'true');
+    });
+  });
+
+  describe('CheckIcon', () => {
+    it('renders check icon with default props', () => {
+      const { container } = render(<CheckIcon />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+      expect(svg).toHaveAttribute('fill', 'none');
+      expect(svg).toHaveAttribute('viewBox', '0 0 24 24');
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('applies custom className', () => {
+      const { container } = render(<CheckIcon className='custom-class' />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveClass('custom-class');
+    });
+
+    it('applies default size classes', () => {
+      const { container } = render(<CheckIcon />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveClass('h-5', 'w-5');
+    });
+
+    it('passes through additional props', () => {
+      const { container } = render(<CheckIcon data-testid='check-icon' />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveAttribute('data-testid', 'check-icon');
+    });
+
+    it('renders check mark path', () => {
+      const { container } = render(<CheckIcon />);
+
+      const path = container.querySelector('path');
+      expect(path).toBeInTheDocument();
+      expect(path).toHaveAttribute('d', 'M5 13l4 4L19 7');
+    });
+  });
+
+  describe('CopyIcon', () => {
+    it('renders copy icon with default props', () => {
+      const { container } = render(<CopyIcon />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toBeInTheDocument();
+      expect(svg).toHaveAttribute('fill', 'none');
+      expect(svg).toHaveAttribute('viewBox', '0 0 24 24');
+      expect(svg).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('applies custom className', () => {
+      const { container } = render(<CopyIcon className='custom-class' />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveClass('custom-class');
+    });
+
+    it('applies default size classes', () => {
+      const { container } = render(<CopyIcon />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveClass('h-5', 'w-5');
+    });
+
+    it('passes through additional props', () => {
+      const { container } = render(<CopyIcon data-testid='copy-icon' />);
+
+      const svg = container.querySelector('svg');
+      expect(svg).toHaveAttribute('data-testid', 'copy-icon');
+    });
+
+    it('renders copy clipboard path', () => {
+      const { container } = render(<CopyIcon />);
+
+      const path = container.querySelector('path');
+      expect(path).toBeInTheDocument();
+      expect(path).toHaveAttribute(
+        'd',
+        'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'
+      );
     });
   });
 });
