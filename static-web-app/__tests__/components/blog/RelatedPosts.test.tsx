@@ -8,7 +8,13 @@ import type { BlogPost } from '@/types/blog';
 
 // Mock next/link
 jest.mock('next/link', () => {
-  return function MockLink({ children, href }: { children: React.ReactNode; href: string }) {
+  return function MockLink({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) {
     return <a href={href}>{children}</a>;
   };
 });
@@ -57,7 +63,9 @@ describe('RelatedPosts Component', () => {
 
     // Check section title
     expect(screen.getByText('Related Posts')).toBeInTheDocument();
-    expect(screen.getByText('More articles you might find interesting')).toBeInTheDocument();
+    expect(
+      screen.getByText('More articles you might find interesting')
+    ).toBeInTheDocument();
 
     // Check that all posts are rendered
     expect(screen.getByText('Related Post 1')).toBeInTheDocument();
@@ -79,8 +87,12 @@ describe('RelatedPosts Component', () => {
     expect(screen.getByText('Formatted 2025-01-03')).toBeInTheDocument();
 
     // Check excerpts
-    expect(screen.getByText('This is the first related post excerpt')).toBeInTheDocument();
-    expect(screen.getByText('This is the second related post excerpt')).toBeInTheDocument();
+    expect(
+      screen.getByText('This is the first related post excerpt')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('This is the second related post excerpt')
+    ).toBeInTheDocument();
   });
 
   it('displays tags correctly with truncation', () => {
@@ -102,15 +114,29 @@ describe('RelatedPosts Component', () => {
     render(<RelatedPosts posts={mockRelatedPosts} />);
 
     const links = screen.getAllByRole('link');
-    
+
     // Each post should have a link to its detail page
-    expect(links.some(link => (link as HTMLAnchorElement).href.includes('/blog/related-post-1'))).toBe(true);
-    expect(links.some(link => (link as HTMLAnchorElement).href.includes('/blog/related-post-2'))).toBe(true);
-    expect(links.some(link => (link as HTMLAnchorElement).href.includes('/blog/related-post-3'))).toBe(true);
+    expect(
+      links.some(link =>
+        (link as HTMLAnchorElement).href.includes('/blog/related-post-1')
+      )
+    ).toBe(true);
+    expect(
+      links.some(link =>
+        (link as HTMLAnchorElement).href.includes('/blog/related-post-2')
+      )
+    ).toBe(true);
+    expect(
+      links.some(link =>
+        (link as HTMLAnchorElement).href.includes('/blog/related-post-3')
+      )
+    ).toBe(true);
   });
 
   it('renders with custom title', () => {
-    render(<RelatedPosts posts={mockRelatedPosts} title="You Might Also Like" />);
+    render(
+      <RelatedPosts posts={mockRelatedPosts} title='You Might Also Like' />
+    );
 
     expect(screen.getByText('You Might Also Like')).toBeInTheDocument();
     expect(screen.queryByText('Related Posts')).not.toBeInTheDocument();
@@ -124,7 +150,7 @@ describe('RelatedPosts Component', () => {
 
   it('applies custom className', () => {
     const { container } = render(
-      <RelatedPosts posts={mockRelatedPosts} className="custom-class" />
+      <RelatedPosts posts={mockRelatedPosts} className='custom-class' />
     );
 
     expect(container.firstChild).toHaveClass('custom-class');

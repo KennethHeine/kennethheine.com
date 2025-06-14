@@ -26,7 +26,7 @@ describe('CategoryFilter Component', () => {
 
     expect(screen.getByText('Categories')).toBeInTheDocument();
     expect(screen.getByText('All')).toBeInTheDocument();
-    
+
     mockCategories.forEach(category => {
       expect(screen.getByText(category)).toBeInTheDocument();
     });
@@ -36,7 +36,7 @@ describe('CategoryFilter Component', () => {
     render(
       <CategoryFilter
         categories={mockCategories}
-        selectedCategory="DevOps"
+        selectedCategory='DevOps'
         onCategorySelect={mockOnCategorySelect}
       />
     );
@@ -62,7 +62,7 @@ describe('CategoryFilter Component', () => {
     render(
       <CategoryFilter
         categories={mockCategories}
-        selectedCategory="DevOps"
+        selectedCategory='DevOps'
         onCategorySelect={mockOnCategorySelect}
       />
     );
@@ -70,7 +70,7 @@ describe('CategoryFilter Component', () => {
     // Check that DevOps badge exists and is clickable
     const devOpsButton = screen.getByText('DevOps');
     expect(devOpsButton).toBeInTheDocument();
-    
+
     // Check that All button exists
     const allButton = screen.getByText('All');
     expect(allButton).toBeInTheDocument();

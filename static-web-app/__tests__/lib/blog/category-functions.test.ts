@@ -1,5 +1,9 @@
-import { getAllCategories, getPostsByCategory, getRelatedPosts } from '@/lib/blog/search';
-import { getAllPosts } from '@/lib/blog/search';
+import {
+  getAllCategories,
+  getPostsByCategory,
+  getRelatedPosts,
+  getAllPosts,
+} from '@/lib/blog/search';
 
 describe('Blog Search Functions', () => {
   describe('getAllCategories', () => {
@@ -56,7 +60,7 @@ describe('Blog Search Functions', () => {
       if (allPosts.length > 1) {
         const currentPost = allPosts[0];
         const related = getRelatedPosts(currentPost);
-        
+
         expect(Array.isArray(related)).toBe(true);
         related.forEach(post => {
           expect(post.slug).not.toBe(currentPost.slug);
@@ -69,8 +73,10 @@ describe('Blog Search Functions', () => {
       if (allPosts.length > 0) {
         const currentPost = allPosts[0];
         const related = getRelatedPosts(currentPost);
-        
-        expect(related.every(post => post.slug !== currentPost.slug)).toBe(true);
+
+        expect(related.every(post => post.slug !== currentPost.slug)).toBe(
+          true
+        );
       }
     });
 
@@ -79,7 +85,7 @@ describe('Blog Search Functions', () => {
       if (allPosts.length > 0) {
         const currentPost = allPosts[0];
         const related = getRelatedPosts(currentPost, 1);
-        
+
         expect(related.length).toBeLessThanOrEqual(1);
       }
     });
@@ -95,7 +101,7 @@ describe('Blog Search Functions', () => {
         category: 'Unique Category',
         published: true,
       };
-      
+
       const related = getRelatedPosts(postWithNoCommonTags);
       expect(related).toHaveLength(0);
     });
@@ -110,7 +116,7 @@ describe('Blog Search Functions', () => {
         tags: [],
         published: true,
       };
-      
+
       const related = getRelatedPosts(noTagsPost);
       expect(related).toHaveLength(0);
     });

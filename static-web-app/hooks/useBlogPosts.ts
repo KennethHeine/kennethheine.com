@@ -78,9 +78,7 @@ interface UseBlogPostsReturn {
  * setSearchQuery('Next.js');
  * ```
  */
-export function useBlogPosts(
-  options: UseBlogPostsOptions
-): UseBlogPostsReturn {
+export function useBlogPosts(options: UseBlogPostsOptions): UseBlogPostsReturn {
   const {
     initialPosts,
     tag: initialTag = null,
@@ -93,7 +91,9 @@ export function useBlogPosts(
   const [allPosts] = useState<BlogPost[]>(() => initialPosts);
   const [searchQuery, setSearchQueryState] = useState(initialSearchQuery);
   const [currentTag, setCurrentTag] = useState<string | null>(initialTag);
-  const [currentCategory, setCurrentCategory] = useState<string | null>(initialCategory);
+  const [currentCategory, setCurrentCategory] = useState<string | null>(
+    initialCategory
+  );
   const [displayCount, setDisplayCount] = useState(pageSize);
   const [error, setError] = useState<string | null>(null);
 
@@ -124,9 +124,7 @@ export function useBlogPosts(
 
       // Filter by category
       if (currentCategory) {
-        filtered = filtered.filter(
-          post => post.category === currentCategory
-        );
+        filtered = filtered.filter(post => post.category === currentCategory);
       }
 
       // Search in title, excerpt, and content

@@ -77,11 +77,11 @@ describe('Blog Page', () => {
   it('displays tags for each post', () => {
     render(<PageWithProvider />);
 
-    // Check for tags
-    expect(screen.getByText('test')).toBeInTheDocument();
-    expect(screen.getByText('demo')).toBeInTheDocument();
-    expect(screen.getByText('azure')).toBeInTheDocument();
-    expect(screen.getByText('cloud')).toBeInTheDocument();
+    // Check for tags (using getAllByText since tags appear in multiple places - filter and posts)
+    expect(screen.getAllByText('test')).toHaveLength(2); // One in filter, one in post
+    expect(screen.getAllByText('demo')).toHaveLength(2); // One in filter, one in post
+    expect(screen.getAllByText('azure')).toHaveLength(2); // One in filter, one in post
+    expect(screen.getAllByText('cloud')).toHaveLength(2); // One in filter, one in post
   });
   it('includes read more links', () => {
     render(<PageWithProvider />);
@@ -111,9 +111,18 @@ describe('Blog Page', () => {
   it('orders posts by date (newest first)', () => {
     render(<PageWithProvider />);
 
-    const postTitles = screen.getAllByRole('heading', { level: 2 });
-    expect(postTitles[0]).toHaveTextContent('Test Post 1'); // January 15 (newer)
-    expect(postTitles[1]).toHaveTextContent('Azure Best Practices'); // January 10 (older)
+    // Look for post titles specifically (not all h2 headings which include filters)
+    const testPost1 = screen.getByText('Test Post 1');
+    const azurePost = screen.getByText('Azure Best Practices');
+
+    expect(testPost1).toBeInTheDocument();
+    expect(azurePost).toBeInTheDocument();
+
+    // Check that Test Post 1 appears before Azure Best Practices in the DOM
+    const allText = document.body.textContent || '';
+    const testPost1Index = allText.indexOf('Test Post 1');
+    const azurePostIndex = allText.indexOf('Azure Best Practices');
+    expect(testPost1Index).toBeLessThan(azurePostIndex);
   });
 
   it('includes blog description or introduction', () => {
@@ -121,7 +130,7 @@ describe('Blog Page', () => {
 
     // Look for blog introduction text
     expect(
-      screen.getByText(/insights|thoughts|articles|posts/i)
+      screen.getByText(/AI, DevOps & Cloud Architecture Insights/i)
     ).toBeInTheDocument();
   });
 
