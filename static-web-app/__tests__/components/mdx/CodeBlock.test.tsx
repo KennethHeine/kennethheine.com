@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   render,
   screen,
@@ -22,7 +23,7 @@ describe('CodeBlock', () => {
   it('renders code block with pre element', () => {
     render(
       <CodeBlock className='language-javascript'>
-        console.log('Hello, world!');
+        console.log(&apos;Hello, world!&apos;);
       </CodeBlock>
     );
 
@@ -163,5 +164,19 @@ describe('CodeBlock', () => {
 
     const preElement = screen.getByTestId('custom-pre');
     expect(preElement).toHaveAttribute('aria-label', 'Code example');
+  });
+
+  it('handles non-extractable React nodes gracefully', async () => {
+    // Create a React element without props.children to test the fallback case
+    const nonExtractableNode = React.createElement('div', { key: 'test' });
+
+    render(<CodeBlock>{nonExtractableNode}</CodeBlock>);
+
+    const copyButton = screen.getByLabelText('Copy code');
+    fireEvent.click(copyButton);
+
+    await waitFor(() => {
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith('');
+    });
   });
 });

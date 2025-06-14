@@ -226,5 +226,17 @@ And more content.`;
       expect(result.toc).toEqual([]);
       expect(result.content).toBeTruthy();
     });
+
+    it('throws error when MDX compilation fails', async () => {
+      // Mock the compileMDX to throw an error
+      const { compileMDX } = await import('next-mdx-remote/rsc');
+      (
+        compileMDX as jest.MockedFunction<typeof compileMDX>
+      ).mockRejectedValueOnce(new Error('Compilation failed'));
+
+      await expect(processMDX('# Test Content')).rejects.toThrow(
+        'Failed to process MDX content'
+      );
+    });
   });
 });
