@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { EnhancedBlogContent, RelatedPosts } from '@/components/blog';
+import { ErrorBoundary, BlogErrorFallback } from '@/components/error';
 
 // Type for page props
 interface BlogPostPageProps {
@@ -145,7 +146,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Post Content */}
         <section className='pb-20'>
           <Container>
-            <EnhancedBlogContent post={post} />
+            <ErrorBoundary
+              name='BlogContent'
+              fallback={BlogErrorFallback}
+              showDetails={process.env.NODE_ENV === 'development'}
+            >
+              <EnhancedBlogContent post={post} />
+            </ErrorBoundary>
           </Container>
         </section>
       </article>
@@ -155,7 +162,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <section className='border-t border-gray-200 bg-gray-50 py-20 dark:border-gray-700 dark:bg-gray-900/50'>
           <Container>
             <div className='mx-auto max-w-6xl'>
-              <RelatedPosts posts={relatedPosts} />
+              <ErrorBoundary
+                name='RelatedPosts'
+                fallback={BlogErrorFallback}
+                showDetails={process.env.NODE_ENV === 'development'}
+              >
+                <RelatedPosts posts={relatedPosts} />
+              </ErrorBoundary>
             </div>
           </Container>
         </section>

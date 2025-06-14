@@ -4,6 +4,7 @@ import { BlogListWithFilters } from '@/components/blog/BlogListWithFilters';
 import { getAllPosts } from '@/lib/blog';
 import type { BlogPost } from '@/types/blog';
 import { Metadata } from 'next';
+import { ErrorBoundary, BlogErrorFallback } from '@/components/error';
 
 // SEO metadata for the blog page
 export const metadata: Metadata = {
@@ -46,7 +47,13 @@ export default function BlogPage() {
       {/* Blog Posts with Filters */}
       <section className='pb-20'>
         <Container>
-          <BlogListWithFilters initialPosts={posts} />
+          <ErrorBoundary
+            name='BlogList'
+            fallback={BlogErrorFallback}
+            showDetails={process.env.NODE_ENV === 'development'}
+          >
+            <BlogListWithFilters initialPosts={posts} />
+          </ErrorBoundary>
         </Container>
       </section>
     </main>

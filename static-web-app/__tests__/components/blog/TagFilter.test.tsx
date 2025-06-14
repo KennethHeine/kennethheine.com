@@ -69,18 +69,14 @@ describe('TagFilter Component', () => {
 
     const reactBadge = screen.getByText('React');
     expect(reactBadge).toBeInTheDocument();
-    
+
     const allButton = screen.getByText('All');
     expect(allButton).toBeInTheDocument();
   });
 
   it('renders nothing when no tags provided', () => {
     const { container } = render(
-      <TagFilter
-        tags={[]}
-        selectedTag={null}
-        onTagSelect={mockOnTagSelect}
-      />
+      <TagFilter tags={[]} selectedTag={null} onTagSelect={mockOnTagSelect} />
     );
 
     expect(container.firstChild).toBeNull();
@@ -92,7 +88,7 @@ describe('TagFilter Component', () => {
         tags={mockTags}
         selectedTag={null}
         onTagSelect={mockOnTagSelect}
-        className="custom-class"
+        className='custom-class'
       />
     );
 

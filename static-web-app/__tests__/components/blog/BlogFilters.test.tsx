@@ -11,7 +11,7 @@ jest.mock('@/components/ui/Input', () => ({
     <input
       value={value}
       onChange={onChange}
-      data-testid="search-input"
+      data-testid='search-input'
       {...props}
     />
   ),
@@ -19,7 +19,7 @@ jest.mock('@/components/ui/Input', () => ({
 
 jest.mock('@/components/ui/Button', () => ({
   Button: ({ children, onClick, ...props }: any) => (
-    <button onClick={onClick} data-testid="button" {...props}>
+    <button onClick={onClick} data-testid='button' {...props}>
       {children}
     </button>
   ),
@@ -28,7 +28,7 @@ jest.mock('@/components/ui/Button', () => ({
 // Mock the child filter components
 jest.mock('@/components/blog/CategoryFilter', () => ({
   CategoryFilter: ({ categories, selectedCategory, onCategorySelect }: any) => (
-    <div data-testid="category-filter">
+    <div data-testid='category-filter'>
       <div>Categories: {categories.length}</div>
       <div>Selected: {selectedCategory || 'None'}</div>
       <button onClick={() => onCategorySelect('test-category')}>
@@ -40,12 +40,10 @@ jest.mock('@/components/blog/CategoryFilter', () => ({
 
 jest.mock('@/components/blog/TagFilter', () => ({
   TagFilter: ({ tags, selectedTag, onTagSelect }: any) => (
-    <div data-testid="tag-filter">
+    <div data-testid='tag-filter'>
       <div>Tags: {tags.length}</div>
       <div>Selected: {selectedTag || 'None'}</div>
-      <button onClick={() => onTagSelect('test-tag')}>
-        Select Test Tag
-      </button>
+      <button onClick={() => onTagSelect('test-tag')}>Select Test Tag</button>
     </div>
   ),
 }));
@@ -133,16 +131,22 @@ describe('BlogFilters Component', () => {
     render(<BlogFilters {...propsWithFilters} />);
 
     expect(screen.getByText('Active Filters:')).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
-      // Handle text spanning multiple elements
-      return content.includes('Search:') && content.includes('test query');
-    })).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
-      return content.includes('Category:') && content.includes('DevOps');
-    })).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
-      return content.includes('Tag:') && content.includes('React');
-    })).toBeInTheDocument();
+    expect(
+      screen.getByText((content, _node) => {
+        // Handle text spanning multiple elements
+        return content.includes('Search:') && content.includes('test query');
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText((content, _node) => {
+        return content.includes('Category:') && content.includes('DevOps');
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText((content, _node) => {
+        return content.includes('Tag:') && content.includes('React');
+      })
+    ).toBeInTheDocument();
   });
 
   it('hides active filters summary when no filters are applied', () => {
@@ -175,7 +179,7 @@ describe('BlogFilters Component', () => {
 
   it('applies custom className when provided', () => {
     const { container } = render(
-      <BlogFilters {...mockProps} className="custom-class" />
+      <BlogFilters {...mockProps} className='custom-class' />
     );
 
     expect(container.firstChild).toHaveClass('custom-class');
@@ -190,9 +194,11 @@ describe('BlogFilters Component', () => {
     render(<BlogFilters {...propsWithWhitespace} />);
 
     expect(screen.getByText('Active Filters:')).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
-      return content.includes('Search:') && content.includes('test');
-    })).toBeInTheDocument();
+    expect(
+      screen.getByText((content, _node) => {
+        return content.includes('Search:') && content.includes('test');
+      })
+    ).toBeInTheDocument();
   });
 
   it('does not show active filters summary for empty search query with only whitespace', () => {
