@@ -87,13 +87,43 @@ describe('ErrorFallback component', () => {
     expect(() => fireEvent.click(goBackButton)).not.toThrow();
   });
 
-  it('handles navigation when Go Back is clicked', () => {
+  it('handles navigation when Go Back is clicked with history', () => {
+    // Mock window.history.back
+    const mockBack = jest.fn();
+    const originalHistory = window.history;
+    
+    Object.defineProperty(window, 'history', {
+      value: {
+        ...originalHistory,
+        length: 2,
+        back: mockBack,
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    render(<ErrorFallback {...defaultProps} />);
+
+    const goBackButton = screen.getByText('Go Back');
+    fireEvent.click(goBackButton);
+
+    expect(mockBack).toHaveBeenCalled();
+
+    // Restore original history
+    Object.defineProperty(window, 'history', {
+      value: originalHistory,
+      writable: true,
+      configurable: true,
+    });
+  });
+
+  it('handles navigation when Go Back is clicked without history', () => {
     render(<ErrorFallback {...defaultProps} />);
 
     const goBackButton = screen.getByText('Go Back');
     expect(goBackButton).toBeInTheDocument();
 
-    // Test that the button is functional
+    // Test that the button is functional without throwing
     expect(() => fireEvent.click(goBackButton)).not.toThrow();
   });
 
@@ -148,6 +178,43 @@ describe('ErrorFallback component', () => {
       fireEvent.click(screen.getByText('Technical Details'));
 
       expect(screen.getByText('TestBoundary')).toBeInTheDocument();
+    });
+
+    it('displays error stack when available', () => {
+      const errorWithStack = new Error('Test error with stack');
+      errorWithStack.stack = 'Error: Test error with stack\n  at TestFunction\n  at AnotherFunction';
+
+      render(
+        <ErrorFallback
+          {...defaultProps}
+          error={errorWithStack}
+          showDetails={true}
+        />
+      );
+
+      // Click to expand details
+      fireEvent.click(screen.getByText('Technical Details'));
+
+      expect(screen.getByText(/at TestFunction/)).toBeInTheDocument();
+    });
+
+    it('displays component stack when errorInfo is provided', () => {
+      const mockErrorInfo = {
+        componentStack: '\n    in TestComponent (at TestFile.tsx:10:5)\n    in ErrorBoundary (at App.tsx:15:3)',
+      };
+
+      render(
+        <ErrorFallback
+          {...defaultProps}
+          errorInfo={mockErrorInfo}
+          showDetails={true}
+        />
+      );
+
+      // Click to expand details
+      fireEvent.click(screen.getByText('Technical Details'));
+
+      expect(screen.getByText(/in TestComponent/)).toBeInTheDocument();
     });
   });
 });
@@ -220,8 +287,30 @@ describe('BlogErrorFallback component', () => {
     const browseButton = screen.getByText('Browse All Posts');
     expect(browseButton).toBeInTheDocument();
 
-    // Test that the button is functional
+    // Test that the button is functional without throwing
     expect(() => fireEvent.click(browseButton)).not.toThrow();
+  });
+
+  it('handles navigation when window is not available', () => {
+    // Test the typeof window check by temporarily removing it
+    const originalWindow = window;
+    
+    // Mock the typeof window check to return undefined
+    const originalDescriptor = Object.getOwnPropertyDescriptor(global, 'window');
+    delete (global as any).window;
+
+    render(<BlogErrorFallback {...defaultProps} />);
+
+    const browseButton = screen.getByText('Browse All Posts');
+    
+    // Should not throw when window is not available
+    expect(() => fireEvent.click(browseButton)).not.toThrow();
+
+    // Restore original window
+    (global as any).window = originalWindow;
+    if (originalDescriptor) {
+      Object.defineProperty(global, 'window', originalDescriptor);
+    }
   });
 });
 

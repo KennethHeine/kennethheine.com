@@ -322,6 +322,34 @@ describe('useErrorBoundary hook', () => {
     fireEvent.click(screen.getByText('Trigger Error'));
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
   });
+
+  it('provides resetError functionality that can be called', () => {
+    function TestResetComponent() {
+      const { resetError } = useErrorBoundary();
+
+      return (
+        <div>
+          <p>Test component</p>
+          <button onClick={() => resetError()}>Reset Error</button>
+        </div>
+      );
+    }
+
+    render(
+      <ErrorBoundary name='ResetTest'>
+        <TestResetComponent />
+      </ErrorBoundary>
+    );
+
+    // Should render normally and not throw when resetError is called
+    expect(screen.getByText('Test component')).toBeInTheDocument();
+    
+    const resetButton = screen.getByText('Reset Error');
+    expect(() => fireEvent.click(resetButton)).not.toThrow();
+    
+    // Component should still be there after reset
+    expect(screen.getByText('Test component')).toBeInTheDocument();
+  });
 });
 
 describe('Error boundary integration', () => {
