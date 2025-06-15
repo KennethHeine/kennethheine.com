@@ -29,13 +29,11 @@ jest.mock('@/hooks/useBlogPosts', () => ({
 // Mock the ui components
 jest.mock('@/components/blog/BlogFilters', () => ({
   BlogFilters: ({ onCategorySelect, onTagSelect }: any) => (
-    <div data-testid="blog-filters">
+    <div data-testid='blog-filters'>
       <button onClick={() => onCategorySelect('test-category')}>
         Select Category
       </button>
-      <button onClick={() => onTagSelect('test-tag')}>
-        Select Tag
-      </button>
+      <button onClick={() => onTagSelect('test-tag')}>Select Tag</button>
     </div>
   ),
 }));
@@ -97,11 +95,13 @@ describe('BlogListWithFilters Component', () => {
 
   it('renders empty state when no posts found', () => {
     mockUseBlogPosts.posts = [];
-    
+
     render(<BlogListWithFilters initialPosts={[]} />);
 
     expect(screen.getByText('No posts found')).toBeInTheDocument();
-    expect(screen.getByText('Try adjusting your filters or search query.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Try adjusting your filters or search query.')
+    ).toBeInTheDocument();
   });
 
   it('displays post metadata correctly', () => {
@@ -117,10 +117,10 @@ describe('BlogListWithFilters Component', () => {
 
     const reactTag = screen.getByText('React');
     const typeScriptTag = screen.getByText('TypeScript');
-    
+
     expect(reactTag).toBeInTheDocument();
     expect(typeScriptTag).toBeInTheDocument();
-    
+
     fireEvent.click(reactTag);
     expect(mockUseBlogPosts.filterByTag).toHaveBeenCalledWith('React');
   });
@@ -130,25 +130,25 @@ describe('BlogListWithFilters Component', () => {
 
     const categoryButton = screen.getByText('DevOps');
     fireEvent.click(categoryButton);
-    
+
     expect(mockUseBlogPosts.filterByCategory).toHaveBeenCalledWith('DevOps');
   });
 
   it('shows load more button when hasMore is true', () => {
     mockUseBlogPosts.hasMore = true;
-    
+
     render(<BlogListWithFilters initialPosts={mockPosts} />);
 
     const loadMoreButton = screen.getByText('Load More Posts');
     expect(loadMoreButton).toBeInTheDocument();
-    
+
     fireEvent.click(loadMoreButton);
     expect(mockUseBlogPosts.loadMore).toHaveBeenCalled();
   });
 
   it('hides load more button when hasMore is false', () => {
     mockUseBlogPosts.hasMore = false;
-    
+
     render(<BlogListWithFilters initialPosts={mockPosts} />);
 
     expect(screen.queryByText('Load More Posts')).not.toBeInTheDocument();
@@ -190,9 +190,9 @@ describe('BlogListWithFilters Component', () => {
 
     const reactTag = screen.getByText('React');
     const mockPreventDefault = jest.fn();
-    
+
     fireEvent.click(reactTag, { preventDefault: mockPreventDefault });
-    
+
     expect(mockUseBlogPosts.filterByTag).toHaveBeenCalledWith('React');
   });
 
@@ -201,14 +201,16 @@ describe('BlogListWithFilters Component', () => {
 
     const categoryButton = screen.getByText('DevOps');
     const mockPreventDefault = jest.fn();
-    
+
     fireEvent.click(categoryButton, { preventDefault: mockPreventDefault });
-    
+
     expect(mockUseBlogPosts.filterByCategory).toHaveBeenCalledWith('DevOps');
   });
 
   it('renders responsive layout classes', () => {
-    const { container } = render(<BlogListWithFilters initialPosts={mockPosts} />);
+    const { container } = render(
+      <BlogListWithFilters initialPosts={mockPosts} />
+    );
 
     // Check for responsive grid classes
     expect(container.querySelector('.grid')).toBeInTheDocument();
@@ -216,7 +218,9 @@ describe('BlogListWithFilters Component', () => {
   });
 
   it('renders sticky sidebar on large screens', () => {
-    const { container } = render(<BlogListWithFilters initialPosts={mockPosts} />);
+    const { container } = render(
+      <BlogListWithFilters initialPosts={mockPosts} />
+    );
 
     // Check for sticky positioning
     expect(container.querySelector('.sticky')).toBeInTheDocument();
