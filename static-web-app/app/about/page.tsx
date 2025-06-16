@@ -156,7 +156,8 @@ export default function AboutPage() {
                     width={400}
                     height={400}
                     className='h-full w-full object-cover'
-                    sizes='(min-width: 1024px) 400px, 100vw'
+                    sizes='(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw'
+                    priority
                   />
                 </div>
               </div>
