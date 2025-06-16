@@ -91,7 +91,7 @@ describe('ErrorFallback component', () => {
     // Mock window.history.back
     const mockBack = jest.fn();
     const originalHistory = window.history;
-    
+
     Object.defineProperty(window, 'history', {
       value: {
         ...originalHistory,
@@ -182,7 +182,8 @@ describe('ErrorFallback component', () => {
 
     it('displays error stack when available', () => {
       const errorWithStack = new Error('Test error with stack');
-      errorWithStack.stack = 'Error: Test error with stack\n  at TestFunction\n  at AnotherFunction';
+      errorWithStack.stack =
+        'Error: Test error with stack\n  at TestFunction\n  at AnotherFunction';
 
       render(
         <ErrorFallback
@@ -200,7 +201,8 @@ describe('ErrorFallback component', () => {
 
     it('displays component stack when errorInfo is provided', () => {
       const mockErrorInfo = {
-        componentStack: '\n    in TestComponent (at TestFile.tsx:10:5)\n    in ErrorBoundary (at App.tsx:15:3)',
+        componentStack:
+          '\n    in TestComponent (at TestFile.tsx:10:5)\n    in ErrorBoundary (at App.tsx:15:3)',
       };
 
       render(
@@ -294,15 +296,18 @@ describe('BlogErrorFallback component', () => {
   it('handles navigation when window is not available', () => {
     // Test the typeof window check by temporarily removing it
     const originalWindow = window;
-    
+
     // Mock the typeof window check to return undefined
-    const originalDescriptor = Object.getOwnPropertyDescriptor(global, 'window');
+    const originalDescriptor = Object.getOwnPropertyDescriptor(
+      global,
+      'window'
+    );
     delete (global as any).window;
 
     render(<BlogErrorFallback {...defaultProps} />);
 
     const browseButton = screen.getByText('Browse All Posts');
-    
+
     // Should not throw when window is not available
     expect(() => fireEvent.click(browseButton)).not.toThrow();
 

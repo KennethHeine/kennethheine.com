@@ -343,10 +343,10 @@ describe('useErrorBoundary hook', () => {
 
     // Should render normally and not throw when resetError is called
     expect(screen.getByText('Test component')).toBeInTheDocument();
-    
+
     const resetButton = screen.getByText('Reset Error');
     expect(() => fireEvent.click(resetButton)).not.toThrow();
-    
+
     // Component should still be there after reset
     expect(screen.getByText('Test component')).toBeInTheDocument();
   });
