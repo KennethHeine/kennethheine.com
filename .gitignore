@@ -127,6 +127,8 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/mcp-config.json
+!.vscode/copilot-chat-config.md
 
 # OS
 .DS_Store

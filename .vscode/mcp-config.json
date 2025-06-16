@@ -1,0 +1,167 @@
+{
+  "mcp": {
+    "name": "kennethheine.com MCP Configuration",
+    "version": "1.0.0",
+    "description": "Model Context Protocol configuration for AI-enhanced development",
+    "contexts": {
+      "testing": {
+        "description": "Testing context for AI-powered test generation",
+        "paths": [
+          "static-web-app/__tests__/**/*.test.{ts,tsx,js,jsx}",
+          "static-web-app/jest.config.js",
+          "static-web-app/jest.setup.js"
+        ],
+        "patterns": [
+          "test",
+          "spec",
+          "mock",
+          "fixture"
+        ],
+        "capabilities": [
+          "test-generation",
+          "test-optimization",
+          "test-debugging",
+          "test-refactoring"
+        ]
+      },
+      "components": {
+        "description": "React component context for UI development",
+        "paths": [
+          "static-web-app/components/**/*.{ts,tsx}",
+          "static-web-app/app/**/*.{ts,tsx}"
+        ],
+        "patterns": [
+          "component",
+          "hook",
+          "context",
+          "provider"
+        ],
+        "capabilities": [
+          "component-generation",
+          "prop-optimization",
+          "accessibility-enhancement",
+          "performance-optimization"
+        ]
+      },
+      "infrastructure": {
+        "description": "Infrastructure as Code context",
+        "paths": [
+          "infra/**/*.bicep",
+          "infra/**/*.bicepparam",
+          ".github/workflows/**/*.yml"
+        ],
+        "patterns": [
+          "bicep",
+          "infrastructure",
+          "deployment",
+          "azure"
+        ],
+        "capabilities": [
+          "template-generation",
+          "security-analysis",
+          "cost-optimization",
+          "best-practices"
+        ]
+      },
+      "documentation": {
+        "description": "Documentation and content context",
+        "paths": [
+          "docs/**/*.md",
+          "static-web-app/content/**/*.mdx",
+          "README.md",
+          "CONTRIBUTING.md"
+        ],
+        "patterns": [
+          "documentation",
+          "guide",
+          "tutorial",
+          "reference"
+        ],
+        "capabilities": [
+          "content-generation",
+          "documentation-improvement",
+          "technical-writing",
+          "example-creation"
+        ]
+      }
+    },
+    "ai_features": {
+      "test_generation": {
+        "enabled": true,
+        "frameworks": ["jest", "react-testing-library"],
+        "coverage_target": 95,
+        "test_types": [
+          "unit",
+          "integration",
+          "component",
+          "accessibility"
+        ]
+      },
+      "code_analysis": {
+        "enabled": true,
+        "tools": ["eslint", "typescript", "prettier"],
+        "auto_fix": true,
+        "security_scanning": true
+      },
+      "documentation": {
+        "enabled": true,
+        "auto_generate": true,
+        "formats": ["jsdoc", "markdown", "inline-comments"]
+      },
+      "refactoring": {
+        "enabled": true,
+        "patterns": ["extract-component", "optimize-performance", "improve-accessibility"],
+        "safe_mode": true
+      }
+    },
+    "integrations": {
+      "github_copilot": {
+        "enabled": true,
+        "chat_integration": true,
+        "inline_suggestions": true,
+        "workspace_indexing": true
+      },
+      "vscode": {
+        "enabled": true,
+        "command_palette": true,
+        "context_menu": true,
+        "status_bar": true
+      },
+      "testing_framework": {
+        "enabled": true,
+        "framework": "jest",
+        "auto_run": false,
+        "coverage_reporting": true
+      }
+    },
+    "security": {
+      "data_sharing": {
+        "level": "project_only",
+        "exclude_patterns": [
+          "**/*.env*",
+          "**/*.key",
+          "**/*.pem",
+          "**/secrets/**",
+          "**/.azure/**"
+        ]
+      },
+      "ai_access": {
+        "read_only": true,
+        "context_isolation": true,
+        "audit_logging": true
+      }
+    },
+    "performance": {
+      "indexing": {
+        "enabled": true,
+        "incremental": true,
+        "cache_duration": "24h"
+      },
+      "context_size": {
+        "max_files": 100,
+        "max_size_mb": 50,
+        "prioritize_recent": true
+      }
+    }
+  }
+}

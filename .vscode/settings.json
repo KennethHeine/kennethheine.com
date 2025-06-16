@@ -135,5 +135,35 @@
     "yaml": true,
     "plaintext": false,
     "markdown": true
-  }
+  },
+  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.advanced": {
+    "debug.overrideEngine": "codex",
+    "debug.testOverrideProxyUrl": "",
+    "debug.overrideProxyUrl": ""
+  },
+
+  // MCP (Model Context Protocol) Configuration
+  "mcp.enable": true,
+  "mcp.configPath": ".vscode/mcp-config.json",
+  "mcp.contextSharing": {
+    "enabled": true,
+    "maxFiles": 100,
+    "includeTests": true,
+    "includeDocumentation": true
+  },
+
+  // AI-Enhanced Testing Configuration
+  "copilot.testGeneration": {
+    "enabled": true,
+    "framework": "jest",
+    "testingLibrary": "react-testing-library",
+    "coverageTarget": 95,
+    "autoSuggest": true
+  },
+
+  // Copilot Chat Configuration
+  "github.copilot.chat.enabled": true,
+  "github.copilot.chat.welcomeMessage": "enabled",
+  "github.copilot.chat.localeOverride": "en"
 }

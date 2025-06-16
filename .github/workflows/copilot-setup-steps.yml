@@ -39,3 +39,87 @@ jobs:
         run: |
           npm ci
           echo "✅ Node.js dependencies installed successfully"
+
+      # 🧪 Testing Environment Validation
+      - name: "🧪 Validate test environment"
+        working-directory: ./static-web-app
+        run: |
+          echo "🔍 Running test suite validation..."
+          npm test -- --passWithNoTests --verbose
+          echo "✅ Test environment validated successfully"
+
+      # 🏗️ Build Validation
+      - name: "🏗️ Validate build process"
+        working-directory: ./static-web-app
+        run: |
+          echo "🔍 Validating Next.js build process..."
+          npm run build
+          echo "✅ Build process validated successfully"
+
+      # 🤖 Copilot Agent Configuration Validation
+      - name: "🤖 Validate Copilot configuration"
+        run: |
+          echo "🔍 Validating GitHub Copilot configuration..."
+          
+          # Check VS Code settings
+          if [ -f ".vscode/settings.json" ]; then
+            echo "✅ VS Code settings found"
+            if grep -q "github.copilot.enable" .vscode/settings.json; then
+              echo "✅ GitHub Copilot enabled in VS Code settings"
+            else
+              echo "⚠️ GitHub Copilot not explicitly configured in VS Code settings"
+            fi
+          else
+            echo "⚠️ VS Code settings not found"
+          fi
+          
+          # Check recommended extensions
+          if [ -f ".vscode/extensions.json" ]; then
+            echo "✅ VS Code extensions configuration found"
+            if grep -q "github.copilot" .vscode/extensions.json; then
+              echo "✅ GitHub Copilot extension recommended"
+            else
+              echo "⚠️ GitHub Copilot extension not in recommendations"
+            fi
+          else
+            echo "⚠️ VS Code extensions configuration not found"
+          fi
+          
+          echo "✅ Copilot configuration validation completed"
+
+      # 📝 MCP Configuration Check
+      - name: "📝 Check MCP configuration status"
+        run: |
+          echo "🔍 Checking Model Context Protocol (MCP) configuration..."
+          
+          # Check for MCP configuration files
+          if [ -d ".vscode" ] && [ -f ".vscode/settings.json" ]; then
+            echo "✅ Development environment configured"
+          else
+            echo "⚠️ MCP configuration needs setup"
+          fi
+          
+          # Check for test generation workflows
+          if [ -d "static-web-app/__tests__" ]; then
+            test_count=$(find static-web-app/__tests__ -name "*.test.*" | wc -l)
+            echo "✅ Found $test_count existing test files"
+          else
+            echo "⚠️ Test directory not found"
+          fi
+          
+          echo "✅ MCP configuration check completed"
+
+      # 📊 Environment Summary
+      - name: "📊 Environment setup summary"
+        run: |
+          echo "🎯 Environment Setup Summary:"
+          echo "================================"
+          echo "✅ Repository: Checked out"
+          echo "✅ Node.js 22: Installed"
+          echo "✅ Dependencies: Installed"
+          echo "✅ Tests: Validated"
+          echo "✅ Build: Validated"
+          echo "✅ Copilot: Configuration checked"
+          echo "✅ MCP: Status checked"
+          echo "================================"
+          echo "🚀 Environment ready for Copilot-assisted development!"
