@@ -16,7 +16,6 @@ import {
   MinimalErrorFallback,
   BlogErrorFallback,
 } from '@/components/error';
-import type { ErrorBoundaryProps, ErrorFallbackProps } from '@/components/error';
 
 describe('Error components index exports', () => {
   it('exports ErrorBoundary component', () => {
