@@ -176,9 +176,7 @@ export interface ErrorBoundaryState {
   /** Error details */
   error?: SuspenseError;
   /** Error info from React */
-  errorInfo?: {
-    componentStack: string;
-  };
+  errorInfo?: React.ErrorInfo;
 }
 
 /**
