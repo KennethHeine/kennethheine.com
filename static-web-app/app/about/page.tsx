@@ -25,13 +25,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
-    description:
-      'Kenneth Heine is a DevOps engineer and cloud architect passionate about bringing AI into software development. Learn about his background in Azure cloud architecture and automation.',
-    images: ['/images/og-image.jpg'],
-  },
+  twitter: null,
 };
 
 /**

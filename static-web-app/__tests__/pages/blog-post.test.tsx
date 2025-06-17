@@ -139,11 +139,7 @@ describe('generateMetadata', () => {
         authors: ['Kenneth Heine'],
         tags: ['test', 'demo', 'nextjs'],
       },
-      twitter: {
-        card: 'summary_large_image',
-        title: 'Test Blog Post',
-        description: 'This is a test blog post',
-      },
+      twitter: null,
     });
   });
 
@@ -166,7 +162,6 @@ describe('generateMetadata', () => {
 
     expect(result.description).toBeUndefined();
     expect(result.openGraph?.description).toBeUndefined();
-    expect(result.twitter?.description).toBeUndefined();
   });
 });
 

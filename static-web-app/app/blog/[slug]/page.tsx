@@ -53,11 +53,7 @@ export async function generateMetadata({
       authors: ['Kenneth Heine'],
       tags: post.tags,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
-    },
+    twitter: null,
   };
 }
 

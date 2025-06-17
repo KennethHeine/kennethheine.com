@@ -26,13 +26,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Blog - AI, DevOps & Cloud Architecture Insights',
-    description:
-      'AI automation, DevOps, and Azure cloud architecture insights. Practical tutorials on GitHub Copilot, CI/CD automation, and scalable cloud solutions.',
-    images: ['/images/og-image.jpg'],
-  },
+  twitter: null,
 };
 
 /**

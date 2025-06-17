@@ -59,7 +59,7 @@ export interface MainNavigation {
  * Social media link interface
  */
 export interface SocialLink {
-  /** Platform name (e.g., 'twitter', 'linkedin', 'github') */
+  /** Platform name (e.g., 'linkedin', 'github') */
   platform: string;
   /** Display label */
   label: string;
@@ -143,13 +143,6 @@ export interface RouteMetadata {
     description?: string;
     image?: string;
     type?: 'website' | 'article';
-  };
-  /** Twitter card data */
-  twitter?: {
-    card?: 'summary' | 'summary_large_image';
-    title?: string;
-    description?: string;
-    image?: string;
   };
 }
 

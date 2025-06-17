@@ -18,8 +18,6 @@ interface PageMetadata {
   ogImage?: string;
   /** Open Graph type */
   ogType?: 'website' | 'article' | 'profile';
-  /** Twitter card type */
-  twitterCard?: 'summary' | 'summary_large_image';
   /** Canonical URL */
   canonical?: string;
   /** Whether page is indexable */
@@ -55,7 +53,7 @@ interface UsePageMetadataReturn extends PageMetadata {
  *
  * Features:
  * - Dynamic title and description updates
- * - Open Graph and Twitter Card support
+ * - Open Graph support
  * - Structured data (JSON-LD) generation
  * - Client-side head manipulation
  * - TypeScript support
@@ -100,7 +98,6 @@ export function usePageMetadata(
       'Kenneth Heine helps developers work smarter with AI, automation, and Azure cloud architecture.',
     keywords: ['Kenneth Heine', 'AI', 'DevOps', 'Azure', 'Cloud Architecture'],
     ogType: 'website',
-    twitterCard: 'summary_large_image',
     ...defaults,
   });
 
@@ -144,12 +141,6 @@ export function usePageMetadata(
     updateMetaTag('og:type', metadata.ogType, 'property');
     updateMetaTag('og:site_name', siteName, 'property');
     updateMetaTag('og:image', metadata.ogImage, 'property');
-
-    // Twitter Card tags
-    updateMetaTag('twitter:card', metadata.twitterCard);
-    updateMetaTag('twitter:title', metadata.title);
-    updateMetaTag('twitter:description', metadata.description);
-    updateMetaTag('twitter:image', metadata.ogImage);
 
     // Canonical URL
     if (metadata.canonical) {
@@ -218,7 +209,6 @@ export function usePageMetadata(
         'Cloud Architecture',
       ],
       ogType: 'website',
-      twitterCard: 'summary_large_image',
       ...defaults,
     });
   };

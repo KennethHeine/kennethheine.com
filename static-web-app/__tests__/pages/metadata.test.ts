@@ -29,15 +29,6 @@ describe('Page Metadata', () => {
         },
       ]);
     });
-
-    it('has Twitter metadata', () => {
-      expect(homeMetadata.twitter).toBeDefined();
-      expect(homeMetadata.twitter?.card).toBe('summary_large_image');
-      expect(homeMetadata.twitter?.title).toBe(
-        'Kenneth Heine - AI & Automation for Developers'
-      );
-      expect(homeMetadata.twitter?.images).toEqual(['/images/og-image.jpg']);
-    });
   });
 
   describe('About Page Metadata', () => {
@@ -67,15 +58,6 @@ describe('Page Metadata', () => {
         },
       ]);
     });
-
-    it('has Twitter metadata', () => {
-      expect(aboutMetadata.twitter).toBeDefined();
-      expect(aboutMetadata.twitter?.card).toBe('summary_large_image');
-      expect(aboutMetadata.twitter?.title).toBe(
-        'About Kenneth Heine - DevOps Engineer & Cloud Architect'
-      );
-      expect(aboutMetadata.twitter?.images).toEqual(['/images/og-image.jpg']);
-    });
   });
 
   describe('Blog Page Metadata', () => {
@@ -102,15 +84,6 @@ describe('Page Metadata', () => {
           alt: 'Blog - AI, DevOps & Cloud Architecture Insights',
         },
       ]);
-    });
-
-    it('has Twitter metadata', () => {
-      expect(blogMetadata.twitter).toBeDefined();
-      expect(blogMetadata.twitter?.card).toBe('summary_large_image');
-      expect(blogMetadata.twitter?.title).toBe(
-        'Blog - AI, DevOps & Cloud Architecture Insights'
-      );
-      expect(blogMetadata.twitter?.images).toEqual(['/images/og-image.jpg']);
     });
   });
 
@@ -141,15 +114,6 @@ describe('Page Metadata', () => {
         },
       ]);
     });
-
-    it('has Twitter metadata', () => {
-      expect(contactMetadata.twitter).toBeDefined();
-      expect(contactMetadata.twitter?.card).toBe('summary_large_image');
-      expect(contactMetadata.twitter?.title).toBe(
-        'Contact Kenneth Heine - AI, DevOps & Cloud Consulting'
-      );
-      expect(contactMetadata.twitter?.images).toEqual(['/images/og-image.jpg']);
-    });
   });
 
   describe('Metadata Consistency', () => {
@@ -177,15 +141,6 @@ describe('Page Metadata', () => {
       expect(contactMetadata.openGraph?.images?.[0]).toMatchObject(
         expectedDimensions
       );
-    });
-
-    it('all pages use summary_large_image Twitter card', () => {
-      const expectedCard = 'summary_large_image';
-
-      expect(homeMetadata.twitter?.card).toBe(expectedCard);
-      expect(aboutMetadata.twitter?.card).toBe(expectedCard);
-      expect(blogMetadata.twitter?.card).toBe(expectedCard);
-      expect(contactMetadata.twitter?.card).toBe(expectedCard);
     });
 
     it('all pages have proper URL structure', () => {

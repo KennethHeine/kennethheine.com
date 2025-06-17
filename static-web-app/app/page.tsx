@@ -25,13 +25,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Kenneth Heine - AI & Automation for Developers',
-    description:
-      'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
-    images: ['/images/og-image.jpg'],
-  },
+  twitter: null,
 };
 
 /**
