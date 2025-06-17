@@ -58,6 +58,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       coverImage: frontmatter.coverImage,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(`Error reading post ${slug}:`, error);
     return null;
   }

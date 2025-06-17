@@ -97,7 +97,7 @@ describe('Modal component', () => {
         .getByRole('dialog')
         .querySelector('.fixed.inset-0.bg-black');
 
-      fireEvent.click(backdrop!);
+      fireEvent.click(backdrop!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
       expect(mockOnClose).toHaveBeenCalledTimes(1);
     });
 
@@ -107,7 +107,7 @@ describe('Modal component', () => {
         .getByRole('dialog')
         .querySelector('.fixed.inset-0.bg-black');
 
-      fireEvent.click(backdrop!);
+      fireEvent.click(backdrop!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
       expect(mockOnClose).not.toHaveBeenCalled();
     });
 
@@ -117,7 +117,7 @@ describe('Modal component', () => {
         .getByRole('dialog')
         .querySelector('.relative');
 
-      fireEvent.click(modalContent!);
+      fireEvent.click(modalContent!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
       expect(mockOnClose).not.toHaveBeenCalled();
     });
 

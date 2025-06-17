@@ -45,6 +45,7 @@ export async function EnhancedBlogContent({ post }: EnhancedBlogContentProps) {
       </div>
     );
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error rendering enhanced blog content:', error);
 
     // Fallback to simple MDX rendering

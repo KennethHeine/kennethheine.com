@@ -31,7 +31,7 @@ export function CodeBlock({ children, className, ...props }: CodeBlockProps) {
         return node.map(extractText).join('');
       }
       if (node && typeof node === 'object' && 'props' in node) {
-        return extractText((node as any).props.children);
+        return extractText((node as React.ReactElement).props.children);
       }
       return '';
     };
@@ -46,6 +46,7 @@ export function CodeBlock({ children, className, ...props }: CodeBlockProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to copy code:', error);
     }
   };

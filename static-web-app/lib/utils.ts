@@ -76,6 +76,7 @@ export function formatDate(dateInput: string | Date): string {
       day: 'numeric',
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error formatting date:', error);
     return 'Invalid Date';
   }

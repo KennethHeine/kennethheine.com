@@ -20,23 +20,33 @@ describe('Canonical URLs Implementation', () => {
 
   describe('Static Pages Canonical URLs', () => {
     it('home page has correct canonical URL', () => {
-      expect(homeMetadata.alternates?.canonical).toBe('https://kennethheine.com');
+      expect(homeMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com'
+      );
     });
 
     it('about page has correct canonical URL', () => {
-      expect(aboutMetadata.alternates?.canonical).toBe('https://kennethheine.com/about');
+      expect(aboutMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/about'
+      );
     });
 
     it('blog page has correct canonical URL', () => {
-      expect(blogMetadata.alternates?.canonical).toBe('https://kennethheine.com/blog');
+      expect(blogMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/blog'
+      );
     });
 
     it('contact page has correct canonical URL', () => {
-      expect(contactMetadata.alternates?.canonical).toBe('https://kennethheine.com/contact');
+      expect(contactMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/contact'
+      );
     });
 
     it('404 page has correct canonical URL', () => {
-      expect(notFoundMetadata.alternates?.canonical).toBe('https://kennethheine.com/404');
+      expect(notFoundMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/404'
+      );
     });
   });
 
@@ -53,14 +63,18 @@ describe('Canonical URLs Implementation', () => {
     };
 
     it('blog post pages have correct canonical URLs', async () => {
-      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<typeof getPostBySlug>;
+      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<
+        typeof getPostBySlug
+      >;
       mockGetPostBySlug.mockReturnValue(mockPost);
 
-      const metadata = await generateBlogPostMetadata({ 
-        params: { slug: 'test-blog-post' } 
+      const metadata = await generateBlogPostMetadata({
+        params: { slug: 'test-blog-post' },
       });
 
-      expect(metadata.alternates?.canonical).toBe('https://kennethheine.com/blog/test-blog-post');
+      expect(metadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/blog/test-blog-post'
+      );
       expect(mockGetPostBySlug).toHaveBeenCalledWith('test-blog-post');
     });
 
@@ -70,22 +84,28 @@ describe('Canonical URLs Implementation', () => {
         slug: 'test-post-with-dashes-and-numbers-123',
       };
 
-      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<typeof getPostBySlug>;
+      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<
+        typeof getPostBySlug
+      >;
       mockGetPostBySlug.mockReturnValue(specialSlugPost);
 
-      const metadata = await generateBlogPostMetadata({ 
-        params: { slug: 'test-post-with-dashes-and-numbers-123' } 
+      const metadata = await generateBlogPostMetadata({
+        params: { slug: 'test-post-with-dashes-and-numbers-123' },
       });
 
-      expect(metadata.alternates?.canonical).toBe('https://kennethheine.com/blog/test-post-with-dashes-and-numbers-123');
+      expect(metadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/blog/test-post-with-dashes-and-numbers-123'
+      );
     });
 
     it('handles non-existent blog post', async () => {
-      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<typeof getPostBySlug>;
+      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<
+        typeof getPostBySlug
+      >;
       mockGetPostBySlug.mockReturnValue(null);
 
-      const metadata = await generateBlogPostMetadata({ 
-        params: { slug: 'non-existent-post' } 
+      const metadata = await generateBlogPostMetadata({
+        params: { slug: 'non-existent-post' },
       });
 
       // Should not have canonical URL for non-existent posts
@@ -141,14 +161,14 @@ describe('Canonical URLs Implementation', () => {
     ];
 
     it('all pages have canonical URLs defined', () => {
-      metadataObjects.forEach(({ name, metadata }) => {
+      metadataObjects.forEach(({ name: _name, metadata }) => {
         expect(metadata.alternates?.canonical).toBeDefined();
         expect(metadata.alternates?.canonical).toBeTruthy();
       });
     });
 
     it('canonical URLs match OpenGraph URLs where applicable', () => {
-      metadataObjects.forEach(({ name, metadata }) => {
+      metadataObjects.forEach(({ name: _name, metadata }) => {
         if (metadata.openGraph?.url) {
           expect(metadata.alternates?.canonical).toBe(metadata.openGraph.url);
         }
@@ -156,7 +176,7 @@ describe('Canonical URLs Implementation', () => {
     });
 
     it('canonical URLs are absolute URLs', () => {
-      metadataObjects.forEach(({ name, metadata }) => {
+      metadataObjects.forEach(({ name: _name, metadata }) => {
         const canonical = metadata.alternates?.canonical;
         expect(canonical).toMatch(/^https?:\/\//);
       });
@@ -180,13 +200,21 @@ describe('Canonical URLs Implementation', () => {
     });
 
     it('uses consistent path structure', () => {
-      expect(aboutMetadata.alternates?.canonical).toBe('https://kennethheine.com/about');
-      expect(blogMetadata.alternates?.canonical).toBe('https://kennethheine.com/blog');
-      expect(contactMetadata.alternates?.canonical).toBe('https://kennethheine.com/contact');
+      expect(aboutMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/about'
+      );
+      expect(blogMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/blog'
+      );
+      expect(contactMetadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/contact'
+      );
     });
 
     it('blog posts follow consistent pattern', async () => {
-      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<typeof getPostBySlug>;
+      const mockGetPostBySlug = getPostBySlug as jest.MockedFunction<
+        typeof getPostBySlug
+      >;
       mockGetPostBySlug.mockReturnValue({
         slug: 'example-post',
         title: 'Example Post',
@@ -198,11 +226,13 @@ describe('Canonical URLs Implementation', () => {
         readingTime: 5,
       });
 
-      const metadata = await generateBlogPostMetadata({ 
-        params: { slug: 'example-post' } 
+      const metadata = await generateBlogPostMetadata({
+        params: { slug: 'example-post' },
       });
 
-      expect(metadata.alternates?.canonical).toBe('https://kennethheine.com/blog/example-post');
+      expect(metadata.alternates?.canonical).toBe(
+        'https://kennethheine.com/blog/example-post'
+      );
     });
   });
 });

@@ -100,12 +100,14 @@ export function useLocalStorage<T>(
 
       // Validate if validator is provided
       if (validator && !validator(parsed)) {
+        // eslint-disable-next-line no-console
         console.warn(`Invalid value in localStorage for key "${key}":`, parsed);
         return initialValue;
       }
 
       return parsed;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn(`Error reading localStorage key "${key}":`, error);
       return initialValue;
     }
@@ -124,6 +126,7 @@ export function useLocalStorage<T>(
 
         // Validate if validator is provided
         if (validator && !validator(valueToStore)) {
+          // eslint-disable-next-line no-console
           console.warn(
             `Invalid value for localStorage key "${key}":`,
             valueToStore
@@ -139,6 +142,7 @@ export function useLocalStorage<T>(
           window.localStorage.setItem(key, serializer.write(valueToStore));
         }
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.warn(`Error setting localStorage key "${key}":`, error);
       }
     },
@@ -155,6 +159,7 @@ export function useLocalStorage<T>(
         window.localStorage.removeItem(key);
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn(`Error removing localStorage key "${key}":`, error);
     }
   }, [key, initialValue]);
@@ -180,6 +185,7 @@ export function useLocalStorage<T>(
 
             // Validate if validator is provided
             if (validator && !validator(parsed)) {
+              // eslint-disable-next-line no-console
               console.warn(
                 `Invalid value from storage event for key "${key}":`,
                 parsed
@@ -189,6 +195,7 @@ export function useLocalStorage<T>(
 
             setStoredValue(parsed);
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.warn(
               `Error parsing storage event for key "${key}":`,
               error

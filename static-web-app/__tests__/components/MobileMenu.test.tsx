@@ -66,7 +66,7 @@ describe('MobileMenu component', () => {
 
     // Click on the backdrop element
     const backdrop = container.querySelector('.bg-black\\/20');
-    fireEvent.click(backdrop!);
+    fireEvent.click(backdrop!); // eslint-disable-line @typescript-eslint/no-non-null-assertion
 
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });

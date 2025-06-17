@@ -11,6 +11,7 @@ const postsDirectory = path.join(process.cwd(), 'content/posts');
  */
 export function getAllPosts(): BlogPost[] {
   if (!fs.existsSync(postsDirectory)) {
+    // eslint-disable-next-line no-console
     console.warn('Posts directory not found, returning empty array');
     return [];
   }

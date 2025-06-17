@@ -92,9 +92,13 @@ export class ErrorBoundary extends React.Component<
 
     // Log error in development
     if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
       console.group(`🚨 Error Boundary: ${this.props.name || 'Unknown'}`);
+      // eslint-disable-next-line no-console
       console.error('Error:', error);
+      // eslint-disable-next-line no-console
       console.error('Error Info:', errorInfo);
+      // eslint-disable-next-line no-console
       console.groupEnd();
     }
   }

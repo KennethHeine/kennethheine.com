@@ -1,7 +1,11 @@
 /**
  * React 19 specific type definitions
  * Contains types for new React 19 features like transitions, optimistic updates, and enhanced hooks
+ *
+ * Note: React library types often use 'any' for maximum flexibility
  */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { ReactNode } from 'react';
 

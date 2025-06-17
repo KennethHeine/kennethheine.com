@@ -69,6 +69,7 @@ export function useOptimisticUpdates<T>(
     (update: Partial<T>) => {
       // Validate update if validator is provided
       if (validator && !validator(update)) {
+        // eslint-disable-next-line no-console
         console.warn('Invalid optimistic update:', update);
         return;
       }
@@ -78,6 +79,7 @@ export function useOptimisticUpdates<T>(
       // Set up automatic rollback if specified
       if (rollbackDelay > 0) {
         setTimeout(() => {
+          // eslint-disable-next-line no-console
           console.debug('Rollback delay elapsed for optimistic update');
         }, rollbackDelay);
       }
@@ -136,6 +138,7 @@ export function useOptimisticList<T extends OptimisticListItem>(
 /**
  * Optimistic form hook for form submissions
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useOptimisticForm<T extends Record<string, any>>(
   initialData: T,
   submitFn: (data: T) => Promise<void>
@@ -147,6 +150,7 @@ export function useOptimisticForm<T extends Record<string, any>>(
   );
 
   const updateField = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (field: keyof T, value: any) => {
       setOptimisticData(current => ({ ...current, [field]: value }));
 
