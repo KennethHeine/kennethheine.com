@@ -244,15 +244,6 @@ describe('metadata configuration', () => {
     expect(Array.isArray(openGraph?.images)).toBe(true);
   });
 
-  it('includes proper Twitter configuration', () => {
-    expect(metadata.twitter).toBeDefined();
-    const twitter = metadata.twitter as any;
-    expect(twitter?.card).toBe('summary_large_image');
-    expect(twitter?.title).toContain('Kenneth Heine');
-    expect(twitter?.description).toContain('Kenneth Heine helps developers');
-    expect(twitter?.images).toEqual(['/images/og-image.jpg']);
-  });
-
   it('includes proper robots configuration', () => {
     expect(metadata.robots).toBeDefined();
     const robots = metadata.robots as any;

@@ -11,6 +11,22 @@ export const metadata: Metadata = {
   title: 'Blog',
   description:
     'AI automation, DevOps, and Azure cloud architecture insights. Practical tutorials on GitHub Copilot, CI/CD automation, and scalable cloud solutions.',
+  openGraph: {
+    title: 'Blog - AI, DevOps & Cloud Architecture Insights',
+    description:
+      'AI automation, DevOps, and Azure cloud architecture insights. Practical tutorials on GitHub Copilot, CI/CD automation, and scalable cloud solutions.',
+    type: 'website',
+    url: 'https://kennethheine.com/blog',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Blog - AI, DevOps & Cloud Architecture Insights',
+      },
+    ],
+  },
+  twitter: null,
 };
 
 /**

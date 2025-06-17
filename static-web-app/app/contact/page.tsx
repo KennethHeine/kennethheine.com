@@ -8,6 +8,22 @@ export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+  openGraph: {
+    title: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
+    description:
+      'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+    type: 'website',
+    url: 'https://kennethheine.com/contact',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
+      },
+    ],
+  },
+  twitter: null,
 };
 
 /**

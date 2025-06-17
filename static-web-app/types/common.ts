@@ -30,7 +30,7 @@ export interface NavLink {
  * @deprecated Use SocialLink from '@/types/navigation' instead
  */
 export interface SocialLink {
-  /** Platform name (e.g., 'twitter', 'linkedin', 'github') */
+  /** Platform name (e.g., 'linkedin', 'github') */
   platform: string;
 
   /** Display label */
@@ -70,9 +70,6 @@ export interface SEOData {
     modifiedTime?: string;
     tags?: string[];
   };
-
-  /** Twitter card type */
-  twitterCard?: 'summary' | 'summary_large_image' | 'app' | 'player';
 
   /** Additional meta tags */
   additionalMetaTags?: Array<{

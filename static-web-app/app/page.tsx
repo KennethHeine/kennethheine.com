@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: 'Home',
   description:
     'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+  openGraph: {
+    title: 'Kenneth Heine - AI & Automation for Developers',
+    description:
+      'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+    type: 'website',
+    url: 'https://kennethheine.com',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Kenneth Heine - AI & Automation for Developers',
+      },
+    ],
+  },
+  twitter: null,
 };
 
 /**

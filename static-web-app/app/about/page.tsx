@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: 'About',
   description:
     'Kenneth Heine is a DevOps engineer and cloud architect passionate about bringing AI into software development. Learn about his background in Azure cloud architecture and automation.',
+  openGraph: {
+    title: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
+    description:
+      'Kenneth Heine is a DevOps engineer and cloud architect passionate about bringing AI into software development. Learn about his background in Azure cloud architecture and automation.',
+    type: 'website',
+    url: 'https://kennethheine.com/about',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
+      },
+    ],
+  },
+  twitter: null,
 };
 
 /**
