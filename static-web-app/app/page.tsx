@@ -1,6 +1,8 @@
 // --- file: app/page.tsx ---
 import { ArrowRightIcon } from '@/components/icons/ArrowRightIcon';
 import Container from '@/components/layout/Container';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { generateWebsiteStructuredData } from '@/lib/seo/structured-data';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -37,8 +39,11 @@ export const metadata: Metadata = {
  * - Links to other sections
  */
 export default function HomePage() {
+  const websiteData = generateWebsiteStructuredData('https://kennethheine.com');
+
   return (
     <main>
+      <JsonLd data={websiteData} />
       {/* Hero Section */}
       <section className='relative py-20 sm:py-32'>
         <Container>

@@ -1,7 +1,9 @@
 // --- file: app/blog/[slug]/page.tsx ---
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import Container from '@/components/layout/Container';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { getAllPosts, getPostBySlug, getRelatedPosts } from '@/lib/blog';
+import { generateBlogPostStructuredData } from '@/lib/seo/structured-data';
 import { formatDate } from '@/lib/utils';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -76,8 +78,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   // Get related posts
   const relatedPosts = getRelatedPosts(post, 3);
 
+  // Generate structured data for the blog post
+  const blogPostData = generateBlogPostStructuredData(
+    post,
+    'https://kennethheine.com'
+  );
+
   return (
     <main>
+      <JsonLd data={blogPostData} />
       <article>
         {/* Header Section */}
         <section className='py-20 sm:py-32'>

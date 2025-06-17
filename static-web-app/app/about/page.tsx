@@ -1,7 +1,9 @@
 // --- file: app/about/page.tsx ---
 import Container from '@/components/layout/Container';
+import { JsonLd } from '@/components/seo/JsonLd';
 import SkillBadge from '@/components/ui/SkillBadge';
 import { TimelineItem } from '@/components/ui/TimelineItem';
+import { generatePersonStructuredData } from '@/lib/seo/structured-data';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
@@ -37,6 +39,8 @@ export const metadata: Metadata = {
  * - Personal interests
  */
 export default function AboutPage() {
+  const personData = generatePersonStructuredData('https://kennethheine.com');
+
   // Skills organized by category
   const skills = {
     ai_tools: [
@@ -138,6 +142,7 @@ export default function AboutPage() {
 
   return (
     <main>
+      <JsonLd data={personData} />
       {/* Hero Section */}
       <section className='py-20 sm:py-32'>
         <Container>
