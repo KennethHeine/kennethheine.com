@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     ],
   },
   twitter: null,
+  alternates: {
+    canonical: 'https://kennethheine.com/about',
+  },
 };
 
 /**
