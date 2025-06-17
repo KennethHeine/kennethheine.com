@@ -140,6 +140,9 @@ describe('generateMetadata', () => {
         tags: ['test', 'demo', 'nextjs'],
       },
       twitter: null,
+      alternates: {
+        canonical: 'https://kennethheine.com/blog/test-post',
+      },
     });
   });
 

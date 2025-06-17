@@ -56,6 +56,9 @@ export async function generateMetadata({
       tags: post.tags,
     },
     twitter: null,
+    alternates: {
+      canonical: `https://kennethheine.com/blog/${params.slug}`,
+    },
   };
 }
 
