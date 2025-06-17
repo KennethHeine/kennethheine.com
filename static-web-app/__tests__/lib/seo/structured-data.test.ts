@@ -1,6 +1,7 @@
 import {
   generateBlogPostStructuredData,
   generateWebsiteStructuredData,
+  generatePersonStructuredData,
 } from '../../../lib/seo/structured-data';
 import { BlogPost } from '../../../types/blog';
 
@@ -215,6 +216,120 @@ describe('SEO Structured Data utilities', () => {
         'Personal website and blog of Kenneth Heine'
       );
       expect(result.author.name).toBe('Kenneth Heine');
+    });
+  });
+
+  describe('generatePersonStructuredData', () => {
+    it('generates complete person structured data with base URL', () => {
+      const result = generatePersonStructuredData('https://example.com');
+
+      expect(result).toEqual({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Kenneth Heine',
+        jobTitle: 'Cloud Architecture Consultant',
+        description:
+          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+        url: 'https://example.com/about',
+        sameAs: [],
+        knowsAbout: [
+          'Azure Cloud Architecture',
+          'DevOps',
+          'AI in Software Development',
+          'Infrastructure as Code',
+          'Automation',
+          'GitHub Copilot',
+          'CI/CD Pipelines',
+        ],
+        worksFor: {
+          '@type': 'Organization',
+          name: 'KS Cloud Solutions',
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'DK',
+        },
+      });
+    });
+
+    it('generates person structured data without base URL', () => {
+      const result = generatePersonStructuredData();
+
+      expect(result).toEqual({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Kenneth Heine',
+        jobTitle: 'Cloud Architecture Consultant',
+        description:
+          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+        url: '/about',
+        sameAs: [],
+        knowsAbout: [
+          'Azure Cloud Architecture',
+          'DevOps',
+          'AI in Software Development',
+          'Infrastructure as Code',
+          'Automation',
+          'GitHub Copilot',
+          'CI/CD Pipelines',
+        ],
+        worksFor: {
+          '@type': 'Organization',
+          name: 'KS Cloud Solutions',
+        },
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'DK',
+        },
+      });
+    });
+
+    it('includes proper schema.org context and type', () => {
+      const result = generatePersonStructuredData('https://example.com');
+
+      expect(result['@context']).toBe('https://schema.org');
+      expect(result['@type']).toBe('Person');
+    });
+
+    it('includes professional information', () => {
+      const result = generatePersonStructuredData('https://example.com');
+
+      expect(result.name).toBe('Kenneth Heine');
+      expect(result.jobTitle).toBe('Cloud Architecture Consultant');
+      expect(result.description).toContain('DevOps engineer');
+      expect(result.worksFor).toEqual({
+        '@type': 'Organization',
+        name: 'KS Cloud Solutions',
+      });
+    });
+
+    it('includes knowledge areas', () => {
+      const result = generatePersonStructuredData('https://example.com');
+
+      expect(result.knowsAbout).toEqual([
+        'Azure Cloud Architecture',
+        'DevOps',
+        'AI in Software Development',
+        'Infrastructure as Code',
+        'Automation',
+        'GitHub Copilot',
+        'CI/CD Pipelines',
+      ]);
+    });
+
+    it('includes location information', () => {
+      const result = generatePersonStructuredData('https://example.com');
+
+      expect(result.address).toEqual({
+        '@type': 'PostalAddress',
+        addressCountry: 'DK',
+      });
+    });
+
+    it('handles empty base URL parameter', () => {
+      const result = generatePersonStructuredData('');
+
+      expect(result.url).toBe('/about');
     });
   });
 });
