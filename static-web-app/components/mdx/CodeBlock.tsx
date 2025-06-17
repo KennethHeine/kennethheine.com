@@ -31,7 +31,14 @@ export function CodeBlock({ children, className, ...props }: CodeBlockProps) {
         return node.map(extractText).join('');
       }
       if (node && typeof node === 'object' && 'props' in node) {
-        return extractText((node as React.ReactElement).props.children);
+        const element = node as React.ReactElement;
+        if (
+          element.props &&
+          typeof element.props === 'object' &&
+          'children' in element.props
+        ) {
+          return extractText(element.props.children as React.ReactNode);
+        }
       }
       return '';
     };
