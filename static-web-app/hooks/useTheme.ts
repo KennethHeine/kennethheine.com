@@ -86,6 +86,7 @@ export function useTheme(options: UseThemeOptions = {}): UseThemeReturn {
         setThemeState(savedTheme);
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Failed to load theme from localStorage:', error);
     }
   }, [storageKey]);
@@ -106,6 +107,7 @@ export function useTheme(options: UseThemeOptions = {}): UseThemeReturn {
     try {
       localStorage.setItem(storageKey, theme);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Failed to save theme to localStorage:', error);
     }
   }, [theme, resolvedTheme, mounted, storageKey]);

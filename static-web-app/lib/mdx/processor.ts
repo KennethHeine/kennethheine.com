@@ -71,6 +71,7 @@ export async function processMDX(source: string): Promise<ProcessedMDX> {
       toc,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error processing MDX:', error);
     throw new Error('Failed to process MDX content');
   }

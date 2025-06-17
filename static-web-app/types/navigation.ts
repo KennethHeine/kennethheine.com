@@ -225,7 +225,7 @@ export interface SearchResult {
   /** Highlighted text snippets */
   highlights?: string[];
   /** Additional metadata */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 /**

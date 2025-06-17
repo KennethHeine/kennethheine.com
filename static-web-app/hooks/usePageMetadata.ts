@@ -23,7 +23,7 @@ interface PageMetadata {
   /** Whether page is indexable */
   noIndex?: boolean;
   /** Structured data */
-  structuredData?: Record<string, any>;
+  structuredData?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 interface UsePageMetadataOptions {
@@ -187,6 +187,7 @@ export function usePageMetadata(
       script.textContent = structuredDataScript;
       document.head.appendChild(script);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metadata, updateHead, siteName, baseUrl]);
 
   const updateMetadata = (newMetadata: Partial<PageMetadata>) => {
@@ -229,6 +230,7 @@ export function usePageMetadata(
     try {
       return JSON.stringify(metadata.structuredData, null, 2);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Failed to serialize structured data:', error);
       return null;
     }

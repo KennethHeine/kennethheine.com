@@ -102,6 +102,7 @@ interface UseDebouncedCallbackOptions extends UseDebounceOptions {
  * debouncedSave(formData);
  * ```
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useDebouncedCallback<T extends (...args: any[]) => any>(
   callback: T,
   options: UseDebouncedCallbackOptions = {}
@@ -115,6 +116,7 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
   // Update callback ref when dependencies change
   useEffect(() => {
     callbackRef.current = callback;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callback, ...deps]);
 
   const debouncedCallback = useCallback(

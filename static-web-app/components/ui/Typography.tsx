@@ -124,7 +124,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(
 
     return (
       <Component
-        ref={ref as any}
+        ref={ref as any} // eslint-disable-line @typescript-eslint/no-explicit-any
         className={cn(typographyVariants[variant], className)}
         {...props}
       >

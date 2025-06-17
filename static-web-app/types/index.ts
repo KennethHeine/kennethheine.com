@@ -2,17 +2,10 @@
  * Centralized type exports for the application
  * This file re-exports all types from their respective modules for easier importing
  *
- * @example
- * ```typescript
- * // Instead of multiple imports:
- * import { BlogPost } from '@/types/blog';
- * import { ButtonProps } from '@/types/ui';
- * import { Theme } from '@/types/theme';
- *
- * // Use a single import:
- * import type { BlogPost, ButtonProps, Theme } from '@/types';
- * ```
+ * Note: Some utility types use 'any' intentionally for TypeScript type inference
  */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // Blog-related types
 export type {
