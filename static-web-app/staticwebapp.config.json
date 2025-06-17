@@ -1,11 +1,11 @@
 {
   "navigationFallback": {
-    "rewrite": "/index.html",
+    "rewrite": "/404.html",
     "exclude": ["/images/*", "/favicon.svg", "/_next/*", "/css/*", "/js/*"]
   },
   "responseOverrides": {
     "404": {
-      "rewrite": "/index.html"
+      "rewrite": "/404.html"
     }
   },
   "globalHeaders": {
