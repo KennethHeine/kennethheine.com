@@ -297,7 +297,7 @@
 /* Enhanced Theme Transition System - Task #108 */
 @utility theme-transition {
   /* Optimized theme transitions for better performance and accessibility */
-  transition: 
+  transition:
     background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
@@ -427,12 +427,12 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Ensure theme transitions are also disabled */
   .theme-transition {
     transition: none !important;
   }
-  
+
   /* Override any hover transforms that might cause motion */
   .card:hover {
     transform: none !important;

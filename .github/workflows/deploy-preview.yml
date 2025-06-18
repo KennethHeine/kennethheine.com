@@ -1,0 +1,231 @@
+name: Deploy Preview Environment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths: ['static-web-app/**', '!static-web-app/README.md', '.github/workflows/deploy-*.yml']
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  STATIC_WEB_APP_NAME: "swa-kennethheine-com-dkwcwwqm6kfxy"
+  RESOURCE_GROUP_NAME: "rg-kennethheine-prod"
+
+jobs:
+  validate:
+    name: Validate Frontend Code
+    runs-on: ubuntu-latest
+    outputs:
+      app-location: ${{ steps.config.outputs.app-location }}
+      output-location: ${{ steps.config.outputs.output-location }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package.json'
+
+      - name: Validate Frontend Structure
+        run: |
+          echo "🔍 Validating frontend project structure for preview..."
+          # Check required files for Next.js project
+          required_files=(
+            "static-web-app/package.json"
+            "static-web-app/next.config.mjs"
+            "static-web-app/staticwebapp.config.json"
+            "static-web-app/app/layout.tsx"
+            "static-web-app/app/page.tsx"
+          )
+          
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Required file missing: $file"
+              exit 1
+            else
+              echo "✅ Found: $file"
+            fi
+          done
+          
+          echo "📁 Frontend structure validation completed successfully!"
+
+      - name: Install Dependencies
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing frontend dependencies for preview..."
+          npm ci
+          echo "✅ Dependencies installed successfully!"
+
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for preview deployment..."
+          npm run build
+          echo "✅ Next.js build completed successfully!"
+
+      - name: Lint and Validate Code
+        working-directory: static-web-app
+        run: |
+          echo "🔍 Running code validation for preview..."
+          # Validate Next.js build output
+          echo "📄 Validating Next.js build output..."
+          if [ ! -d "out" ]; then
+            echo "❌ Build output directory 'out' not found"
+            exit 1
+          fi
+          
+          if [ ! -f "out/index.html" ]; then
+            echo "❌ Main index.html not found in build output"
+            exit 1
+          fi
+          
+          echo "✅ Next.js build output validated successfully"
+          
+          # Check for common issues
+          echo "🔍 Checking for common issues..."
+          if grep -r "localhost" src/ --exclude-dir=node_modules 2>/dev/null; then
+            echo "⚠️ Warning: Found localhost references in code"
+          fi
+          
+          echo "✅ Code validation completed!"
+
+      - name: Extract Configuration
+        id: config
+        run: |
+          echo "📋 Extracting deployment configuration for preview..."
+          
+          # Get app location from parameters file
+          app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
+          output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
+          
+          echo "app-location=$app_location" >> $GITHUB_OUTPUT
+          echo "output-location=$output_location" >> $GITHUB_OUTPUT
+          
+          echo "📍 App Location: $app_location"
+          echo "📤 Output Location: $output_location"
+
+  deploy-preview:
+    name: Deploy Preview Environment
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure Authentication
+        run: |
+          echo "🔍 Verifying Azure CLI setup for preview deployment..."
+          az version
+          az account show
+          echo "✅ Authentication verified"
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving Static Web App deployment token for preview..."
+          
+          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \
+            --output tsv)
+          
+          if [ -z "$deployment_token" ]; then
+            echo "❌ Failed to retrieve deployment token"
+            exit 1
+          fi
+          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved for preview"
+
+      - name: Deploy Preview to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: ${{ needs.validate.outputs.app-location }}
+          output_location: ${{ needs.validate.outputs.output-location }}
+
+      - name: Comment PR with Preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pullRequest } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const comment = `## 🔍 Preview Deployment
+            
+            Your changes have been deployed to a preview environment!
+            
+            **Preview Details:**
+            - 📁 App Location: \`${{ needs.validate.outputs.app-location }}\`
+            - 🔗 Environment: \`preview\`
+            - 📅 Deployed: \`${new Date().toISOString()}\`
+            - 🔄 Commit: \`${context.sha.substring(0, 7)}\`
+            
+            **🌐 Preview URL:** The preview URL will be available in the Azure Static Web Apps deployment details.
+            
+            **Note:** Preview deployments are automatically cleaned up when the PR is closed.
+            
+            ---
+            *This preview environment includes all changes from this pull request and will be updated automatically with new commits.*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Create Preview Deployment Summary
+        if: always()
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          ## 🔍 Preview Deployment Results
+          
+          **Deployment Details:**
+          - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
+          - 📁 App Location: `${{ needs.validate.outputs.app-location }}`
+          - 📤 Output Location: `${{ needs.validate.outputs.output-location }}`
+          - 📅 Deployment Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
+          - 🔗 Environment: `preview`
+          - 🔄 Pull Request: `#${{ github.event.number }}`
+          
+          **Deployment Status:**
+          ${{ job.status == 'success' && '✅ **SUCCESS**: Preview deployment completed successfully!' || '❌ **FAILED**: Preview deployment encountered errors. Check logs above.' }}
+          
+          EOF
+            if [ "${{ job.status }}" == "success" ]; then
+            cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          **🌐 Preview Environment:**
+          - Preview URL: Available in deployment action details
+          - Duration: Active until PR is closed
+          - Updates: Automatically updated with new commits
+          EOF
+          fi
