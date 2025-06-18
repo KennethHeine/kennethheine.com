@@ -94,67 +94,101 @@ describe('Typography component', () => {
         switch (variant) {
           case 'h1':
             expect(element).toHaveClass(
-              'text-4xl',
+              'text-3xl',
+              'md:text-4xl',
+              'lg:text-5xl',
+              'xl:text-6xl',
               'font-bold',
               'leading-tight',
-              'tracking-tight'
+              'tracking-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'h2':
             expect(element).toHaveClass(
-              'text-3xl',
+              'text-2xl',
+              'md:text-3xl',
+              'lg:text-4xl',
+              'xl:text-5xl',
               'font-bold',
               'leading-tight',
-              'tracking-tight'
+              'tracking-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'h3':
             expect(element).toHaveClass(
-              'text-2xl',
+              'text-xl',
+              'md:text-2xl',
+              'lg:text-3xl',
+              'xl:text-4xl',
               'font-semibold',
-              'leading-tight'
+              'leading-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'h4':
             expect(element).toHaveClass(
-              'text-xl',
+              'text-lg',
+              'md:text-xl',
+              'lg:text-2xl',
+              'xl:text-3xl',
               'font-semibold',
-              'leading-tight'
+              'leading-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'h5':
             expect(element).toHaveClass(
-              'text-lg',
+              'text-base',
+              'md:text-lg',
+              'lg:text-xl',
+              'xl:text-2xl',
               'font-medium',
-              'leading-tight'
+              'leading-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'h6':
             expect(element).toHaveClass(
-              'text-base',
+              'text-sm',
+              'md:text-base',
+              'lg:text-lg',
+              'xl:text-xl',
               'font-medium',
-              'leading-tight'
+              'leading-tight',
+              'mobile-text-optimize'
             );
             break;
           case 'subtitle1':
             expect(element).toHaveClass(
               'text-lg',
               'font-medium',
-              'leading-relaxed'
+              'leading-relaxed',
+              'mobile-text-optimize'
             );
             break;
           case 'subtitle2':
             expect(element).toHaveClass(
               'text-base',
               'font-medium',
-              'leading-relaxed'
+              'leading-relaxed',
+              'mobile-text-optimize'
             );
             break;
           case 'body1':
-            expect(element).toHaveClass('text-base', 'leading-relaxed');
+            expect(element).toHaveClass(
+              'text-base',
+              'leading-relaxed',
+              'mobile-text-optimize'
+            );
             break;
           case 'body2':
-            expect(element).toHaveClass('text-sm', 'leading-relaxed');
+            expect(element).toHaveClass(
+              'text-sm',
+              'leading-relaxed',
+              'mobile-text-optimize'
+            );
             break;
           case 'caption':
             expect(element).toHaveClass(
@@ -175,9 +209,11 @@ describe('Typography component', () => {
           case 'lead':
             expect(element).toHaveClass(
               'text-lg',
+              'md:text-xl',
               'leading-relaxed',
               'text-gray-700',
-              'dark:text-gray-300'
+              'dark:text-gray-300',
+              'mobile-text-optimize'
             );
             break;
           case 'small':
@@ -230,10 +266,14 @@ describe('Typography component', () => {
       // Should be a span element with h1 styling
       expect(element.tagName).toBe('SPAN');
       expect(element).toHaveClass(
-        'text-4xl',
+        'text-3xl',
+        'md:text-4xl',
+        'lg:text-5xl',
+        'xl:text-6xl',
         'font-bold',
         'leading-tight',
-        'tracking-tight'
+        'tracking-tight',
+        'mobile-text-optimize'
       );
     });
 
@@ -247,7 +287,15 @@ describe('Typography component', () => {
       render(<Typography {...defaultProps} variant='h1' as='h1' />);
       const element = screen.getByText('Test content');
       expect(element.tagName).toBe('H1');
-      expect(element).toHaveClass('text-4xl', 'font-bold', 'tracking-tight');
+      expect(element).toHaveClass(
+        'text-3xl',
+        'md:text-4xl',
+        'lg:text-5xl',
+        'xl:text-6xl',
+        'font-bold',
+        'tracking-tight',
+        'mobile-text-optimize'
+      );
     });
   });
 
@@ -344,10 +392,14 @@ describe('Typography component', () => {
       const heading = screen.getByRole('heading', { level: 2 });
       expect(heading).toHaveTextContent('Visual H1, Semantic H2');
       expect(heading).toHaveClass(
-        'text-4xl',
+        'text-3xl',
+        'md:text-4xl',
+        'lg:text-5xl',
+        'xl:text-6xl',
         'font-bold',
         'leading-tight',
-        'tracking-tight'
+        'tracking-tight',
+        'mobile-text-optimize'
       ); // h1 visual styles
     });
 
@@ -373,7 +425,13 @@ describe('Typography component', () => {
     it('applies responsive classes correctly', () => {
       render(<Typography variant='h1' className='md:text-5xl lg:text-6xl' />);
       const element = screen.getByRole('heading', { level: 1 });
-      expect(element).toHaveClass('text-4xl', 'md:text-5xl', 'lg:text-6xl');
+      // Note: Custom classes may override default responsive classes
+      expect(element).toHaveClass(
+        'text-3xl',
+        'xl:text-6xl',
+        'md:text-5xl',
+        'lg:text-6xl'
+      );
     });
 
     it('maintains base styles with responsive overrides', () => {
@@ -386,10 +444,14 @@ describe('Typography component', () => {
 
       const element = screen.getByRole('heading', { level: 2 });
       expect(element).toHaveClass(
-        'text-3xl',
+        'text-2xl',
+        'md:text-3xl',
+        'lg:text-4xl',
+        'xl:text-5xl',
         'font-bold',
         'leading-tight',
         'tracking-tight', // Base h2 styles
+        'mobile-text-optimize', // Mobile optimization
         'text-center',
         'md:text-left',
         'lg:text-right' // Responsive classes
@@ -401,7 +463,11 @@ describe('Typography component', () => {
     it('includes dark mode classes for text colors', () => {
       render(<Typography variant='body1' />);
       const element = screen.getByRole('paragraph');
-      expect(element).toHaveClass('text-base', 'leading-relaxed');
+      expect(element).toHaveClass(
+        'text-base',
+        'leading-relaxed',
+        'mobile-text-optimize'
+      );
     });
 
     it('includes dark mode classes for muted text', () => {
@@ -428,9 +494,12 @@ describe('Typography component', () => {
       render(<Typography variant='lead' />);
       const element = screen.getByRole('paragraph');
       expect(element).toHaveClass(
+        'text-lg',
+        'md:text-xl',
+        'leading-relaxed',
         'text-gray-700',
         'dark:text-gray-300',
-        'leading-relaxed'
+        'mobile-text-optimize'
       );
     });
   });
@@ -443,10 +512,14 @@ describe('Typography component', () => {
 
       const element = screen.getByRole('heading', { level: 1 });
       expect(element).toHaveClass(
-        'text-4xl',
+        'text-3xl',
+        'md:text-4xl',
+        'lg:text-5xl',
+        'xl:text-6xl',
         'font-bold',
         'leading-tight',
         'tracking-tight', // variant classes
+        'mobile-text-optimize', // mobile optimization
         'existing-class',
         'another-class' // custom classes
       );
@@ -502,10 +575,14 @@ describe('Typography component', () => {
         const element = screen.getByRole('heading', { level: 1 });
         expect(element).toHaveTextContent('Heading 1');
         expect(element).toHaveClass(
-          'text-4xl',
+          'text-3xl',
+          'md:text-4xl',
+          'lg:text-5xl',
+          'xl:text-6xl',
           'font-bold',
           'leading-tight',
-          'tracking-tight'
+          'tracking-tight',
+          'mobile-text-optimize'
         );
       });
 
@@ -514,10 +591,14 @@ describe('Typography component', () => {
         const element = screen.getByRole('heading', { level: 2 });
         expect(element).toHaveTextContent('Heading 2');
         expect(element).toHaveClass(
-          'text-3xl',
+          'text-2xl',
+          'md:text-3xl',
+          'lg:text-4xl',
+          'xl:text-5xl',
           'font-bold',
           'leading-tight',
-          'tracking-tight'
+          'tracking-tight',
+          'mobile-text-optimize'
         );
       });
 
@@ -526,9 +607,13 @@ describe('Typography component', () => {
         const element = screen.getByRole('heading', { level: 3 });
         expect(element).toHaveTextContent('Heading 3');
         expect(element).toHaveClass(
-          'text-2xl',
+          'text-xl',
+          'md:text-2xl',
+          'lg:text-3xl',
+          'xl:text-4xl',
           'font-semibold',
-          'leading-tight'
+          'leading-tight',
+          'mobile-text-optimize'
         );
       });
 
@@ -537,9 +622,13 @@ describe('Typography component', () => {
         const element = screen.getByRole('heading', { level: 4 });
         expect(element).toHaveTextContent('Heading 4');
         expect(element).toHaveClass(
-          'text-xl',
+          'text-lg',
+          'md:text-xl',
+          'lg:text-2xl',
+          'xl:text-3xl',
           'font-semibold',
-          'leading-tight'
+          'leading-tight',
+          'mobile-text-optimize'
         );
       });
 
@@ -547,7 +636,15 @@ describe('Typography component', () => {
         render(<H5>Heading 5</H5>);
         const element = screen.getByRole('heading', { level: 5 });
         expect(element).toHaveTextContent('Heading 5');
-        expect(element).toHaveClass('text-lg', 'font-medium', 'leading-tight');
+        expect(element).toHaveClass(
+          'text-base',
+          'md:text-lg',
+          'lg:text-xl',
+          'xl:text-2xl',
+          'font-medium',
+          'leading-tight',
+          'mobile-text-optimize'
+        );
       });
 
       it('H6 renders with correct variant and element', () => {
@@ -555,9 +652,13 @@ describe('Typography component', () => {
         const element = screen.getByRole('heading', { level: 6 });
         expect(element).toHaveTextContent('Heading 6');
         expect(element).toHaveClass(
-          'text-base',
+          'text-sm',
+          'md:text-base',
+          'lg:text-lg',
+          'xl:text-xl',
           'font-medium',
-          'leading-tight'
+          'leading-tight',
+          'mobile-text-optimize'
         );
       });
 
@@ -593,9 +694,11 @@ describe('Typography component', () => {
         expect(element.tagName).toBe('P');
         expect(element).toHaveClass(
           'text-lg',
+          'md:text-xl',
           'leading-relaxed',
           'text-gray-700',
-          'dark:text-gray-300'
+          'dark:text-gray-300',
+          'mobile-text-optimize'
         );
       });
 

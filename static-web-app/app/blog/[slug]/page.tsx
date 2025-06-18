@@ -1,6 +1,7 @@
 // --- file: app/blog/[slug]/page.tsx ---
 import { ArrowLeftIcon } from '@/components/icons/ArrowLeftIcon';
 import Container from '@/components/layout/Container';
+import ReadingContainer from '@/components/layout/ReadingContainer';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { getAllPosts, getPostBySlug, getRelatedPosts } from '@/lib/blog';
 import { generateBlogPostStructuredData } from '@/lib/seo/structured-data';
@@ -94,7 +95,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Header Section */}
         <section className='py-20 sm:py-32'>
           <Container>
-            <div className='mx-auto max-w-3xl'>
+            <ReadingContainer mobileOptimized>
               {/* Back to blog link */}
               <Link
                 href='/blog'
@@ -147,7 +148,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   </p>
                 )}
               </header>
-            </div>
+            </ReadingContainer>
           </Container>
         </section>
 
@@ -185,7 +186,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Navigation to other posts */}
       <section className='border-t border-gray-200 py-12 dark:border-gray-700'>
         <Container>
-          <div className='mx-auto max-w-3xl'>
+          <ReadingContainer mobileOptimized>
             <div className='flex justify-center'>
               <Link
                 href='/blog'
@@ -195,7 +196,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 View All Posts
               </Link>
             </div>
-          </div>
+          </ReadingContainer>
         </Container>
       </section>
     </main>
