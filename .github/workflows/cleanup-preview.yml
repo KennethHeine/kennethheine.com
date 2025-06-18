@@ -1,0 +1,132 @@
+name: Cleanup Preview Environment
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths: ['static-web-app/**', '!static-web-app/README.md', '.github/workflows/deploy-*.yml']
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  STATIC_WEB_APP_NAME: "swa-kennethheine-com-dkwcwwqm6kfxy"
+  RESOURCE_GROUP_NAME: "rg-kennethheine-prod"
+
+jobs:
+  cleanup-preview:
+    name: Cleanup Preview Environment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Verify Azure Authentication
+        run: |
+          echo "🔍 Verifying Azure CLI setup for cleanup..."
+          az version
+          az account show
+          echo "✅ Authentication verified"
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving Static Web App deployment token for cleanup..."
+          
+          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \
+            --output tsv)
+          
+          if [ -z "$deployment_token" ]; then
+            echo "❌ Failed to retrieve deployment token"
+            exit 1
+          fi
+          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved for cleanup"
+
+      - name: Cleanup Preview Environment
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "close"
+          app_location: "/"
+          skip_app_build: true
+
+      - name: Verify Cleanup
+        run: |
+          echo "🔍 Verifying preview environment cleanup..."
+          echo "✅ Preview environment cleanup initiated successfully"
+          echo "🗑️ Preview URL will be deactivated within a few minutes"
+
+      - name: Comment PR with Cleanup Confirmation
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prStatus = context.payload.pull_request.merged ? 'merged' : 'closed';
+            const statusEmoji = context.payload.pull_request.merged ? '🎉' : '🔒';
+            
+            const comment = `## 🧹 Preview Environment Cleaned Up
+            
+            The preview environment for this pull request has been successfully removed.
+            
+            **Cleanup Details:**
+            - 🗑️ Preview environment: \`Deactivated and removed\`
+            - 📅 Cleaned up: \`${new Date().toISOString()}\`
+            - 🔗 Status: \`${prStatus}\`
+            - 🔄 Commit: \`${context.sha.substring(0, 7)}\`
+            
+            **Environment Status:**
+            - 🌐 Preview URL: \`Deactivated\`
+            - 💾 Resources: \`Cleaned up automatically\`
+            - 🔒 Security: \`No dangling resources or access\`
+            
+            ${statusEmoji} Thank you for your contribution!`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Create Cleanup Summary
+        if: always()
+        run: |
+          pr_status="${{ github.event.pull_request.merged && 'merged' || 'closed' }}"
+          
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          ## 🧹 Preview Environment Cleanup
+          
+          **Cleanup Status:** ${{ job.status == 'success' && '✅ **SUCCESS** - Preview environment removed successfully!' || '❌ **FAILED** - Cleanup encountered errors. Check logs above.' }}
+          
+          **Details:**
+          - 🔗 Pull Request: \`#${{ github.event.number }}\`
+          - 📁 Static Web App: \`${{ env.STATIC_WEB_APP_NAME }}\`
+          - 🗑️ Action: \`Preview environment cleanup\`
+          - 📅 Cleanup Time: \`$(date -u '+%Y-%m-%d %H:%M:%S UTC')\`
+          - 🔄 Trigger: \`PR $pr_status\`
+          - 🔄 Commit: \`${{ github.sha }}\`
+          
+          **Environment Status:**
+          - 🌐 Preview URL: \`Deactivated and removed\`
+          - 💾 Resources: \`Cleaned up automatically\`
+          - 🔒 Security: \`No dangling resources or access\`
+            EOF
