@@ -18,12 +18,33 @@ describe('Contact Page', () => {
 
   it('displays contact information', () => {
     render(<PageWithProvider />);
-    // Check for email link
+    // Check for email link (now in fallback section)
     const emailLink = screen.getByRole('link', {
       name: /kenneth@kscloud\.io/i,
     });
     expect(emailLink).toBeInTheDocument();
     expect(emailLink).toHaveAttribute('href', 'mailto:kenneth@kscloud.io');
+  });
+
+  it('includes calendly widget', () => {
+    render(<PageWithProvider />);
+
+    // Check for Calendly widget container
+    const calendlyWidget = screen
+      .getByRole('main')
+      .querySelector('.calendly-inline-widget');
+    expect(calendlyWidget).toBeInTheDocument();
+    expect(calendlyWidget).toHaveAttribute(
+      'data-url',
+      'https://calendly.com/kenneth-kscloud/30min'
+    );
+  });
+
+  it('includes scheduling section', () => {
+    render(<PageWithProvider />);
+
+    expect(screen.getByText(/Schedule a Consultation/i)).toBeInTheDocument();
+    expect(screen.getByText(/Prefer Email\?/i)).toBeInTheDocument();
   });
 
   it('includes mail icon', () => {
