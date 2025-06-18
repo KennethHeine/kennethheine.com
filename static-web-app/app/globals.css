@@ -219,12 +219,12 @@
   max-width: none;
   color: var(--color-gray-700);
   line-height: 1.75;
-  
+
   /* Dark mode text color for better visibility */
   &:is(.dark *) {
     color: var(--color-gray-200);
   }
-  
+
   /* Mobile-first reading optimization */
   @media (max-width: 767px) {
     line-height: 1.6; /* Tighter line height for small screens */
@@ -235,7 +235,7 @@
 @utility reading-width {
   /* Optimal reading width for long-form content (45-75 characters per line) */
   max-width: 65ch; /* Approximately 65 characters per line */
-  
+
   /* Mobile adjustments for narrower screens */
   @media (max-width: 767px) {
     max-width: 90vw; /* Use viewport width on mobile for better spacing */
@@ -248,7 +248,7 @@
   /* Mobile text optimization utility */
   font-size: max(1rem, 16px); /* Prevent mobile zoom by ensuring 16px minimum */
   line-height: 1.6; /* Improved mobile readability */
-  
+
   @media (min-width: 768px) {
     line-height: 1.75; /* Standard line height for larger screens */
   }
@@ -260,7 +260,7 @@
   line-height: 1.25;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  
+
   /* Dark mode heading color for better visibility */
   &:is(.dark *) {
     color: var(--color-gray-100);
@@ -287,7 +287,7 @@
 @utility prose-links {
   color: var(--color-brand-600);
   text-decoration: underline;
-  
+
   /* Dark mode link color */
   &:is(.dark *) {
     color: var(--color-brand-400);
@@ -298,7 +298,7 @@
   color: var(--color-brand-600);
   font-size: 0.875rem;
   font-weight: 600;
-  
+
   /* Dark mode code color */
   &:is(.dark *) {
     color: var(--color-brand-400);
@@ -312,7 +312,7 @@
   overflow-x: auto;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  
+
   /* Dark mode pre background */
   &:is(.dark *) {
     background-color: var(--color-gray-800);
@@ -395,7 +395,7 @@
     /* Ensure readability on mobile */
     font-size: max(1.875rem, 30px); /* Minimum 30px for mobile h1 */
     line-height: 1.2;
-    
+
     @media (min-width: 768px) {
       line-height: 1.1;
     }

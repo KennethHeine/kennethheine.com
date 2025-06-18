@@ -73,8 +73,8 @@ export default function HomePage() {
             {/* Tagline */}
             <p className='mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 sm:text-xl'>
               AI, Automation & Cloud Architecture for Developers: Learn how to
-              save time, increase code quality, and build smarter with modern
-              tools and Azure expertise.
+              save time, increase code quality, and build smarter with modern AI
+              tools.
             </p>
             {/* CTA Buttons */}
             <div className='mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center'>
@@ -104,7 +104,7 @@ export default function HomePage() {
           {' '}
           <div className='mx-auto max-w-3xl text-center'>
             <h2 className='text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl'>
-              Work Smarter, Not Harder
+              Work Smarter, Not Harder (For Real)
             </h2>{' '}
             <p className='mt-6 text-base leading-7 text-gray-600 dark:text-gray-300'>
               I help developers and DevOps teams understand and implement the
@@ -127,10 +127,10 @@ export default function HomePage() {
               </div>
               <div className='text-center'>
                 <div className='text-3xl font-bold text-brand-500 dark:text-brand-400'>
-                  100+
+                  100K+
                 </div>
                 <div className='mt-2 text-sm font-medium text-gray-600 dark:text-gray-400'>
-                  Azure Deployments
+                  Lines of AI-Generated Code
                 </div>
               </div>
               <div className='text-center'>
