@@ -248,7 +248,7 @@ describe('ThemeToggle component', () => {
         'dark:text-gray-300',
         'dark:hover:bg-gray-800'
       );
-      expect(button).toHaveClass('dark:hover:text-white', 'transition-colors');
+      expect(button).toHaveClass('dark:hover:text-white', 'theme-transition');
     });
   });
 

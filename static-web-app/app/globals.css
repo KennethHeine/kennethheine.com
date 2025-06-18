@@ -156,9 +156,9 @@
 
 /* Component layer customizations */
 @utility btn {
-  /* Button component styles */
+  /* Button component styles with enhanced theme transitions */
   @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium;
-  @apply transition-all duration-200 ease-in-out;
+  @apply theme-transition;
   @apply focus:outline-hidden focus:ring-2 focus:ring-offset-2;
 }
 @utility btn-primary {
@@ -176,19 +176,19 @@
   @apply focus:ring-brand-500;
 }
 @utility card {
-  /* Card component styles */
+  /* Card component styles with enhanced theme transitions */
   @apply bg-white dark:bg-gray-800 rounded-lg shadow-md;
   @apply border border-gray-200 dark:border-gray-700;
-  @apply transition-all duration-200;
+  @apply theme-transition;
 
   &:hover {
     @apply shadow-lg transform -translate-y-1;
   }
 }
 @utility nav-link {
-  /* Navigation styles */
+  /* Navigation styles with theme transitions */
   @apply text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400;
-  @apply transition-colors duration-200;
+  @apply theme-transition;
   @apply font-medium;
 
   &.active {
@@ -294,11 +294,23 @@
   }
 }
 
+/* Enhanced Theme Transition System - Task #108 */
+@utility theme-transition {
+  /* Optimized theme transitions for better performance and accessibility */
+  transition: 
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Base layer customizations */
 @layer base {
   /* Set default font family */
   html {
     font-family: Inter, system-ui, sans-serif;
+    /* Add color-scheme property for better browser theme integration */
+    color-scheme: light dark;
   }
 
   /* Smooth scrolling for internal links */
@@ -306,10 +318,10 @@
     scroll-behavior: smooth;
   }
 
-  /* Remove default margins and set base styles */
+  /* Enhanced base styles with improved theme transitions */
   body {
     @apply text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900;
-    @apply transition-colors duration-300;
+    @apply theme-transition;
   }
 
   /* Heading styles */
@@ -351,10 +363,10 @@
     @apply text-base md:text-lg leading-relaxed;
   }
 
-  /* Link styles */
+  /* Link styles with enhanced theme transitions */
   a {
     @apply text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300;
-    @apply transition-colors duration-200;
+    @apply theme-transition;
   }
 
   /* Focus styles for accessibility */
@@ -362,13 +374,15 @@
     @apply outline-hidden ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
   }
 
-  /* Code styles */
+  /* Code styles with theme transitions */
   code {
     @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded-sm;
+    @apply theme-transition;
   }
 
   pre {
     @apply font-mono text-sm bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto;
+    @apply theme-transition;
   }
 
   pre code {
@@ -402,8 +416,9 @@
   }
 }
 
-/* Reduced motion preferences */
+/* Enhanced accessibility: Reduced motion preferences - Task #108 */
 @media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions for users who prefer reduced motion */
   *,
   *::before,
   *::after {
@@ -411,5 +426,15 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  
+  /* Ensure theme transitions are also disabled */
+  .theme-transition {
+    transition: none !important;
+  }
+  
+  /* Override any hover transforms that might cause motion */
+  .card:hover {
+    transform: none !important;
   }
 }
