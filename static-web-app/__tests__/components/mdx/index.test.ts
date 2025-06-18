@@ -11,8 +11,13 @@ describe('MDX Index', () => {
     expect(typeof mdxExports.TableOfContents).toBe('function');
   });
 
+  it('exports ResponsiveImage component', () => {
+    expect(mdxExports.ResponsiveImage).toBeDefined();
+    expect(typeof mdxExports.ResponsiveImage).toBe('function');
+  });
+
   it('exports all expected components', () => {
-    const expectedExports = ['CodeBlock', 'TableOfContents'];
+    const expectedExports = ['CodeBlock', 'TableOfContents', 'ResponsiveImage'];
     const actualExports = Object.keys(mdxExports);
 
     expect(actualExports).toEqual(expect.arrayContaining(expectedExports));
