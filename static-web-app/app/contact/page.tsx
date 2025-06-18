@@ -2,6 +2,7 @@
 import { MailIcon } from '@/components/icons/MailIcon';
 import Container from '@/components/layout/Container';
 import { Metadata } from 'next';
+import Script from 'next/script';
 
 // SEO metadata for the contact page
 export const metadata: Metadata = {
@@ -63,24 +64,50 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* Contact Information */}
+      {/* Contact Information & Scheduling */}
       <section className='pb-20'>
         <Container>
-          <div className='mx-auto max-w-2xl'>
-            <div className='rounded-2xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800'>
-              <h2 className='text-xl font-semibold text-gray-900 dark:text-white'>
-                Get in Touch
-              </h2>{' '}
-              <p className='mt-4 text-gray-600 dark:text-gray-300'>
-                Ready to explore AI automation and cloud architecture for your
-                development workflow? I offer consulting on GitHub Copilot
-                implementation, CI/CD automation, Azure cloud architecture
-                design, and smart development integrations. Let&apos;s discuss
-                how to make your team more productive and build scalable
-                solutions.
-              </p>
-              <div className='mt-8'>
-                {' '}
+          <div className='mx-auto max-w-4xl'>
+            <div className='rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800 overflow-hidden'>
+              {/* Contact Introduction */}
+              <div className='p-8 border-b border-gray-200 dark:border-gray-700'>
+                <h2 className='text-xl font-semibold text-gray-900 dark:text-white'>
+                  Schedule a Consultation
+                </h2>
+                <p className='mt-4 text-gray-600 dark:text-gray-300'>
+                  Ready to explore AI automation and cloud architecture for your
+                  development workflow? I offer consulting on GitHub Copilot
+                  implementation, CI/CD automation, Azure cloud architecture
+                  design, and smart development integrations. Let&apos;s discuss
+                  how to make your team more productive and build scalable
+                  solutions.
+                </p>
+              </div>
+
+              {/* Calendly Widget */}
+              <div className='p-8'>
+                <div className='w-full'>
+                  <div
+                    className='calendly-inline-widget w-full rounded-lg overflow-hidden'
+                    data-url='https://calendly.com/kenneth-kscloud/30min'
+                    style={{ minHeight: '700px', height: '700px' }}
+                  />
+                  <Script
+                    src='https://assets.calendly.com/assets/external/widget.js'
+                    strategy='lazyOnload'
+                  />
+                </div>
+              </div>
+
+              {/* Email Fallback */}
+              <div className='p-8 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50'>
+                <h3 className='text-lg font-medium text-gray-900 dark:text-white mb-4'>
+                  Prefer Email?
+                </h3>
+                <p className='text-sm text-gray-600 dark:text-gray-400 mb-4'>
+                  If you&apos;d rather reach out directly, feel free to send me
+                  an email.
+                </p>
                 <a
                   href='mailto:kenneth@kscloud.io'
                   className='inline-flex items-center gap-3 rounded-lg bg-brand-500 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-brand-600 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:bg-brand-950 dark:hover:bg-brand-900 dark:focus:ring-offset-gray-800'
