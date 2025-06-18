@@ -2,6 +2,7 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypePrism from '@mapbox/rehype-prism';
 import { CodeBlock } from '@/components/mdx/CodeBlock';
 import { TableOfContents } from '@/components/mdx/TableOfContents';
+import { ResponsiveImage } from '@/components/mdx/ResponsiveImage';
 
 // Define types for MDX processing
 export interface TocItem {
@@ -21,6 +22,7 @@ export interface ProcessedMDX {
 const mdxComponents = {
   pre: CodeBlock,
   TableOfContents,
+  ResponsiveImage,
 };
 
 /**
