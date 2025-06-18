@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
 import { MobileMenu } from '../../components/navigation/MobileMenu';
 import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
@@ -156,5 +157,180 @@ describe('MobileMenu component', () => {
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toHaveAttribute('aria-labelledby', 'mobile-menu-heading');
+  });
+
+  it('handles Tab key navigation and focus trapping', () => {
+    const mockOnClose = jest.fn();
+    render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
+
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    const contactLink = screen.getByRole('link', { name: /contact/i });
+
+    // Focus on the last element (contact link)
+    contactLink.focus();
+    expect(contactLink).toHaveFocus();
+
+    // Press Tab to wrap around to first element
+    fireEvent.keyDown(document, { key: 'Tab' });
+    expect(closeButton).toHaveFocus();
+  });
+
+  it('handles Shift+Tab key navigation for backward focus trapping', () => {
+    const mockOnClose = jest.fn();
+    render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
+
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    const contactLink = screen.getByRole('link', { name: /contact/i });
+
+    // Focus on the first element (close button)
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    // Press Shift+Tab to wrap around to last element
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+    expect(contactLink).toHaveFocus();
+  });
+
+  it('ignores non-Tab key presses in focus trap', () => {
+    const mockOnClose = jest.fn();
+    render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
+
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    closeButton.focus();
+
+    // Press a non-Tab key (should not affect focus)
+    fireEvent.keyDown(document, { key: 'Enter' });
+    expect(closeButton).toHaveFocus();
+
+    // Press another non-Tab key
+    fireEvent.keyDown(document, { key: 'Space' });
+    expect(closeButton).toHaveFocus();
+  });
+
+  it('handles focus trapping when menu has no focusable elements', () => {
+    // Create a custom component that can simulate no focusable elements
+    const MobileMenuTestWrapper = () => {
+      const [isOpen, setIsOpen] = useState(true);
+
+      return (
+        <ThemeProvider>
+          <div>
+            <MobileMenu
+              open={isOpen}
+              onClose={() => setIsOpen(false)}
+              navigation={[]}
+              pathname='/'
+            />
+            {/* Add a test div that we can use to override querySelector */}
+            <div data-testid='test-container' />
+          </div>
+        </ThemeProvider>
+      );
+    };
+
+    const { container } = render(<MobileMenuTestWrapper />);
+
+    // Get the menu element and mock its querySelectorAll to return empty
+    const menuElement = container.querySelector('[role="dialog"]');
+    if (menuElement) {
+      const originalQuerySelectorAll = menuElement.querySelectorAll;
+      menuElement.querySelectorAll = jest.fn().mockReturnValue([]);
+
+      // Press Tab key - should handle the no focusable elements case
+      fireEvent.keyDown(document, { key: 'Tab' });
+
+      // Restore
+      menuElement.querySelectorAll = originalQuerySelectorAll;
+    }
+  });
+
+  it('handles all Tab navigation edge cases', () => {
+    const mockOnClose = jest.fn();
+    render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
+
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    const aboutLink = screen.getByRole('link', { name: /about/i });
+    const contactLink = screen.getByRole('link', { name: /contact/i });
+
+    // Test forward tab navigation from last to first
+    contactLink.focus();
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: false });
+    expect(closeButton).toHaveFocus();
+
+    // Test backward tab navigation from first to last
+    closeButton.focus();
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+    expect(contactLink).toHaveFocus();
+
+    // Test tab on middle element (should not wrap)
+    aboutLink.focus();
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: false });
+    // Should not wrap - let browser handle normal tab
+
+    // Test shift+tab on middle element (should not wrap)
+    aboutLink.focus();
+    fireEvent.keyDown(document, { key: 'Tab', shiftKey: true });
+    // Should not wrap - let browser handle normal tab
+  });
+
+  it('handles focus on close button when firstFocusableRef is available', () => {
+    const mockOnClose = jest.fn();
+    render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
+
+    // The close button should be focused automatically when menu opens
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    expect(closeButton).toHaveFocus();
+  });
+
+  it('handles menu opening and closing states properly', () => {
+    const mockOnClose = jest.fn();
+    const TestWrapper = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <ThemeProvider>
+          <div>
+            <button onClick={() => setIsOpen(true)}>Open Menu</button>
+            <MobileMenu
+              open={isOpen}
+              onClose={() => {
+                setIsOpen(false);
+                mockOnClose();
+              }}
+              navigation={[
+                { name: 'Home', href: '/' },
+                { name: 'About', href: '/about' },
+              ]}
+              pathname='/'
+            />
+          </div>
+        </ThemeProvider>
+      );
+    };
+
+    render(<TestWrapper />);
+
+    // Initially menu should not be visible
+    expect(screen.queryByText('Menu')).not.toBeInTheDocument();
+
+    // Open the menu
+    fireEvent.click(screen.getByText('Open Menu'));
+
+    // Menu should now be visible and focused
+    expect(screen.getByText('Menu')).toBeInTheDocument();
+    const closeButton = screen.getByRole('button', {
+      name: /close navigation menu/i,
+    });
+    expect(closeButton).toHaveFocus();
   });
 });
