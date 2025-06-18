@@ -73,9 +73,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {/* Mobile menu button */}
               <button
                 type='button'
-                className='md:hidden'
+                className='md:hidden min-w-11 min-h-11 p-2.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900'
                 onClick={() => setMobileMenuOpen(true)}
-                aria-label='Open menu'
+                aria-label='Open main navigation menu'
+                aria-expanded={mobileMenuOpen}
+                aria-controls='mobile-menu'
               >
                 <svg
                   className='h-6 w-6 text-gray-700 dark:text-gray-300'
@@ -83,6 +85,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   viewBox='0 0 24 24'
                   strokeWidth={1.5}
                   stroke='currentColor'
+                  aria-hidden='true'
                 >
                   <path
                     strokeLinecap='round'
@@ -101,6 +104,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         onClose={() => setMobileMenuOpen(false)}
         navigation={navigation}
         pathname={pathname}
+        id='mobile-menu'
       />
       {/* Main Content */}
       <div className='flex-1'>{children}</div> {/* Footer */}

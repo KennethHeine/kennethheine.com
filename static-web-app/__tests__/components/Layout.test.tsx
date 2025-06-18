@@ -46,8 +46,30 @@ describe('Layout component', () => {
       <LayoutWithProvider>
         <div>Test content</div>
       </LayoutWithProvider>
-    ); // Mobile menu button should be present
-    expect(screen.getByLabelText(/open menu/i)).toBeInTheDocument();
+    ); // Mobile menu button should be present with proper accessibility
+    expect(
+      screen.getByLabelText(/open main navigation menu/i)
+    ).toBeInTheDocument();
+
+    // Check for proper ARIA attributes
+    const mobileMenuButton = screen.getByLabelText(
+      /open main navigation menu/i
+    );
+    expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false');
+    expect(mobileMenuButton).toHaveAttribute('aria-controls', 'mobile-menu');
+  });
+
+  it('mobile menu button meets touch target requirements', () => {
+    render(
+      <LayoutWithProvider>
+        <div>Test content</div>
+      </LayoutWithProvider>
+    );
+
+    const mobileMenuButton = screen.getByLabelText(
+      /open main navigation menu/i
+    );
+    expect(mobileMenuButton).toHaveClass('min-w-11', 'min-h-11');
   });
 
   it('applies correct classes for responsive design', () => {
