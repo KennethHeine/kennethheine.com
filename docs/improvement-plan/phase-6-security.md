@@ -1,414 +1,381 @@
 # Phase 6: Security & Compliance
 
 ## 📊 Status: Not Started
-**Progress:** 0/16 tasks completed (0%)  
-**Priority:** High  
+**Progress:** 0/8 tasks completed (0%)  
+**Priority:** Medium (revised for personal website)  
 **Dependencies:** Phase 4 (Infrastructure)  
-**Estimated Timeline:** 2-3 weeks
+**Estimated Timeline:** 3-5 days
 
 ## 🎯 Overview
-Implement comprehensive security measures, ensure compliance with privacy regulations, and establish robust security monitoring and incident response procedures.
+Implement essential security measures appropriate for a personal website hosted on Azure Static Web Apps. Focus on practical security hygiene rather than enterprise-level compliance.
 
-## 📋 Task Breakdown
+## ⚠️ **Scope Revision for Personal Website**
+This phase has been revised to focus on essential security measures for a small personal website. Enterprise-level compliance tasks have been removed or marked as optional. See [Phase 6 Security Review](./phase-6-security-review.md) for detailed analysis.
+
+## 📋 Essential Tasks (Phase 6A)
 
 ---
 
-#### Task: Implement comprehensive Content Security Policy (CSP)
-- **Issue:** [#125] Implement comprehensive Content Security Policy (CSP)
+#### Task: Configure security headers via staticwebapp.config.json
+- **Issue:** [#125] Configure security headers (HSTS, X-Frame-Options, etc.)
 - **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
 - **Dependencies:** None
 
 **Description:**
-Implement a comprehensive Content Security Policy to prevent XSS attacks and other code injection vulnerabilities.
+Configure essential security headers through Azure Static Web Apps configuration file.
+
+**Security Headers to Implement:**
+- `Strict-Transport-Security`: HSTS with 1-year max-age
+- `X-Content-Type-Options`: nosniff
+- `X-Frame-Options`: DENY
+- `X-XSS-Protection`: 1; mode=block
+- `Referrer-Policy`: strict-origin-when-cross-origin
 
 **Acceptance Criteria:**
-- [ ] CSP policy defined and implemented
-- [ ] Policy tested across all browsers
-- [ ] CSP violation reporting configured
+- [ ] Security headers configured in `staticwebapp.config.json`
+- [ ] Mozilla Observatory score A or higher
+- [ ] Headers verified in browser dev tools
+- [ ] Documentation updated
+- [ ] Update progress tracker and phase documentation
+
+---
+
+#### Task: Implement simplified Content Security Policy (CSP)
+#### Task: Implement simplified Content Security Policy (CSP)
+- **Issue:** [#126] Implement Content Security Policy for static website
+- **Status:** ❌ Not Started
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
+- **Dependencies:** #125
+
+**Description:**
+Implement a Content Security Policy optimized for a static Next.js website.
+
+**CSP Configuration:**
+```
+default-src 'self'; 
+script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; 
+style-src 'self' 'unsafe-inline'; 
+img-src 'self' data: https:; 
+font-src 'self' https://fonts.gstatic.com;
+```
+
+**Acceptance Criteria:**
+- [ ] CSP policy configured in staticwebapp.config.json
+- [ ] Policy tested with all website features
+- [ ] No CSP violations in browser console
 - [ ] Policy documentation created
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Add security headers (HSTS, X-Frame-Options, etc.)
-- **Issue:** [#126] Add security headers (HSTS, X-Frame-Options, etc.)
+#### Task: Set up automated dependency scanning
+- **Issue:** [#127] Set up automated dependency scanning
 - **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 2 days
+- **Assignee:** Kenneth
+- **Estimate:** 0.5 days
 - **Dependencies:** None
 
 **Description:**
-Implement comprehensive security headers to protect against common web vulnerabilities.
+Configure automated scanning of npm dependencies for known vulnerabilities.
+
+**Implementation:**
+- Enable GitHub Dependabot for automatic dependency updates
+- Add npm audit to CI/CD pipeline
+- Configure vulnerability alerts
+- Set up automated security updates for low-risk dependencies
 
 **Acceptance Criteria:**
-- [ ] HSTS header implemented with proper max-age
-- [ ] X-Frame-Options set to DENY
-- [ ] X-Content-Type-Options set to nosniff
-- [ ] Mozilla Observatory score A+ achieved
+- [ ] Dependabot configuration file created
+- [ ] npm audit integrated into GitHub Actions
+- [ ] Security alerts configured
+- [ ] Zero high/critical vulnerabilities in dependencies
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Set up HTTPS enforcement and certificate management
-- **Issue:** [#127] Set up HTTPS enforcement and certificate management
+#### Task: Verify HTTPS configuration and certificate management
+- **Issue:** [#128] Verify HTTPS enforcement and certificate management
 - **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 2 days
+- **Assignee:** Kenneth
+- **Estimate:** 0.5 days
 - **Dependencies:** None
 
 **Description:**
-Ensure proper HTTPS enforcement and certificate management for the custom domain.
+Verify proper HTTPS enforcement and certificate management for custom domain.
+
+**Verification Tasks:**
+- Confirm HTTPS redirect is working
+- Check SSL certificate configuration
+- Verify certificate auto-renewal
+- Test SSL Labs score (target: A+)
+- Document current configuration
 
 **Acceptance Criteria:**
-- [ ] HTTPS redirect configured properly
-- [ ] SSL certificate monitoring implemented
-- [ ] Certificate auto-renewal verified
-- [ ] SSL Labs score A+ achieved
+- [ ] HTTPS redirect verified for all pages
+- [ ] SSL certificate monitoring documented
+- [ ] SSL Labs score A or higher achieved
+- [ ] Certificate renewal process documented
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Implement input validation and sanitization
-- **Issue:** [#128] Implement input validation and sanitization
+#### Task: Create basic privacy policy
+- **Issue:** [#129] Create basic privacy policy for personal website
 - **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
 - **Dependencies:** None
 
 **Description:**
-Implement comprehensive input validation and sanitization for all user inputs.
+Create a simple privacy policy appropriate for a personal website.
+
+**Content to Cover:**
+- What data is collected (analytics, contact form)
+- How data is used and stored
+- Third-party services (Google Analytics, if used)
+- User rights and contact information
+- Cookie usage (if applicable)
 
 **Acceptance Criteria:**
-- [ ] Input validation library integrated
-- [ ] All form inputs validated and sanitized
-- [ ] XSS prevention measures implemented
-- [ ] Input validation testing completed
+- [ ] Privacy policy page created
+- [ ] Content covers all data collection
+- [ ] Policy linked in website footer
+- [ ] Plain language used (not legal jargon)
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Add XSS and CSRF protection measures
-- **Issue:** [#129] Add XSS and CSRF protection measures
+#### Task: Configure package integrity verification
+- **Issue:** [#130] Implement supply chain security measures
 - **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
-- **Dependencies:** #125, #128
+- **Assignee:** Kenneth
+- **Estimate:** 0.5 days
+- **Dependencies:** #127
 
 **Description:**
-Implement comprehensive XSS and CSRF protection measures throughout the application.
+Implement basic supply chain security verification for npm packages.
+
+**Security Measures:**
+- Use package-lock.json for integrity verification
+- Configure npm to use trusted registries only
+- Add package verification to CI/CD pipeline
+- Document secure dependency management practices
 
 **Acceptance Criteria:**
-- [ ] XSS protection mechanisms implemented
-- [ ] CSRF tokens implemented for forms
-- [ ] Content sanitization library integrated
-- [ ] Security testing completed
+- [ ] package-lock.json integrity verification enabled
+- [ ] npm registry configuration secured
+- [ ] CI/CD pipeline includes package verification
+- [ ] Secure dependency practices documented
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Implement cookie consent management
-- **Issue:** [#130] Implement cookie consent management
+#### Task: Add basic input validation for contact form
+- **Issue:** [#131] Implement input validation and sanitization
 - **Status:** ❌ Not Started
-- **Assignee:** Privacy Team
-- **Estimate:** 4 days
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
 - **Dependencies:** None
 
 **Description:**
-Implement GDPR-compliant cookie consent management system.
+Implement input validation and sanitization for any user input (contact form, search).
+
+**Validation Requirements:**
+- Email format validation
+- Required field validation
+- Input length limits
+- Basic XSS prevention
+- Rate limiting for form submissions
+
+**Acceptance Criteria:**
+- [ ] Contact form validation implemented
+- [ ] Input sanitization library integrated
+- [ ] Client and server-side validation
+- [ ] Error messages user-friendly
+- [ ] Update progress tracker and phase documentation
+
+---
+
+#### Task: Configure privacy-focused analytics (if applicable)
+- **Issue:** [#132] Configure privacy-focused analytics
+- **Status:** ❌ Not Started
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
+- **Dependencies:** #129 (privacy policy)
+
+**Description:**
+If using analytics, configure them to be privacy-focused and compliant.
+
+**Privacy Configuration:**
+- IP anonymization enabled
+- Data retention periods set
+- Cookie usage minimized
+- User consent respected
+- Consider privacy-first alternatives (Plausible, Fathom)
+
+**Acceptance Criteria:**
+- [ ] Analytics configured with privacy settings
+- [ ] IP anonymization enabled (if using GA)
+- [ ] Privacy-focused analytics alternatives evaluated
+- [ ] Cookie usage documented in privacy policy
+- [ ] Update progress tracker and phase documentation
+
+## 📋 Optional Tasks (Phase 6B - Future)
+
+---
+
+#### Task: Implement basic cookie consent (Optional)
+- **Issue:** [#133] Add simple cookie consent management
+- **Status:** ❌ Optional
+- **Assignee:** Kenneth
+- **Estimate:** 1 day
+- **Dependencies:** #129, #132
+
+**Description:**
+Implement basic cookie consent banner if using analytics cookies.
+
+**Simple Implementation:**
+- Cookie consent banner component
+- Basic accept/decline functionality
+- Preference persistence in localStorage
+- Integration with analytics configuration
 
 **Acceptance Criteria:**
 - [ ] Cookie consent banner implemented
-- [ ] Granular cookie preferences available
-- [ ] Consent preferences persisted properly
+- [ ] User preferences respected
 - [ ] Analytics integration respects consent
+- [ ] Minimal UI impact
 - [ ] Update progress tracker and phase documentation
 
 ---
 
-#### Task: Add privacy policy and terms of service
-- **Issue:** [#131] Add privacy policy and terms of service
-- **Status:** ❌ Not Started
-- **Assignee:** Privacy Team
-- **Estimate:** 3 days
-- **Dependencies:** None
-
-**Description:**
-Create comprehensive privacy policy and terms of service documents.
-
-**Acceptance Criteria:**
-- [ ] Privacy policy drafted and reviewed
-- [ ] Terms of service created
-- [ ] Legal review completed
-- [ ] Documents integrated into website
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Create data processing documentation
-- **Issue:** [#132] Create data processing documentation
-- **Status:** ❌ Not Started
-- **Assignee:** Privacy Team
+#### Task: Add basic security monitoring (Optional)
+- **Issue:** [#134] Set up basic security monitoring
+- **Status:** ❌ Optional
+- **Assignee:** Kenneth
 - **Estimate:** 2 days
-- **Dependencies:** #131
+- **Dependencies:** All essential tasks
 
 **Description:**
-Document all data processing activities for GDPR compliance.
+Implement basic security monitoring using Azure Static Web Apps analytics.
+
+**Monitoring Features:**
+- Failed request monitoring
+- Unusual traffic pattern alerts
+- Security header compliance monitoring
+- Basic error tracking
 
 **Acceptance Criteria:**
-- [ ] Data processing activities documented
-- [ ] Data retention policies defined
-- [ ] Legal basis for processing documented
-- [ ] Data flow diagrams created
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Implement user data rights (access, deletion)
-- **Issue:** [#133] Implement user data rights (access, deletion)
-- **Status:** ❌ Not Started
-- **Assignee:** Privacy Team
-- **Estimate:** 4 days
-- **Dependencies:** #132
-
-**Description:**
-Implement mechanisms for users to exercise their GDPR rights (access, deletion, portability).
-
-**Acceptance Criteria:**
-- [ ] Data access request process implemented
-- [ ] Data deletion mechanism created
-- [ ] Data portability features added
-- [ ] Request handling procedures documented
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Add privacy-focused analytics configuration
-- **Issue:** [#134] Add privacy-focused analytics configuration
-- **Status:** ❌ Not Started
-- **Assignee:** Privacy Team
-- **Estimate:** 2 days
-- **Dependencies:** #130
-
-**Description:**
-Configure analytics to be privacy-focused and respect user consent preferences.
-
-**Acceptance Criteria:**
-- [ ] Analytics configured to respect consent
-- [ ] IP anonymization enabled
-- [ ] Data retention periods configured
-- [ ] Privacy-focused analytics alternatives evaluated
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Set up security monitoring and alerting
-- **Issue:** [#135] Set up security monitoring and alerting
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 4 days
-- **Dependencies:** None
-
-**Description:**
-Implement comprehensive security monitoring and alerting system.
-
-**Acceptance Criteria:**
-- [ ] Security monitoring dashboard configured
-- [ ] Real-time security alerts implemented
-- [ ] Log analysis for security events
-- [ ] Alert escalation procedures defined
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Implement automated vulnerability scanning
-- **Issue:** [#136] Implement automated vulnerability scanning
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
-- **Dependencies:** None
-
-**Description:**
-Set up automated vulnerability scanning for the application and dependencies.
-
-**Acceptance Criteria:**
-- [ ] Automated dependency scanning configured
-- [ ] Web application security scanning implemented
-- [ ] Infrastructure vulnerability scanning added
-- [ ] Scanning results integrated into CI/CD
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Create incident response procedures
-- **Issue:** [#137] Create incident response procedures
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 2 days
-- **Dependencies:** #135
-
-**Description:**
-Create comprehensive incident response procedures for security events.
-
-**Acceptance Criteria:**
-- [ ] Incident response plan documented
-- [ ] Response team roles and responsibilities defined
-- [ ] Escalation procedures established
-- [ ] Communication templates created
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Add security audit logging
-- **Issue:** [#138] Add security audit logging
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
-- **Dependencies:** #135
-
-**Description:**
-Implement comprehensive security audit logging for compliance and monitoring.
-
-**Acceptance Criteria:**
-- [ ] Security events logging implemented
-- [ ] Log retention policies defined
-- [ ] Log analysis tools configured
-- [ ] Compliance reporting automated
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Implement automated dependency scanning
-- **Issue:** [#139] Implement automated dependency scanning
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 2 days
-- **Dependencies:** None
-
-**Description:**
-Implement automated scanning of all project dependencies for known vulnerabilities.
-
-**Acceptance Criteria:**
-- [ ] npm audit integrated into CI/CD pipeline
-- [ ] Advanced dependency scanning tool configured
-- [ ] Vulnerability threshold policies set
-- [ ] Automated dependency updates configured
-- [ ] Update progress tracker and phase documentation
-
----
-
-#### Task: Add supply chain security verification
-- **Issue:** [#140] Add supply chain security verification
-- **Status:** ❌ Not Started
-- **Assignee:** Security Team
-- **Estimate:** 3 days
-- **Dependencies:** #139
-
-**Description:**
-Implement supply chain security verification to ensure integrity of dependencies and build process.
-
-**Acceptance Criteria:**
-- [ ] Package integrity verification implemented
-- [ ] Build process security hardened
-- [ ] Supply chain attack detection configured
-- [ ] Secure dependency management practices documented
+- [ ] Azure Monitor configured for basic alerts
+- [ ] Security metrics dashboard created
+- [ ] Alert thresholds defined
+- [ ] Monitoring documentation created
 - [ ] Update progress tracker and phase documentation
 
 ## 🎯 Success Metrics
 
-### Security Metrics
-- **Security Headers Score:** A+ (currently B)
-- **Vulnerability Count:** 0 high/critical (currently unknown)
-- **CSP Policy:** Fully implemented and tested
-- **HTTPS Score:** A+ on SSL Labs
+### Security Basics (Essential)
+- **Security Headers Score:** Mozilla Observatory Grade A
+- **HTTPS Score:** SSL Labs Grade A
+- **Dependencies:** Zero high/critical vulnerabilities
+- **CSP Policy:** Implemented without violations
 
-### Privacy Metrics
-- **GDPR Compliance:** 100% (currently 0%)
-- **Cookie Consent Rate:** >90%
-- **Privacy Policy Updates:** Tracked and documented
+### Privacy Compliance (If Applicable)
+- **Privacy Policy:** Published and accessible
+- **Analytics:** Configured with privacy focus
+- **Cookies:** Minimal usage, documented appropriately
 
-### Monitoring Metrics
-- **Security Alert Response:** < 1 hour
-- **Vulnerability Remediation:** < 24 hours for critical
-- **Security Audit Frequency:** Monthly
+### Optional Goals
+- **Security Monitoring:** Basic alerts configured
+- **Cookie Consent:** Implemented if needed
 
 ## 📚 Implementation Notes
 
-### Content Security Policy
-```json
-{
-  "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com;"
-}
-```
-
-### Security Headers Configuration
+### Azure Static Web Apps Security Headers
+Add to `staticwebapp.config.json`:
 ```json
 {
   "globalHeaders": {
-    "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "X-XSS-Protection": "1; mode=block",
-    "Referrer-Policy": "strict-origin-when-cross-origin",
-    "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   }
 }
 ```
 
-### Cookie Consent Implementation
-```typescript
-// Cookie consent component
-export const CookieConsent = () => {
-  const [showBanner, setShowBanner] = useState(false);
-  
-  useEffect(() => {
-    const consent = localStorage.getItem('cookie-consent');
-    if (!consent) {
-      setShowBanner(true);
-    }
-  }, []);
+### Content Security Policy for Static Site
+```json
+{
+  "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;"
+}
+```
 
-  const handleAccept = () => {
-    localStorage.setItem('cookie-consent', 'accepted');
-    setShowBanner(false);
-    // Initialize analytics
-  };
-
-  const handleDecline = () => {
-    localStorage.setItem('cookie-consent', 'declined');
-    setShowBanner(false);
-    // Disable analytics
-  };
-
-  return showBanner ? (
-    <div className="cookie-banner">
-      <p>We use cookies to improve your experience...</p>
-      <button onClick={handleAccept}>Accept</button>
-      <button onClick={handleDecline}>Decline</button>
-    </div>
-  ) : null;
-};
+### Dependabot Configuration
+Create `.github/dependabot.yml`:
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/static-web-app"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "KennethHeine"
 ```
 
 ## 🔗 Dependencies
 - **Requires:** Phase 4 completion (infrastructure)
-- **Enables:** Phase 7 (analytics with privacy compliance)
-- **Integrates with:** All phases (security is cross-cutting)
+- **Enables:** Secure foundation for Phase 7 (analytics)
+- **Integrates with:** All phases (security is foundational)
 
 ## 📝 Next Steps
-1. Complete Phase 4 infrastructure improvements
-2. Implement comprehensive security headers
-3. Add privacy compliance features
-4. Set up security monitoring
-5. Conduct security audit and testing
+1. **Phase 6A (Essential):** Implement core security measures (3-5 days)
+   - Configure security headers
+   - Set up dependency scanning
+   - Create privacy policy
+   - Verify HTTPS configuration
+2. **Phase 6B (Optional):** Enhanced features based on needs
+   - Cookie consent management
+   - Security monitoring
+   - Additional privacy features
+
+## 📊 Recommendation Summary
+
+**✅ IMPLEMENT NOW (Phase 6A):**
+- Security headers configuration
+- Basic CSP policy
+- Automated dependency scanning
+- HTTPS verification
+- Basic privacy policy
+- Input validation for forms
+- Package integrity verification
+- Privacy-focused analytics setup
+
+**🟡 CONSIDER LATER (Phase 6B):**
+- Cookie consent banner
+- Basic security monitoring
+
+**❌ SKIP FOR PERSONAL WEBSITE:**
+- Enterprise compliance documentation
+- Complex user data management
+- Comprehensive incident response procedures
+- Advanced security audit logging
+
+**🎯 Focus:** Practical security measures that provide real value for a personal website without creating unnecessary maintenance overhead.
 
 ---
-*Last Updated: June 4, 2025*  
-*Phase Owner: Security & Compliance Team*
+*Last Updated: January 2025*  
+*Phase Owner: Kenneth Heine*  
+*Scope: Revised for personal website (reduced from 16 to 8 essential tasks)*
 
 ## 🔗 Navigation
 - [← Previous Phase: Phase 5 - User Experience & Design](./phase-5-ux-design.md)
 - [→ Next Phase: Phase 7 - Analytics & Performance Tracking](./phase-7-analytics.md)
+- [📊 Phase 6 Security Review & Analysis](./phase-6-security-review.md)
 - [📊 Progress Tracker](./progress-tracker.md)
 - [🏠 Improvement Plan Home](./README.md)
