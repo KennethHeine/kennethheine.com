@@ -58,23 +58,23 @@ export interface TypographyProps
 }
 
 /**
- * Typography variant styles mapping
+ * Typography variant styles mapping - Mobile optimized
  */
 const typographyVariants: Record<TypographyVariant, string> = {
-  h1: 'text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight',
-  h2: 'text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight',
-  h3: 'text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight',
-  h4: 'text-xl md:text-2xl lg:text-3xl font-semibold leading-tight',
-  h5: 'text-lg md:text-xl lg:text-2xl font-medium leading-tight',
-  h6: 'text-base md:text-lg lg:text-xl font-medium leading-tight',
-  subtitle1: 'text-lg font-medium leading-relaxed',
-  subtitle2: 'text-base font-medium leading-relaxed',
-  body1: 'text-base leading-relaxed',
-  body2: 'text-sm leading-relaxed',
+  h1: 'text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight mobile-text-optimize',
+  h2: 'text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight tracking-tight mobile-text-optimize',
+  h3: 'text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold leading-tight mobile-text-optimize',
+  h4: 'text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold leading-tight mobile-text-optimize',
+  h5: 'text-base md:text-lg lg:text-xl xl:text-2xl font-medium leading-tight mobile-text-optimize',
+  h6: 'text-sm md:text-base lg:text-lg xl:text-xl font-medium leading-tight mobile-text-optimize',
+  subtitle1: 'text-lg font-medium leading-relaxed mobile-text-optimize',
+  subtitle2: 'text-base font-medium leading-relaxed mobile-text-optimize',
+  body1: 'text-base leading-relaxed mobile-text-optimize',
+  body2: 'text-sm leading-relaxed mobile-text-optimize',
   caption: 'text-xs leading-normal text-gray-600 dark:text-gray-400',
   overline:
     'text-xs uppercase tracking-wide font-medium text-gray-600 dark:text-gray-400',
-  lead: 'text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300',
+  lead: 'text-lg md:text-xl leading-relaxed text-gray-700 dark:text-gray-300 mobile-text-optimize',
   small: 'text-sm leading-normal text-gray-600 dark:text-gray-400',
   muted: 'text-sm leading-normal text-gray-500 dark:text-gray-500',
 };
