@@ -40,7 +40,7 @@ export const metadata: Metadata = {
  */
 export default function ContactPage() {
   return (
-    <main role='main'>
+    <div>
       {/* Header Section */}
       <section
         aria-label='Contact information and introduction'
@@ -211,6 +211,6 @@ export default function ContactPage() {
           </div>
         </Container>
       </section>
-    </main>
+    </div>
   );
 }

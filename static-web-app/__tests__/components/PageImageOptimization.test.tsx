@@ -215,9 +215,12 @@ describe('Page Image Optimization', () => {
 
       const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
 
-      // Profile image should be in main content area
-      const main = profileImage.closest('main');
-      expect(main).toBeInTheDocument();
+      // Profile image should be within content (note: main role provided by Layout when wrapped)
+      expect(profileImage).toBeInTheDocument();
+
+      // Image should be in a section with relevant context
+      const section = profileImage.closest('section');
+      expect(section).toBeInTheDocument();
     });
   });
 });

@@ -46,7 +46,7 @@ export default function BlogPage() {
   const posts: BlogPost[] = getAllPosts();
 
   return (
-    <main role='main'>
+    <div>
       {/* Header Section */}
       <section aria-label='Blog introduction' className='py-20 sm:py-32'>
         <Container>
@@ -75,6 +75,6 @@ export default function BlogPage() {
           </ErrorBoundary>
         </Container>
       </section>
-    </main>
+    </div>
   );
 }

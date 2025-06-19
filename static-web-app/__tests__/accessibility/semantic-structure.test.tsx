@@ -17,10 +17,10 @@ describe('Semantic HTML Structure and ARIA Labels', () => {
     it('should have proper semantic structure with main landmarks', () => {
       renderWithProviders(
         <Layout>
-          <main>
+          <div>
             <h1>Test Page</h1>
             <p>Test content</p>
-          </main>
+          </div>
         </Layout>
       );
 
@@ -52,9 +52,9 @@ describe('Semantic HTML Structure and ARIA Labels', () => {
     it('should have skip links for keyboard navigation', () => {
       renderWithProviders(
         <Layout>
-          <main>
+          <div>
             <h1>Test Page</h1>
-          </main>
+          </div>
         </Layout>
       );
 
@@ -109,13 +109,13 @@ describe('Semantic HTML Structure and ARIA Labels', () => {
       // h1 -> h2 -> h3, no skipping levels
       const { container } = renderWithProviders(
         <Layout>
-          <main>
+          <div>
             <h1>Main Title</h1>
             <section>
               <h2>Section Title</h2>
               <h3>Subsection Title</h3>
             </section>
-          </main>
+          </div>
         </Layout>
       );
 
@@ -147,14 +147,14 @@ describe('Semantic HTML Structure and ARIA Labels', () => {
     it('should have proper landmark roles for page sections', () => {
       renderWithProviders(
         <Layout>
-          <main>
+          <div>
             <section aria-label='Hero section'>
               <h1>Welcome</h1>
             </section>
             <section aria-label='Featured content'>
               <h2>Features</h2>
             </section>
-          </main>
+          </div>
         </Layout>
       );
 

@@ -27,12 +27,10 @@ describe('Contact Page', () => {
   });
 
   it('includes calendly widget', () => {
-    render(<PageWithProvider />);
+    const { container } = render(<PageWithProvider />);
 
     // Check for Calendly widget container
-    const calendlyWidget = screen
-      .getByRole('main')
-      .querySelector('.calendly-inline-widget');
+    const calendlyWidget = container.querySelector('.calendly-inline-widget');
     expect(calendlyWidget).toBeInTheDocument();
     expect(calendlyWidget).toHaveAttribute(
       'data-url',
@@ -48,19 +46,18 @@ describe('Contact Page', () => {
   });
 
   it('includes mail icon', () => {
-    render(<PageWithProvider />);
+    const { container } = render(<PageWithProvider />);
 
     // Check for mail icon presence (it should be in the DOM)
-    const mailIcon = screen.getByRole('main').querySelector('svg');
+    const mailIcon = container.querySelector('svg');
     expect(mailIcon).toBeInTheDocument();
   });
 
   it('has proper page structure', () => {
     const { container } = render(<PageWithProvider />);
 
-    const main = container.querySelector('main');
-    expect(main).toBeInTheDocument();
-
+    // Note: Main role is provided by Layout component when page is wrapped
+    // Check for sections
     const sections = container.querySelectorAll('section');
     expect(sections.length).toBeGreaterThan(0);
   });
@@ -104,9 +101,7 @@ describe('Contact Page', () => {
     const h1 = screen.getByRole('heading', { level: 1 });
     expect(h1).toBeInTheDocument();
 
-    // Check for semantic structure
-    const main = screen.getByRole('main');
-    expect(main).toBeInTheDocument();
+    // Note: Main role is provided by Layout component when page is wrapped
   });
 
   it('provides clear call to action', () => {

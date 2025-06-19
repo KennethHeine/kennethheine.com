@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { MobileMenu } from '../navigation/MobileMenu';
+import { SkipLinks } from '../navigation/SkipLinks';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import Container from './Container';
 
@@ -31,13 +32,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className='min-h-screen bg-white dark:bg-gray-900'>
-      {/* Skip Links for Keyboard Navigation */}
-      <a
-        href='#main-content'
-        className='sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-500 focus:text-white focus:rounded-md focus:shadow-lg focus:transition-all'
-      >
-        Skip to main content
-      </a>
+      {/* Skip Links for keyboard navigation */}
+      <SkipLinks />
 
       {/* Header */}
       <header
@@ -49,16 +45,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {/* Logo */}
             <Link
               href='/'
-              className='text-xl font-bold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors'
+              className='text-xl font-bold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900'
             >
               Kenneth Heine
             </Link>
 
             {/* Desktop Navigation */}
             <nav
+              id='main-navigation'
+              className='hidden md:flex md:items-center md:space-x-8'
               role='navigation'
               aria-label='Main navigation'
-              className='hidden md:flex md:items-center md:space-x-8'
+              tabIndex={-1}
             >
               {navigation.map(item => {
                 const isActive =
@@ -69,12 +67,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`text-sm font-medium transition-colors ${
+                    className={`text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 ${
                       isActive
                         ? 'text-brand-600 dark:text-brand-400'
                         : 'text-gray-700 hover:text-brand-600 dark:text-gray-300 dark:hover:text-brand-400'
                     }`}
-                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.name}
                   </Link>
@@ -123,14 +120,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         id='mobile-menu'
       />
       {/* Main Content */}
-      <div className='flex-1' id='main-content'>
+      <main id='main-content' role='main' className='flex-1' tabIndex={-1}>
         {children}
-      </div>
+      </main>
 
       {/* Footer */}
       <footer
+        id='footer'
         role='contentinfo'
         className='border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-950'
+        tabIndex={-1}
       >
         <Container>
           <div className='md:flex md:items-center md:justify-between'>
@@ -143,7 +142,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className='mt-4 flex justify-center space-x-6 md:mt-0'>
               <a
                 href='https://github.com/kennethheine'
-                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300'
+                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-950'
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='Follow Kenneth Heine on GitHub'
@@ -164,7 +163,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
               <a
                 href='https://www.linkedin.com/in/kenneth-heine-5a588360/'
-                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300'
+                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-950'
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='Connect with Kenneth Heine on LinkedIn'

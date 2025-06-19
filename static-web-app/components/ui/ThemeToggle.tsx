@@ -120,12 +120,18 @@ export function ThemeToggle({
     <button
       onClick={handleToggle}
       className={cn(
-        'rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white theme-transition',
+        'rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white theme-transition focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900',
         padding,
         className
       )}
       aria-label={getLabel()}
       title={getLabel()}
+      onKeyDown={e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleToggle();
+        }
+      }}
       {...props}
     >
       <div className={cn('flex items-center gap-2')}>

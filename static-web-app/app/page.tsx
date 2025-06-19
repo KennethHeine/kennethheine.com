@@ -45,7 +45,7 @@ export default function HomePage() {
   const websiteData = generateWebsiteStructuredData('https://kennethheine.com');
 
   return (
-    <main role='main'>
+    <div>
       <JsonLd data={websiteData} />
       {/* Hero Section */}
       <section
@@ -203,6 +203,6 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
-    </main>
+    </div>
   );
 }

@@ -144,7 +144,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <main role='main'>
+    <div>
       <JsonLd data={personData} />
       {/* Hero Section */}
       <section aria-label='About Kenneth Heine' className='py-20 sm:py-32'>
@@ -324,6 +324,6 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
-    </main>
+    </div>
   );
 }

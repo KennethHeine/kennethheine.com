@@ -184,6 +184,43 @@ describe('ThemeToggle component', () => {
       expect(button.tagName).toBe('BUTTON');
       expect(button).toHaveAttribute('aria-label');
     });
+
+    it('handles Enter key press', () => {
+      render(<ThemeToggle />);
+
+      const button = screen.getByRole('button');
+
+      // Test Enter key
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
+
+      expect(mockSetTheme).toHaveBeenCalledTimes(1);
+      expect(mockSetTheme).toHaveBeenCalledWith('dark');
+    });
+
+    it('handles Space key press', () => {
+      render(<ThemeToggle />);
+
+      const button = screen.getByRole('button');
+
+      // Test Space key
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' });
+
+      expect(mockSetTheme).toHaveBeenCalledTimes(1);
+      expect(mockSetTheme).toHaveBeenCalledWith('dark');
+    });
+
+    it('ignores other key presses', () => {
+      render(<ThemeToggle />);
+
+      const button = screen.getByRole('button');
+
+      // Test other keys
+      fireEvent.keyDown(button, { key: 'Tab', code: 'Tab' });
+      fireEvent.keyDown(button, { key: 'Escape', code: 'Escape' });
+      fireEvent.keyDown(button, { key: 'a', code: 'KeyA' });
+
+      expect(mockSetTheme).not.toHaveBeenCalled();
+    });
   });
 
   describe('rapid interactions', () => {
