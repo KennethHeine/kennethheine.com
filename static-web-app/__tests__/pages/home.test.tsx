@@ -18,7 +18,9 @@ describe('Home Page', () => {
     render(<PageWithProvider />);
 
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByText(/Kenneth Heine/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: /hi, i'm kenneth heine/i })
+    ).toBeInTheDocument();
   });
 
   it('displays hero section content', () => {

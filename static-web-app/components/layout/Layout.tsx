@@ -36,7 +36,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <SkipLinks />
 
       {/* Header */}
-      <header className='sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80'>
+      <header
+        className='sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80'
+        role='banner'
+      >
         <Container>
           <div className='flex h-16 items-center justify-between'>
             {/* Logo */}
@@ -117,7 +120,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         id='mobile-menu'
       />
       {/* Main Content */}
-      <main id='main-content' className='flex-1' tabIndex={-1}>
+      <main id='main-content' className='flex-1' role='main' tabIndex={-1}>
         {children}
       </main>
 
@@ -125,6 +128,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <footer
         id='footer'
         className='border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-950'
+        role='contentinfo'
         tabIndex={-1}
       >
         <Container>
