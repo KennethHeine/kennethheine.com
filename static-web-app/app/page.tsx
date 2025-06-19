@@ -45,10 +45,13 @@ export default function HomePage() {
   const websiteData = generateWebsiteStructuredData('https://kennethheine.com');
 
   return (
-    <main>
+    <main role='main'>
       <JsonLd data={websiteData} />
       {/* Hero Section */}
-      <section className='relative py-20 sm:py-32'>
+      <section
+        aria-label='Introduction and profile'
+        className='relative py-20 sm:py-32'
+      >
         <Container>
           <div className='mx-auto max-w-4xl text-center'>
             {' '}
@@ -99,7 +102,10 @@ export default function HomePage() {
       </section>
 
       {/* Quick Introduction */}
-      <section className='py-20 bg-gray-50 dark:bg-gray-900/50'>
+      <section
+        aria-label='About Kenneth and his work'
+        className='py-20 bg-gray-50 dark:bg-gray-900/50'
+      >
         <Container>
           {' '}
           <div className='mx-auto max-w-3xl text-center'>
@@ -147,7 +153,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Content */}
-      <section className='py-20'>
+      <section aria-label='Featured content and recent work' className='py-20'>
         <Container>
           <div className='mx-auto max-w-4xl'>
             {' '}

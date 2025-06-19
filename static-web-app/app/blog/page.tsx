@@ -46,9 +46,9 @@ export default function BlogPage() {
   const posts: BlogPost[] = getAllPosts();
 
   return (
-    <main>
+    <main role='main'>
       {/* Header Section */}
-      <section className='py-20 sm:py-32'>
+      <section aria-label='Blog introduction' className='py-20 sm:py-32'>
         <Container>
           <div className='mx-auto max-w-4xl text-center'>
             <h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl'>
@@ -64,7 +64,7 @@ export default function BlogPage() {
       </section>
 
       {/* Blog Posts with Filters */}
-      <section className='pb-20'>
+      <section aria-label='Blog posts and search filters' className='pb-20'>
         <Container>
           <ErrorBoundary
             name='BlogList'

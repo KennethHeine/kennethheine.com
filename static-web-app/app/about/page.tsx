@@ -144,10 +144,10 @@ export default function AboutPage() {
   ];
 
   return (
-    <main>
+    <main role='main'>
       <JsonLd data={personData} />
       {/* Hero Section */}
-      <section className='py-20 sm:py-32'>
+      <section aria-label='About Kenneth Heine' className='py-20 sm:py-32'>
         <Container>
           <div className='mx-auto max-w-4xl'>
             <div className='grid gap-12 lg:grid-cols-2 lg:gap-16'>
@@ -191,7 +191,10 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Statement */}
-      <section className='py-20 bg-white dark:bg-gray-900'>
+      <section
+        aria-label='Mission and values'
+        className='py-20 bg-white dark:bg-gray-900'
+      >
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
             <h2 className='text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl'>
@@ -218,7 +221,10 @@ export default function AboutPage() {
       </section>
 
       {/* Skills Section */}
-      <section className='py-20 bg-gray-50 dark:bg-gray-900/50'>
+      <section
+        aria-label='Technical skills and expertise'
+        className='py-20 bg-gray-50 dark:bg-gray-900/50'
+      >
         <Container>
           <div className='mx-auto max-w-4xl'>
             {' '}
@@ -249,7 +255,10 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className='py-20'>
+      <section
+        aria-label='Professional timeline and experience'
+        className='py-20'
+      >
         <Container>
           <div className='mx-auto max-w-4xl'>
             {' '}
@@ -278,7 +287,10 @@ export default function AboutPage() {
       </section>
 
       {/* Personal Interests */}
-      <section className='py-20 bg-gray-50 dark:bg-gray-900/50'>
+      <section
+        aria-label='Personal interests and hobbies'
+        className='py-20 bg-gray-50 dark:bg-gray-900/50'
+      >
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
             {' '}

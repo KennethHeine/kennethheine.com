@@ -31,8 +31,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className='min-h-screen bg-white dark:bg-gray-900'>
+      {/* Skip Links for Keyboard Navigation */}
+      <a
+        href='#main-content'
+        className='sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand-500 focus:text-white focus:rounded-md focus:shadow-lg focus:transition-all'
+      >
+        Skip to main content
+      </a>
+
       {/* Header */}
-      <header className='sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80'>
+      <header
+        role='banner'
+        className='sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80'
+      >
         <Container>
           <div className='flex h-16 items-center justify-between'>
             {/* Logo */}
@@ -44,7 +55,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className='hidden md:flex md:items-center md:space-x-8'>
+            <nav
+              role='navigation'
+              aria-label='Main navigation'
+              className='hidden md:flex md:items-center md:space-x-8'
+            >
               {navigation.map(item => {
                 const isActive =
                   pathname === item.href ||
@@ -59,6 +74,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                         ? 'text-brand-600 dark:text-brand-400'
                         : 'text-gray-700 hover:text-brand-600 dark:text-gray-300 dark:hover:text-brand-400'
                     }`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.name}
                   </Link>
@@ -107,8 +123,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         id='mobile-menu'
       />
       {/* Main Content */}
-      <div className='flex-1'>{children}</div> {/* Footer */}
-      <footer className='border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-950'>
+      <div className='flex-1' id='main-content'>
+        {children}
+      </div>
+
+      {/* Footer */}
+      <footer
+        role='contentinfo'
+        className='border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-950'
+      >
         <Container>
           <div className='md:flex md:items-center md:justify-between'>
             <div className='text-center md:text-left'>
@@ -123,6 +146,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300'
                 target='_blank'
                 rel='noopener noreferrer'
+                aria-label='Follow Kenneth Heine on GitHub'
               >
                 <span className='sr-only'>GitHub</span>
                 <svg
@@ -143,6 +167,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300'
                 target='_blank'
                 rel='noopener noreferrer'
+                aria-label='Connect with Kenneth Heine on LinkedIn'
               >
                 <span className='sr-only'>LinkedIn</span>
                 <svg

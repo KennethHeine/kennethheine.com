@@ -40,9 +40,12 @@ export const metadata: Metadata = {
  */
 export default function ContactPage() {
   return (
-    <main>
+    <main role='main'>
       {/* Header Section */}
-      <section className='py-20 sm:py-32'>
+      <section
+        aria-label='Contact information and introduction'
+        className='py-20 sm:py-32'
+      >
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
             <div className='mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-brand-100 dark:bg-brand-900/20'>
@@ -65,7 +68,7 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Information & Scheduling */}
-      <section className='pb-20'>
+      <section aria-label='Contact form and scheduling' className='pb-20'>
         <Container>
           <div className='mx-auto max-w-4xl'>
             <div className='rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800 overflow-hidden'>
@@ -122,7 +125,10 @@ export default function ContactPage() {
       </section>
 
       {/* Additional Information */}
-      <section className='py-20 bg-gray-50 dark:bg-gray-900/50'>
+      <section
+        aria-label='What to expect when contacting Kenneth'
+        className='py-20 bg-gray-50 dark:bg-gray-900/50'
+      >
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
             <h2 className='text-2xl font-bold tracking-tight text-gray-900 dark:text-white'>
