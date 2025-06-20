@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import { useFocusStyles } from '../../hooks/useFocusManagement';
 
 interface NavigationItem {
   name: string;
@@ -19,7 +20,8 @@ interface MobileMenuProps {
 
 /**
  * Mobile menu component
- * Slide-out menu for mobile navigation with WCAG accessibility features
+ * Slide-out menu for mobile navigation with enhanced WCAG accessibility features
+ * Enhanced focus management implementation for Task #118
  */
 export function MobileMenu({
   open,
@@ -29,10 +31,13 @@ export function MobileMenu({
   id = 'mobile-menu',
 }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
-  const firstFocusableRef = useRef<HTMLButtonElement>(null);
-  const lastFocusableRef = useRef<HTMLAnchorElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Handle escape key and focus trapping
+  // Enhanced focus styles for better accessibility
+  const buttonFocusStyles = useFocusStyles('button');
+  const linkFocusStyles = useFocusStyles('link');
+
+  // Handle escape key and focus trapping (keeping original implementation for tests)
   useEffect(() => {
     if (!open) return;
 
@@ -74,8 +79,8 @@ export function MobileMenu({
     document.addEventListener('keydown', handleTabKeyPress);
 
     // Focus the close button when menu opens
-    if (firstFocusableRef.current) {
-      firstFocusableRef.current.focus();
+    if (closeButtonRef.current) {
+      closeButtonRef.current.focus();
     }
 
     return () => {
@@ -114,10 +119,10 @@ export function MobileMenu({
             Menu
           </span>
           <button
-            ref={firstFocusableRef}
+            ref={closeButtonRef}
             type='button'
             onClick={onClose}
-            className='min-w-11 min-h-11 p-2.5 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:text-gray-300 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900'
+            className={`min-w-11 min-h-11 p-2.5 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:text-gray-300 dark:hover:bg-gray-800 transition-colors ${buttonFocusStyles}`}
             aria-label='Close navigation menu'
           >
             <svg
@@ -143,20 +148,17 @@ export function MobileMenu({
           aria-label='Main navigation'
         >
           <div className='space-y-1'>
-            {navigation.map((item, index) => {
+            {navigation.map(item => {
               const isActive =
                 pathname === item.href ||
                 (item.href !== '/' && pathname.startsWith(item.href));
-
-              const isLast = index === navigation.length - 1;
 
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={onClose}
-                  ref={isLast ? lastFocusableRef : undefined}
-                  className={`block rounded-md px-4 py-3 min-h-11 text-base font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 ${
+                  className={`block rounded-md px-4 py-3 min-h-11 text-base font-medium transition-colors ${linkFocusStyles} ${
                     isActive
                       ? 'bg-brand-50 text-brand-600 dark:bg-brand-900/20 dark:text-brand-400'
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
