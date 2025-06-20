@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { MobileMenu } from '../navigation/MobileMenu';
 import { SkipLinks } from '../navigation/SkipLinks';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { useFocusStyles } from '../../hooks/useFocusManagement';
 import Container from './Container';
 
 /**
@@ -17,10 +18,15 @@ import Container from './Container';
  * - Mobile menu
  * - Dark mode toggle
  * - Footer with social links
+ * - Enhanced focus management for Task #118
  */
 export function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Enhanced focus styles for better accessibility
+  const linkFocusStyles = useFocusStyles('link');
+  const buttonFocusStyles = useFocusStyles('button');
 
   // Navigation items
   const navigation = [
@@ -45,7 +51,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {/* Logo */}
             <Link
               href='/'
-              className='text-xl font-bold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900'
+              className={`text-xl font-bold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors ${linkFocusStyles}`}
             >
               Kenneth Heine
             </Link>
@@ -67,7 +73,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 ${
+                    className={`text-sm font-medium transition-colors ${linkFocusStyles} ${
                       isActive
                         ? 'text-brand-600 dark:text-brand-400'
                         : 'text-gray-700 hover:text-brand-600 dark:text-gray-300 dark:hover:text-brand-400'
@@ -86,7 +92,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {/* Mobile menu button */}
               <button
                 type='button'
-                className='md:hidden min-w-11 min-h-11 p-2.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900'
+                className={`md:hidden min-w-11 min-h-11 p-2.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${buttonFocusStyles}`}
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label='Open main navigation menu'
                 aria-expanded={mobileMenuOpen}
@@ -142,7 +148,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className='mt-4 flex justify-center space-x-6 md:mt-0'>
               <a
                 href='https://github.com/kennethheine'
-                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-950'
+                className={`text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='GitHub profile'
@@ -163,7 +169,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
               <a
                 href='https://www.linkedin.com/in/kenneth-heine-5a588360/'
-                className='text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-950'
+                className={`text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='LinkedIn profile'

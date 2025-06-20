@@ -156,10 +156,14 @@
 
 /* Component layer customizations */
 @utility btn {
-  /* Button component styles with enhanced theme transitions */
+  /* Button component styles with enhanced theme transitions and focus indicators */
   @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium;
   @apply theme-transition;
-  @apply focus:outline-hidden focus:ring-2 focus:ring-offset-2;
+  /* Enhanced focus indicators - Task #118 */
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 focus:ring-offset-white dark:focus:ring-offset-gray-900;
+  @apply dark:focus:ring-brand-400;
+  @apply forced-colors:focus:ring-[Highlight] forced-colors:focus:ring-offset-[ButtonFace];
+  @apply transition-all duration-150 motion-reduce:transition-none;
 }
 @utility btn-primary {
   @apply bg-brand-600 text-white hover:bg-brand-700;
@@ -186,10 +190,15 @@
   }
 }
 @utility nav-link {
-  /* Navigation styles with theme transitions */
+  /* Navigation styles with theme transitions and enhanced focus indicators */
   @apply text-gray-600 dark:text-gray-300 hover:text-brand-600 dark:hover:text-brand-400;
   @apply theme-transition;
   @apply font-medium;
+  /* Enhanced focus indicators for navigation - Task #118 */
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-brand-500 focus:ring-offset-white dark:focus:ring-offset-gray-900;
+  @apply dark:focus:ring-brand-400;
+  @apply forced-colors:focus:ring-[Highlight] forced-colors:focus:ring-offset-[Canvas];
+  @apply transition-shadow duration-150 motion-reduce:transition-none;
 
   &.active {
     @apply text-brand-600 dark:text-brand-400;
@@ -449,9 +458,23 @@
     @apply theme-transition;
   }
 
-  /* Focus styles for accessibility */
+  /* Enhanced Focus styles for accessibility - Task #118 */
   *:focus {
-    @apply outline-hidden ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    /* Enhanced contrast for better visibility */
+    @apply dark:ring-brand-400;
+    /* High contrast mode support */
+    @apply forced-colors:ring-[Highlight] forced-colors:ring-offset-[Canvas];
+    /* Smooth transitions that respect reduced motion */
+    @apply transition-shadow duration-150 motion-reduce:transition-none;
+  }
+
+  /* Enhanced focus-visible for better keyboard navigation */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900;
+    @apply dark:ring-brand-400;
+    @apply forced-colors:ring-[Highlight] forced-colors:ring-offset-[Canvas];
+    @apply transition-shadow duration-150 motion-reduce:transition-none;
   }
 
   /* Code styles with theme transitions */

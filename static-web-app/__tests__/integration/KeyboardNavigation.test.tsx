@@ -180,11 +180,19 @@ describe('Keyboard Navigation Integration', () => {
 
       const homeLink = screen.getByRole('link', { name: 'Home' });
 
+      // Updated to match the enhanced focus indicators from Task #118
       expect(homeLink).toHaveClass(
         'focus:outline-none',
         'focus:ring-2',
         'focus:ring-brand-500',
-        'focus:ring-offset-2'
+        'focus:ring-offset-1' // Changed from offset-2 to offset-1 for links
+      );
+
+      // Check for additional enhanced focus properties
+      expect(homeLink).toHaveClass(
+        'focus:ring-offset-white',
+        'dark:focus:ring-offset-gray-900',
+        'dark:focus:ring-brand-400'
       );
     });
 
@@ -214,11 +222,19 @@ describe('Keyboard Navigation Integration', () => {
 
       const githubLink = screen.getByLabelText(/github profile/i);
 
+      // Updated to match the enhanced focus indicators from Task #118
       expect(githubLink).toHaveClass(
         'focus:outline-none',
         'focus:ring-2',
         'focus:ring-brand-500',
-        'focus:ring-offset-2'
+        'focus:ring-offset-1' // Changed from offset-2 to offset-1 for links
+      );
+
+      // Check for additional enhanced focus properties
+      expect(githubLink).toHaveClass(
+        'focus:ring-offset-white',
+        'dark:focus:ring-offset-gray-900',
+        'dark:focus:ring-brand-400'
       );
     });
   });

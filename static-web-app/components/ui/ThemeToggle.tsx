@@ -2,6 +2,7 @@
 'use client';
 
 import { useTheme } from '../providers/ThemeProvider';
+import { useFocusStyles } from '../../hooks/useFocusManagement';
 import { cn } from '../../lib/utils';
 import type { BaseComponentProps, ComponentSize } from '../../types/ui';
 
@@ -26,6 +27,7 @@ export interface ThemeToggleProps extends BaseComponentProps {
 /**
  * Theme toggle button component
  * Cycles between light, dark, and system themes
+ * Enhanced with improved focus management for Task #118
  */
 export function ThemeToggle({
   size = 'md',
@@ -35,6 +37,9 @@ export function ThemeToggle({
   ...props
 }: ThemeToggleProps = {}) {
   const { theme, setTheme } = useTheme();
+
+  // Enhanced focus styles for better accessibility
+  const focusStyles = useFocusStyles('button');
 
   const handleToggle = () => {
     if (onClick) {
@@ -120,7 +125,8 @@ export function ThemeToggle({
     <button
       onClick={handleToggle}
       className={cn(
-        'rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white theme-transition focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900',
+        'rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white theme-transition',
+        focusStyles,
         padding,
         className
       )}
