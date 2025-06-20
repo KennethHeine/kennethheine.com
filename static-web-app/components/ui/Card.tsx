@@ -3,6 +3,7 @@
 
 import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
+import { hoverStyles } from '../../lib/ui/hover';
 import type { BaseComponentProps, ComponentSize } from '../../types/ui';
 
 /**
@@ -137,8 +138,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
           cardBaseStyles,
           cardVariants[variant],
           cardSizes[size],
-          hoverable && 'hover:shadow-lg hover:-translate-y-1',
-          clickable && 'cursor-pointer transition-transform',
+          hoverable && hoverStyles.card(),
+          clickable && 'cursor-pointer',
           className
         )}
         role={clickable ? 'button' : undefined}

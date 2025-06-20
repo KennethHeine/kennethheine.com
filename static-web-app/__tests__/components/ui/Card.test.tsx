@@ -49,7 +49,7 @@ describe('Card', () => {
     );
 
     const card = screen.getByText('Clickable card');
-    expect(card).toHaveClass('cursor-pointer', 'transition-transform');
+    expect(card).toHaveClass('cursor-pointer');
     expect(card).toHaveAttribute('role', 'button');
     expect(card).toHaveAttribute('tabIndex', '0');
 

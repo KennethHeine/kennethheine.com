@@ -519,6 +519,61 @@
   }
 }
 
+/* Enhanced Interactive Hover States - Task #122 */
+@utility hover-interactive {
+  /* Base interactive element with consistent hover behavior */
+  @apply transition-colors duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:text-brand-600 hover:dark:text-brand-400;
+}
+
+@utility hover-button {
+  /* Enhanced button hover with subtle lift */
+  @apply transition-all duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:-translate-y-0.5 hover:shadow-md;
+}
+
+@utility hover-card {
+  /* Card hover with lift and shadow enhancement */
+  @apply transition-all duration-200 ease-in-out motion-reduce:transition-none;
+  @apply hover:-translate-y-1 hover:shadow-lg;
+}
+
+@utility hover-link {
+  /* Link hover with brand color transition */
+  @apply transition-colors duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:text-brand-600 hover:dark:text-brand-400;
+}
+
+@utility hover-social {
+  /* Social media link hover with lift */
+  @apply transition-all duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:text-brand-600 hover:dark:text-brand-400 hover:-translate-y-0.5;
+}
+
+@utility hover-cta {
+  /* Call-to-action hover with glow effect */
+  @apply transition-all duration-200 ease-in-out motion-reduce:transition-none;
+  @apply hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-500/25 hover:dark:shadow-brand-400/25;
+}
+
+@utility hover-subtle {
+  /* Subtle background hover for less prominent elements */
+  @apply transition-colors duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:bg-gray-50 hover:dark:bg-gray-800;
+}
+
+@utility hover-scale {
+  /* Scale hover effect for images and icons */
+  @apply transition-transform duration-200 ease-in-out motion-reduce:transition-none;
+  @apply hover:scale-105;
+}
+
+@utility hover-fade {
+  /* Fade hover effect */
+  @apply transition-opacity duration-150 ease-in-out motion-reduce:transition-none;
+  @apply hover:opacity-80;
+}
+
 /* Enhanced accessibility: Reduced motion preferences - Task #108 */
 @media (prefers-reduced-motion: reduce) {
   /* Disable all animations and transitions for users who prefer reduced motion */

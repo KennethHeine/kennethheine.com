@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { MobileMenu } from '../../components/navigation/MobileMenu';
 import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
@@ -336,7 +336,7 @@ describe('MobileMenu component', () => {
 
   it('handles edge case when closeButtonRef.current is null', () => {
     const mockOnClose = jest.fn();
-    
+
     // Use the existing MobileMenu but mock the focus method to test the if condition
     render(<MobileMenuWithProvider isOpen={true} onClose={mockOnClose} />);
 
@@ -344,7 +344,7 @@ describe('MobileMenu component', () => {
     const closeButton = screen.getByRole('button', {
       name: /close navigation menu/i,
     });
-    
+
     // Test that menu renders and close button exists
     expect(closeButton).toBeInTheDocument();
     expect(screen.getByText('Menu')).toBeInTheDocument();
@@ -360,7 +360,7 @@ describe('MobileMenu component', () => {
     const menuElement = container.querySelector('[role="dialog"]');
     if (menuElement) {
       const originalQuerySelectorAll = menuElement.querySelectorAll;
-      
+
       // Mock querySelectorAll to return empty NodeList to test the condition
       menuElement.querySelectorAll = jest.fn().mockReturnValue([]);
 
