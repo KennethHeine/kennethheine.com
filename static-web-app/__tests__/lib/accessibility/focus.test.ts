@@ -81,6 +81,259 @@ describe('Focus Management Utilities', () => {
   });
 
   describe('focusUtils', () => {
+    describe('moveFocus', () => {
+      it('moves focus to next element in sequence', () => {
+        const container = document.createElement('div');
+        container.innerHTML = `
+          <button id="first">First</button>
+          <button id="second">Second</button>
+          <button id="third">Third</button>
+        `;
+        document.body.appendChild(container);
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        const firstButton = document.getElementById('first');
+        const secondButton = document.getElementById('second');
+        
+        if (firstButton && secondButton) {
+          firstButton.focus();
+          expect(document.activeElement).toBe(firstButton);
+
+          focusUtils.moveFocus('next', container);
+          expect(document.activeElement).toBe(secondButton);
+        }
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+
+      it('moves focus to previous element in sequence', () => {
+        const container = document.createElement('div');
+        container.innerHTML = `
+          <button id="first">First</button>
+          <button id="second">Second</button>
+          <button id="third">Third</button>
+        `;
+        document.body.appendChild(container);
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        const secondButton = document.getElementById('second');
+        const firstButton = document.getElementById('first');
+        
+        if (firstButton && secondButton) {
+          secondButton.focus();
+          expect(document.activeElement).toBe(secondButton);
+
+          focusUtils.moveFocus('previous', container);
+          expect(document.activeElement).toBe(firstButton);
+        }
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+
+      it('wraps to last element when moving next from last element', () => {
+        const container = document.createElement('div');
+        container.innerHTML = `
+          <button id="first">First</button>
+          <button id="last">Last</button>
+        `;
+        document.body.appendChild(container);
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        const firstButton = document.getElementById('first');
+        const lastButton = document.getElementById('last');
+        
+        if (firstButton && lastButton) {
+          lastButton.focus();
+          expect(document.activeElement).toBe(lastButton);
+
+          focusUtils.moveFocus('next', container);
+          expect(document.activeElement).toBe(firstButton);
+        }
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+
+      it('wraps to first element when moving previous from first element', () => {
+        const container = document.createElement('div');
+        container.innerHTML = `
+          <button id="first">First</button>
+          <button id="last">Last</button>
+        `;
+        document.body.appendChild(container);
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        const firstButton = document.getElementById('first');
+        const lastButton = document.getElementById('last');
+        
+        if (firstButton && lastButton) {
+          firstButton.focus();
+          expect(document.activeElement).toBe(firstButton);
+
+          focusUtils.moveFocus('previous', container);
+          expect(document.activeElement).toBe(lastButton);
+        }
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+
+      it('does nothing when current element is not in focus list', () => {
+        const container = document.createElement('div');
+        container.innerHTML = `
+          <button id="button1">Button 1</button>
+          <button id="button2">Button 2</button>
+        `;
+        document.body.appendChild(container);
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        // Focus an element outside the container
+        const outsideButton = document.createElement('button');
+        outsideButton.id = 'outside';
+        document.body.appendChild(outsideButton);
+        outsideButton.focus();
+
+        expect(document.activeElement).toBe(outsideButton);
+
+        // Should not change focus since current element is not in the container
+        focusUtils.moveFocus('next', container);
+        expect(document.activeElement).toBe(outsideButton);
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+
+      it('uses document.body as default container', () => {
+        // Clear body and add test elements
+        document.body.innerHTML = `
+          <button id="body-first">Body First</button>
+          <button id="body-second">Body Second</button>
+        `;
+
+        // Mock getComputedStyle to return visible styles
+        const originalGetComputedStyle = window.getComputedStyle;
+        window.getComputedStyle = jest.fn().mockReturnValue({
+          display: 'block',
+          visibility: 'visible',
+        });
+
+        const firstButton = document.getElementById('body-first');
+        const secondButton = document.getElementById('body-second');
+        
+        if (firstButton && secondButton) {
+          firstButton.focus();
+          expect(document.activeElement).toBe(firstButton);
+
+          // Call without container parameter - should use document.body
+          focusUtils.moveFocus('next');
+          expect(document.activeElement).toBe(secondButton);
+        }
+
+        // Restore original getComputedStyle
+        window.getComputedStyle = originalGetComputedStyle;
+      });
+    });
+
+    describe('manageFocusRestore', () => {
+      it('restores focus to specified element after timeout', (done) => {
+        const targetElement = document.createElement('button');
+        targetElement.id = 'restore-target';
+        document.body.appendChild(targetElement);
+
+        const otherElement = document.createElement('button');
+        otherElement.id = 'other';
+        document.body.appendChild(otherElement);
+
+        // Focus the other element first
+        otherElement.focus();
+        expect(document.activeElement).toBe(otherElement);
+
+        // Set up focus restoration
+        const restoreFocus = focusUtils.manageFocusRestore(targetElement);
+
+        // Call restore function
+        restoreFocus();
+
+        // Focus should be restored after timeout
+        setTimeout(() => {
+          expect(document.activeElement).toBe(targetElement);
+          done();
+        }, 10);
+      });
+
+      it('restores focus to currently active element when no target specified', (done) => {
+        const currentElement = document.createElement('button');
+        currentElement.id = 'current';
+        document.body.appendChild(currentElement);
+
+        const otherElement = document.createElement('button');
+        otherElement.id = 'other';
+        document.body.appendChild(otherElement);
+
+        // Focus the current element
+        currentElement.focus();
+        expect(document.activeElement).toBe(currentElement);
+
+        // Set up focus restoration without specifying target
+        const restoreFocus = focusUtils.manageFocusRestore();
+
+        // Change focus to other element
+        otherElement.focus();
+        expect(document.activeElement).toBe(otherElement);
+
+        // Call restore function
+        restoreFocus();
+
+        // Focus should be restored to the original element after timeout
+        setTimeout(() => {
+          expect(document.activeElement).toBe(currentElement);
+          done();
+        }, 10);
+      });
+
+      it('handles case when restore element does not have focus method', () => {
+        const invalidElement = document.createElement('div') as any;
+        // Remove focus method to simulate invalid element
+        delete invalidElement.focus;
+
+        const restoreFocus = focusUtils.manageFocusRestore(invalidElement);
+        
+        // Should not throw error when calling restore with invalid element
+        expect(() => restoreFocus()).not.toThrow();
+      });
+    });
     describe('getFocusableElements', () => {
       it('finds all focusable elements in a container', () => {
         const container = document.createElement('div');
@@ -235,6 +488,25 @@ describe('Focus Management Utilities', () => {
         }));
 
         expect(focusUtils.shouldShowFocusIndicator(element)).toBe(true);
+      });
+
+      it('returns false when no special conditions are met', () => {
+        const element = document.createElement('button');
+        element.matches = jest.fn().mockReturnValue(false);
+
+        // Mock all media queries to return false
+        window.matchMedia = jest.fn().mockImplementation(() => ({
+          matches: false,
+          media: '',
+          onchange: null,
+          addListener: jest.fn(),
+          removeListener: jest.fn(),
+          addEventListener: jest.fn(),
+          removeEventListener: jest.fn(),
+          dispatchEvent: jest.fn(),
+        }));
+
+        expect(focusUtils.shouldShowFocusIndicator(element)).toBe(false);
       });
     });
   });
