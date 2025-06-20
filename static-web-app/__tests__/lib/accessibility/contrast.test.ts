@@ -36,6 +36,7 @@ describe('Color Contrast Utilities', () => {
       expect(hexToRgb('invalid')).toBeNull();
       expect(hexToRgb('#xyz')).toBeNull();
       expect(hexToRgb('#12345')).toBeNull();
+      expect(hexToRgb('#1234567')).toBeNull(); // Test 7-digit hex (not 6)
     });
   });
 
@@ -128,6 +129,14 @@ describe('Color Contrast Utilities', () => {
       const withoutLevel = meetsWCAG_AA('#000000', '#ffffff');
       const withNormalLevel = meetsWCAG_AA('#000000', '#ffffff', 'normal');
       expect(withoutLevel).toBe(withNormalLevel);
+    });
+
+    it('handles invalid text size level gracefully', () => {
+      // Test the default case by passing an invalid level
+      // TypeScript will complain, but we want to test runtime behavior
+      const result = meetsWCAG_AA('#000000', '#ffffff', 'invalid' as any);
+      const normalResult = meetsWCAG_AA('#000000', '#ffffff', 'normal');
+      expect(result).toBe(normalResult);
     });
   });
 
