@@ -189,10 +189,10 @@ describe('ThemeToggle component', () => {
       render(<ThemeToggle />);
 
       const button = screen.getByRole('button');
-      
+
       // Test Enter key
       fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
-      
+
       expect(mockSetTheme).toHaveBeenCalledTimes(1);
       expect(mockSetTheme).toHaveBeenCalledWith('dark');
     });
@@ -201,10 +201,10 @@ describe('ThemeToggle component', () => {
       render(<ThemeToggle />);
 
       const button = screen.getByRole('button');
-      
+
       // Test Space key
       fireEvent.keyDown(button, { key: ' ', code: 'Space' });
-      
+
       expect(mockSetTheme).toHaveBeenCalledTimes(1);
       expect(mockSetTheme).toHaveBeenCalledWith('dark');
     });
@@ -213,12 +213,12 @@ describe('ThemeToggle component', () => {
       render(<ThemeToggle />);
 
       const button = screen.getByRole('button');
-      
+
       // Test other keys
       fireEvent.keyDown(button, { key: 'Tab', code: 'Tab' });
       fireEvent.keyDown(button, { key: 'Escape', code: 'Escape' });
       fireEvent.keyDown(button, { key: 'a', code: 'KeyA' });
-      
+
       expect(mockSetTheme).not.toHaveBeenCalled();
     });
   });

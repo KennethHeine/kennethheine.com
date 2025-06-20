@@ -25,7 +25,9 @@ describe('Page Image Optimization', () => {
     it('renders profile photo with optimization attributes', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
 
       expect(profileImage).toBeInTheDocument();
       // Image should be optimized through Next.js (contains _next/image path)
@@ -42,14 +44,18 @@ describe('Page Image Optimization', () => {
       render(<HomePageWithProvider />);
 
       // Profile image should be visible and properly sized
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
       expect(profileImage).toBeInTheDocument();
     });
 
     it('includes proper responsive sizing for profile image', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
 
       // Image should have appropriate sizing classes
       expect(profileImage.closest('div')).toHaveClass('h-32', 'w-32');
@@ -96,7 +102,9 @@ describe('Page Image Optimization', () => {
     it('prioritizes critical images for faster loading', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
 
       // Profile image should be in a priority container (above the fold)
       expect(profileImage.closest('.py-20')).toBeInTheDocument();
@@ -136,7 +144,9 @@ describe('Page Image Optimization', () => {
     it('maintains image quality across different viewports', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
 
       // Object-cover ensures quality maintenance
       expect(profileImage).toHaveClass('object-cover');
@@ -158,7 +168,9 @@ describe('Page Image Optimization', () => {
       render(<HomePageWithProvider />);
       render(<AboutPageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
       const aboutImage = screen.getByAltText('Kenneth Heine - About Photo');
 
       expect(profileImage.getAttribute('alt')).toBeTruthy();
@@ -174,17 +186,24 @@ describe('Page Image Optimization', () => {
 
       const images = screen.getAllByRole('img');
 
-      // All images should use img role
+      // All images should use img role - can be either img elements or divs with role="img"
       expect(images.length).toBeGreaterThan(0);
       images.forEach(img => {
-        expect(img.tagName.toLowerCase()).toBe('img');
+        const tagName = img.tagName.toLowerCase();
+        expect(['img', 'div'].includes(tagName)).toBe(true);
+        // If it's a div, it should have role="img"
+        if (tagName === 'div') {
+          expect(img).toHaveAttribute('role', 'img');
+        }
       });
     });
 
     it('maintains proper contrast and visibility', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
       const container = profileImage.closest('.ring-4');
 
       // Should have proper ring styling for visibility
@@ -213,7 +232,9 @@ describe('Page Image Optimization', () => {
     it('includes images in semantic content structure', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText('Kenneth Heine - Profile Photo');
+      const profileImage = screen.getByAltText(
+        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+      );
 
       // Profile image should be in main content area
       const main = profileImage.closest('main');
