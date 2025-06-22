@@ -112,6 +112,7 @@
   --animate-fade-in: fadeIn 0.5s ease-in-out;
   --animate-slide-up: slideUp 0.3s ease-out;
   --animate-pulse-slow: pulse 3s infinite;
+  --animate-spin: spin 1s linear infinite;
 
   --breakpoint-xs: 475px;
   --breakpoint-3xl: 1680px;
@@ -132,6 +133,14 @@
     100% {
       transform: translateY(0);
       opacity: 1;
+    }
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
 }
@@ -335,6 +344,14 @@
 }
 @utility animate-slide-up {
   animation: slideUp 0.3s ease-out;
+}
+@utility animate-spin {
+  animation: spin 1s linear infinite;
+  
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 }
 @utility gradient-text {
   /* Gradient text utility */

@@ -2,6 +2,8 @@
 'use client';
 
 import { BlogFilters } from '@/components/blog/BlogFilters';
+import { LoadingBlogList } from '@/components/blog/LoadingBlogList';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useBlogPosts } from '@/hooks/useBlogPosts';
 import { formatDate } from '@/lib/utils';
 import type { BlogPost } from '@/types/blog';
@@ -40,6 +42,7 @@ export function BlogListWithFilters({
     resetFilters,
     hasMore,
     loadMore,
+    loading,
   } = useBlogPosts({
     initialPosts,
     pageSize: 6, // Show 6 posts initially
@@ -67,7 +70,10 @@ export function BlogListWithFilters({
 
         {/* Posts Content */}
         <div className='lg:col-span-3'>
-          {posts.length === 0 ? (
+          {loading && posts.length === 0 ? (
+            /* Loading state when no posts */
+            <LoadingBlogList message='Loading posts...' />
+          ) : posts.length === 0 ? (
             /* Empty state */
             <div className='text-center py-12'>
               <h3 className='text-lg font-medium text-gray-900 dark:text-white'>
@@ -171,9 +177,17 @@ export function BlogListWithFilters({
                 <div className='text-center pt-8'>
                   <button
                     onClick={loadMore}
-                    className='inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                    disabled={loading}
+                    className='inline-flex items-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
                   >
-                    Load More Posts
+                    {loading ? (
+                      <>
+                        <LoadingSpinner size='sm' label='Loading more posts' />
+                        Loading...
+                      </>
+                    ) : (
+                      'Load More Posts'
+                    )}
                   </button>
                 </div>
               )}
