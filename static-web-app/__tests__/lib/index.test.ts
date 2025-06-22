@@ -230,9 +230,17 @@ describe('Library Index - Re-exports', () => {
       const exportEntries = Object.entries(libIndex);
 
       exportEntries.forEach(([_key, value]) => {
-        // All exports should be defined functions
+        // All exports should be defined
         expect(value).toBeDefined();
-        expect(typeof value).toBe('function');
+
+        // Most exports should be functions, but some can be objects (like hoverClasses)
+        const validTypes = ['function', 'object'];
+        expect(validTypes).toContain(typeof value);
+
+        // If it's an object, it should have meaningful properties (not just empty object)
+        if (typeof value === 'object' && value !== null) {
+          expect(Object.keys(value).length).toBeGreaterThan(0);
+        }
       });
     });
 

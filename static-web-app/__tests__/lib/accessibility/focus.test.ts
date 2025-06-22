@@ -100,7 +100,7 @@ describe('Focus Management Utilities', () => {
 
         const firstButton = document.getElementById('first');
         const secondButton = document.getElementById('second');
-        
+
         if (firstButton && secondButton) {
           firstButton.focus();
           expect(document.activeElement).toBe(firstButton);
@@ -131,7 +131,7 @@ describe('Focus Management Utilities', () => {
 
         const secondButton = document.getElementById('second');
         const firstButton = document.getElementById('first');
-        
+
         if (firstButton && secondButton) {
           secondButton.focus();
           expect(document.activeElement).toBe(secondButton);
@@ -161,7 +161,7 @@ describe('Focus Management Utilities', () => {
 
         const firstButton = document.getElementById('first');
         const lastButton = document.getElementById('last');
-        
+
         if (firstButton && lastButton) {
           lastButton.focus();
           expect(document.activeElement).toBe(lastButton);
@@ -191,7 +191,7 @@ describe('Focus Management Utilities', () => {
 
         const firstButton = document.getElementById('first');
         const lastButton = document.getElementById('last');
-        
+
         if (firstButton && lastButton) {
           firstButton.focus();
           expect(document.activeElement).toBe(firstButton);
@@ -251,7 +251,7 @@ describe('Focus Management Utilities', () => {
 
         const firstButton = document.getElementById('body-first');
         const secondButton = document.getElementById('body-second');
-        
+
         if (firstButton && secondButton) {
           firstButton.focus();
           expect(document.activeElement).toBe(firstButton);
@@ -267,7 +267,7 @@ describe('Focus Management Utilities', () => {
     });
 
     describe('manageFocusRestore', () => {
-      it('restores focus to specified element after timeout', (done) => {
+      it('restores focus to specified element after timeout', done => {
         const targetElement = document.createElement('button');
         targetElement.id = 'restore-target';
         document.body.appendChild(targetElement);
@@ -293,7 +293,7 @@ describe('Focus Management Utilities', () => {
         }, 10);
       });
 
-      it('restores focus to currently active element when no target specified', (done) => {
+      it('restores focus to currently active element when no target specified', done => {
         const currentElement = document.createElement('button');
         currentElement.id = 'current';
         document.body.appendChild(currentElement);
@@ -329,7 +329,7 @@ describe('Focus Management Utilities', () => {
         delete invalidElement.focus;
 
         const restoreFocus = focusUtils.manageFocusRestore(invalidElement);
-        
+
         // Should not throw error when calling restore with invalid element
         expect(() => restoreFocus()).not.toThrow();
       });

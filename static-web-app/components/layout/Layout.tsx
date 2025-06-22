@@ -8,6 +8,7 @@ import { MobileMenu } from '../navigation/MobileMenu';
 import { SkipLinks } from '../navigation/SkipLinks';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { useFocusStyles } from '../../hooks/useFocusManagement';
+import { hoverStyles } from '../../lib/ui/hover';
 import Container from './Container';
 
 /**
@@ -51,7 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             {/* Logo */}
             <Link
               href='/'
-              className={`text-xl font-bold text-gray-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors ${linkFocusStyles}`}
+              className={`text-xl font-bold text-gray-900 dark:text-white ${hoverStyles.link()} ${linkFocusStyles}`}
             >
               Kenneth Heine
             </Link>
@@ -73,10 +74,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`text-sm font-medium transition-colors ${linkFocusStyles} ${
+                    className={`text-sm font-medium ${hoverStyles.navItem()} ${linkFocusStyles} ${
                       isActive
                         ? 'text-brand-600 dark:text-brand-400'
-                        : 'text-gray-700 hover:text-brand-600 dark:text-gray-300 dark:hover:text-brand-400'
+                        : 'text-gray-700 dark:text-gray-300'
                     }`}
                   >
                     {item.name}
@@ -92,7 +93,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {/* Mobile menu button */}
               <button
                 type='button'
-                className={`md:hidden min-w-11 min-h-11 p-2.5 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${buttonFocusStyles}`}
+                className={`md:hidden min-w-11 min-h-11 p-2.5 rounded-md ${hoverStyles.button('subtle')} ${buttonFocusStyles}`}
                 onClick={() => setMobileMenuOpen(true)}
                 aria-label='Open main navigation menu'
                 aria-expanded={mobileMenuOpen}
@@ -148,7 +149,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className='mt-4 flex justify-center space-x-6 md:mt-0'>
               <a
                 href='https://github.com/kennethheine'
-                className={`text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 ${linkFocusStyles}`}
+                className={`text-gray-400 ${hoverStyles.socialLink()} ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='GitHub profile'
@@ -169,7 +170,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
               <a
                 href='https://www.linkedin.com/in/kenneth-heine-5a588360/'
-                className={`text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 ${linkFocusStyles}`}
+                className={`text-gray-400 ${hoverStyles.socialLink()} ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='LinkedIn profile'
