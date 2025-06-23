@@ -38,6 +38,7 @@ export {
   type TypographyVariant,
   type TypographyElement,
 } from './Typography';
+export { LoadingSpinner, type LoadingSpinnerProps } from './LoadingSpinner';
 
 // Specialized components
 export { ThemeToggle, type ThemeToggleProps } from './ThemeToggle';
