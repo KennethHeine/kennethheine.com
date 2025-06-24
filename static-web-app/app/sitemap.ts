@@ -3,12 +3,12 @@ import { getAllPosts } from '../lib/blog';
 
 const baseUrl = 'https://kennethheine.com';
 
+// Feature flag to enable/disable blog routes in sitemap
+const BLOG_ENABLED = false;
+
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Get all published blog posts
-  const posts = getAllPosts();
-
   // Static pages with their priorities and change frequencies
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -24,12 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -37,13 +31,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Dynamic blog post pages
-  const blogPages: MetadataRoute.Sitemap = posts.map(post => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }));
+  // Only include blog pages if blog is enabled
+  if (BLOG_ENABLED) {
+    // Get all published blog posts
+    const posts = getAllPosts();
 
-  return [...staticPages, ...blogPages];
+    // Add blog main page
+    staticPages.push({
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+
+    // Dynamic blog post pages
+    const blogPages: MetadataRoute.Sitemap = posts.map(post => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+    }));
+
+    return [...staticPages, ...blogPages];
+  }
+
+  return staticPages;
 }

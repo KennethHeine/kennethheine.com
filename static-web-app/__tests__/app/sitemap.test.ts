@@ -26,7 +26,7 @@ describe('Sitemap Generation', () => {
 
       const sitemapData = sitemap();
 
-      expect(sitemapData).toHaveLength(4);
+      expect(sitemapData).toHaveLength(3);
 
       // Home page
       const homePage = sitemapData.find(
@@ -43,14 +43,6 @@ describe('Sitemap Generation', () => {
       expect(aboutPage).toBeDefined();
       expect(aboutPage?.priority).toBe(0.9);
       expect(aboutPage?.changeFrequency).toBe('monthly');
-
-      // Blog index page
-      const blogPage = sitemapData.find(
-        entry => entry.url === 'https://kennethheine.com/blog'
-      );
-      expect(blogPage).toBeDefined();
-      expect(blogPage?.priority).toBe(0.8);
-      expect(blogPage?.changeFrequency).toBe('weekly');
 
       // Contact page
       const contactPage = sitemapData.find(
@@ -100,26 +92,20 @@ describe('Sitemap Generation', () => {
 
       const sitemapData = sitemap();
 
-      // Should have 4 static pages + 2 blog posts
-      expect(sitemapData).toHaveLength(6);
+      // Should have only 3 static pages (no blog when disabled)
+      expect(sitemapData).toHaveLength(3);
 
-      // Check first blog post
+      // Blog posts should NOT be included when blog is disabled
       const blogPost1 = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/blog/test-post-1'
       );
-      expect(blogPost1).toBeDefined();
-      expect(blogPost1?.priority).toBe(0.6);
-      expect(blogPost1?.changeFrequency).toBe('weekly');
-      expect(blogPost1?.lastModified).toEqual(new Date('2025-06-01'));
+      expect(blogPost1).toBeUndefined();
 
-      // Check second blog post
+      // Check second blog post should also not exist
       const blogPost2 = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/blog/test-post-2'
       );
-      expect(blogPost2).toBeDefined();
-      expect(blogPost2?.priority).toBe(0.6);
-      expect(blogPost2?.changeFrequency).toBe('weekly');
-      expect(blogPost2?.lastModified).toEqual(new Date('2025-05-30'));
+      expect(blogPost2).toBeUndefined();
     });
 
     it('should handle empty blog posts gracefully', async () => {
@@ -127,15 +113,14 @@ describe('Sitemap Generation', () => {
 
       const sitemapData = sitemap();
 
-      // Should only have static pages
-      expect(sitemapData).toHaveLength(4);
+      // Should only have static pages (no blog when disabled)
+      expect(sitemapData).toHaveLength(3);
 
       // All URLs should be static pages
       const urls = sitemapData.map(entry => entry.url);
       expect(urls).toEqual([
         'https://kennethheine.com',
         'https://kennethheine.com/about',
-        'https://kennethheine.com/blog',
         'https://kennethheine.com/contact',
       ]);
     });
@@ -235,32 +220,20 @@ describe('Sitemap Generation', () => {
       const aboutPage = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/about'
       );
-      const blogPage = sitemapData.find(
-        entry => entry.url === 'https://kennethheine.com/blog'
-      );
       const contactPage = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/contact'
-      );
-      const blogPost = sitemapData.find(
-        entry => entry.url === 'https://kennethheine.com/blog/test-post'
       );
 
       // Home page should have highest priority
       expect(homePage?.priority).toBe(1);
 
-      // About page should be higher than blog
-      expect(aboutPage?.priority).toBeGreaterThan(blogPage?.priority || 0);
-
-      // Blog page should be higher than contact
-      expect(blogPage?.priority).toBeGreaterThan(contactPage?.priority || 0);
-
-      // Contact should be higher than blog posts
-      expect(contactPage?.priority).toBeGreaterThan(blogPost?.priority || 0);
+      // About page should be higher than contact (when blog is disabled)
+      expect(aboutPage?.priority).toBeGreaterThan(contactPage?.priority || 0);
     });
   });
 
   describe('Date Handling', () => {
-    it('should use blog post dates for lastModified', async () => {
+    it('should not include blog post dates when blog is disabled', async () => {
       const testDate = '2025-01-15';
       mockGetAllPosts.mockReturnValue([
         {
@@ -276,13 +249,14 @@ describe('Sitemap Generation', () => {
 
       const sitemapData = sitemap();
 
+      // Blog posts should not be included when blog is disabled
       const blogPost = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/blog/dated-post'
       );
-      expect(blogPost?.lastModified).toEqual(new Date(testDate));
+      expect(blogPost).toBeUndefined();
     });
 
-    it('should handle invalid dates gracefully', async () => {
+    it('should not include any blog pages when blog is disabled', async () => {
       mockGetAllPosts.mockReturnValue([
         {
           slug: 'invalid-date-post',
@@ -297,12 +271,11 @@ describe('Sitemap Generation', () => {
 
       const sitemapData = sitemap();
 
+      // Blog posts should not be included when blog is disabled
       const blogPost = sitemapData.find(
         entry => entry.url === 'https://kennethheine.com/blog/invalid-date-post'
       );
-      expect(blogPost?.lastModified).toBeInstanceOf(Date);
-      // Invalid dates become NaN dates, but the constructor still creates a Date object
-      expect(blogPost?.lastModified).toBeDefined();
+      expect(blogPost).toBeUndefined();
     });
   });
 
@@ -365,28 +338,28 @@ describe('Sitemap Generation', () => {
         )
       ).toBe(true);
       expect(
-        sitemapData.some(entry => entry.url === 'https://kennethheine.com/blog')
-      ).toBe(true);
-      expect(
         sitemapData.some(
           entry => entry.url === 'https://kennethheine.com/contact'
         )
       ).toBe(true);
 
-      // Should include all blog posts
+      // Should NOT include blog pages when blog is disabled
+      expect(
+        sitemapData.some(entry => entry.url === 'https://kennethheine.com/blog')
+      ).toBe(false);
       expect(
         sitemapData.some(
           entry => entry.url === 'https://kennethheine.com/blog/post-1'
         )
-      ).toBe(true);
+      ).toBe(false);
       expect(
         sitemapData.some(
           entry => entry.url === 'https://kennethheine.com/blog/post-2'
         )
-      ).toBe(true);
+      ).toBe(false);
 
-      // Total should match static pages + blog posts
-      expect(sitemapData).toHaveLength(4 + mockPosts.length);
+      // Total should match only static pages (no blog when disabled)
+      expect(sitemapData).toHaveLength(3);
     });
   });
 });
