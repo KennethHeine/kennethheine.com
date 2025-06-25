@@ -1,10 +1,10 @@
 // --- file: __tests__/seo/canonical-urls.test.ts ---
 import { metadata as homeMetadata } from '@/app/page';
 import { metadata as aboutMetadata } from '@/app/about/page';
-import { metadata as blogMetadata } from '@/app/blog/page';
+import { metadata as blogMetadata } from '@/app/_blog/page';
 import { metadata as contactMetadata } from '@/app/contact/page';
 import { metadata as notFoundMetadata } from '@/app/not-found';
-import { generateMetadata as generateBlogPostMetadata } from '@/app/blog/[slug]/page';
+import { generateMetadata as generateBlogPostMetadata } from '@/app/_blog/[slug]/page';
 
 // Mock blog functions
 jest.mock('@/lib/blog', () => ({

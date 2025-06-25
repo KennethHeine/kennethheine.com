@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import HomePage from '../../app/page';
 import AboutPage from '../../app/about/page';
-import BlogPostPage from '../../app/blog/[slug]/page';
+import BlogPostPage from '../../app/_blog/[slug]/page';
 
 // Mock the MDX processing for blog posts
 jest.mock('../../lib/blog', () => ({

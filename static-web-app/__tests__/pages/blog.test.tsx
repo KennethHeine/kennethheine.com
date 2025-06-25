@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Page from '../../app/blog/page';
+import Page from '../../app/_blog/page';
 import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
 // Mock next/navigation
