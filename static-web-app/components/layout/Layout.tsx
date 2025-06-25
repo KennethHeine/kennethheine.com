@@ -33,7 +33,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
 

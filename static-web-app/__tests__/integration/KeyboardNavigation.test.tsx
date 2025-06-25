@@ -125,7 +125,6 @@ describe('Keyboard Navigation Integration', () => {
       const logo = screen.getByRole('link', { name: /kenneth heine/i });
       const homeLink = screen.getByRole('link', { name: 'Home' });
       const aboutLink = screen.getByRole('link', { name: 'About' });
-      const blogLink = screen.getByRole('link', { name: 'Blog' });
       const contactLink = screen.getByRole('link', { name: 'Contact' });
       const themeToggle = screen.getByRole('button', { name: /switch to/i });
 
@@ -133,7 +132,6 @@ describe('Keyboard Navigation Integration', () => {
       expect(logo).toBeInTheDocument();
       expect(homeLink).toBeInTheDocument();
       expect(aboutLink).toBeInTheDocument();
-      expect(blogLink).toBeInTheDocument();
       expect(contactLink).toBeInTheDocument();
       expect(themeToggle).toBeInTheDocument();
 
