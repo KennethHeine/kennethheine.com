@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import Page, {
   generateMetadata,
   generateStaticParams,
-} from '../../app/blog/[slug]/page';
+} from '../../app/_blog/[slug]/page';
 import { ThemeProvider } from '../../components/providers/ThemeProvider';
 
 // Mock next/navigation
@@ -215,7 +215,7 @@ describe('Blog Post Page', () => {
     // This should call notFound() without rendering anything
     // We can't actually render this because notFound() is meant to stop execution
     expect(() => {
-      require('../../app/blog/[slug]/page').default;
+      require('../../app/_blog/[slug]/page').default;
       const post = getPostBySlug('non-existent');
       if (!post) {
         notFound();

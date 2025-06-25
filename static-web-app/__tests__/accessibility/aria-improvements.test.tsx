@@ -116,16 +116,16 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       expect(articles).toHaveLength(2);
 
       // Check that articles have proper aria-labelledby
-      const blogArticle = articles.find(article =>
-        article.querySelector('#blog-preview-heading')
+      const servicesArticle = articles.find(article =>
+        article.querySelector('#services-preview-heading')
       );
       const contactArticle = articles.find(article =>
         article.querySelector('#contact-preview-heading')
       );
 
-      expect(blogArticle).toHaveAttribute(
+      expect(servicesArticle).toHaveAttribute(
         'aria-labelledby',
-        'blog-preview-heading'
+        'services-preview-heading'
       );
       expect(contactArticle).toHaveAttribute(
         'aria-labelledby',
@@ -176,19 +176,19 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      // Check for screen reader descriptions
+      // Check for screen reader descriptions - be more specific to avoid duplicates
       const aboutDescription = screen.getByText(
         /navigate to the about page to learn more about kenneth heine/i
       );
-      const blogDescription = screen.getByText(
-        /navigate to the blog page to read articles about ai/i
+      const servicesDescription = screen.getByText(
+        /navigate to the contact page to learn about professional services/i
       );
       const contactDescription = screen.getByText(
-        /navigate to the contact page to get in touch/i
+        /navigate to the contact page to get in touch and connect/i
       );
 
       expect(aboutDescription).toHaveClass('sr-only');
-      expect(blogDescription).toHaveClass('sr-only');
+      expect(servicesDescription).toHaveClass('sr-only');
       expect(contactDescription).toHaveClass('sr-only');
     });
 
@@ -240,15 +240,15 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       const aboutLink = screen.getByRole('link', {
         name: /learn more about me/i,
       });
-      const blogLink = screen.getByRole('link', { name: /read my blog/i });
+      const contactCTAButton = screen.getByText('Get In Touch').closest('a') as HTMLElement;
 
       expect(aboutLink).toHaveAttribute(
         'aria-describedby',
         'about-cta-description'
       );
-      expect(blogLink).toHaveAttribute(
+      expect(contactCTAButton).toHaveAttribute(
         'aria-describedby',
-        'blog-cta-description'
+        'contact-cta-description'
       );
     });
 
@@ -259,16 +259,18 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      const viewPostsLink = screen.getByRole('link', {
-        name: /view all posts/i,
-      });
-      const contactLink = screen.getByRole('link', { name: /get in touch/i });
+      const servicesLink = screen.getAllByRole('link', {
+        name: /learn more/i,
+      }).find(link => link.getAttribute('aria-describedby') === 'services-link-description') as HTMLElement;
+      const contactContentLink = screen.getAllByRole('link', { name: /get in touch/i }).find(
+        link => link.getAttribute('aria-describedby') === 'contact-link-description'
+      ) as HTMLElement;
 
-      expect(viewPostsLink).toHaveAttribute(
+      expect(servicesLink).toHaveAttribute(
         'aria-describedby',
-        'blog-link-description'
+        'services-link-description'
       );
-      expect(contactLink).toHaveAttribute(
+      expect(contactContentLink).toHaveAttribute(
         'aria-describedby',
         'contact-link-description'
       );

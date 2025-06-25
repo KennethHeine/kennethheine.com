@@ -107,16 +107,15 @@ export default function HomePage() {
                 Heine&apos;s background and experience
               </span>
               <Link
-                href='/blog'
+                href='/contact'
                 className='inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-900 shadow-sm transition-all hover:bg-gray-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:focus:ring-offset-gray-900'
-                aria-describedby='blog-cta-description'
+                aria-describedby='contact-cta-description'
               >
-                Read My Blog
+                Get In Touch
                 <ArrowRightIcon className='h-4 w-4' aria-hidden='true' />
               </Link>
-              <span id='blog-cta-description' className='sr-only'>
-                Navigate to the blog page to read articles about AI, automation,
-                and cloud architecture
+              <span id='contact-cta-description' className='sr-only'>
+                Navigate to the contact page to get in touch and connect
               </span>
             </nav>
           </div>
@@ -200,33 +199,34 @@ export default function HomePage() {
               What I&apos;m Up To
             </h2>
             <div className='mt-12 grid gap-8 sm:grid-cols-2'>
-              {/* Latest Blog Post Preview */}
+              {/* Professional Services Preview */}
               <article
                 className='rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800'
-                aria-labelledby='blog-preview-heading'
+                aria-labelledby='services-preview-heading'
               >
                 <h3
-                  id='blog-preview-heading'
+                  id='services-preview-heading'
                   className='text-lg font-semibold text-gray-900 dark:text-white'
                 >
-                  Latest AI, DevOps & Cloud Insights
+                  Professional Services & Consulting
                 </h3>
                 <p className='mt-2 text-sm text-gray-600 dark:text-gray-400'>
-                  Practical tutorials and guides on GitHub Copilot, CI/CD
-                  automation, Azure cloud architecture, GPT APIs, and smart
-                  integrations that save time and improve software quality.
+                  AI implementation, cloud architecture design, DevOps
+                  automation, and technical mentoring services. Let&apos;s work
+                  together to modernize your development workflow and leverage
+                  AI tools effectively.
                 </p>
                 <Link
-                  href='/blog'
+                  href='/contact'
                   className='mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-brand-400 dark:hover:text-brand-300'
-                  aria-describedby='blog-link-description'
+                  aria-describedby='services-link-description'
                 >
-                  View all posts
+                  Learn more
                   <ArrowRightIcon className='h-3 w-3' aria-hidden='true' />
                 </Link>
-                <span id='blog-link-description' className='sr-only'>
-                  Navigate to the blog page to read all articles about AI,
-                  DevOps, and cloud architecture
+                <span id='services-link-description' className='sr-only'>
+                  Navigate to the contact page to learn about professional
+                  services
                 </span>
               </article>
 

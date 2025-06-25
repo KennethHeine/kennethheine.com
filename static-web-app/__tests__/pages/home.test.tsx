@@ -51,10 +51,13 @@ describe('Home Page', () => {
   it('has contact link', () => {
     render(<PageWithProvider />);
 
-    // Updated to match actual link text
-    const contactLink = screen.getByRole('link', { name: /get in touch/i });
-    expect(contactLink).toBeInTheDocument();
-    expect(contactLink).toHaveAttribute('href', '/contact');
+    // Updated to match actual link text - get the main CTA button
+    const contactLinks = screen.getAllByRole('link', { name: /get in touch/i });
+    const mainContactLink = contactLinks.find(link => 
+      link.getAttribute('aria-describedby') === 'contact-cta-description'
+    );
+    expect(mainContactLink).toBeInTheDocument();
+    expect(mainContactLink).toHaveAttribute('href', '/contact');
   });
 
   it('applies responsive design classes', () => {

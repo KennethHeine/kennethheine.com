@@ -1,6 +1,6 @@
 import { metadata as homeMetadata } from '../../app/page';
 import { metadata as aboutMetadata } from '../../app/about/page';
-import { metadata as blogMetadata } from '../../app/blog/page';
+import { metadata as blogMetadata } from '../../app/_blog/page';
 import { metadata as contactMetadata } from '../../app/contact/page';
 
 describe('Page Metadata', () => {
