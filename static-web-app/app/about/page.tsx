@@ -146,13 +146,16 @@ export default function AboutPage() {
   return (
     <main>
       <JsonLd data={personData} />
-      {/* Hero Section */}
-      <section className='py-20 sm:py-32'>
+      {/* Hero Section with modern layout */}
+      <section className='relative overflow-hidden py-20 sm:py-32'>
+        {/* Subtle background gradient */}
+        <div className='absolute inset-0 -z-10 bg-gradient-to-br from-brand-50/50 via-white to-blue-50/50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800' />
+
         <Container>
           <div className='mx-auto max-w-4xl'>
             <div className='grid gap-12 lg:grid-cols-2 lg:gap-16'>
               {/* Text Content */}
-              <div>
+              <div className='animate-slide-in-left'>
                 <h1 className='text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl'>
                   About Me
                 </h1>{' '}
@@ -171,18 +174,23 @@ export default function AboutPage() {
                   difference in team productivity and software quality.
                 </p>
               </div>
-              {/* Profile Photo */}{' '}
-              <div className='relative'>
-                <div className='aspect-square overflow-hidden rounded-2xl bg-gray-100 dark:bg-gray-800'>
-                  <Image
-                    src='/images/about-photo.jpg'
-                    alt='Kenneth Heine - About Photo'
-                    width={400}
-                    height={400}
-                    className='h-full w-full object-cover'
-                    sizes='(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw'
-                    priority
-                  />
+              {/* Profile Photo with modern frame */}{' '}
+              <div className='relative animate-slide-in-right'>
+                <div className='relative aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-brand-100 to-blue-100 p-2 shadow-2xl ring-1 ring-brand-200/50 dark:from-brand-900/30 dark:to-blue-900/30 dark:ring-brand-700/50'>
+                  <div className='h-full w-full overflow-hidden rounded-2xl'>
+                    <Image
+                      src='/images/about-photo.jpg'
+                      alt='Kenneth Heine - About Photo'
+                      width={400}
+                      height={400}
+                      className='h-full w-full object-cover transition-transform duration-500 hover:scale-105'
+                      sizes='(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw'
+                      priority
+                    />
+                  </div>
+                  {/* Decorative elements */}
+                  <div className='absolute -top-4 -right-4 h-24 w-24 rounded-full bg-brand-500/10 blur-2xl dark:bg-brand-400/10' />
+                  <div className='absolute -bottom-4 -left-4 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl dark:bg-blue-400/10' />
                 </div>
               </div>
             </div>
@@ -190,7 +198,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Mission Statement */}
+      {/* Mission Statement with modern card */}
       <section className='py-20 bg-white dark:bg-gray-900'>
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
@@ -205,8 +213,11 @@ export default function AboutPage() {
               I provide clear, practical advice to help developers navigate the
               fast-changing landscape of AI tools and cloud technologies.
             </p>{' '}
-            <div className='mt-8 rounded-2xl bg-brand-50 p-8 dark:bg-brand-900/20'>
-              <blockquote className='text-base italic text-gray-700 dark:text-gray-300'>
+            <div className='mt-8 relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-blue-50 to-purple-50 p-8 shadow-xl ring-1 ring-brand-200/50 dark:from-brand-900/20 dark:via-blue-900/20 dark:to-purple-900/20 dark:ring-brand-700/50'>
+              {/* Decorative gradient overlay */}
+              <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(3,105,161,0.1),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.05),transparent_70%)]' />
+
+              <blockquote className='relative text-base italic leading-relaxed text-gray-700 dark:text-gray-300'>
                 &ldquo;I help developers and DevOps teams work smarter, not
                 harder — by teaching them how to use AI, automation, and Azure
                 cloud architecture to code faster, deploy faster, and deliver
@@ -248,7 +259,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Timeline Section */}
+      {/* Timeline Section with enhanced design */}
       <section className='py-20'>
         <Container>
           <div className='mx-auto max-w-4xl'>
@@ -262,8 +273,8 @@ export default function AboutPage() {
             </p>
             <div className='mt-12'>
               <div className='relative'>
-                {/* Timeline line */}
-                <div className='absolute left-8 top-0 h-full w-0.5 bg-gray-200 dark:bg-gray-700 sm:left-1/2 sm:-translate-x-px'></div>
+                {/* Timeline line with gradient */}
+                <div className='absolute left-8 top-0 h-full w-0.5 bg-gradient-to-b from-brand-500 via-brand-400 to-brand-300 dark:from-brand-400 dark:via-brand-500 dark:to-brand-600 sm:left-1/2 sm:-translate-x-px opacity-30'></div>
 
                 {/* Timeline items */}
                 <div className='space-y-12'>
@@ -277,7 +288,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Personal Interests */}
+      {/* Personal Interests with modern tags */}
       <section className='py-20 bg-gray-50 dark:bg-gray-900/50'>
         <Container>
           <div className='mx-auto max-w-3xl text-center'>
@@ -292,7 +303,7 @@ export default function AboutPage() {
               in football. I believe that these diverse experiences with family
               and nature make me a better version of my self.
             </p>
-            <div className='mt-8 flex flex-wrap justify-center gap-4'>
+            <div className='mt-8 flex flex-wrap justify-center gap-3'>
               {[
                 'Family Time',
                 'Football',
@@ -303,8 +314,9 @@ export default function AboutPage() {
               ].map(interest => (
                 <span
                   key={interest}
-                  className='rounded-full border border-gray-300 bg-white px-3 py-1 text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300'
+                  className='inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-md ring-1 ring-gray-200/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:ring-gray-300 dark:bg-gray-800/50 dark:text-gray-300 dark:ring-gray-700/50 dark:hover:ring-gray-600 backdrop-blur-sm'
                 >
+                  <span className='h-1.5 w-1.5 rounded-full bg-brand-500 dark:bg-brand-400' />
                   {interest}
                 </span>
               ))}

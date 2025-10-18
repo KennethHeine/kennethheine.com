@@ -41,17 +41,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Skip Links for keyboard navigation */}
       <SkipLinks />
 
-      {/* Header */}
+      {/* Header - Modern glass morphism design */}
       <header
-        className='sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/80'
+        className='sticky top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-xl dark:border-gray-700/50 dark:bg-gray-900/80 shadow-sm'
         role='banner'
       >
         <Container>
           <div className='flex h-16 items-center justify-between'>
-            {/* Logo */}
+            {/* Logo with modern styling */}
             <Link
               href='/'
-              className={`text-xl font-bold text-gray-900 dark:text-white ${hoverStyles.link()} ${linkFocusStyles}`}
+              className={`text-xl font-bold bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent dark:from-brand-400 dark:to-brand-500 transition-all hover:from-brand-700 hover:to-brand-800 dark:hover:from-brand-300 dark:hover:to-brand-400 ${linkFocusStyles}`}
             >
               Kenneth Heine
             </Link>
@@ -130,10 +130,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      {/* Footer */}
+      {/* Footer - Modern design */}
       <footer
         id='footer'
-        className='border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-950'
+        className='border-t border-gray-200/50 bg-gradient-to-b from-white to-gray-50 py-12 dark:border-gray-800/50 dark:from-gray-950 dark:to-gray-900'
         role='contentinfo'
         tabIndex={-1}
       >
@@ -148,7 +148,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <div className='mt-4 flex justify-center space-x-6 md:mt-0'>
               <a
                 href='https://github.com/kennethheine'
-                className={`text-gray-400 ${hoverStyles.socialLink()} ${linkFocusStyles}`}
+                className={`text-gray-400 transition-all duration-300 hover:text-brand-600 hover:-translate-y-0.5 dark:hover:text-brand-400 ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='GitHub profile'
@@ -169,7 +169,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
               <a
                 href='https://www.linkedin.com/in/kenneth-heine-5a588360/'
-                className={`text-gray-400 ${hoverStyles.socialLink()} ${linkFocusStyles}`}
+                className={`text-gray-400 transition-all duration-300 hover:text-brand-600 hover:-translate-y-0.5 dark:hover:text-brand-400 ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'
                 aria-label='LinkedIn profile'

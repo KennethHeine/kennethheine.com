@@ -123,9 +123,9 @@ describe('Page Image Optimization', () => {
       render(<AboutPageWithProvider />);
 
       const aboutImage = screen.getByAltText('Kenneth Heine - About Photo');
-      const container = aboutImage.closest('.bg-gray-100');
+      const container = aboutImage.closest('.rounded-2xl');
 
-      // Container should have background color for loading state
+      // Container should have background styling for loading state
       expect(container).toBeInTheDocument();
     });
   });
