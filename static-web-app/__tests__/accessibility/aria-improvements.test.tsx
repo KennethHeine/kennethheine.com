@@ -240,7 +240,9 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       const aboutLink = screen.getByRole('link', {
         name: /learn more about me/i,
       });
-      const contactCTAButton = screen.getByText('Get In Touch').closest('a') as HTMLElement;
+      const contactCTAButton = screen
+        .getByText('Get In Touch')
+        .closest('a') as HTMLElement;
 
       expect(aboutLink).toHaveAttribute(
         'aria-describedby',
@@ -259,12 +261,21 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      const servicesLink = screen.getAllByRole('link', {
-        name: /learn more/i,
-      }).find(link => link.getAttribute('aria-describedby') === 'services-link-description') as HTMLElement;
-      const contactContentLink = screen.getAllByRole('link', { name: /get in touch/i }).find(
-        link => link.getAttribute('aria-describedby') === 'contact-link-description'
-      ) as HTMLElement;
+      const servicesLink = screen
+        .getAllByRole('link', {
+          name: /learn more/i,
+        })
+        .find(
+          link =>
+            link.getAttribute('aria-describedby') ===
+            'services-link-description'
+        ) as HTMLElement;
+      const contactContentLink = screen
+        .getAllByRole('link', { name: /get in touch/i })
+        .find(
+          link =>
+            link.getAttribute('aria-describedby') === 'contact-link-description'
+        ) as HTMLElement;
 
       expect(servicesLink).toHaveAttribute(
         'aria-describedby',
