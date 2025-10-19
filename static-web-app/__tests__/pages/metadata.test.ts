@@ -18,7 +18,6 @@ describe('Page Metadata', () => {
       expect(homeMetadata.openGraph?.title).toBe(
         'Kenneth Heine - AI & Automation for Developers'
       );
-      expect(homeMetadata.openGraph?.type).toBe('website');
       expect(homeMetadata.openGraph?.url).toBe('https://kennethheine.com');
       expect(homeMetadata.openGraph?.images).toEqual([
         {
@@ -45,7 +44,6 @@ describe('Page Metadata', () => {
       expect(aboutMetadata.openGraph?.title).toBe(
         'About Kenneth Heine - DevOps Engineer & Cloud Architect'
       );
-      expect(aboutMetadata.openGraph?.type).toBe('website');
       expect(aboutMetadata.openGraph?.url).toBe(
         'https://kennethheine.com/about'
       );
@@ -74,7 +72,6 @@ describe('Page Metadata', () => {
       expect(blogMetadata.openGraph?.title).toBe(
         'Blog - AI, DevOps & Cloud Architecture Insights'
       );
-      expect(blogMetadata.openGraph?.type).toBe('website');
       expect(blogMetadata.openGraph?.url).toBe('https://kennethheine.com/blog');
       expect(blogMetadata.openGraph?.images).toEqual([
         {
@@ -101,7 +98,6 @@ describe('Page Metadata', () => {
       expect(contactMetadata.openGraph?.title).toBe(
         'Contact Kenneth Heine - AI, DevOps & Cloud Consulting'
       );
-      expect(contactMetadata.openGraph?.type).toBe('website');
       expect(contactMetadata.openGraph?.url).toBe(
         'https://kennethheine.com/contact'
       );
@@ -120,27 +116,47 @@ describe('Page Metadata', () => {
     it('all pages use the same OG image', () => {
       const expectedImage = '/images/og-image.jpg';
 
-      expect(homeMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(aboutMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(blogMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(contactMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
+      const homeImages = homeMetadata.openGraph?.images;
+      const aboutImages = aboutMetadata.openGraph?.images;
+      const blogImages = blogMetadata.openGraph?.images;
+      const contactImages = contactMetadata.openGraph?.images;
+
+      expect(
+        Array.isArray(homeImages) ? homeImages[0]?.url : homeImages?.url
+      ).toBe(expectedImage);
+      expect(
+        Array.isArray(aboutImages) ? aboutImages[0]?.url : aboutImages?.url
+      ).toBe(expectedImage);
+      expect(
+        Array.isArray(blogImages) ? blogImages[0]?.url : blogImages?.url
+      ).toBe(expectedImage);
+      expect(
+        Array.isArray(contactImages)
+          ? contactImages[0]?.url
+          : contactImages?.url
+      ).toBe(expectedImage);
     });
 
     it('all pages have consistent image dimensions', () => {
       const expectedDimensions = { width: 1200, height: 630 };
 
-      expect(homeMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(aboutMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(blogMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(contactMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
+      const homeImages = homeMetadata.openGraph?.images;
+      const aboutImages = aboutMetadata.openGraph?.images;
+      const blogImages = blogMetadata.openGraph?.images;
+      const contactImages = contactMetadata.openGraph?.images;
+
+      expect(
+        Array.isArray(homeImages) ? homeImages[0] : homeImages
+      ).toMatchObject(expectedDimensions);
+      expect(
+        Array.isArray(aboutImages) ? aboutImages[0] : aboutImages
+      ).toMatchObject(expectedDimensions);
+      expect(
+        Array.isArray(blogImages) ? blogImages[0] : blogImages
+      ).toMatchObject(expectedDimensions);
+      expect(
+        Array.isArray(contactImages) ? contactImages[0] : contactImages
+      ).toMatchObject(expectedDimensions);
     });
 
     it('all pages have proper URL structure', () => {

@@ -15,7 +15,7 @@ describe('Blog Search Functions', () => {
 
     it('returns unique categories', () => {
       const categories = getAllCategories();
-      const uniqueCategories = [...new Set(categories)];
+      const uniqueCategories = Array.from(new Set(categories));
       expect(categories.length).toBe(uniqueCategories.length);
     });
 

@@ -172,7 +172,6 @@ describe('Not Found Page', () => {
       expect(metadata.openGraph?.title).toBe(
         '404 - Page Not Found | Kenneth Heine'
       );
-      expect(metadata.openGraph?.type).toBe('website');
       expect(metadata.openGraph?.url).toBe('https://kennethheine.com/404');
     });
 

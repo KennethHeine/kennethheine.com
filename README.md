@@ -29,9 +29,9 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 - ✅ **Automated Deployment**: GitHub Actions workflow with comprehensive validation
 
 ### Frontend Application
-- ✅ **Next.js 14**: Modern React framework with App Router and static export
+- ✅ **Next.js 15**: Modern React framework with App Router and static export
 - ✅ **TypeScript**: Full type safety with strict configuration
-- ✅ **Tailwind CSS**: Utility-first CSS framework with dark/light theme
+- ✅ **Tailwind CSS v4**: Modern utility-first CSS framework with CSS variable-based theming
 - ✅ **MDX Blog**: Blog system with syntax highlighting and gray-matter
 - ✅ **Testing**: Jest + React Testing Library with comprehensive coverage
 - ✅ **Preview Deployments**: Automatic preview environments for pull requests
@@ -80,7 +80,7 @@ kennethheine.com/
 │   ├── 4-fix-custom-domain-permissions.ps1
 │   └── README.md
 ├── static-web-app/            # Next.js application source code
-│   ├── app/                   # Next.js 14 App Router pages
+│   ├── app/                   # Next.js 15 App Router pages
 │   │   ├── layout.tsx         # Root layout
 │   │   ├── page.tsx           # Homepage
 │   │   ├── about/             # About page
