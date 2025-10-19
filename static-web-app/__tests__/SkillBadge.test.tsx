@@ -15,9 +15,8 @@ describe('SkillBadge component', () => {
     expect(badge).toHaveClass(
       'inline-flex',
       'items-center',
-      'px-3',
-      'py-1',
-      'rounded-full',
+      'gap-2',
+      'rounded-xl',
       'text-sm',
       'font-medium'
     );

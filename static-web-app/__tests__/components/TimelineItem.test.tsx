@@ -68,8 +68,8 @@ describe('TimelineItem component', () => {
   it('applies brand color classes', () => {
     const { container } = render(<TimelineItem {...defaultProps} />);
 
-    // Check for brand color classes
-    expect(container.querySelector('.bg-brand-500')).toBeInTheDocument();
+    // Check for brand color classes - updated for modern design
+    expect(container.querySelector('.from-brand-500')).toBeInTheDocument();
     expect(container.querySelector('.text-brand-600')).toBeInTheDocument();
   });
 
