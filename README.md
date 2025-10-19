@@ -54,11 +54,16 @@ This project demonstrates a complete Infrastructure as Code setup for Azure Stat
 
 ```
 kennethheine.com/
-├── .github/workflows/          # GitHub Actions workflows
-│   ├── deploy-infrastructure.yml  # Infrastructure deployment pipeline
-│   ├── deploy-frontend.yml        # Frontend deployment pipeline
-│   ├── destroy-infrastructure.yml # Infrastructure cleanup pipeline
-│   └── README.md
+├── .github/                     # GitHub configuration
+│   ├── workflows/               # GitHub Actions workflows
+│   │   ├── deploy-infrastructure.yml  # Infrastructure deployment pipeline
+│   │   ├── deploy-frontend.yml        # Frontend deployment pipeline
+│   │   ├── destroy-infrastructure.yml # Infrastructure cleanup pipeline
+│   │   ├── copilot-setup-steps.yml    # Copilot environment setup
+│   │   └── README.md
+│   ├── copilot-instructions.md  # Copilot AI guidelines and best practices
+│   ├── pull_request_template.md # PR template
+│   └── CODEOWNERS               # Code ownership configuration
 ├── infra/                      # Bicep infrastructure templates
 │   ├── main.bicep
 │   ├── bicepconfig.json
@@ -98,7 +103,6 @@ kennethheine.com/
 │   ├── staticwebapp.config.json
 │   └── README.md
 ├── prompts/                   # Development prompts and documentation
-├── .copilot-instructions.md   # AI development guidelines and best practices
 ├── .gitignore                 # Git ignore patterns
 ├── CUSTOM_DOMAIN_FIX.md       # Custom domain configuration troubleshooting
 ├── INFRASTRUCTURE_STATUS.md   # Current infrastructure deployment status
@@ -251,7 +255,7 @@ To add additional environments beyond production:
 - [Preview Deployment Fix](./PREVIEW_DEPLOYMENT_FIX.md) - Preview deployment troubleshooting guide
 
 ### Development Guidelines
-- [Copilot Instructions](./.copilot-instructions.md) - AI-assisted development guidelines and best practices
+- [Copilot Instructions](./.github/copilot-instructions.md) - AI-assisted development guidelines and best practices
 
 ## 🤝 Contributing
 

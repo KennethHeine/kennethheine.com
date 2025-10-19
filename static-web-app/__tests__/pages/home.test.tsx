@@ -53,8 +53,9 @@ describe('Home Page', () => {
 
     // Updated to match actual link text - get the main CTA button
     const contactLinks = screen.getAllByRole('link', { name: /get in touch/i });
-    const mainContactLink = contactLinks.find(link => 
-      link.getAttribute('aria-describedby') === 'contact-cta-description'
+    const mainContactLink = contactLinks.find(
+      link =>
+        link.getAttribute('aria-describedby') === 'contact-cta-description'
     );
     expect(mainContactLink).toBeInTheDocument();
     expect(mainContactLink).toHaveAttribute('href', '/contact');
