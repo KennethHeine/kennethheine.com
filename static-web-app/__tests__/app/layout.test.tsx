@@ -132,11 +132,22 @@ describe('RootLayout', () => {
       expect(result.props.suppressHydrationWarning).toBe(true);
 
       // Check that the result contains the expected structure
+      // In Next.js 16, the children array contains both <head> and <body>
       expect(result.props.children).toBeDefined();
-      expect(result.props.children.type).toBe('body');
+      const children = Array.isArray(result.props.children)
+        ? result.props.children
+        : [result.props.children];
+
+      // Find the head and body elements
+      const headElement = children.find((child: any) => child?.type === 'head');
+      const bodyElement = children.find((child: any) => child?.type === 'body');
+
+      // Verify head exists and contains font links
+      expect(headElement).toBeDefined();
+      expect(headElement.props.children).toBeDefined();
 
       // Verify body props
-      const bodyElement = result.props.children;
+      expect(bodyElement).toBeDefined();
       expect(bodyElement.props.className).toContain('font-sans antialiased');
       expect(bodyElement.props.suppressHydrationWarning).toBe(true);
 
@@ -178,7 +189,11 @@ describe('RootLayout', () => {
     // All should have the same basic structure
     [result1, result2, result3].forEach(result => {
       expect(result.props.lang).toBe('en');
-      expect(result.props.children.type).toBe('body');
+      const children = Array.isArray(result.props.children)
+        ? result.props.children
+        : [result.props.children];
+      const bodyElement = children.find((child: any) => child?.type === 'body');
+      expect(bodyElement).toBeDefined();
     });
   });
 
