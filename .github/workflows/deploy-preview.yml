@@ -2,9 +2,8 @@ name: Deploy Preview Environment
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
     branches: [main]
-    paths: ['static-web-app/**', '!static-web-app/README.md', '.github/workflows/deploy-*.yml']
 
 permissions:
   id-token: write
@@ -19,12 +18,13 @@ env:
   RESOURCE_GROUP_NAME: "rg-kennethheine-prod"
 
 jobs:
-  validate:
-    name: Validate Frontend Code
+  # Job for testing (runs in parallel with deploy for non-Dependabot PRs)
+  test:
+    if: github.event.action != 'closed'
+    name: Run Tests
     runs-on: ubuntu-latest
-    outputs:
-      app-location: ${{ steps.config.outputs.app-location }}
-      output-location: ${{ steps.config.outputs.output-location }}
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
@@ -35,53 +35,75 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version-file: 'static-web-app/.nvmrc'
           cache: 'npm'
-          cache-dependency-path: 'static-web-app/package.json'
-
-      - name: Validate Frontend Structure
-        run: |
-          echo "🔍 Validating frontend project structure for preview..."
-          # Check required files for Next.js project
-          required_files=(
-            "static-web-app/package.json"
-            "static-web-app/next.config.mjs"
-            "static-web-app/staticwebapp.config.json"
-            "static-web-app/app/layout.tsx"
-            "static-web-app/app/page.tsx"
-          )
-          
-          for file in "${required_files[@]}"; do
-            if [ ! -f "$file" ]; then
-              echo "❌ Required file missing: $file"
-              exit 1
-            else
-              echo "✅ Found: $file"
-            fi
-          done
-          
-          echo "📁 Frontend structure validation completed successfully!"
+          cache-dependency-path: 'static-web-app/package-lock.json'
 
       - name: Install Dependencies
         working-directory: static-web-app
         run: |
-          echo "📦 Installing frontend dependencies for preview..."
+          echo "📦 Installing dependencies..."
           npm ci
-          echo "✅ Dependencies installed successfully!"
+          echo "✅ Dependencies installed!"
 
-      - name: Build Next.js Application
+      - name: Run linter
         working-directory: static-web-app
         run: |
-          echo "🏗️ Building Next.js application for preview deployment..."
+          echo "🔍 Running ESLint..."
+          npm run lint
+          echo "✅ Linting passed!"
+
+      - name: Check formatting
+        working-directory: static-web-app
+        run: |
+          echo "🎨 Checking code formatting..."
+          npm run format:check
+          echo "✅ Formatting check passed!"
+
+      - name: Run unit tests
+        working-directory: static-web-app
+        run: |
+          echo "🧪 Running unit tests..."
+          npm test
+          echo "✅ Unit tests passed!"
+
+      - name: Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('static-web-app/package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: static-web-app
+        run: npx playwright install chromium --with-deps
+
+      - name: Install Playwright System Dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        working-directory: static-web-app
+        run: npx playwright install-deps chromium
+
+      - name: Run E2E tests
+        working-directory: static-web-app
+        run: |
+          echo "🎭 Running Playwright E2E tests..."
+          npm run test:e2e
+          echo "✅ E2E tests passed!"
+
+      - name: Build application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application..."
           npm run build
-          echo "✅ Next.js build completed successfully!"
+          echo "✅ Build completed!"
 
-      - name: Lint and Validate Code
+      - name: Validate build output
         working-directory: static-web-app
         run: |
-          echo "🔍 Running code validation for preview..."
-          # Validate Next.js build output
-          echo "📄 Validating Next.js build output..."
+          echo "📄 Validating build output..."
           if [ ! -d "out" ]; then
             echo "❌ Build output directory 'out' not found"
             exit 1
@@ -92,41 +114,42 @@ jobs:
             exit 1
           fi
           
-          echo "✅ Next.js build output validated successfully"
-          
-          # Check for common issues
-          echo "🔍 Checking for common issues..."
-          if grep -r "localhost" src/ --exclude-dir=node_modules 2>/dev/null; then
-            echo "⚠️ Warning: Found localhost references in code"
-          fi
-          
-          echo "✅ Code validation completed!"
+          echo "✅ Build output validated!"
 
-      - name: Extract Configuration
-        id: config
-        run: |
-          echo "📋 Extracting deployment configuration for preview..."
-          
-          # Get app location from parameters file
-          app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          
-          echo "app-location=$app_location" >> $GITHUB_OUTPUT
-          echo "output-location=$output_location" >> $GITHUB_OUTPUT
-          
-          echo "📍 App Location: $app_location"
-          echo "📤 Output Location: $output_location"
-
-  deploy-preview:
-    name: Deploy Preview Environment
+  # Job for deploying PR preview (runs in parallel with test, non-Dependabot PRs only)
+  deploy_preview:
+    if: github.event.action != 'closed' && github.actor != 'dependabot[bot]'
+    name: Deploy Preview
     runs-on: ubuntu-latest
-    needs: validate
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'static-web-app/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package-lock.json'
+
+      - name: Install Dependencies
+        working-directory: static-web-app
+        run: |
+          echo "📦 Installing dependencies for deployment..."
+          npm ci
+
+      - name: Build Next.js Application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application for preview..."
+          npm run build
 
       - name: Azure Login using OIDC
         uses: azure/login@v2
@@ -135,18 +158,10 @@ jobs:
           tenant-id: ${{ env.AZURE_TENANT_ID }}
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Verify Azure Authentication
-        run: |
-          echo "🔍 Verifying Azure CLI setup for preview deployment..."
-          az version
-          az account show
-          echo "✅ Authentication verified"
-
       - name: Get Static Web App Deployment Token
         id: swa-token
         run: |
-          echo "🔑 Retrieving Static Web App deployment token for preview..."
-          
+          echo "🔑 Retrieving deployment token..."
           deployment_token=$(az staticwebapp secrets list \
             --name "${{ env.STATIC_WEB_APP_NAME }}" \
             --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
@@ -157,8 +172,9 @@ jobs:
             echo "❌ Failed to retrieve deployment token"
             exit 1
           fi
+          echo "::add-mask::$deployment_token"
           echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
-          echo "✅ Deployment token retrieved for preview"
+          echo "✅ Deployment token retrieved!"
 
       - name: Deploy Preview to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -166,42 +182,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ${{ needs.validate.outputs.app-location }}
-          output_location: ${{ needs.validate.outputs.output-location }}
-
-      - name: Comment PR with Preview URL
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: pullRequest } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number
-            });
-            
-            const comment = `## 🔍 Preview Deployment
-            
-            Your changes have been deployed to a preview environment!
-            
-            **Preview Details:**
-            - 📁 App Location: \`${{ needs.validate.outputs.app-location }}\`
-            - 🔗 Environment: \`preview\`
-            - 📅 Deployed: \`${new Date().toISOString()}\`
-            - 🔄 Commit: \`${context.sha.substring(0, 7)}\`
-            
-            **🌐 Preview URL:** The preview URL will be available in the Azure Static Web Apps deployment details.
-            
-            **Note:** Preview deployments are automatically cleaned up when the PR is closed.
-            
-            ---
-            *This preview environment includes all changes from this pull request and will be updated automatically with new commits.*`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: comment
-            });
+          app_location: "static-web-app/out"
+          skip_app_build: true
+          deployment_environment: 'pr-${{ github.event.pull_request.number }}'
 
       - name: Create Preview Deployment Summary
         if: always()
@@ -211,21 +194,59 @@ jobs:
           
           **Deployment Details:**
           - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
-          - 📁 App Location: `${{ needs.validate.outputs.app-location }}`
-          - 📤 Output Location: `${{ needs.validate.outputs.output-location }}`
-          - 📅 Deployment Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
-          - 🔗 Environment: `preview`
-          - 🔄 Pull Request: `#${{ github.event.number }}`
+          - 📁 App Location: `static-web-app/out`
+          - 📅 Deployment Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          - 🔗 Environment: `pr-${{ github.event.pull_request.number }}`
           
           **Deployment Status:**
-          ${{ job.status == 'success' && '✅ **SUCCESS**: Preview deployment completed successfully!' || '❌ **FAILED**: Preview deployment encountered errors. Check logs above.' }}
+          ${{ job.status == 'success' && '✅ **SUCCESS**: Preview deployment completed!' || '❌ **FAILED**: Preview deployment failed. Check logs above.' }}
+          EOF
+
+  # Job for cleaning up PR preview on close
+  cleanup_preview:
+    if: github.event.action == 'closed'
+    name: Cleanup Preview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - name: Azure Login using OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get Static Web App Deployment Token
+        id: swa-token
+        run: |
+          echo "🔑 Retrieving deployment token for cleanup..."
+          deployment_token=$(az staticwebapp secrets list \
+            --name "${{ env.STATIC_WEB_APP_NAME }}" \
+            --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
+            --query "properties.apiKey" \
+            --output tsv)
           
-          EOF
-            if [ "${{ job.status }}" == "success" ]; then
-            cat >> $GITHUB_STEP_SUMMARY << 'EOF'
-          **🌐 Preview Environment:**
-          - Preview URL: Available in deployment action details
-          - Duration: Active until PR is closed
-          - Updates: Automatically updated with new commits
-          EOF
+          if [ -z "$deployment_token" ]; then
+            echo "❌ Failed to retrieve deployment token for Static Web App '${{ env.STATIC_WEB_APP_NAME }}' in resource group '${{ env.RESOURCE_GROUP_NAME }}'."
+            exit 1
           fi
+          
+          echo "::add-mask::$deployment_token"
+          echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved!"
+
+      - name: Close Pull Request Environment
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
+          action: "close"
+
+      - name: Cleanup Summary
+        run: |
+          echo "## 🧹 Preview Environment Cleanup" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Preview environment for PR #${{ github.event.pull_request.number }} has been cleaned up." >> $GITHUB_STEP_SUMMARY

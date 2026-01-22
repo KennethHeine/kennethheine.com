@@ -40,3 +40,7 @@ public
 *.config.mjs
 package-lock.json
 yarn.lock
+
+# Playwright
+playwright-report
+test-results

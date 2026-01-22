@@ -164,3 +164,7 @@ _site/
 
 # Parcel
 .parcel-cache/
+
+# Playwright
+playwright-report/
+test-results/

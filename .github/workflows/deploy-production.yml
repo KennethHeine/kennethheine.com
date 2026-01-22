@@ -18,12 +18,12 @@ env:
   RESOURCE_GROUP_NAME: "rg-kennethheine-prod"
 
 jobs:
-  validate:
-    name: Validate Frontend Code
+  # Job for testing (runs before production deployment)
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
-    outputs:
-      app-location: ${{ steps.config.outputs.app-location }}
-      output-location: ${{ steps.config.outputs.output-location }}
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout code
@@ -34,53 +34,75 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version-file: 'static-web-app/.nvmrc'
           cache: 'npm'
-          cache-dependency-path: 'static-web-app/package.json'
-
-      - name: Validate Frontend Structure
-        run: |
-          echo "🔍 Validating frontend project structure..."
-          # Check required files for Next.js project
-          required_files=(
-            "static-web-app/package.json"
-            "static-web-app/next.config.mjs"
-            "static-web-app/staticwebapp.config.json"
-            "static-web-app/app/layout.tsx"
-            "static-web-app/app/page.tsx"
-          )
-          
-          for file in "${required_files[@]}"; do
-            if [ ! -f "$file" ]; then
-              echo "❌ Required file missing: $file"
-              exit 1
-            else
-              echo "✅ Found: $file"
-            fi
-          done
-          
-          echo "📁 Frontend structure validation completed successfully!"
+          cache-dependency-path: 'static-web-app/package-lock.json'
 
       - name: Install Dependencies
         working-directory: static-web-app
         run: |
-          echo "📦 Installing frontend dependencies..."
+          echo "📦 Installing dependencies..."
           npm ci
-          echo "✅ Dependencies installed successfully!"
+          echo "✅ Dependencies installed!"
 
-      - name: Build Next.js Application
+      - name: Run linter
         working-directory: static-web-app
         run: |
-          echo "🏗️ Building Next.js application for static export..."
+          echo "🔍 Running ESLint..."
+          npm run lint
+          echo "✅ Linting passed!"
+
+      - name: Check formatting
+        working-directory: static-web-app
+        run: |
+          echo "🎨 Checking code formatting..."
+          npm run format:check
+          echo "✅ Formatting check passed!"
+
+      - name: Run unit tests
+        working-directory: static-web-app
+        run: |
+          echo "🧪 Running unit tests..."
+          npm test
+          echo "✅ Unit tests passed!"
+
+      - name: Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('static-web-app/package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: static-web-app
+        run: npx playwright install chromium --with-deps
+
+      - name: Install Playwright System Dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        working-directory: static-web-app
+        run: npx playwright install-deps chromium
+
+      - name: Run E2E tests
+        working-directory: static-web-app
+        run: |
+          echo "🎭 Running Playwright E2E tests..."
+          npm run test:e2e
+          echo "✅ E2E tests passed!"
+
+      - name: Build application
+        working-directory: static-web-app
+        run: |
+          echo "🏗️ Building Next.js application..."
           npm run build
-          echo "✅ Next.js build completed successfully!"
+          echo "✅ Build completed!"
 
-      - name: Lint and Validate Code
+      - name: Validate build output
         working-directory: static-web-app
         run: |
-          echo "🔍 Running code validation..."
-          # Validate Next.js build output
-          echo "📄 Validating Next.js build output..."
+          echo "📄 Validating build output..."
           if [ ! -d "out" ]; then
             echo "❌ Build output directory 'out' not found"
             exit 1
@@ -91,42 +113,49 @@ jobs:
             exit 1
           fi
           
-          echo "✅ Next.js build output validated successfully"
-          
-          # Check for common issues
-          echo "🔍 Checking for common issues..."
-          if grep -r "localhost" src/ --exclude-dir=node_modules 2>/dev/null; then
-            echo "⚠️ Warning: Found localhost references in code"
-          fi
-          
-          echo "✅ Code validation completed!"
+          echo "✅ Build output validated!"
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-build
+          path: static-web-app/out
+          retention-days: 1
 
       - name: Extract Configuration
         id: config
         run: |
           echo "📋 Extracting deployment configuration..."
-          
-          # Get app location from parameters file
           app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
           output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          
           echo "app-location=$app_location" >> $GITHUB_OUTPUT
           echo "output-location=$output_location" >> $GITHUB_OUTPUT
-          
-          echo "📍 App Location: $app_location"
-          echo "📤 Output Location: $output_location"
 
+    outputs:
+      app-location: ${{ steps.config.outputs.app-location }}
+      output-location: ${{ steps.config.outputs.output-location }}
+
+  # Job for deploying to production (depends on test job)
   deploy:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: validate
+    needs: test
     environment: production
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4.1.9
+        with:
+          name: production-build
+          path: static-web-app/out
 
       - name: Azure Login using OIDC
         uses: azure/login@v2
@@ -135,19 +164,10 @@ jobs:
           tenant-id: ${{ env.AZURE_TENANT_ID }}
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Verify Azure Authentication
-        run: |
-          echo "🔍 Verifying Azure CLI setup..."
-          az version
-          az account show
-          echo "✅ Authentication verified"
-
       - name: Get Static Web App Deployment Token
         id: swa-token
         run: |
-          echo "🔑 Retrieving Static Web App deployment token..."
-          
-          # Get the deployment token for the Static Web App
+          echo "🔑 Retrieving deployment token..."
           deployment_token=$(az staticwebapp secrets list \
             --name "${{ env.STATIC_WEB_APP_NAME }}" \
             --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
@@ -158,8 +178,9 @@ jobs:
             echo "❌ Failed to retrieve deployment token"
             exit 1
           fi
+          echo "::add-mask::$deployment_token"
           echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
-          echo "✅ Deployment token retrieved successfully"
+          echo "✅ Deployment token retrieved!"
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -167,27 +188,20 @@ jobs:
           azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ${{ needs.validate.outputs.app-location }}
-          output_location: ${{ needs.validate.outputs.output-location }}
+          app_location: ${{ needs.test.outputs.app-location }}
+          output_location: ${{ needs.test.outputs.output-location }}
+          skip_app_build: true
 
       - name: Verify Deployment
         run: |
           echo "🔍 Verifying deployment status..."
-          
-          # Get Static Web App details
           swa_details=$(az staticwebapp show \
             --name "${{ env.STATIC_WEB_APP_NAME }}" \
             --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
             --output json)
           
           default_hostname=$(echo "$swa_details" | jq -r '.defaultHostname')
-          custom_domains=$(echo "$swa_details" | jq -r '.customDomains[]?.name // empty' | tr '\n' ', ' | sed 's/,$//')
-          
           echo "🌐 Default URL: https://$default_hostname"
-          if [ -n "$custom_domains" ]; then
-            echo "🔗 Custom Domains: $custom_domains"
-          fi
-          
           echo "✅ Deployment verification completed!"
 
       - name: Create Deployment Summary
@@ -198,26 +212,23 @@ jobs:
           
           **Deployment Details:**
           - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
-          - 📁 App Location: `${{ needs.validate.outputs.app-location }}`
-          - 📤 Output Location: `${{ needs.validate.outputs.output-location }}`
-          - 📅 Deployment Time: `$(date -u '+%Y-%m-%d %H:%M:%S UTC')`
+          - 📁 App Location: `${{ needs.test.outputs.app-location }}`
+          - 📤 Output Location: `${{ needs.test.outputs.output-location }}`
+          - 📅 Deployment Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
           - 🔗 Environment: `production`
           
           **Deployment Status:**
-          ${{ job.status == 'success' && '✅ **SUCCESS**: Production deployment completed successfully!' || '❌ **FAILED**: Deployment encountered errors. Check logs above.' }}
-          
+          ${{ job.status == 'success' && '✅ **SUCCESS**: Production deployment completed!' || '❌ **FAILED**: Deployment failed. Check logs above.' }}
           EOF
           
           if [ "${{ job.status }}" == "success" ]; then
-            # Get deployment URLs
             swa_details=$(az staticwebapp show \
               --name "${{ env.STATIC_WEB_APP_NAME }}" \
               --resource-group "${{ env.RESOURCE_GROUP_NAME }}" \
               --output json 2>/dev/null || echo '{}')
             
             default_hostname=$(echo "$swa_details" | jq -r '.defaultHostname // "N/A"')
-              cat >> $GITHUB_STEP_SUMMARY << EOF
-          **🌐 Access Your Website:**
-          - Production URL: [https://$default_hostname](https://$default_hostname)
-          EOF
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**🌐 Access Your Website:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Production URL: [https://$default_hostname](https://$default_hostname)" >> $GITHUB_STEP_SUMMARY
           fi
