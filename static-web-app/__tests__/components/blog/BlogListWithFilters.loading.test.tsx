@@ -23,9 +23,10 @@ const mockPosts: BlogPost[] = [
     excerpt: 'This is a test post excerpt',
     content: 'Test content',
     date: '2024-01-01',
-    readingTime: '5 min read',
+    readingTime: 5,
     category: 'Testing',
     tags: ['test', 'react'],
+    published: true,
   },
   {
     slug: 'test-post-2',
@@ -33,9 +34,10 @@ const mockPosts: BlogPost[] = [
     excerpt: 'Another test post excerpt',
     content: 'More test content',
     date: '2024-01-02',
-    readingTime: '3 min read',
+    readingTime: 3,
     category: 'Development',
     tags: ['dev', 'javascript'],
+    published: true,
   },
 ];
 

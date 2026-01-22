@@ -122,7 +122,7 @@ describe('ReadingContainer component', () => {
     });
 
     it('handles empty content gracefully', () => {
-      render(<ReadingContainer />);
+      render(<ReadingContainer>{null}</ReadingContainer>);
 
       const container = document.querySelector('.mx-auto');
       expect(container).toBeInTheDocument();

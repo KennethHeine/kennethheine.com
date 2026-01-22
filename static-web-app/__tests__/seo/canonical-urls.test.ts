@@ -60,6 +60,7 @@ describe('Canonical URLs Implementation', () => {
       tags: ['test', 'blog'],
       category: 'Technology',
       readingTime: 5,
+      published: true,
     };
 
     it('blog post pages have correct canonical URLs', async () => {
@@ -224,6 +225,7 @@ describe('Canonical URLs Implementation', () => {
         tags: ['example'],
         category: 'Technology',
         readingTime: 5,
+        published: true,
       });
 
       const metadata = await generateBlogPostMetadata({

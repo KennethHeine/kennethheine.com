@@ -101,7 +101,10 @@ describe('ErrorBoundary component', () => {
 
     it('displays error details in development mode', () => {
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'development';
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'development',
+        writable: true,
+      });
 
       render(
         <ErrorBoundary name='TestBoundary' showDetails={true}>
@@ -111,12 +114,18 @@ describe('ErrorBoundary component', () => {
 
       expect(screen.getByText('Technical Details')).toBeInTheDocument();
 
-      process.env.NODE_ENV = originalEnv;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalEnv,
+        writable: true,
+      });
     });
 
     it('logs error information in development mode', () => {
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'development';
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'development',
+        writable: true,
+      });
 
       render(
         <ErrorBoundary name='TestBoundary'>
@@ -130,7 +139,10 @@ describe('ErrorBoundary component', () => {
       expect(console.error).toHaveBeenCalledWith('Error:', expect.any(Error));
       expect(console.groupEnd).toHaveBeenCalled();
 
-      process.env.NODE_ENV = originalEnv;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalEnv,
+        writable: true,
+      });
     });
 
     it('calls custom error handler when provided', () => {
@@ -254,7 +266,7 @@ describe('withErrorBoundary HOC', () => {
   });
 
   it('handles errors in wrapped component', () => {
-    function ErrorComponent() {
+    function ErrorComponent(): React.ReactElement {
       throw new Error('HOC test error');
     }
 
