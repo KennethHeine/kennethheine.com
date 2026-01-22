@@ -7,7 +7,22 @@ import { BlogListWithFilters } from '@/components/blog/BlogListWithFilters';
 import type { BlogPost } from '@/types/blog';
 
 // Mock the hook
-const mockUseBlogPosts = {
+const mockUseBlogPosts: {
+  posts: BlogPost[];
+  categories: string[];
+  tags: string[];
+  searchQuery: string;
+  setSearchQuery: jest.Mock;
+  currentCategory: string | null;
+  filterByCategory: jest.Mock;
+  currentTag: string | null;
+  filterByTag: jest.Mock;
+  resetFilters: jest.Mock;
+  hasMore: boolean;
+  loadMore: jest.Mock;
+  loading?: boolean;
+  error?: string | null;
+} = {
   posts: [],
   categories: ['DevOps', 'AI & Development'],
   tags: ['React', 'TypeScript'],

@@ -169,11 +169,14 @@ describe('Not Found Page', () => {
 
     it('has Open Graph metadata', () => {
       expect(metadata.openGraph).toBeDefined();
-      expect(metadata.openGraph?.title).toBe(
-        '404 - Page Not Found | Kenneth Heine'
-      );
-      expect(metadata.openGraph?.type).toBe('website');
-      expect(metadata.openGraph?.url).toBe('https://kennethheine.com/404');
+      const og = metadata.openGraph as {
+        type?: string;
+        title?: string;
+        url?: string;
+      };
+      expect(og?.title).toBe('404 - Page Not Found | Kenneth Heine');
+      expect(og?.type).toBe('website');
+      expect(og?.url).toBe('https://kennethheine.com/404');
     });
 
     it('has canonical URL', () => {

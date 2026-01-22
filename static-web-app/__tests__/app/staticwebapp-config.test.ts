@@ -45,8 +45,23 @@ describe('Static Web App Configuration', () => {
     it('should configure HSTS (Strict-Transport-Security)', () => {
       expect(config.globalHeaders).toHaveProperty('Strict-Transport-Security');
       expect(config.globalHeaders['Strict-Transport-Security']).toBe(
-        'max-age=31536000; includeSubDomains'
+        'max-age=31536000; includeSubDomains; preload'
       );
+    });
+
+    it('should configure Content-Security-Policy', () => {
+      expect(config.globalHeaders).toHaveProperty('Content-Security-Policy');
+      const csp = config.globalHeaders['Content-Security-Policy'];
+      expect(csp).toContain("default-src 'self'");
+      expect(csp).toContain("frame-ancestors 'none'");
+    });
+
+    it('should configure Permissions-Policy', () => {
+      expect(config.globalHeaders).toHaveProperty('Permissions-Policy');
+      const policy = config.globalHeaders['Permissions-Policy'];
+      expect(policy).toContain('camera=()');
+      expect(policy).toContain('microphone=()');
+      expect(policy).toContain('geolocation=()');
     });
 
     it('should configure X-Content-Type-Options', () => {
@@ -61,7 +76,8 @@ describe('Static Web App Configuration', () => {
 
     it('should configure X-XSS-Protection', () => {
       expect(config.globalHeaders).toHaveProperty('X-XSS-Protection');
-      expect(config.globalHeaders['X-XSS-Protection']).toBe('1; mode=block');
+      // Modern recommendation: disable browser XSS auditor (deprecated and can cause issues)
+      expect(config.globalHeaders['X-XSS-Protection']).toBe('0');
     });
 
     it('should configure Referrer-Policy', () => {
@@ -86,7 +102,8 @@ describe('Static Web App Configuration', () => {
 
       it('should have valid HSTS format', () => {
         const hsts = config.globalHeaders['Strict-Transport-Security'];
-        expect(hsts).toMatch(/^max-age=\d+;\s*includeSubDomains$/);
+        // Now includes preload directive
+        expect(hsts).toMatch(/^max-age=\d+;\s*includeSubDomains;\s*preload$/);
       });
     });
 
@@ -99,9 +116,10 @@ describe('Static Web App Configuration', () => {
         expect(config.globalHeaders['X-Frame-Options']).toBe('DENY');
       });
 
-      it('should enable XSS protection with blocking', () => {
+      it('should enable XSS protection (disabled for modern browsers)', () => {
         const xssProtection = config.globalHeaders['X-XSS-Protection'];
-        expect(xssProtection).toBe('1; mode=block');
+        // Modern recommendation: disable browser XSS auditor (deprecated and can cause issues)
+        expect(xssProtection).toBe('0');
       });
     });
 
@@ -195,9 +213,8 @@ describe('Static Web App Configuration', () => {
       // Content type options should prevent sniffing
       expect(config.globalHeaders['X-Content-Type-Options']).toBe('nosniff');
 
-      // XSS protection should be enabled and blocking
-      expect(config.globalHeaders['X-XSS-Protection']).toContain('1');
-      expect(config.globalHeaders['X-XSS-Protection']).toContain('mode=block');
+      // XSS protection header present (modern recommendation is '0' to disable the deprecated auditor)
+      expect(config.globalHeaders).toHaveProperty('X-XSS-Protection');
     });
 
     it('should not expose sensitive information', () => {
@@ -262,11 +279,11 @@ describe('Static Web App Configuration', () => {
 
       // Headers should be production-ready for Mozilla Observatory evaluation
       expect(config.globalHeaders['Strict-Transport-Security']).toBe(
-        'max-age=31536000; includeSubDomains'
+        'max-age=31536000; includeSubDomains; preload'
       );
       expect(config.globalHeaders['X-Content-Type-Options']).toBe('nosniff');
       expect(config.globalHeaders['X-Frame-Options']).toBe('DENY');
-      expect(config.globalHeaders['X-XSS-Protection']).toBe('1; mode=block');
+      expect(config.globalHeaders['X-XSS-Protection']).toBe('0');
       expect(config.globalHeaders['Referrer-Policy']).toBe(
         'strict-origin-when-cross-origin'
       );
@@ -275,10 +292,11 @@ describe('Static Web App Configuration', () => {
     it('should implement security headers from task requirements', () => {
       // All required headers from the task description
       const requiredHeaders = {
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+        'Strict-Transport-Security':
+          'max-age=31536000; includeSubDomains; preload',
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block',
+        'X-XSS-Protection': '0',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
       };
 

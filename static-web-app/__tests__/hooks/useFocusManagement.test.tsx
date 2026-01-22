@@ -28,7 +28,11 @@ function TestComponent({
   } = useFocusManagement(options);
 
   return (
-    <div ref={ref} data-testid='container' tabIndex={-1}>
+    <div
+      ref={ref as React.RefObject<HTMLDivElement>}
+      data-testid='container'
+      tabIndex={-1}
+    >
       <button data-testid='first'>First</button>
       <button data-testid='second'>Second</button>
       <button data-testid='last'>Last</button>
@@ -312,7 +316,10 @@ describe('Integration Tests', () => {
       const focusStyles = useFocusStyles('button');
 
       return (
-        <div ref={ref} data-testid='integrated'>
+        <div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          data-testid='integrated'
+        >
           <button className={focusStyles} data-testid='styled-button'>
             Styled Button
           </button>
@@ -342,7 +349,12 @@ describe('Integration Tests', () => {
       if (!isOpen) return null;
 
       return (
-        <div ref={ref} role='dialog' data-testid='modal' tabIndex={-1}>
+        <div
+          ref={ref as React.RefObject<HTMLDivElement>}
+          role='dialog'
+          data-testid='modal'
+          tabIndex={-1}
+        >
           <button data-testid='modal-close'>Close</button>
           <input data-testid='modal-input' />
           <button data-testid='modal-save'>Save</button>

@@ -3,6 +3,19 @@ import { metadata as aboutMetadata } from '../../app/about/page';
 import { metadata as blogMetadata } from '../../app/_blog/page';
 import { metadata as contactMetadata } from '../../app/contact/page';
 
+// Helper to cast OpenGraph type for testing
+type OpenGraphWithType = {
+  type?: string;
+  title?: string;
+  url?: string;
+  images?: Array<{
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  }>;
+};
+
 describe('Page Metadata', () => {
   describe('Home Page Metadata', () => {
     it('has complete metadata structure', () => {
@@ -15,12 +28,11 @@ describe('Page Metadata', () => {
 
     it('has OpenGraph metadata', () => {
       expect(homeMetadata.openGraph).toBeDefined();
-      expect(homeMetadata.openGraph?.title).toBe(
-        'Kenneth Heine - AI & Automation for Developers'
-      );
-      expect(homeMetadata.openGraph?.type).toBe('website');
-      expect(homeMetadata.openGraph?.url).toBe('https://kennethheine.com');
-      expect(homeMetadata.openGraph?.images).toEqual([
+      const og = homeMetadata.openGraph as OpenGraphWithType;
+      expect(og?.title).toBe('Kenneth Heine - AI & Automation for Developers');
+      expect(og?.type).toBe('website');
+      expect(og?.url).toBe('https://kennethheine.com');
+      expect(og?.images).toEqual([
         {
           url: '/images/og-image.jpg',
           width: 1200,
@@ -42,14 +54,13 @@ describe('Page Metadata', () => {
 
     it('has OpenGraph metadata', () => {
       expect(aboutMetadata.openGraph).toBeDefined();
-      expect(aboutMetadata.openGraph?.title).toBe(
+      const og = aboutMetadata.openGraph as OpenGraphWithType;
+      expect(og?.title).toBe(
         'About Kenneth Heine - DevOps Engineer & Cloud Architect'
       );
-      expect(aboutMetadata.openGraph?.type).toBe('website');
-      expect(aboutMetadata.openGraph?.url).toBe(
-        'https://kennethheine.com/about'
-      );
-      expect(aboutMetadata.openGraph?.images).toEqual([
+      expect(og?.type).toBe('website');
+      expect(og?.url).toBe('https://kennethheine.com/about');
+      expect(og?.images).toEqual([
         {
           url: '/images/og-image.jpg',
           width: 1200,
@@ -71,12 +82,11 @@ describe('Page Metadata', () => {
 
     it('has OpenGraph metadata', () => {
       expect(blogMetadata.openGraph).toBeDefined();
-      expect(blogMetadata.openGraph?.title).toBe(
-        'Blog - AI, DevOps & Cloud Architecture Insights'
-      );
-      expect(blogMetadata.openGraph?.type).toBe('website');
-      expect(blogMetadata.openGraph?.url).toBe('https://kennethheine.com/blog');
-      expect(blogMetadata.openGraph?.images).toEqual([
+      const og = blogMetadata.openGraph as OpenGraphWithType;
+      expect(og?.title).toBe('Blog - AI, DevOps & Cloud Architecture Insights');
+      expect(og?.type).toBe('website');
+      expect(og?.url).toBe('https://kennethheine.com/blog');
+      expect(og?.images).toEqual([
         {
           url: '/images/og-image.jpg',
           width: 1200,
@@ -98,14 +108,13 @@ describe('Page Metadata', () => {
 
     it('has OpenGraph metadata', () => {
       expect(contactMetadata.openGraph).toBeDefined();
-      expect(contactMetadata.openGraph?.title).toBe(
+      const og = contactMetadata.openGraph as OpenGraphWithType;
+      expect(og?.title).toBe(
         'Contact Kenneth Heine - AI, DevOps & Cloud Consulting'
       );
-      expect(contactMetadata.openGraph?.type).toBe('website');
-      expect(contactMetadata.openGraph?.url).toBe(
-        'https://kennethheine.com/contact'
-      );
-      expect(contactMetadata.openGraph?.images).toEqual([
+      expect(og?.type).toBe('website');
+      expect(og?.url).toBe('https://kennethheine.com/contact');
+      expect(og?.images).toEqual([
         {
           url: '/images/og-image.jpg',
           width: 1200,
@@ -119,39 +128,39 @@ describe('Page Metadata', () => {
   describe('Metadata Consistency', () => {
     it('all pages use the same OG image', () => {
       const expectedImage = '/images/og-image.jpg';
+      const homeOg = homeMetadata.openGraph as OpenGraphWithType;
+      const aboutOg = aboutMetadata.openGraph as OpenGraphWithType;
+      const blogOg = blogMetadata.openGraph as OpenGraphWithType;
+      const contactOg = contactMetadata.openGraph as OpenGraphWithType;
 
-      expect(homeMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(aboutMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(blogMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
-      expect(contactMetadata.openGraph?.images?.[0]?.url).toBe(expectedImage);
+      expect(homeOg?.images?.[0]?.url).toBe(expectedImage);
+      expect(aboutOg?.images?.[0]?.url).toBe(expectedImage);
+      expect(blogOg?.images?.[0]?.url).toBe(expectedImage);
+      expect(contactOg?.images?.[0]?.url).toBe(expectedImage);
     });
 
     it('all pages have consistent image dimensions', () => {
       const expectedDimensions = { width: 1200, height: 630 };
+      const homeOg = homeMetadata.openGraph as OpenGraphWithType;
+      const aboutOg = aboutMetadata.openGraph as OpenGraphWithType;
+      const blogOg = blogMetadata.openGraph as OpenGraphWithType;
+      const contactOg = contactMetadata.openGraph as OpenGraphWithType;
 
-      expect(homeMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(aboutMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(blogMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
-      expect(contactMetadata.openGraph?.images?.[0]).toMatchObject(
-        expectedDimensions
-      );
+      expect(homeOg?.images?.[0]).toMatchObject(expectedDimensions);
+      expect(aboutOg?.images?.[0]).toMatchObject(expectedDimensions);
+      expect(blogOg?.images?.[0]).toMatchObject(expectedDimensions);
+      expect(contactOg?.images?.[0]).toMatchObject(expectedDimensions);
     });
 
     it('all pages have proper URL structure', () => {
-      expect(homeMetadata.openGraph?.url).toBe('https://kennethheine.com');
-      expect(aboutMetadata.openGraph?.url).toBe(
-        'https://kennethheine.com/about'
-      );
-      expect(blogMetadata.openGraph?.url).toBe('https://kennethheine.com/blog');
-      expect(contactMetadata.openGraph?.url).toBe(
-        'https://kennethheine.com/contact'
-      );
+      const homeOg = homeMetadata.openGraph as OpenGraphWithType;
+      const aboutOg = aboutMetadata.openGraph as OpenGraphWithType;
+      const blogOg = blogMetadata.openGraph as OpenGraphWithType;
+      const contactOg = contactMetadata.openGraph as OpenGraphWithType;
+      expect(homeOg?.url).toBe('https://kennethheine.com');
+      expect(aboutOg?.url).toBe('https://kennethheine.com/about');
+      expect(blogOg?.url).toBe('https://kennethheine.com/blog');
+      expect(contactOg?.url).toBe('https://kennethheine.com/contact');
     });
 
     it('all pages contain relevant SEO keywords', () => {

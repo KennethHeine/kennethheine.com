@@ -136,24 +136,36 @@ describe('ErrorFallback component', () => {
 
     it('shows technical details in development mode', () => {
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'development';
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'development',
+        writable: true,
+      });
 
       render(<ErrorFallback {...defaultProps} />);
 
       expect(screen.getByText('Technical Details')).toBeInTheDocument();
 
-      process.env.NODE_ENV = originalEnv;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalEnv,
+        writable: true,
+      });
     });
 
     it('does not show technical details in production by default', () => {
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'production';
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: 'production',
+        writable: true,
+      });
 
       render(<ErrorFallback {...defaultProps} />);
 
       expect(screen.queryByText('Technical Details')).not.toBeInTheDocument();
 
-      process.env.NODE_ENV = originalEnv;
+      Object.defineProperty(process.env, 'NODE_ENV', {
+        value: originalEnv,
+        writable: true,
+      });
     });
 
     it('displays error message in technical details', () => {
