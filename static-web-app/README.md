@@ -107,16 +107,16 @@ npm run swa:deploy   # Deploy to Azure (requires auth)
 
 ## Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `next.config.mjs` | Next.js configuration |
-| `tsconfig.json` | TypeScript configuration |
-| `postcss.config.js` | PostCSS configuration |
-| `jest.config.js` | Jest test configuration |
-| `playwright.config.ts` | Playwright E2E configuration |
-| `eslint.config.mjs` | ESLint configuration |
-| `.prettierrc.json` | Prettier configuration |
-| `staticwebapp.config.json` | Azure SWA routing config |
+| File                       | Purpose                      |
+| -------------------------- | ---------------------------- |
+| `next.config.mjs`          | Next.js configuration        |
+| `tsconfig.json`            | TypeScript configuration     |
+| `postcss.config.js`        | PostCSS configuration        |
+| `jest.config.js`           | Jest test configuration      |
+| `playwright.config.ts`     | Playwright E2E configuration |
+| `eslint.config.mjs`        | ESLint configuration         |
+| `.prettierrc.json`         | Prettier configuration       |
+| `staticwebapp.config.json` | Azure SWA routing config     |
 
 ## Key Technologies
 
@@ -245,22 +245,26 @@ For production deployment, GitHub Secrets are used:
 ### Common Issues
 
 **Build fails with type errors**
+
 ```bash
 npm run type-check  # Check for type errors
 ```
 
 **Tests fail**
+
 ```bash
 npm run lint:fix    # Fix linting issues
 npm run format      # Fix formatting
 ```
 
 **E2E tests fail to start**
+
 ```bash
 npx playwright install chromium --with-deps
 ```
 
 **Styles not updating**
+
 - Ensure Tailwind CSS classes are used correctly
 - Check for CSS variable definitions in `globals.css`
 
