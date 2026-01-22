@@ -37,7 +37,7 @@ describe('Layout component', () => {
 
     // Check for content
     expect(screen.getByText('Test content')).toBeInTheDocument(); // Check for footer
-    expect(screen.getByText(/© 2025 Kenneth Heine/i)).toBeInTheDocument();
+    expect(screen.getByText(/© \d{4} Kenneth Heine/i)).toBeInTheDocument();
   });
 
   it('renders mobile menu button', () => {

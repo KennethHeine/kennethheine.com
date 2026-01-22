@@ -1,7 +1,7 @@
 name: "Copilot Setup Steps"
 
-# Automatically run the setup steps when they are changed to allow for easy validation, and
-# allow manual testing through the repository's "Actions" tab
+# Automatically run the setup steps when they are changed to allow for easy validation,
+# and allow manual testing through the repository's "Actions" tab
 on:
   workflow_dispatch:
   push:
@@ -22,20 +22,37 @@ jobs:
       contents: read
 
     steps:
-      # 🏗️ Environment Setup
-      - name: "🔍 Checkout repository"
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 📦 Node.js Setup for Frontend Development
-      - name: "⚡ Setup Node.js 22"
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: "static-web-app/package-lock.json"      
+          node-version-file: 'static-web-app/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'static-web-app/package-lock.json'
 
-      - name: "📦 Install JavaScript dependencies"
+      - name: Install dependencies
         working-directory: ./static-web-app
         run: |
           npm ci
           echo "✅ Node.js dependencies installed successfully"
+
+      - name: Cache Playwright Browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('static-web-app/package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        working-directory: ./static-web-app
+        run: npx playwright install chromium --with-deps
+
+      - name: Install Playwright System Dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        working-directory: ./static-web-app
+        run: npx playwright install-deps chromium

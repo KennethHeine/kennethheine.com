@@ -24,11 +24,13 @@ const customJestConfig = {
   // Transform ignore patterns for ES modules
   transformIgnorePatterns: ['node_modules/(?!(next-mdx-remote|@mdx-js)/)'],
 
-  // Test file patterns
+  // Test file patterns - exclude e2e directory (Playwright tests)
   testMatch: [
     '**/__tests__/**/*.(ts|tsx|js|jsx)',
     '**/*.(test|spec).(ts|tsx|js|jsx)',
   ],
+  // Paths to ignore during test collection
+  testPathIgnorePatterns: ['/node_modules/', '/e2e/', '/.next/'],
   // Coverage configuration
   collectCoverageFrom: [
     'app/**/*.{ts,tsx}',
