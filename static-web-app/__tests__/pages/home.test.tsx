@@ -36,7 +36,6 @@ describe('Home Page', () => {
     render(<PageWithProvider />);
 
     // Updated section names based on actual content
-    expect(screen.getByText(/Work Smarter, Not Harder/i)).toBeInTheDocument();
     expect(screen.getByText(/What I'm Up To/i)).toBeInTheDocument();
   });
 
@@ -74,12 +73,9 @@ describe('Home Page', () => {
   it('has proper SEO structure', () => {
     render(<PageWithProvider />);
 
-    // Check for multiple instances of key terms
+    // Check for multiple instances of key terms that are on the page
     const automationElements = screen.getAllByText(/automation/i);
     expect(automationElements.length).toBeGreaterThan(0);
-
-    const azureElements = screen.getAllByText(/Azure/i);
-    expect(azureElements.length).toBeGreaterThan(0);
 
     const cloudElements = screen.getAllByText(/cloud/i);
     expect(cloudElements.length).toBeGreaterThan(0);
@@ -94,13 +90,7 @@ describe('Home Page', () => {
     const images = screen.getAllByRole('img');
     expect(images.length).toBeGreaterThan(0);
   });
-  it('displays years of experience stats', () => {
-    render(<PageWithProvider />);
 
-    // Look for experience stats (5+ Years Cloud & DevOps)
-    const experienceElements = screen.queryAllByText(/5\+|Years Cloud/i);
-    expect(experienceElements.length).toBeGreaterThan(0);
-  });
   it('includes CTA or call-to-action elements', () => {
     render(<PageWithProvider />);
 

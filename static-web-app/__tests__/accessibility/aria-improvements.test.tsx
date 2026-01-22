@@ -89,13 +89,6 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       expect(heroHeading).toHaveAttribute('id', 'hero-heading');
 
       // Check for section headings
-      const introHeading = screen.getByRole('heading', {
-        level: 2,
-        name: /work smarter, not harder/i,
-      });
-      expect(introHeading).toBeInTheDocument();
-      expect(introHeading).toHaveAttribute('id', 'introduction-heading');
-
       const featuredHeading = screen.getByRole('heading', {
         level: 2,
         name: /what i'm up to/i,
@@ -140,20 +133,10 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      // Check for metrics group
-      const metricsGroup = screen.getByRole('group', {
-        name: /professional experience metrics/i,
-      });
-      expect(metricsGroup).toBeInTheDocument();
-
-      // Check for individual metric labels
-      const yearsMetric = screen.getByLabelText(/5 plus years of experience/i);
-      const codeMetric = screen.getByLabelText(/over 100,000 lines of code/i);
-      const mindsetMetric = screen.getByLabelText(/infinite learning mindset/i);
-
-      expect(yearsMetric).toBeInTheDocument();
-      expect(codeMetric).toBeInTheDocument();
-      expect(mindsetMetric).toBeInTheDocument();
+      // The metrics section has been removed from the homepage
+      // This test is no longer applicable
+      const sections = document.querySelectorAll('section');
+      expect(sections.length).toBeGreaterThan(0);
     });
 
     it('has proper navigation with aria-label for CTA buttons', () => {
@@ -302,7 +285,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       const h3Elements = screen.getAllByRole('heading', { level: 3 });
 
       expect(h1).toBeInTheDocument();
-      expect(h2Elements).toHaveLength(2); // Introduction and Featured Content
+      expect(h2Elements).toHaveLength(1); // Featured Content (Introduction section removed)
       expect(h3Elements).toHaveLength(2); // Blog and Contact previews
     });
 
@@ -315,7 +298,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
 
       // Check for semantic sections
       const sections = document.querySelectorAll('section');
-      expect(sections).toHaveLength(3); // Hero, Introduction, Featured Content
+      expect(sections).toHaveLength(2); // Hero, Featured Content (Introduction removed)
 
       // Check for articles
       const articles = document.querySelectorAll('article');
