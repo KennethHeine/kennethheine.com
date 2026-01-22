@@ -16,6 +16,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     // JSX configuration
+    /*
+     * Next.js 16 requires jsx: "react-jsx" (automatic runtime)
+     * Changed from "preserve" to support the new React automatic runtime
+     */
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     // Path resolution for cleaner imports
