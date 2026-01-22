@@ -122,19 +122,6 @@ jobs:
           path: static-web-app/out
           retention-days: 1
 
-      - name: Extract Configuration
-        id: config
-        run: |
-          echo "📋 Extracting deployment configuration..."
-          app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          echo "app-location=$app_location" >> $GITHUB_OUTPUT
-          echo "output-location=$output_location" >> $GITHUB_OUTPUT
-
-    outputs:
-      app-location: ${{ steps.config.outputs.app-location }}
-      output-location: ${{ steps.config.outputs.output-location }}
-
   # Job for deploying to production (depends on test job)
   deploy:
     name: Deploy to Production
@@ -152,7 +139,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v4
         with:
           name: production-build
           path: static-web-app/out
@@ -188,8 +175,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ${{ needs.test.outputs.app-location }}
-          output_location: ${{ needs.test.outputs.output-location }}
+          app_location: "static-web-app/out"
           skip_app_build: true
 
       - name: Verify Deployment
@@ -212,8 +198,7 @@ jobs:
           
           **Deployment Details:**
           - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
-          - 📁 App Location: `${{ needs.test.outputs.app-location }}`
-          - 📤 Output Location: `${{ needs.test.outputs.output-location }}`
+          - 📁 App Location: `static-web-app/out`
           - 📅 Deployment Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
           - 🔗 Environment: `production`
           

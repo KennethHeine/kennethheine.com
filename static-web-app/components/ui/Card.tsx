@@ -21,7 +21,8 @@ export type CardVariant = 'default' | 'elevated' | 'outlined' | 'subtle';
  * - Supports forwardRef pattern for DOM access
  */
 export interface CardProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {
   /** Visual variant of the card */
   variant?: CardVariant;
@@ -41,7 +42,8 @@ export interface CardProps
  * Follows consistent prop patterns for compound components
  */
 export interface CardHeaderProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
@@ -50,7 +52,8 @@ export interface CardHeaderProps
  * Follows consistent prop patterns for compound components
  */
 export interface CardBodyProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
@@ -59,7 +62,8 @@ export interface CardBodyProps
  * Follows consistent prop patterns for compound components
  */
 export interface CardFooterProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
@@ -91,10 +95,9 @@ const cardSizes: Record<ComponentSize, string> = {
 /**
  * Card component interface with compound components
  */
-interface CardComponent
-  extends React.ForwardRefExoticComponent<
-    CardProps & React.RefAttributes<HTMLDivElement>
-  > {
+interface CardComponent extends React.ForwardRefExoticComponent<
+  CardProps & React.RefAttributes<HTMLDivElement>
+> {
   Header: typeof CardHeader;
   Body: typeof CardBody;
   Footer: typeof CardFooter;

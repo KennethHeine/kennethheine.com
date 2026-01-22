@@ -29,7 +29,8 @@ export type BadgeVariant =
  * - Supports forwardRef pattern for DOM access
  */
 export interface BadgeProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLSpanElement>, keyof BaseComponentProps> {
   /** Visual variant of the badge */
   variant?: BadgeVariant;

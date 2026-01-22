@@ -244,7 +244,8 @@ export interface FormFieldProps extends BaseComponentProps {
  * Input component props
  */
 export interface InputProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   /** Input type */
   type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url';
@@ -264,7 +265,8 @@ export interface InputProps
  * Textarea component props
  */
 export interface TextareaProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'children'> {
   /** Number of visible rows */
   rows?: number;

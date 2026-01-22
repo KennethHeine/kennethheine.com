@@ -38,7 +38,8 @@ export interface ModalProps extends BaseComponentProps {
  * Follows consistent prop patterns for compound components
  */
 export interface ModalHeaderProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {
   /** Function to call when close button is clicked - follows onAction naming pattern */
   onClose?: () => void;
@@ -52,7 +53,8 @@ export interface ModalHeaderProps
  * Follows consistent prop patterns for compound components
  */
 export interface ModalBodyProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
@@ -61,7 +63,8 @@ export interface ModalBodyProps
  * Follows consistent prop patterns for compound components
  */
 export interface ModalFooterProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {}
 
 /**
@@ -79,10 +82,9 @@ const modalSizes: Record<ModalSize, string> = {
 /**
  * Modal component interface with compound components
  */
-interface ModalComponent
-  extends React.ForwardRefExoticComponent<
-    ModalProps & React.RefAttributes<HTMLDivElement>
-  > {
+interface ModalComponent extends React.ForwardRefExoticComponent<
+  ModalProps & React.RefAttributes<HTMLDivElement>
+> {
   Header: typeof ModalHeader;
   Body: typeof ModalBody;
   Footer: typeof ModalFooter;
