@@ -125,9 +125,6 @@ jobs:
       contents: read
       pull-requests: write
       id-token: write
-    outputs:
-      app-location: ${{ steps.config.outputs.app-location }}
-      output-location: ${{ steps.config.outputs.output-location }}
 
     steps:
       - name: Checkout code
@@ -153,15 +150,6 @@ jobs:
         run: |
           echo "🏗️ Building Next.js application for preview..."
           npm run build
-
-      - name: Extract Configuration
-        id: config
-        run: |
-          echo "📋 Extracting deployment configuration..."
-          app_location=$(grep "appLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          output_location=$(grep "outputLocation" infra/parameters/production.bicepparam | cut -d"'" -f2)
-          echo "app-location=$app_location" >> $GITHUB_OUTPUT
-          echo "output-location=$output_location" >> $GITHUB_OUTPUT
 
       - name: Azure Login using OIDC
         uses: azure/login@v2
@@ -194,8 +182,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: ${{ steps.config.outputs.app-location }}
-          output_location: ${{ steps.config.outputs.output-location }}
+          app_location: "static-web-app/out"
           skip_app_build: true
           deployment_environment: 'pr-${{ github.event.pull_request.number }}'
 
@@ -207,8 +194,7 @@ jobs:
           
           **Deployment Details:**
           - 📍 Static Web App: `${{ env.STATIC_WEB_APP_NAME }}`
-          - 📁 App Location: `${{ steps.config.outputs.app-location }}`
-          - 📤 Output Location: `${{ steps.config.outputs.output-location }}`
+          - 📁 App Location: `static-web-app/out`
           - 📅 Deployment Time: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
           - 🔗 Environment: `pr-${{ github.event.pull_request.number }}`
           
@@ -244,8 +230,14 @@ jobs:
             --query "properties.apiKey" \
             --output tsv)
           
+          if [ -z "$deployment_token" ]; then
+            echo "❌ Failed to retrieve deployment token for Static Web App '${{ env.STATIC_WEB_APP_NAME }}' in resource group '${{ env.RESOURCE_GROUP_NAME }}'."
+            exit 1
+          fi
+          
           echo "::add-mask::$deployment_token"
           echo "deployment-token=$deployment_token" >> $GITHUB_OUTPUT
+          echo "✅ Deployment token retrieved!"
 
       - name: Close Pull Request Environment
         uses: Azure/static-web-apps-deploy@v1

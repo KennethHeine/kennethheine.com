@@ -102,9 +102,24 @@ test.describe('Theme Toggle', () => {
     // Theme toggle should exist
     await expect(themeToggle).toBeVisible();
 
-    // Click should work without error
+    // Capture initial theme state from the <html> element
+    const html = page.locator('html');
+    const initialClass = await html.getAttribute('class');
+
+    // Click should trigger a theme change without error
     await themeToggle.click();
-    await page.waitForTimeout(300);
+
+    if (
+      initialClass === null ||
+      initialClass === undefined ||
+      initialClass === ''
+    ) {
+      // If there was no class before, we expect some class to be set after toggling
+      await expect(html).toHaveAttribute('class', /.+/);
+    } else {
+      // Otherwise we expect the class list to change (e.g. toggling "dark" mode)
+      await expect(html).not.toHaveAttribute('class', initialClass);
+    }
   });
 });
 
@@ -136,10 +151,10 @@ test.describe('Accessibility', () => {
   test('should have skip links for keyboard navigation', async ({ page }) => {
     await page.goto('/');
 
-    // Skip links might be visually hidden initially
-    // Just check the DOM structure
+    // Check for skip links (common accessibility pattern)
+    // The site should have at least one skip link to main content
     const count = await page.locator('a[href="#main-content"]').count();
-    expect(count).toBeGreaterThanOrEqual(0); // May or may not exist
+    expect(count).toBeGreaterThan(0);
   });
 });
 
