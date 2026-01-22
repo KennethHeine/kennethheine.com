@@ -4,24 +4,20 @@
     // Target modern JavaScript for better performance
     "target": "es5",
     "lib": ["dom", "dom.iterable", "es6"],
-
     // Module system configuration
     "module": "esnext",
     "moduleResolution": "bundler",
     "allowJs": true,
     "checkJs": false,
-
     // Enable strict type checking
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
     // JSX configuration
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
-
     // Path resolution for cleaner imports
     "baseUrl": ".",
     "paths": {
@@ -36,12 +32,10 @@
     "isolatedModules": true,
     "incremental": true,
     "types": ["jest", "@testing-library/jest-dom"],
-
     // Documentation generation options
     "declaration": true,
     "declarationMap": true,
     "stripInternal": true,
-
     // Plugin configuration for Next.js
     "plugins": [
       {
@@ -55,9 +49,9 @@
     "jest.setup.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
-
   // Exclude patterns
   "exclude": ["node_modules", ".next", "out", "dist"]
 }
