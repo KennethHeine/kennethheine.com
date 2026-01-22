@@ -243,6 +243,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ steps.swa-token.outputs.deployment-token }}
           action: "close"
+          deployment_environment: 'pr-${{ github.event.pull_request.number }}'
 
       - name: Cleanup Summary
         run: |
