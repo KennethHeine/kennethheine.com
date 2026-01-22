@@ -58,7 +58,8 @@ Used by: Button, Badge (with extensions)
 
 ```typescript
 export interface ComponentProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLElement>, keyof BaseComponentProps> {
   /** Component-specific props */
   variant?: ComponentVariant;
@@ -72,7 +73,8 @@ export interface ComponentProps
 
 ```typescript
 export interface FormComponentProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<
       React.InputHTMLAttributes<HTMLInputElement>,
       keyof BaseComponentProps | 'size'
@@ -90,7 +92,8 @@ export interface FormComponentProps
 
 ```typescript
 export interface CompoundComponentProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof BaseComponentProps> {
   // Compound-specific props
 }

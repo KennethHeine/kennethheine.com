@@ -20,7 +20,8 @@ export type InputVariant = 'default' | 'error' | 'success';
  * - Supports forwardRef pattern for DOM access
  */
 export interface InputProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<
       React.InputHTMLAttributes<HTMLInputElement>,
       keyof BaseComponentProps | 'size'
@@ -53,7 +54,8 @@ export interface InputProps
  * Follows consistent prop patterns for form components
  */
 export interface LabelProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<
       React.LabelHTMLAttributes<HTMLLabelElement>,
       keyof BaseComponentProps

@@ -19,7 +19,8 @@ import type {
  * - Supports forwardRef pattern for DOM access
  */
 export interface ButtonProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<
       React.ButtonHTMLAttributes<HTMLButtonElement>,
       keyof BaseComponentProps

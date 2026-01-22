@@ -49,7 +49,8 @@ export type TypographyElement =
  * - Supports forwardRef pattern for DOM access
  */
 export interface TypographyProps
-  extends BaseComponentProps,
+  extends
+    BaseComponentProps,
     Omit<React.HTMLAttributes<HTMLElement>, keyof BaseComponentProps> {
   /** Typography variant for styling */
   variant?: TypographyVariant;

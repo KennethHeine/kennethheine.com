@@ -202,7 +202,6 @@ The website is built mobile-first with breakpoints:
 ### Azure Static Web Apps
 
 1. **Prerequisites**:
-
    - Azure account
    - GitHub repository
    - Azure Static Web Apps CLI
