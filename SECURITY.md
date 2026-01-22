@@ -107,7 +107,7 @@ This project is a personal website with limited attack surface. However, potenti
 ## Resources
 
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [Next.js Security Best Practices](https://nextjs.org/docs/pages/building-your-application/configuring/security-headers)
+- [Next.js Security Best Practices](https://nextjs.org/docs/app/building-your-application/configuring/content-security-policy)
 - [Azure Static Web Apps Security](https://docs.microsoft.com/en-us/azure/static-web-apps/configuration)
 
 ## Contact
