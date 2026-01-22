@@ -1,13 +1,13 @@
 # Kenneth Heine Personal Website
 
-A modern, accessible personal website built with Next.js 15, deployed as an Azure Static Web App with comprehensive testing and CI/CD pipelines.
+A modern, accessible personal website built with Next.js 16, deployed as an Azure Static Web App with comprehensive testing and CI/CD pipelines.
 
 ![Deploy to Production](https://github.com/KennethHeine/kennethheine.com/actions/workflows/deploy-production.yml/badge.svg)
 ![Test Coverage](https://github.com/KennethHeine/kennethheine.com/actions/workflows/test-coverage.yml/badge.svg)
 
 ## 🌟 Features
 
-- **Modern Stack**: Next.js 15, React 19, TypeScript, Tailwind CSS 4
+- **Modern Stack**: Next.js 16, React 19, TypeScript, Tailwind CSS 4
 - **Static Export**: Optimized for Azure Static Web Apps deployment
 - **Accessibility**: WCAG 2.1 AA compliant with comprehensive color contrast testing
 - **Blog System**: MDX-powered blog with syntax highlighting (currently disabled)

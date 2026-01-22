@@ -1,6 +1,6 @@
 # Kenneth Heine Website - Next.js Application
 
-This is the Next.js 15 application for kennethheine.com, a personal website deployed as an Azure Static Web App.
+This is the Next.js 16 application for kennethheine.com, a personal website deployed as an Azure Static Web App.
 
 ## Quick Start
 
@@ -120,7 +120,7 @@ npm run swa:deploy   # Deploy to Azure (requires auth)
 
 ## Key Technologies
 
-- **Next.js 15**: React framework with App Router
+- **Next.js 16**: React framework with App Router
 - **React 19**: UI library
 - **TypeScript**: Type-safe JavaScript
 - **Tailwind CSS 4**: Utility-first CSS

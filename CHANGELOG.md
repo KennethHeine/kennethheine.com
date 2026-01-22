@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial release of kennethheine.com personal website
-- Next.js 15 application with App Router
+- Next.js 16 application with App Router
 - React 19 with TypeScript
 - Tailwind CSS 4 for styling
 - Dark/light theme support with system preference detection
