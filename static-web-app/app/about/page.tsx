@@ -111,7 +111,7 @@ export default function AboutPage() {
       title: 'Cloud Architect @ Shared Platforms & DevOps',
       company: 'BEC Financial Technologies',
       description:
-        'Designed and implementede Azure cloud secret soultion with Azure Key Vault',
+        'Designed and implemented Azure cloud secret solution with Azure Key Vault',
     },
     {
       year: '2020-2021',
@@ -301,7 +301,7 @@ export default function AboutPage() {
               our three wonderful sons. Together, we engage in outdoor
               activities, maintain our kitchen garden, and participate actively
               in football. I believe that these diverse experiences with family
-              and nature make me a better version of my self.
+              and nature make me a better version of myself.
             </p>
             <div className='mt-8 flex flex-wrap justify-center gap-3'>
               {[
