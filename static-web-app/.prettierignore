@@ -41,6 +41,9 @@ public
 package-lock.json
 yarn.lock
 
+# Auto-generated Next.js file
+next-env.d.ts
+
 # Playwright
 playwright-report
 test-results
