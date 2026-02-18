@@ -75,33 +75,24 @@ export default function ContactPage() {
         </Container>
       </section>
 
-      {/* Contact Information & Scheduling with modern card */}
+      {/* Email Contact CTA */}
       <section className='pb-20'>
         <Container>
-          <div className='mx-auto max-w-4xl'>
-            <div className='overflow-hidden rounded-3xl border border-gray-200/50 bg-white shadow-2xl dark:border-gray-700/50 dark:bg-gray-800/50 backdrop-blur-sm'>
-              {/* Email Contact */}
-              <div className='p-8 bg-gradient-to-br from-gray-50 to-gray-100/50 dark:from-gray-900/50 dark:to-gray-800/50'>
-                <div className='flex items-start gap-4'>
-                  <div className='flex-shrink-0'>
-                    <div className='flex h-12 w-12 items-center justify-center rounded-xl bg-brand-100 dark:bg-brand-900/30'>
-                      <MailIcon className='h-6 w-6 text-brand-600 dark:text-brand-400' />
-                    </div>
-                  </div>
-                  <div className='flex-1'>
-                    <h2 className='text-xl font-bold text-gray-900 dark:text-white mb-4'>
-                      Get in Touch
-                    </h2>
-                    <a
-                      href='mailto:kenneth@kscloud.io'
-                      className='inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-brand-500/50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:shadow-brand-500/30 dark:hover:shadow-brand-500/40 dark:focus:ring-offset-gray-800'
-                    >
-                      <MailIcon className='h-5 w-5' />
-                      kenneth@kscloud.io
-                    </a>
-                  </div>
-                </div>
+          <div className='mx-auto max-w-2xl text-center'>
+            <div className='overflow-hidden rounded-3xl border border-gray-200/50 bg-white px-8 py-12 shadow-2xl dark:border-gray-700/50 dark:bg-gray-800/50 backdrop-blur-sm'>
+              <div className='mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-brand-100 dark:bg-brand-900/30'>
+                <MailIcon className='h-7 w-7 text-brand-600 dark:text-brand-400' />
               </div>
+              <h2 className='text-2xl font-bold text-gray-900 dark:text-white mb-6'>
+                Get in Touch
+              </h2>
+              <a
+                href='mailto:kenneth@kscloud.io'
+                className='inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-brand-500/50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:shadow-brand-500/30 dark:hover:shadow-brand-500/40 dark:focus:ring-offset-gray-800'
+              >
+                <MailIcon className='h-5 w-5' />
+                kenneth@kscloud.io
+              </a>
             </div>
           </div>
         </Container>
