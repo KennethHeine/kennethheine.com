@@ -1,10 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-// Calendly configuration
-const CALENDLY_URL = 'https://calendly.com/kenneth-kscloud/30min';
-const CALENDLY_SCRIPT_URL =
-  'https://assets.calendly.com/assets/external/widget.js';
-
 test.describe('Navigation', () => {
   test('should load all main pages via direct navigation', async ({ page }) => {
     // Test Home page
@@ -94,29 +89,15 @@ test.describe('Contact Page', () => {
     await expect(mainContent).toBeVisible();
   });
 
-  test('should have Calendly widget properly configured', async ({ page }) => {
+  test('should not have Calendly widget', async ({ page }) => {
     await page.goto('/contact');
 
-    // Check that the Calendly widget container exists
+    // Calendly widget should not be present
     const calendlyWidget = page.locator('.calendly-inline-widget');
-    await expect(calendlyWidget).toBeAttached();
-
-    // Check that the widget has the correct Calendly URL configured
-    await expect(calendlyWidget).toHaveAttribute('data-url', CALENDLY_URL);
-
-    // Check that the widget container has proper min-height set for visibility
-    await expect(calendlyWidget).toHaveCSS('min-height', '700px');
+    await expect(calendlyWidget).not.toBeAttached();
   });
 
-  test('should have Calendly script tag present', async ({ page }) => {
-    await page.goto('/contact');
-
-    // Check that the Calendly external script is present in the page
-    const calendlyScript = page.locator(`script[src="${CALENDLY_SCRIPT_URL}"]`);
-    await expect(calendlyScript).toBeAttached();
-  });
-
-  test('should have email fallback contact option', async ({ page }) => {
+  test('should have email contact option', async ({ page }) => {
     await page.goto('/contact');
 
     // Check that email fallback link is present

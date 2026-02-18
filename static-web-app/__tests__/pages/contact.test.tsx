@@ -26,25 +26,20 @@ describe('Contact Page', () => {
     expect(emailLink).toHaveAttribute('href', 'mailto:kenneth@kscloud.io');
   });
 
-  it('includes calendly widget', () => {
+  it('does not include calendly widget', () => {
     render(<PageWithProvider />);
 
-    // Check for Calendly widget container
+    // Calendly widget should not be present
     const calendlyWidget = screen
       .getByRole('main')
       .querySelector('.calendly-inline-widget');
-    expect(calendlyWidget).toBeInTheDocument();
-    expect(calendlyWidget).toHaveAttribute(
-      'data-url',
-      'https://calendly.com/kenneth-kscloud/30min'
-    );
+    expect(calendlyWidget).not.toBeInTheDocument();
   });
 
-  it('includes scheduling section', () => {
+  it('includes email contact section', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/Schedule a Consultation/i)).toBeInTheDocument();
-    expect(screen.getByText(/Prefer Email\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Get in Touch/i)).toBeInTheDocument();
   });
 
   it('includes mail icon', () => {
@@ -74,9 +69,9 @@ describe('Contact Page', () => {
   it('includes professional background context', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getAllByText(/AI automation/i)).toHaveLength(2);
+    expect(screen.getByText(/AI automation/i)).toBeInTheDocument();
     expect(screen.getByText(/DevOps/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/Azure/i)).toHaveLength(2);
+    expect(screen.getByText(/Azure/i)).toBeInTheDocument();
   });
 
   it('has responsive design classes', () => {
