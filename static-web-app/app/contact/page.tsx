@@ -89,15 +89,9 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className='flex-1'>
-                    <h2 className='text-xl font-bold text-gray-900 dark:text-white mb-2'>
+                    <h2 className='text-xl font-bold text-gray-900 dark:text-white mb-4'>
                       Get in Touch
                     </h2>
-                    <p className='text-gray-600 dark:text-gray-400 mb-4'>
-                      Ready to explore AI automation, Azure cloud architecture,
-                      or development workflow optimization? Feel free to send me
-                      an email and let&apos;s discuss how to make your team more
-                      productive and build scalable solutions.
-                    </p>
                     <a
                       href='mailto:kenneth@kscloud.io'
                       className='inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-6 py-3 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:shadow-brand-500/50 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:shadow-brand-500/30 dark:hover:shadow-brand-500/40 dark:focus:ring-offset-gray-800'
