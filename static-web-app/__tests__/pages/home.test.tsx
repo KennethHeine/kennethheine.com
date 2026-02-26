@@ -28,23 +28,25 @@ describe('Home Page', () => {
 
     // Updated expectation based on actual page content
     expect(
-      screen.getByText(/AI, Automation & Cloud Architecture for Developers/i)
+      screen.getByText(/I help project leaders make technical decisions/i)
     ).toBeInTheDocument();
   });
 
-  it('includes sections for skills and activities', () => {
+  it('includes sections for the Predictable Delivery process', () => {
     render(<PageWithProvider />);
 
     // Updated section names based on actual content
-    expect(screen.getByText(/What I'm Up To/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Predictable Delivery/i })
+    ).toBeInTheDocument();
   });
 
-  it('displays timeline component', () => {
+  it('displays process steps', () => {
     render(<PageWithProvider />);
 
-    // Look for timeline or experience content
-    const timelineElements = screen.queryAllByText(/202\d|Cloud|Azure|DevOps/i);
-    expect(timelineElements.length).toBeGreaterThan(0);
+    // Look for process step content
+    const stepElements = screen.queryAllByText(/Clarity|Control|Delivery/i);
+    expect(stepElements.length).toBeGreaterThan(0);
   });
 
   it('has contact link', () => {
@@ -74,14 +76,14 @@ describe('Home Page', () => {
     render(<PageWithProvider />);
 
     // Check for multiple instances of key terms that are on the page
-    const automationElements = screen.getAllByText(/automation/i);
-    expect(automationElements.length).toBeGreaterThan(0);
+    const projectElements = screen.getAllByText(/project leader/i);
+    expect(projectElements.length).toBeGreaterThan(0);
 
-    const cloudElements = screen.getAllByText(/cloud/i);
-    expect(cloudElements.length).toBeGreaterThan(0);
+    const technicalElements = screen.getAllByText(/technical/i);
+    expect(technicalElements.length).toBeGreaterThan(0);
 
-    const developerElements = screen.getAllByText(/developer/i);
-    expect(developerElements.length).toBeGreaterThan(0);
+    const azureElements = screen.getAllByText(/azure/i);
+    expect(azureElements.length).toBeGreaterThan(0);
   });
 
   it('includes professional photo', () => {
@@ -96,7 +98,7 @@ describe('Home Page', () => {
 
     // Look for action-oriented text
     const ctaElements = screen.queryAllByText(
-      /Learn More About Me|Read My Blog|Get in touch|View all posts/i
+      /How It Works|Get in touch|Start your Predictable Delivery/i
     );
     expect(ctaElements.length).toBeGreaterThan(0);
   });

@@ -32,7 +32,7 @@ describe('About Page', () => {
 
     // Check for professional background content
     const professionalElements = screen.getAllByText(
-      /developer|engineer|architect/i
+      /advisor|leader|architect/i
     );
     expect(professionalElements.length).toBeGreaterThan(0);
 
@@ -44,7 +44,7 @@ describe('About Page', () => {
     render(<PageWithProvider />);
 
     // Look for mission/values content
-    const missionElements = screen.getAllByText(/mission|passion|believe/i);
+    const missionElements = screen.getAllByText(/mission|plan holds|visible/i);
     expect(missionElements.length).toBeGreaterThan(0);
   });
   it('displays expertise areas', () => {
@@ -52,7 +52,7 @@ describe('About Page', () => {
 
     // Check for expertise areas
     const expertiseElements = screen.getAllByText(
-      /AI|automation|infrastructure/i
+      /advisory|risk|infrastructure/i
     );
     expect(expertiseElements.length).toBeGreaterThan(0);
   });

@@ -42,7 +42,8 @@ export function generateWebsiteStructuredData(baseUrl: string = '') {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Kenneth Heine',
-    description: 'Personal website and blog of Kenneth Heine',
+    description:
+      'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
     url: baseUrl,
     author: {
       '@type': 'Person',
@@ -61,21 +62,22 @@ export function generatePersonStructuredData(baseUrl: string = '') {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Kenneth Heine',
-    jobTitle: 'Cloud Architecture Consultant',
+    jobTitle: 'Technical Advisor – Azure & Platform Delivery',
     description:
-      'DevOps engineer and cloud architect passionate about bringing AI into software development',
+      'Technical advisor helping project leaders make technical decisions so the plan holds',
     url: `${baseUrl}/about`,
     sameAs: [
       // Add social media profiles when available
     ],
     knowsAbout: [
       'Azure Cloud Architecture',
+      'Technical Advisory',
+      'Vendor Management',
+      'Risk Assessment',
+      'Go-Live Readiness',
       'DevOps',
-      'AI in Software Development',
-      'Infrastructure as Code',
-      'Automation',
-      'GitHub Copilot',
       'CI/CD Pipelines',
+      'Platform Delivery',
     ],
     worksFor: {
       '@type': 'Organization',

@@ -226,13 +226,15 @@ describe('metadata configuration', () => {
     // Test specific metadata values
     expect(metadata.title).toEqual({
       default:
-        'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
+        'Kenneth Heine - Technical Advisor for Project Leaders | Azure & Platform Delivery',
       template: '%s | Kenneth Heine',
     });
 
-    expect(metadata.description).toContain('Kenneth Heine helps developers');
+    expect(metadata.description).toContain(
+      'Kenneth Heine helps project leaders'
+    );
     expect(metadata.keywords).toContain('Kenneth Heine');
-    expect(metadata.keywords).toContain('AI Automation');
+    expect(metadata.keywords).toContain('Technical Advisor');
 
     // Test authors
     expect(metadata.authors).toEqual([{ name: 'Kenneth Heine' }]);

@@ -22,14 +22,16 @@ describe('Page Metadata', () => {
       expect(homeMetadata).toBeDefined();
       expect(homeMetadata.title).toBe('Home');
       expect(homeMetadata.description).toContain('Kenneth Heine');
-      expect(homeMetadata.description).toContain('AI');
-      expect(homeMetadata.description).toContain('automation');
+      expect(homeMetadata.description).toContain('project leaders');
+      expect(homeMetadata.description).toContain('technical decisions');
     });
 
     it('has OpenGraph metadata', () => {
       expect(homeMetadata.openGraph).toBeDefined();
       const og = homeMetadata.openGraph as OpenGraphWithType;
-      expect(og?.title).toBe('Kenneth Heine - AI & Automation for Developers');
+      expect(og?.title).toBe(
+        'Kenneth Heine - Technical Advisor for Project Leaders'
+      );
       expect(og?.type).toBe('website');
       expect(og?.url).toBe('https://kennethheine.com');
       expect(og?.images).toEqual([
@@ -37,7 +39,7 @@ describe('Page Metadata', () => {
           url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'Kenneth Heine - AI & Automation for Developers',
+          alt: 'Kenneth Heine - Technical Advisor for Project Leaders',
         },
       ]);
     });
@@ -48,15 +50,15 @@ describe('Page Metadata', () => {
       expect(aboutMetadata).toBeDefined();
       expect(aboutMetadata.title).toBe('About');
       expect(aboutMetadata.description).toContain('Kenneth Heine');
-      expect(aboutMetadata.description).toContain('DevOps');
-      expect(aboutMetadata.description).toContain('cloud architect');
+      expect(aboutMetadata.description).toContain('technical advisor');
+      expect(aboutMetadata.description).toContain('project leaders');
     });
 
     it('has OpenGraph metadata', () => {
       expect(aboutMetadata.openGraph).toBeDefined();
       const og = aboutMetadata.openGraph as OpenGraphWithType;
       expect(og?.title).toBe(
-        'About Kenneth Heine - DevOps Engineer & Cloud Architect'
+        'About Kenneth Heine - Technical Advisor for Project Leaders'
       );
       expect(og?.type).toBe('website');
       expect(og?.url).toBe('https://kennethheine.com/about');
@@ -65,7 +67,7 @@ describe('Page Metadata', () => {
           url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
+          alt: 'About Kenneth Heine - Technical Advisor for Project Leaders',
         },
       ]);
     });
@@ -102,16 +104,14 @@ describe('Page Metadata', () => {
       expect(contactMetadata).toBeDefined();
       expect(contactMetadata.title).toBe('Contact');
       expect(contactMetadata.description).toContain('Kenneth Heine');
-      expect(contactMetadata.description).toContain('AI automation');
-      expect(contactMetadata.description).toContain('DevOps consulting');
+      expect(contactMetadata.description).toContain('technical advisory');
+      expect(contactMetadata.description).toContain('Azure');
     });
 
     it('has OpenGraph metadata', () => {
       expect(contactMetadata.openGraph).toBeDefined();
       const og = contactMetadata.openGraph as OpenGraphWithType;
-      expect(og?.title).toBe(
-        'Contact Kenneth Heine - AI, DevOps & Cloud Consulting'
-      );
+      expect(og?.title).toBe('Contact Kenneth Heine - Technical Advisor');
       expect(og?.type).toBe('website');
       expect(og?.url).toBe('https://kennethheine.com/contact');
       expect(og?.images).toEqual([
@@ -119,7 +119,7 @@ describe('Page Metadata', () => {
           url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
+          alt: 'Contact Kenneth Heine - Technical Advisor',
         },
       ]);
     });
@@ -165,7 +165,7 @@ describe('Page Metadata', () => {
 
     it('all pages contain relevant SEO keywords', () => {
       // Check for consistent use of key terms
-      const keyTerms = ['Kenneth Heine', 'AI', 'DevOps', 'cloud'];
+      const keyTerms = ['Kenneth Heine', 'Azure', 'project'];
 
       const allDescriptions = [
         homeMetadata.description,

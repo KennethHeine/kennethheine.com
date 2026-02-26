@@ -8,21 +8,22 @@ import './globals.css';
 export const metadata: Metadata = {
   title: {
     default:
-      'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
+      'Kenneth Heine - Technical Advisor for Project Leaders | Azure & Platform Delivery',
     template: '%s | Kenneth Heine',
   },
   description:
-    'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+    'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects — Predictable Delivery™.',
   keywords: [
     'Kenneth Heine',
-    'AI Automation',
+    'Technical Advisor',
+    'Project Leader',
+    'Azure Cloud',
+    'Platform Delivery',
+    'Vendor Management',
+    'Risk Assessment',
+    'Go-Live Readiness',
+    'Predictable Delivery',
     'DevOps',
-    'Azure Cloud Architecture',
-    'GitHub Copilot',
-    'CI/CD',
-    'Development Workflows',
-    'GPT APIs',
-    'Infrastructure as Code',
   ],
   authors: [{ name: 'Kenneth Heine' }],
   creator: 'Kenneth Heine',
@@ -38,15 +39,15 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://kennethheine.com',
     siteName: 'Kenneth Heine',
-    title: 'Kenneth Heine - AI & Automation for Developers',
+    title: 'Kenneth Heine - Technical Advisor for Project Leaders',
     description:
-      'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
+      'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
     images: [
       {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kenneth Heine - AI & Automation for Developers',
+        alt: 'Kenneth Heine - Technical Advisor for Project Leaders',
       },
     ],
   },

@@ -60,7 +60,8 @@ describe('Structured Data Integration', () => {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'Kenneth Heine',
-        description: 'Personal website and blog of Kenneth Heine',
+        description:
+          'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
         url: 'https://kennethheine.com',
         author: {
           '@type': 'Person',
@@ -81,7 +82,7 @@ describe('Structured Data Integration', () => {
       expect(script?.innerHTML).toContain('"@type": "Person"');
       expect(script?.innerHTML).toContain('"name": "Kenneth Heine"');
       expect(script?.innerHTML).toContain(
-        '"jobTitle": "Cloud Architecture Consultant"'
+        '"jobTitle": "Technical Advisor – Azure & Platform Delivery"'
       );
     });
 
@@ -97,16 +98,19 @@ describe('Structured Data Integration', () => {
       expect(structuredData['@context']).toBe('https://schema.org');
       expect(structuredData['@type']).toBe('Person');
       expect(structuredData.name).toBe('Kenneth Heine');
-      expect(structuredData.jobTitle).toBe('Cloud Architecture Consultant');
+      expect(structuredData.jobTitle).toBe(
+        'Technical Advisor – Azure & Platform Delivery'
+      );
       expect(structuredData.url).toBe('https://kennethheine.com/about');
       expect(structuredData.knowsAbout).toEqual([
         'Azure Cloud Architecture',
+        'Technical Advisory',
+        'Vendor Management',
+        'Risk Assessment',
+        'Go-Live Readiness',
         'DevOps',
-        'AI in Software Development',
-        'Infrastructure as Code',
-        'Automation',
-        'GitHub Copilot',
         'CI/CD Pipelines',
+        'Platform Delivery',
       ]);
     });
   });

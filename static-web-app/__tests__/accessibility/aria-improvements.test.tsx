@@ -91,7 +91,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       // Check for section headings
       const featuredHeading = screen.getByRole('heading', {
         level: 2,
-        name: /what i'm up to/i,
+        name: /predictable delivery/i,
       });
       expect(featuredHeading).toBeInTheDocument();
       expect(featuredHeading).toHaveAttribute('id', 'featured-content-heading');
@@ -104,25 +104,32 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      // Check for article elements
+      // Check for article elements (3 process steps: Clarity, Control, Delivery)
       const articles = screen.getAllByRole('article');
-      expect(articles).toHaveLength(2);
+      expect(articles).toHaveLength(3);
 
       // Check that articles have proper aria-labelledby
-      const servicesArticle = articles.find(article =>
-        article.querySelector('#services-preview-heading')
+      const clarityArticle = articles.find(article =>
+        article.querySelector('#clarity-heading')
       );
-      const contactArticle = articles.find(article =>
-        article.querySelector('#contact-preview-heading')
+      const controlArticle = articles.find(article =>
+        article.querySelector('#control-heading')
+      );
+      const deliveryArticle = articles.find(article =>
+        article.querySelector('#delivery-heading')
       );
 
-      expect(servicesArticle).toHaveAttribute(
+      expect(clarityArticle).toHaveAttribute(
         'aria-labelledby',
-        'services-preview-heading'
+        'clarity-heading'
       );
-      expect(contactArticle).toHaveAttribute(
+      expect(controlArticle).toHaveAttribute(
         'aria-labelledby',
-        'contact-preview-heading'
+        'control-heading'
+      );
+      expect(deliveryArticle).toHaveAttribute(
+        'aria-labelledby',
+        'delivery-heading'
       );
     });
 
@@ -159,19 +166,15 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      // Check for screen reader descriptions - be more specific to avoid duplicates
+      // Check for screen reader descriptions
       const aboutDescription = screen.getByText(
-        /navigate to the about page to learn more about kenneth heine/i
-      );
-      const servicesDescription = screen.getByText(
-        /navigate to the contact page to learn about professional services/i
+        /navigate to the about page to learn more about the predictable delivery program/i
       );
       const contactDescription = screen.getByText(
         /navigate to the contact page to get in touch and connect/i
       );
 
       expect(aboutDescription).toHaveClass('sr-only');
-      expect(servicesDescription).toHaveClass('sr-only');
       expect(contactDescription).toHaveClass('sr-only');
     });
 
@@ -221,7 +224,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       );
 
       const aboutLink = screen.getByRole('link', {
-        name: /learn more about me/i,
+        name: /how it works/i,
       });
       const contactCTAButton = screen
         .getByText('Get In Touch')
@@ -244,30 +247,12 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      const servicesLink = screen
-        .getAllByRole('link', {
-          name: /learn more/i,
-        })
-        .find(
-          link =>
-            link.getAttribute('aria-describedby') ===
-            'services-link-description'
-        ) as HTMLElement;
-      const contactContentLink = screen
-        .getAllByRole('link', { name: /get in touch/i })
-        .find(
-          link =>
-            link.getAttribute('aria-describedby') === 'contact-link-description'
-        ) as HTMLElement;
-
-      expect(servicesLink).toHaveAttribute(
-        'aria-describedby',
-        'services-link-description'
-      );
-      expect(contactContentLink).toHaveAttribute(
-        'aria-describedby',
-        'contact-link-description'
-      );
+      // The process steps don't have individual describedby links anymore,
+      // but the main CTA link at the bottom links to the contact page
+      const predictableDeliveryLink = screen.getByRole('link', {
+        name: /start your predictable delivery/i,
+      });
+      expect(predictableDeliveryLink).toHaveAttribute('href', '/contact');
     });
   });
 
@@ -285,8 +270,8 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       const h3Elements = screen.getAllByRole('heading', { level: 3 });
 
       expect(h1).toBeInTheDocument();
-      expect(h2Elements).toHaveLength(1); // Featured Content (Introduction section removed)
-      expect(h3Elements).toHaveLength(2); // Blog and Contact previews
+      expect(h2Elements).toHaveLength(1); // Predictable Delivery
+      expect(h3Elements).toHaveLength(3); // Clarity, Control, Delivery
     });
 
     it('uses appropriate sectioning elements', () => {
@@ -298,11 +283,11 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
 
       // Check for semantic sections
       const sections = document.querySelectorAll('section');
-      expect(sections).toHaveLength(2); // Hero, Featured Content (Introduction removed)
+      expect(sections).toHaveLength(2); // Hero, Predictable Delivery process
 
       // Check for articles
       const articles = document.querySelectorAll('article');
-      expect(articles).toHaveLength(2); // Blog and Contact previews
+      expect(articles).toHaveLength(3); // Clarity, Control, Delivery
     });
   });
 });

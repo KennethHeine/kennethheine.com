@@ -11,11 +11,11 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Kenneth Heine is a DevOps engineer and cloud architect passionate about bringing AI into software development. Learn about his background in Azure cloud architecture and automation.',
+    'Kenneth Heine is a technical advisor helping project leaders deliver Azure cloud and platform projects predictably. Learn about the Predictable Delivery™ program.',
   openGraph: {
-    title: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
+    title: 'About Kenneth Heine - Technical Advisor for Project Leaders',
     description:
-      'Kenneth Heine is a DevOps engineer and cloud architect passionate about bringing AI into software development. Learn about his background in Azure cloud architecture and automation.',
+      'Kenneth Heine is a technical advisor helping project leaders deliver Azure cloud and platform projects predictably. Learn about the Predictable Delivery™ program.',
     type: 'website',
     url: 'https://kennethheine.com/about',
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
+        alt: 'About Kenneth Heine - Technical Advisor for Project Leaders',
       },
     ],
   },
@@ -46,13 +46,13 @@ export default function AboutPage() {
 
   // Skills organized by category
   const skills = {
-    ai_tools: [
-      'GitHub Copilot',
-      'GPT APIs',
-      'Claude API',
-      'ChatGPT',
-      'AI Code Generation',
-      'Prompt Engineering',
+    technical_advisory: [
+      'Risk Assessment',
+      'Vendor Management',
+      'Technical Due Diligence',
+      'Go-Live Readiness',
+      'Decision Governance',
+      'Architecture Review',
     ],
     azure_cloud: [
       'Azure Architecture',
@@ -72,32 +72,23 @@ export default function AboutPage() {
       'Kubernetes',
       'Infrastructure as Code',
     ],
-    automation: [
+    platform_operations: [
       'Terraform',
       'Bicep',
       'ARM Templates',
       'PowerShell',
       'Python',
       'Bash',
-      'Ansible',
-    ],
-    development: [
-      'TypeScript',
-      'Node.js',
-      'React',
-      'Next.js',
-      'Python',
-      'REST APIs',
-      'Microservices',
+      'Security & Compliance',
     ],
   }; // Professional timeline
   const timeline = [
     {
       year: '2022-Present',
-      title: 'Azure Cloud & AI DevOps Expert',
+      title: 'Technical Advisor – Azure & Platform Delivery',
       company: 'KS Cloud Solutions',
       description:
-        'Leading Azure cloud architecture design and AI-powered DevOps implementations. Specializing in Infrastructure as Code, CI/CD pipelines, and integrating AI tools into development workflows for enhanced productivity.',
+        'Helping project leaders make technical decisions so the plan holds. Specializing in Azure cloud architecture, vendor management, risk assessment, and go-live readiness for platform delivery projects.',
     },
     {
       year: '2022-2022',
@@ -160,18 +151,16 @@ export default function AboutPage() {
                   About Me
                 </h1>{' '}
                 <p className='mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300'>
-                  I&apos;m Kenneth, a DevOps engineer and cloud architect
-                  passionate about bringing AI into the heart of software
-                  development. I help developers and teams understand and
-                  implement the latest AI and automation tools while designing
-                  scalable, efficient cloud architectures on Azure.
+                  I&apos;m Kenneth, a technical advisor who helps project
+                  leaders make technical decisions so the plan holds. I work
+                  with project and program managers delivering Azure cloud and
+                  platform projects — often with multiple teams and vendors.
                 </p>
                 <p className='mt-4 text-base leading-7 text-gray-600 dark:text-gray-300'>
                   With extensive experience in Azure cloud architecture, DevOps
-                  practices, and hands-on application of AI to real-world
-                  development pipelines, I break down complex concepts into
-                  practical, actionable strategies that make a measurable
-                  difference in team productivity and software quality.
+                  practices, and hands-on platform engineering, I make risks and
+                  dependencies visible and manageable — so you deliver more
+                  predictably and avoid expensive late-stage surprises.
                 </p>
               </div>
               {/* Profile Photo with modern frame */}{' '}
@@ -206,22 +195,23 @@ export default function AboutPage() {
               My Mission
             </h2>{' '}
             <p className='mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300'>
-              My mission is to empower software teams to work more efficiently
-              and effectively by integrating AI and automation into their
-              everyday workflows, while building robust, scalable cloud
-              architectures on Azure. Through tutorials, guides, and consulting,
-              I provide clear, practical advice to help developers navigate the
-              fast-changing landscape of AI tools and cloud technologies.
+              Project and program leaders running Azure cloud and platform
+              initiatives with multiple teams and vendors often face the same
+              problem: they must commit to a plan and a deadline, but they
+              can&apos;t fully see the technical dependencies and risks — and
+              vendors can sound convincing even when the delivery won&apos;t
+              hold up in reality. The result is quiet scope creep and hard
+              problems surfacing late, right when you&apos;re close to go-live.
             </p>{' '}
             <div className='mt-8 relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-50 via-blue-50 to-purple-50 p-8 shadow-xl ring-1 ring-brand-200/50 dark:from-brand-900/20 dark:via-blue-900/20 dark:to-purple-900/20 dark:ring-brand-700/50'>
               {/* Decorative gradient overlay */}
               <div className='absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(3,105,161,0.1),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.05),transparent_70%)]' />
 
               <blockquote className='relative text-base italic leading-relaxed text-gray-700 dark:text-gray-300'>
-                &ldquo;I help developers and DevOps teams work smarter, not
-                harder — by teaching them how to use AI, automation, and Azure
-                cloud architecture to code faster, deploy faster, and deliver
-                better software that scales.&rdquo;
+                &ldquo;I help project leaders make technical decisions so the
+                plan holds. Over 12 weeks, I make risks and dependencies visible
+                and manageable — and give them a technical compass to steer
+                vendors and teams week by week.&rdquo;
               </blockquote>
             </div>
           </div>
@@ -234,11 +224,11 @@ export default function AboutPage() {
           <div className='mx-auto max-w-4xl'>
             {' '}
             <h2 className='text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl'>
-              AI, Automation & Cloud Architecture Expertise
+              Technical Advisory & Azure Expertise
             </h2>
             <p className='mt-4 text-center text-base text-gray-600 dark:text-gray-400'>
-              Tools and technologies I use to help developers work smarter and
-              build scalable solutions
+              The knowledge and experience I bring to help project leaders
+              navigate technical decisions
             </p>
             <div className='mt-12 space-y-8'>
               {Object.entries(skills).map(([category, skillList]) => (
@@ -268,8 +258,8 @@ export default function AboutPage() {
               Professional Journey
             </h2>{' '}
             <p className='mt-4 text-center text-base text-gray-600 dark:text-gray-400'>
-              From infrastructure management to AI-powered development workflows
-              and Azure cloud architecture
+              From infrastructure management to technical advisory for Azure
+              cloud and platform projects
             </p>
             <div className='mt-12'>
               <div className='relative'>

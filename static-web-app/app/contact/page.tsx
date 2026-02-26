@@ -7,11 +7,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+    'Get in touch with Kenneth Heine about technical advisory for Azure cloud and platform projects. Start your Predictable Delivery™ program today.',
   openGraph: {
-    title: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
+    title: 'Contact Kenneth Heine - Technical Advisor',
     description:
-      'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+      'Get in touch with Kenneth Heine about technical advisory for Azure cloud and platform projects. Start your Predictable Delivery™ program today.',
     type: 'website',
     url: 'https://kennethheine.com/contact',
     images: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
+        alt: 'Contact Kenneth Heine - Technical Advisor',
       },
     ],
   },
@@ -63,13 +63,11 @@ export default function ContactPage() {
                 animationFillMode: 'forwards',
               }}
             >
-              Interested in AI automation, DevOps consulting, Azure cloud
-              architecture, or optimizing your development workflows? I&apos;d
-              love to discuss how AI, automation, and scalable cloud solutions
-              can help your team work smarter and deliver better software.
-              Whether you want to explore GitHub Copilot integration, CI/CD
-              automation, Azure architecture design, or just connect about the
-              latest AI tools, let&apos;s chat!
+              Running an Azure cloud or platform project with multiple teams and
+              vendors? I help project leaders make technical decisions so the
+              plan holds. Let&apos;s discuss how the Predictable Delivery™
+              program can give you clarity, control, and peace of mind — so you
+              deliver on time and avoid expensive surprises.
             </p>
           </div>
         </Container>

@@ -69,9 +69,9 @@ describe('Contact Page', () => {
   it('includes professional background context', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/AI automation/i)).toBeInTheDocument();
-    expect(screen.getByText(/DevOps/i)).toBeInTheDocument();
     expect(screen.getByText(/Azure/i)).toBeInTheDocument();
+    expect(screen.getByText(/Predictable/i)).toBeInTheDocument();
+    expect(screen.getByText(/project leader/i)).toBeInTheDocument();
   });
 
   it('has responsive design classes', () => {

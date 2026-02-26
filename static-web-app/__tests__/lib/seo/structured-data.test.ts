@@ -151,7 +151,8 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'Kenneth Heine',
-        description: 'Personal website and blog of Kenneth Heine',
+        description:
+          'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
         url: 'https://example.com',
         author: {
           '@type': 'Person',
@@ -167,7 +168,8 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'Kenneth Heine',
-        description: 'Personal website and blog of Kenneth Heine',
+        description:
+          'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
         url: '',
         author: {
           '@type': 'Person',
@@ -183,7 +185,8 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'Kenneth Heine',
-        description: 'Personal website and blog of Kenneth Heine',
+        description:
+          'Kenneth Heine helps project leaders make technical decisions so the plan holds. Technical advisor for Azure cloud and platform projects.',
         url: '',
         author: {
           '@type': 'Person',
@@ -212,9 +215,7 @@ describe('SEO Structured Data utilities', () => {
       const result = generateWebsiteStructuredData('https://example.com');
 
       expect(result.name).toBe('Kenneth Heine');
-      expect(result.description).toBe(
-        'Personal website and blog of Kenneth Heine'
-      );
+      expect(result.description).toContain('Kenneth Heine');
       expect(result.author.name).toBe('Kenneth Heine');
     });
   });
@@ -227,19 +228,20 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'Kenneth Heine',
-        jobTitle: 'Cloud Architecture Consultant',
+        jobTitle: 'Technical Advisor – Azure & Platform Delivery',
         description:
-          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+          'Technical advisor helping project leaders make technical decisions so the plan holds',
         url: 'https://example.com/about',
         sameAs: [],
         knowsAbout: [
           'Azure Cloud Architecture',
+          'Technical Advisory',
+          'Vendor Management',
+          'Risk Assessment',
+          'Go-Live Readiness',
           'DevOps',
-          'AI in Software Development',
-          'Infrastructure as Code',
-          'Automation',
-          'GitHub Copilot',
           'CI/CD Pipelines',
+          'Platform Delivery',
         ],
         worksFor: {
           '@type': 'Organization',
@@ -259,19 +261,20 @@ describe('SEO Structured Data utilities', () => {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'Kenneth Heine',
-        jobTitle: 'Cloud Architecture Consultant',
+        jobTitle: 'Technical Advisor – Azure & Platform Delivery',
         description:
-          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+          'Technical advisor helping project leaders make technical decisions so the plan holds',
         url: '/about',
         sameAs: [],
         knowsAbout: [
           'Azure Cloud Architecture',
+          'Technical Advisory',
+          'Vendor Management',
+          'Risk Assessment',
+          'Go-Live Readiness',
           'DevOps',
-          'AI in Software Development',
-          'Infrastructure as Code',
-          'Automation',
-          'GitHub Copilot',
           'CI/CD Pipelines',
+          'Platform Delivery',
         ],
         worksFor: {
           '@type': 'Organization',
@@ -295,8 +298,10 @@ describe('SEO Structured Data utilities', () => {
       const result = generatePersonStructuredData('https://example.com');
 
       expect(result.name).toBe('Kenneth Heine');
-      expect(result.jobTitle).toBe('Cloud Architecture Consultant');
-      expect(result.description).toContain('DevOps engineer');
+      expect(result.jobTitle).toBe(
+        'Technical Advisor – Azure & Platform Delivery'
+      );
+      expect(result.description).toContain('Technical advisor');
       expect(result.worksFor).toEqual({
         '@type': 'Organization',
         name: 'KS Cloud Solutions',
@@ -308,12 +313,13 @@ describe('SEO Structured Data utilities', () => {
 
       expect(result.knowsAbout).toEqual([
         'Azure Cloud Architecture',
+        'Technical Advisory',
+        'Vendor Management',
+        'Risk Assessment',
+        'Go-Live Readiness',
         'DevOps',
-        'AI in Software Development',
-        'Infrastructure as Code',
-        'Automation',
-        'GitHub Copilot',
         'CI/CD Pipelines',
+        'Platform Delivery',
       ]);
     });
 
