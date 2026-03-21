@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 0
 
       - name: Azure Login using OIDC
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ env.AZURE_CLIENT_ID }}
           tenant-id: ${{ env.AZURE_TENANT_ID }}
@@ -182,7 +182,7 @@ jobs:
           ls -la infra/parameters
 
       - name: Azure Login using OIDC
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ env.AZURE_CLIENT_ID }}
           tenant-id: ${{ env.AZURE_TENANT_ID }}
