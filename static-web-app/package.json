@@ -34,7 +34,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",
-    "next": "^16.2.1",
+    "next": "^16.2.2",
     "next-mdx-remote": "^6.0.0",
     "next-seo": "^7.2.0",
     "react": "^19.2.3",
