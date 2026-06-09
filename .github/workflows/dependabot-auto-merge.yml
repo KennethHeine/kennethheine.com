@@ -2,7 +2,9 @@ name: Dependabot Auto-Merge
 
 on:
   workflow_run:
-    workflows: ['Deploy Preview Environment']
+    # The PR build/test/deploy now runs through the reusable workflow caller named
+    # "Deploy Web App" (formerly the separate "Deploy Preview Environment").
+    workflows: ['Deploy Web App']
     types: [completed]
 
 permissions:
