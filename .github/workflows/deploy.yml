@@ -1,0 +1,36 @@
+name: Deploy Web App
+
+# Thin caller of the reusable static-web deploy workflow in the control-plane repo
+# (KennethHeine/Azure-infrastructure, pinned @main). Replaces the former
+# deploy-production.yml + deploy-preview.yml: one workflow handles production
+# (push to main), per-PR preview environments, and preview teardown on PR close.
+# The quality gate (lint / format:check / unit tests / Playwright e2e) runs via
+# inputs, and the SWA deployment token is fetched at deploy time via OIDC.
+#
+# NOTE: the name "Deploy Web App" is referenced by dependabot-auto-merge.yml.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'static-web-app/**'
+      - '!static-web-app/README.md'
+      - '.github/workflows/deploy.yml'
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  deploy:
+    uses: KennethHeine/Azure-infrastructure/.github/workflows/static-web-deploy.yml@main
+    secrets: inherit
+    with:
+      app_dir: static-web-app
+      test_command: 'npm run lint && npm run format:check && npm test'
+      run_e2e: true
