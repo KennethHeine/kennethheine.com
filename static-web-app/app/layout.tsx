@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: '%s | Kenneth Heine',
   },
   description:
-    'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+    'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
   keywords: [
     'Kenneth Heine',
     'AI Automation',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     siteName: 'Kenneth Heine',
     title: 'Kenneth Heine - AI & Automation for Developers',
     description:
-      'Kenneth Heine helps developers and DevOps teams work smarter with AI and automation. Learn to code faster, deploy faster, and deliver better software.',
+      'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
     images: [
       {
         url: '/images/og-image.jpg',

@@ -45,9 +45,7 @@ describe('Not Found Page', () => {
       expect(
         screen.getByRole('heading', { name: /page not found/i })
       ).toBeInTheDocument();
-      expect(
-        screen.getByText(/sorry, the page you're looking for doesn't exist/i)
-      ).toBeInTheDocument();
+      expect(screen.getByText(/this page doesn't exist/i)).toBeInTheDocument();
     });
 
     it('renders primary navigation buttons', () => {
