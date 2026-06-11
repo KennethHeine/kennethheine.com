@@ -12,6 +12,12 @@ updates:
       interval: "daily"
     # Set a maximum number of open pull requests for version updates
     open-pull-requests-limit: 10
+    # 2026-06-11: eslint 10 is out but eslint-plugin-import-x / other plugins
+    # don't support it yet - stay on eslint 9.x and revisit once the plugin
+    # ecosystem catches up.
+    ignore:
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     # Group updates in a single pull request when possible
     groups:
       azure-dependencies:

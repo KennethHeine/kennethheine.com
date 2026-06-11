@@ -6,12 +6,15 @@ interface SkillBadgeProps {
 
 /**
  * Skill badge component for displaying technology skills
- * Modern design with hover effects and animations
+ * "Signal & Ledger" styling: sharp-cornered bordered chip with a signal tick
  */
 export default function SkillBadge({ skill }: SkillBadgeProps) {
   return (
-    <span className='group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-50 to-blue-50 px-4 py-2 text-sm font-medium text-brand-700 ring-1 ring-brand-200/50 transition-all duration-300 hover:scale-105 hover:shadow-md hover:ring-brand-300 dark:from-brand-900/30 dark:to-blue-900/30 dark:text-brand-300 dark:ring-brand-700/50 dark:hover:ring-brand-600'>
-      <span className='h-1.5 w-1.5 rounded-full bg-brand-500 transition-transform duration-300 group-hover:scale-150 dark:bg-brand-400' />
+    <span className='group inline-flex items-center gap-2 border border-gray-300 bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors duration-200 hover:border-brand-500 hover:text-brand-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-brand-400 dark:hover:text-brand-400 motion-reduce:transition-none'>
+      <span
+        className='h-1.5 w-1.5 bg-brand-500 transition-transform duration-200 group-hover:scale-150 dark:bg-brand-400 motion-reduce:transition-none'
+        aria-hidden='true'
+      />
       {skill}
     </span>
   );

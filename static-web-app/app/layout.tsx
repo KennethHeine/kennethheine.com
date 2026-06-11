@@ -2,7 +2,37 @@
 import { Layout } from '@/components/layout/Layout';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
+
+// Self-hosted fonts (next/font/local): no external requests, CSP-safe.
+// "Signal & Ledger" type system: Bricolage Grotesque display, Archivo body,
+// IBM Plex Mono for ledger labels and code.
+const bricolage = localFont({
+  src: './fonts/bricolage-grotesque-latin-wght.woff2',
+  weight: '200 800',
+  style: 'normal',
+  display: 'swap',
+  variable: '--font-bricolage',
+});
+
+const archivo = localFont({
+  src: './fonts/archivo-latin-wght.woff2',
+  weight: '100 900',
+  style: 'normal',
+  display: 'swap',
+  variable: '--font-archivo',
+});
+
+const plexMono = localFont({
+  src: [
+    { path: './fonts/ibm-plex-mono-latin-400.woff2', weight: '400' },
+    { path: './fonts/ibm-plex-mono-latin-600.woff2', weight: '600' },
+  ],
+  style: 'normal',
+  display: 'swap',
+  variable: '--font-plex-mono',
+});
 
 // SEO metadata for the entire site
 export const metadata: Metadata = {
@@ -71,7 +101,7 @@ export const metadata: Metadata = {
 /**
  * Root layout component for the entire application
  * This component wraps all pages and provides:
- * - Font loading and CSS variables
+ * - Self-hosted font variables (CSP-safe, no external font requests)
  * - Theme provider for dark/light mode
  * - Shared layout components (header, footer)
  */
@@ -81,33 +111,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <head>
-        {/* Google Fonts - loaded via link tags for Next.js 16+ compatibility */}
-        <link rel='preconnect' href='https://fonts.googleapis.com' />
-        <link
-          rel='preconnect'
-          href='https://fonts.gstatic.com'
-          crossOrigin=''
-        />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'
-          rel='stylesheet'
-        />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap'
-          rel='stylesheet'
-        />
-      </head>
-      <body
-        className={`font-sans antialiased`}
-        style={
-          {
-            fontFamily: 'Inter, ui-sans-serif, system-ui, sans-serif',
-          } as React.CSSProperties
-        }
-        suppressHydrationWarning
-      >
+    <html
+      lang='en'
+      className={`${bricolage.variable} ${archivo.variable} ${plexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className={`font-sans antialiased`} suppressHydrationWarning>
         <ThemeProvider>
           <Layout>{children}</Layout>
         </ThemeProvider>

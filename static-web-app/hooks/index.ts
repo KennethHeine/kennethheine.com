@@ -34,17 +34,3 @@ export {
   useDebouncedCallback,
   useDebouncedValue,
 } from './useDebounce';
-
-// SEO and metadata
-export {
-  usePageMetadata,
-  useBlogPostMetadata,
-  useStaticPageMetadata,
-} from './usePageMetadata';
-
-// React 19 optimistic updates
-export {
-  useOptimisticUpdates,
-  useOptimisticList,
-  useOptimisticForm,
-} from './useOptimisticUpdates';

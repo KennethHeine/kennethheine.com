@@ -5,14 +5,11 @@ import RootLayout, { metadata } from '../../app/layout';
 jest.mock('../../app/globals.css', () => ({}));
 
 // Mock Next.js font imports to avoid font loading issues in tests
-jest.mock('next/font/google', () => ({
-  Inter: () => ({
-    variable: '--font-inter-test',
-    className: 'inter-font-class',
-  }),
-  JetBrains_Mono: () => ({
-    variable: '--font-mono-test',
-    className: 'jetbrains-mono-font-class',
+jest.mock('next/font/local', () => ({
+  __esModule: true,
+  default: () => ({
+    variable: '--font-local-test',
+    className: 'local-font-class',
   }),
 }));
 
@@ -138,13 +135,9 @@ describe('RootLayout', () => {
         ? result.props.children
         : [result.props.children];
 
-      // Find the head and body elements
-      const headElement = children.find((child: any) => child?.type === 'head');
+      // Find the body element (fonts are self-hosted via next/font, so the
+      // layout no longer renders a <head> with external font links)
       const bodyElement = children.find((child: any) => child?.type === 'body');
-
-      // Verify head exists and contains font links
-      expect(headElement).toBeDefined();
-      expect(headElement.props.children).toBeDefined();
 
       // Verify body props
       expect(bodyElement).toBeDefined();

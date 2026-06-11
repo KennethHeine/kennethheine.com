@@ -64,7 +64,7 @@ kennethheine.com/
 │   └── tsconfig.json        # TypeScript configuration
 ├── infra/                   # Azure Bicep templates
 ├── AGENTS.md                # Additional AI agent guidance
-└── CONTRIBUTING.md          # Contribution guidelines
+└── AGENTS.md                # Agent working agreement (commands, gates)
 ```
 
 ## Code Style & Conventions
@@ -74,12 +74,11 @@ kennethheine.com/
 - **Styling**: Tailwind CSS v4 utility classes with CSS variables in `app/globals.css`
 - **Formatting**: Prettier (run `npm run format` before committing)
 - **Linting**: ESLint with TypeScript, React, accessibility rules
-- **Commit Messages**: Conventional commits enforced via commitlint (feat, fix, docs, etc.)
+- **Commit Messages**: Conventional commits (feat, fix, docs, etc.) - by convention, no hooks
 
 ### Component Patterns
 - Extend `BaseComponentProps` from `types/common.ts` for standard props
 - Use centralized `ComponentSize` and `ComponentVariant` types
-- Follow patterns in `docs/component-prop-patterns.md`
 
 ## Testing
 

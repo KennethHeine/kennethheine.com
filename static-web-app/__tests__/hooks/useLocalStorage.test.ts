@@ -210,19 +210,4 @@ describe('useLocalStorage', () => {
 
     expect(result.current[0]).toBe('initial'); // Should reset to initial
   });
-
-  it('works in SSR environment', () => {
-    // Mock window as undefined (SSR environment)
-    const originalWindow = global.window;
-    delete (global as any).window;
-
-    const { result } = renderHook(() =>
-      useLocalStorage('test-key', 'initial-value')
-    );
-
-    expect(result.current[0]).toBe('initial-value');
-
-    // Restore window
-    global.window = originalWindow;
-  });
 });

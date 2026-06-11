@@ -4,7 +4,7 @@ import typescriptParser from '@typescript-eslint/parser';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
-import importPlugin from 'eslint-plugin-import';
+import importX from 'eslint-plugin-import-x';
 import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
@@ -20,7 +20,6 @@ export default [
       '.nyc_output/**',
       '*.log',
       '*.json', // Exclude all JSON files
-      'src/**', // Exclude legacy src directory if it exists
     ],
   },
   js.configs.recommended,
@@ -53,7 +52,7 @@ export default [
       react,
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
-      import: importPlugin,
+      'import-x': importX,
       prettier,
     },
     rules: {
@@ -91,7 +90,7 @@ export default [
       'jsx-a11y/role-supports-aria-props': 'error',
 
       // Import rules (basic ones that work reliably)
-      'import/no-duplicates': 'error',
+      'import-x/no-duplicates': 'error',
 
       // General code quality rules
       'no-console': 'warn',

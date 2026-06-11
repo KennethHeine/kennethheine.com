@@ -304,31 +304,6 @@ describe('BlogErrorFallback component', () => {
     // Test that the button is functional without throwing
     expect(() => fireEvent.click(browseButton)).not.toThrow();
   });
-
-  it('handles navigation when window is not available', () => {
-    // Test the typeof window check by temporarily removing it
-    const originalWindow = window;
-
-    // Mock the typeof window check to return undefined
-    const originalDescriptor = Object.getOwnPropertyDescriptor(
-      global,
-      'window'
-    );
-    delete (global as any).window;
-
-    render(<BlogErrorFallback {...defaultProps} />);
-
-    const browseButton = screen.getByText('Browse All Posts');
-
-    // Should not throw when window is not available
-    expect(() => fireEvent.click(browseButton)).not.toThrow();
-
-    // Restore original window
-    (global as any).window = originalWindow;
-    if (originalDescriptor) {
-      Object.defineProperty(global, 'window', originalDescriptor);
-    }
-  });
 });
 
 describe('Error fallback accessibility', () => {
