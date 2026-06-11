@@ -43,19 +43,19 @@ Visit [http://localhost:3000](http://localhost:3000) to see the website.
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with hot-reload |
-| `npm run build` | Build for production (static export) |
-| `npm run lint` | Run ESLint |
-| `npm run lint:fix` | Fix ESLint issues automatically |
-| `npm run format` | Format code with Prettier |
-| `npm run format:check` | Check code formatting |
-| `npm run type-check` | Run TypeScript type checking |
-| `npm test` | Run Jest unit tests |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run test:e2e` | Run Playwright E2E tests |
-| `npm run check` | Run all checks (type-check, lint, test) |
+| Command                 | Description                              |
+| ----------------------- | ---------------------------------------- |
+| `npm run dev`           | Start development server with hot-reload |
+| `npm run build`         | Build for production (static export)     |
+| `npm run lint`          | Run ESLint                               |
+| `npm run lint:fix`      | Fix ESLint issues automatically          |
+| `npm run format`        | Format code with Prettier                |
+| `npm run format:check`  | Check code formatting                    |
+| `npm run type-check`    | Run TypeScript type checking             |
+| `npm test`              | Run Jest unit tests                      |
+| `npm run test:coverage` | Run tests with coverage report           |
+| `npm run test:e2e`      | Run Playwright E2E tests                 |
+| `npm run check`         | Run all checks (type-check, lint, test)  |
 
 ## 📁 Project Structure
 
@@ -71,7 +71,6 @@ kennethheine.com/
 │   ├── app/               # Next.js App Router pages
 │   ├── components/        # React components
 │   ├── content/           # Blog posts (MDX files)
-│   ├── docs/              # Technical documentation
 │   ├── hooks/             # Custom React hooks
 │   ├── lib/               # Utility functions
 │   ├── public/            # Static assets
@@ -118,10 +117,10 @@ npm run test:e2e:ui        # Interactive UI mode
 
 ### Environments
 
-| Environment | Branch | URL |
-|-------------|--------|-----|
-| Production | `main` | [kennethheine.com](https://kennethheine.com) |
-| Preview | Pull requests | Auto-generated preview URLs |
+| Environment | Branch        | URL                                          |
+| ----------- | ------------- | -------------------------------------------- |
+| Production  | `main`        | [kennethheine.com](https://kennethheine.com) |
+| Preview     | Pull requests | Auto-generated preview URLs                  |
 
 ### CI/CD Pipeline
 
@@ -146,18 +145,12 @@ Infrastructure is managed with Bicep templates in the `infra/` directory:
 
 ## 🎨 Design System
 
-### Color Palette
-
-The website uses a carefully crafted color system that meets WCAG 2.1 AA accessibility standards. See `static-web-app/docs/accessibility/color-contrast-analysis.md` for detailed contrast ratios.
-
-### Component Patterns
-
-All components follow consistent patterns documented in `static-web-app/docs/component-prop-patterns.md`:
-
-- Extend `BaseComponentProps` for standard props
-- Use centralized `ComponentSize` and `ComponentVariant` types
-- Implement `forwardRef` pattern for DOM access
-- Follow `onAction` naming for event handlers
+"Signal & Ledger" — a precision-engineering editorial aesthetic: warm
+paper / deep ink surfaces with a single signal-orange accent, self-hosted
+Bricolage Grotesque / Archivo / IBM Plex Mono type, hairline blueprint
+grids, and monospace ledger labels. Tokens and signature utilities live in
+`static-web-app/app/globals.css`; the system is documented in
+[AGENTS.md](AGENTS.md). Light and dark themes both meet WCAG 2.1 AA.
 
 ## 📝 Blog System
 
@@ -178,7 +171,9 @@ The blog system supports MDX with:
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+This is a personal site maintained largely by AI coding agents — see
+[AGENTS.md](AGENTS.md) for the working agreement (commands, gates,
+conventions). Issues and suggestions are welcome.
 
 ## 📄 License
 

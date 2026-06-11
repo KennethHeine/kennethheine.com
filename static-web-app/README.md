@@ -40,9 +40,6 @@ static-web-app/
 │   └── ui/                # UI primitives (Button, Card, etc.)
 ├── content/               # Content files
 │   └── posts/             # Blog posts (MDX)
-├── docs/                  # Documentation
-│   ├── accessibility/     # Accessibility documentation
-│   └── component-prop-patterns.md
 ├── hooks/                 # Custom React hooks
 ├── lib/                   # Utility libraries
 │   ├── accessibility/     # Accessibility utilities
@@ -132,7 +129,7 @@ npm run swa:deploy   # Deploy to Azure (requires auth)
 
 ### Component Patterns
 
-All components follow standardized patterns (see `docs/component-prop-patterns.md`):
+All components follow standardized patterns:
 
 ```typescript
 import { forwardRef } from 'react';
@@ -161,7 +158,7 @@ MyComponent.displayName = 'MyComponent';
 - All interactive elements must be keyboard accessible
 - Use semantic HTML elements
 - Include ARIA attributes where appropriate
-- Maintain WCAG 2.1 AA color contrast (see `docs/accessibility/`)
+- Maintain WCAG 2.1 AA color contrast in both themes
 
 ## Theming
 
