@@ -111,6 +111,12 @@ The site has one committed aesthetic: precision-engineering editorial.
   backend API, no auth.
 - **CSP is strict** (`staticwebapp.config.json`): self-hosted assets only.
 - **All deployments via GitHub Actions**; never deploy locally.
+- **Design changes require Kenneth's manual review.** Any frontend/visual
+  design change (layout, styling, typography, theme) must go through a PR
+  and wait for Kenneth to review and merge it — never push design changes
+  to `main` and never self-merge such a PR. The PR's preview environment is
+  the place to show the change. All other changes (fixes, dependencies,
+  tests, CI, infra, non-visual refactors) may ship to `main` autonomously.
 - Blog stays disabled until intentionally re-enabled (flip the `/blog*`
   routes in `staticwebapp.config.json`).
 
