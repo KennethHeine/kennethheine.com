@@ -16,7 +16,7 @@ describe('SkillBadge component', () => {
       'inline-flex',
       'items-center',
       'gap-2',
-      'border',
+      'rounded-xl',
       'text-sm',
       'font-medium'
     );

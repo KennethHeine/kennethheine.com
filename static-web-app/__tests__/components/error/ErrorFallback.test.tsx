@@ -304,6 +304,7 @@ describe('BlogErrorFallback component', () => {
     // Test that the button is functional without throwing
     expect(() => fireEvent.click(browseButton)).not.toThrow();
   });
+
 });
 
 describe('Error fallback accessibility', () => {

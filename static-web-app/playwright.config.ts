@@ -6,9 +6,6 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './e2e',
-  // Generous per-test timeout: the dev-server webServer can be slow to compile
-  // pages on cold starts (especially in resource-constrained containers).
-  timeout: 60_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

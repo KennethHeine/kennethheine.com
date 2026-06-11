@@ -83,7 +83,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       // Check for main heading with proper ID
       const heroHeading = screen.getByRole('heading', {
         level: 1,
-        name: /the cloud should run itself/i,
+        name: /hi, i'm kenneth heine/i,
       });
       expect(heroHeading).toBeInTheDocument();
       expect(heroHeading).toHaveAttribute('id', 'hero-heading');
@@ -221,12 +221,10 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       );
 
       const aboutLink = screen.getByRole('link', {
-        name: /more about me/i,
+        name: /learn more about me/i,
       });
-      // 'Get in touch' appears in both the hero CTA and the ledger entry;
-      // the hero CTA (first match) carries the describedby association.
       const contactCTAButton = screen
-        .getAllByText('Get in touch')[0]
+        .getByText('Get In Touch')
         .closest('a') as HTMLElement;
 
       expect(aboutLink).toHaveAttribute(

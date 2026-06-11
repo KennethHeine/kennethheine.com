@@ -57,8 +57,8 @@ describe('Page Image Optimization', () => {
         'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
       );
 
-      // Image should have appropriate sizing classes (technical figure)
-      expect(profileImage.closest('div')).toHaveClass('aspect-square', 'w-52');
+      // Image should have appropriate sizing classes
+      expect(profileImage.closest('div')).toHaveClass('h-32', 'w-32');
     });
   });
 
@@ -123,9 +123,9 @@ describe('Page Image Optimization', () => {
       render(<AboutPageWithProvider />);
 
       const aboutImage = screen.getByAltText('Kenneth Heine - About Photo');
-      const container = aboutImage.closest('.frame-ticks');
+      const container = aboutImage.closest('.rounded-2xl');
 
-      // Container should have the figure frame treatment
+      // Container should have background styling for loading state
       expect(container).toBeInTheDocument();
     });
   });
@@ -204,9 +204,9 @@ describe('Page Image Optimization', () => {
       const profileImage = screen.getByAltText(
         'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
       );
-      const container = profileImage.closest('.frame-ticks');
+      const container = profileImage.closest('.ring-4');
 
-      // Should have the crop-mark frame treatment for visibility
+      // Should have proper ring styling for visibility
       expect(container).toBeInTheDocument();
     });
   });

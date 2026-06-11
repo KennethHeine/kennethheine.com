@@ -19,10 +19,7 @@ describe('Home Page', () => {
 
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', {
-        level: 1,
-        name: /the cloud should run itself/i,
-      })
+      screen.getByRole('heading', { level: 1, name: /hi, i'm kenneth heine/i })
     ).toBeInTheDocument();
   });
 
@@ -31,9 +28,7 @@ describe('Home Page', () => {
 
     // Updated expectation based on actual page content
     expect(
-      screen.getByText(
-        /work smarter with AI, automation, and Azure cloud architecture/i
-      )
+      screen.getByText(/AI, Automation & Cloud Architecture for Developers/i)
     ).toBeInTheDocument();
   });
 
