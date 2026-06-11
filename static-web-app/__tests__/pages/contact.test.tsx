@@ -63,7 +63,9 @@ describe('Contact Page', () => {
   it('displays response time information', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/within 24 hours/i)).toBeInTheDocument();
+    expect(
+      screen.getAllByText(/within 24 hours/i).length
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it('includes professional background context', () => {

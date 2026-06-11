@@ -1,12 +1,12 @@
 /* --- file: app/globals.css --- */
 /* Global styles and Tailwind CSS imports */
 
-/* 
+/*
  * All @import rules must come first before any other CSS rules
  * (Next.js 16+ enforces strict CSS import ordering)
- * 
- * Note: Google Fonts are now loaded via <link> tags in layout.tsx
- * to avoid CSS @import ordering issues with Next.js 16+
+ *
+ * Fonts are self-hosted via next/font/local in app/layout.tsx (CSP-safe);
+ * they are exposed as --font-bricolage / --font-archivo / --font-plex-mono.
  */
 
 /* Import Tailwind CSS base, components, and utilities */
@@ -18,17 +18,31 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-brand-50: #f0f9ff;
-  --color-brand-100: #e0f2fe;
-  --color-brand-200: #bae6fd;
-  --color-brand-300: #7dd3fc;
-  --color-brand-400: #38bdf8;
-  --color-brand-500: #0369a1;
-  --color-brand-600: #0284c7;
-  --color-brand-700: #0c5a87;
-  --color-brand-800: #075985;
-  --color-brand-900: #0c4a6e;
-  --color-brand-950: #082f49;
+  /* Signal orange - the single accent of the "Signal & Ledger" design */
+  --color-brand-50: #fff3ec;
+  --color-brand-100: #ffe3d3;
+  --color-brand-200: #ffc6a8;
+  --color-brand-300: #ffa170;
+  --color-brand-400: #ff7a3d;
+  --color-brand-500: #e8501a;
+  --color-brand-600: #c73e0a;
+  --color-brand-700: #a23308;
+  --color-brand-800: #832b0c;
+  --color-brand-900: #6b250e;
+  --color-brand-950: #3a1205;
+
+  /* Warm ink/paper neutrals (override Tailwind gray) */
+  --color-gray-50: #faf8f3;
+  --color-gray-100: #f1eee6;
+  --color-gray-200: #e3dfd3;
+  --color-gray-300: #ccc7b8;
+  --color-gray-400: #9d988a;
+  --color-gray-500: #716c5f;
+  --color-gray-600: #545045;
+  --color-gray-700: #3e3b33;
+  --color-gray-800: #282621;
+  --color-gray-900: #161512;
+  --color-gray-950: #0e0d0b;
 
   --color-success-50: #f0fdf4;
   --color-success-500: #22c55e;
@@ -92,9 +106,12 @@
   --shadow-xl:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-  --font-sans: Inter, system-ui, sans-serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-bricolage), var(--font-archivo), ui-sans-serif, sans-serif;
   --font-serif: Georgia, serif;
-  --font-mono: Fira Code, monospace;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -288,8 +305,7 @@
 @utility hero {
   /* Hero section styles */
   @apply min-h-screen flex items-center justify-center;
-  @apply bg-linear-to-br from-brand-50 to-blue-50;
-  @apply dark:from-gray-900 dark:to-gray-800;
+  @apply bg-gray-50 dark:bg-gray-950;
 }
 @utility prose-custom {
   /* Prose styles for blog content - Mobile optimized with dark mode support */
@@ -432,9 +448,8 @@
   }
 }
 @utility gradient-text {
-  /* Gradient text utility */
-  @apply bg-linear-to-r from-brand-600 to-blue-600;
-  @apply bg-clip-text text-transparent;
+  /* Accent text utility (legacy name kept for blog components) */
+  @apply text-brand-600 dark:text-brand-400;
 }
 @utility glass-card {
   /* Glass morphism card effect */
@@ -483,7 +498,7 @@
 @layer base {
   /* Set default font family */
   html {
-    font-family: Inter, system-ui, sans-serif;
+    font-family: var(--font-sans);
     /* Add color-scheme property for better browser theme integration */
     color-scheme: light dark;
   }
@@ -495,7 +510,7 @@
 
   /* Enhanced base styles with improved theme transitions */
   body {
-    @apply text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900;
+    @apply text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-950;
     @apply theme-transition;
   }
 
@@ -507,6 +522,7 @@
   h5,
   h6 {
     @apply font-semibold leading-tight;
+    font-family: var(--font-display);
     /* Better spacing for mobile reading */
     margin-bottom: 0.75em;
     margin-top: 1.5em;
@@ -687,6 +703,128 @@
   @apply hover:opacity-80;
 }
 
+/* ---------------------------------------------------------------------------
+ * "Signal & Ledger" design utilities
+ * ------------------------------------------------------------------------ */
+
+/* Hairline blueprint grid backdrop */
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(to right, rgb(22 21 18 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(22 21 18 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+
+  &:is(.dark *) {
+    background-image:
+      linear-gradient(to right, rgb(250 248 243 / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(250 248 243 / 0.055) 1px, transparent 1px);
+  }
+}
+
+/* Subtle film-grain overlay (SVG turbulence, no external request) */
+@utility texture-grain {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* Monospace ledger label: 01 / EXPERTISE */
+@utility label-mono {
+  @apply font-mono text-xs font-semibold uppercase;
+  letter-spacing: 0.22em;
+  @apply text-gray-500 dark:text-gray-400;
+}
+
+/* Underline that draws itself on hover */
+@utility link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.25s ease-in-out;
+  text-decoration: none;
+
+  &:hover {
+    background-size: 100% 1.5px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* Technical crop-mark corners (top-left / bottom-right) */
+@utility frame-ticks {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-color: var(--color-brand-500);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  &::before {
+    top: -0.5rem;
+    left: -0.5rem;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+
+  &::after {
+    bottom: -0.5rem;
+    right: -0.5rem;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+}
+
+/* Orchestrated page-load reveal (pair with reveal-delay-*) */
+@utility reveal {
+  opacity: 0;
+  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@utility reveal-delay-1 {
+  animation-delay: 0.08s;
+}
+@utility reveal-delay-2 {
+  animation-delay: 0.16s;
+}
+@utility reveal-delay-3 {
+  animation-delay: 0.24s;
+}
+@utility reveal-delay-4 {
+  animation-delay: 0.32s;
+}
+@utility reveal-delay-5 {
+  animation-delay: 0.4s;
+}
+@utility reveal-delay-6 {
+  animation-delay: 0.48s;
+}
+
+@keyframes revealUp {
+  0% {
+    transform: translateY(22px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Enhanced accessibility: Reduced motion preferences - Task #108 */
 @media (prefers-reduced-motion: reduce) {
   /* Disable all animations and transitions for users who prefer reduced motion */
@@ -694,6 +832,7 @@
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;

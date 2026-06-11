@@ -54,13 +54,14 @@ describe('Not Found Page', () => {
       render(<NotFound />);
 
       const homeLink = screen.getByRole('link', { name: /back to home/i });
-      const blogLink = screen.getByRole('link', { name: /read blog posts/i });
 
       expect(homeLink).toBeInTheDocument();
       expect(homeLink).toHaveAttribute('href', '/');
 
-      expect(blogLink).toBeInTheDocument();
-      expect(blogLink).toHaveAttribute('href', '/blog');
+      // Blog is disabled; the 404 page must not link to it
+      expect(
+        screen.queryByRole('link', { name: /read blog posts/i })
+      ).not.toBeInTheDocument();
     });
 
     it('renders secondary navigation links', () => {
@@ -82,14 +83,11 @@ describe('Not Found Page', () => {
       render(<NotFound />);
 
       const homeLink = screen.getByRole('link', { name: /back to home/i });
-      const blogLink = screen.getByRole('link', { name: /read blog posts/i });
 
       fireEvent.click(homeLink);
-      fireEvent.click(blogLink);
 
-      // Links should be clickable (no errors thrown)
+      // Link should be clickable (no errors thrown)
       expect(homeLink).toBeInTheDocument();
-      expect(blogLink).toBeInTheDocument();
     });
 
     it('allows navigation via secondary links', () => {

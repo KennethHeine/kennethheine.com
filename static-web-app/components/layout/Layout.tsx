@@ -13,13 +13,13 @@ import Container from './Container';
 
 /**
  * Main layout component that wraps all pages
+ * "Signal & Ledger" chrome: hairline-ruled header with monospace nav labels,
+ * editorial footer with a build-provenance line.
  * Features:
- * - Responsive header with navigation
- * - Active route highlighting
- * - Mobile menu
- * - Dark mode toggle
+ * - Responsive header with navigation and active route highlighting
+ * - Mobile menu and dark mode toggle
  * - Footer with social links
- * - Enhanced focus management for Task #118
+ * - Skip links + focus management for keyboard users
  */
 export function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -37,34 +37,38 @@ export function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className='min-h-screen bg-white dark:bg-gray-900'>
+    <div className='min-h-screen bg-gray-50 dark:bg-gray-950'>
       {/* Skip Links for keyboard navigation */}
       <SkipLinks />
 
-      {/* Header - Modern glass morphism design */}
+      {/* Header - hairline rule, paper surface */}
       <header
-        className='sticky top-0 z-50 border-b border-gray-200/50 bg-white/80 backdrop-blur-xl dark:border-gray-700/50 dark:bg-gray-900/80 shadow-sm'
+        className='sticky top-0 z-50 border-b border-gray-200 bg-gray-50/90 backdrop-blur-md dark:border-gray-800 dark:bg-gray-950/90'
         role='banner'
       >
         <Container>
           <div className='flex h-16 items-center justify-between'>
-            {/* Logo with modern styling */}
+            {/* Wordmark */}
             <Link
               href='/'
-              className={`text-xl font-bold bg-gradient-to-r from-brand-600 to-brand-700 bg-clip-text text-transparent dark:from-brand-400 dark:to-brand-500 transition-all hover:from-brand-700 hover:to-brand-800 dark:hover:from-brand-300 dark:hover:to-brand-400 ${linkFocusStyles}`}
+              className={`group inline-flex items-baseline gap-2 font-display text-lg font-bold tracking-tight text-gray-900 dark:text-gray-50 ${linkFocusStyles}`}
             >
               Kenneth Heine
+              <span
+                className='h-2 w-2 translate-y-px bg-brand-500 transition-transform duration-200 group-hover:scale-125 motion-reduce:transition-none'
+                aria-hidden='true'
+              />
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - numbered ledger entries */}
             <nav
               id='main-navigation'
-              className='hidden md:flex md:items-center md:space-x-8'
+              className='hidden md:flex md:items-center md:gap-8'
               role='navigation'
               aria-label='Main navigation'
               tabIndex={-1}
             >
-              {navigation.map(item => {
+              {navigation.map((item, i) => {
                 const isActive =
                   pathname === item.href ||
                   (item.href !== '/' && pathname.startsWith(item.href));
@@ -73,13 +77,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`text-sm font-medium ${hoverStyles.navItem()} ${linkFocusStyles} ${
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`group inline-flex items-baseline gap-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] ${hoverStyles.navItem()} ${linkFocusStyles} ${
                       isActive
                         ? 'text-brand-600 dark:text-brand-400'
                         : 'text-gray-700 dark:text-gray-300'
                     }`}
                   >
-                    {item.name}
+                    <span
+                      aria-hidden='true'
+                      className={
+                        isActive
+                          ? 'text-brand-600 dark:text-brand-400'
+                          : 'text-gray-400 dark:text-gray-500'
+                      }
+                    >
+                      0{i + 1}
+                    </span>
+                    <span className='link-underline'>{item.name}</span>
                   </Link>
                 );
               })}
@@ -130,10 +145,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
 
-      {/* Footer - Modern design */}
+      {/* Footer - ledger end-matter */}
       <footer
         id='footer'
-        className='border-t border-gray-200/50 bg-gradient-to-b from-white to-gray-50 py-12 dark:border-gray-800/50 dark:from-gray-950 dark:to-gray-900'
+        className='border-t border-gray-200 py-12 dark:border-gray-800'
         role='contentinfo'
         tabIndex={-1}
       >
@@ -144,8 +159,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 &copy; {new Date().getFullYear()} Kenneth Heine. All rights
                 reserved.
               </p>
-            </div>{' '}
-            <div className='mt-4 flex justify-center space-x-6 md:mt-0'>
+              <p className='mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500'>
+                Built with Next.js
+                <span aria-hidden='true'> — </span>
+                deployed on Azure
+                <span aria-hidden='true'> — </span>
+                100% automated
+              </p>
+            </div>
+            <div className='mt-6 flex justify-center space-x-6 md:mt-0'>
               <a
                 href='https://github.com/kennethheine'
                 className={`text-gray-400 transition-all duration-300 hover:text-brand-600 hover:-translate-y-0.5 dark:hover:text-brand-400 ${linkFocusStyles}`}
