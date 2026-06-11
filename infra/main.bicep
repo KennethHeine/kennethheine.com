@@ -35,6 +35,13 @@ param tags object = {
 @description('Custom domain name to configure (optional)')
 param customDomainName string = ''
 
+@description('SKU for the static web app')
+@allowed([
+  'Free'
+  'Standard'
+])
+param sku string = 'Free'
+
 @description('Resource token for unique naming')
 var resourceToken = toLower(uniqueString(subscription().id, resourceGroup().name))
 
@@ -51,6 +58,7 @@ module staticWebApp 'modules/static-web-app-with-domain.bicep' = {
     outputLocation: outputLocation
     tags: tags
     customDomainName: customDomainName
+    sku: sku
   }
 }
 
