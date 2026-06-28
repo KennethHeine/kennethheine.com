@@ -223,7 +223,9 @@ describe('metadata configuration', () => {
       template: '%s | Kenneth Heine',
     });
 
-    expect(metadata.description).toContain('Kenneth Heine helps developers');
+    expect(metadata.description).toContain(
+      'Kenneth Heine is a DevOps engineer'
+    );
     expect(metadata.keywords).toContain('Kenneth Heine');
     expect(metadata.keywords).toContain('AI Automation');
 
