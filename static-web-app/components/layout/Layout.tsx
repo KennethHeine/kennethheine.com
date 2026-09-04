@@ -161,9 +161,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </p>
               <p className='mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500'>
                 Built with Next.js
-                <span aria-hidden='true'> — </span>
+                <span aria-hidden='true'> · </span>
                 deployed on Azure
-                <span aria-hidden='true'> — </span>
+                <span aria-hidden='true'> · </span>
                 100% automated
               </p>
             </div>
