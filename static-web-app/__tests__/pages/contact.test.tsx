@@ -71,9 +71,8 @@ describe('Contact Page', () => {
   it('includes professional background context', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/AI automation/i)).toBeInTheDocument();
-    expect(screen.getByText(/DevOps/i)).toBeInTheDocument();
-    expect(screen.getByText(/Azure/i)).toBeInTheDocument();
+    expect(screen.getByText(/Azure architecture/i)).toBeInTheDocument();
+    expect(screen.getByText(/CI\/CD/i)).toBeInTheDocument();
   });
 
   it('has responsive design classes', () => {

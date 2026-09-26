@@ -7,11 +7,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+    'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tooling for your development team. Replies usually within a day.',
   openGraph: {
     title: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
     description:
-      'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+      'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tooling for your development team. Replies usually within a day.',
     type: 'website',
     url: 'https://kennethheine.com/contact',
     images: [
@@ -58,13 +58,10 @@ export default function ContactPage() {
               Let&apos;s Connect<span className='text-brand-500'>.</span>
             </h1>
             <p className='reveal reveal-delay-2 mt-6 max-w-2xl text-lg leading-7 text-gray-600 dark:text-gray-300'>
-              Interested in AI automation, DevOps consulting, Azure cloud
-              architecture, or optimizing your development workflows? I&apos;d
-              love to discuss how AI, automation, and scalable cloud solutions
-              can help your team work smarter and deliver better software.
-              Whether you want to explore GitHub Copilot integration, CI/CD
-              automation, Azure architecture design, or just connect about the
-              latest AI tools, let&apos;s chat!
+              Want help with Azure architecture, CI/CD, or making AI tools
+              genuinely useful for your team? Send me a mail. I&apos;m also
+              happy to just compare notes; some of my best projects started as a
+              conversation about someone&apos;s broken pipeline.
             </p>
 
             {/* The one true CTA - an oversized mailto signal */}
@@ -106,10 +103,10 @@ export default function ContactPage() {
                   01
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Quick Response
+                  A reply
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  I&apos;ll get back to you within 24 hours
+                  Usually within a day, and from me, not an autoresponder
                 </p>
               </div>
 
@@ -121,10 +118,11 @@ export default function ContactPage() {
                   02
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Thoughtful Discussion
+                  A real conversation
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  I&apos;ll take time to understand your needs
+                  First we talk about your setup and where it hurts. No pitch
+                  deck.
                 </p>
               </div>
 
@@ -136,10 +134,11 @@ export default function ContactPage() {
                   03
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Clear Next Steps
+                  A plan
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  We&apos;ll define actionable next steps together
+                  If I can help, you get a concrete proposal. If I can&apos;t,
+                  I&apos;ll say so and point you somewhere better.
                 </p>
               </div>
             </div>

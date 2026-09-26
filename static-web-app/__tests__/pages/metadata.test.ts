@@ -102,8 +102,8 @@ describe('Page Metadata', () => {
       expect(contactMetadata).toBeDefined();
       expect(contactMetadata.title).toBe('Contact');
       expect(contactMetadata.description).toContain('Kenneth Heine');
-      expect(contactMetadata.description).toContain('AI automation');
-      expect(contactMetadata.description).toContain('DevOps consulting');
+      expect(contactMetadata.description).toContain('Azure architecture');
+      expect(contactMetadata.description).toContain('DevOps automation');
     });
 
     it('has OpenGraph metadata', () => {
