@@ -61,7 +61,7 @@ describe('About Page', () => {
     render(<PageWithProvider />);
 
     // Look for personal section that encourages connection (Beyond the Code section)
-    const beyondCodeSection = screen.queryByText(/Beyond the Code/i);
+    const beyondCodeSection = screen.queryByText(/Off the clock/i);
 
     expect(beyondCodeSection).toBeTruthy();
   });
