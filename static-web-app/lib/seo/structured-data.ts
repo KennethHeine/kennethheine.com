@@ -63,7 +63,7 @@ export function generatePersonStructuredData(baseUrl: string = '') {
     name: 'Kenneth Heine',
     jobTitle: 'Cloud Architecture Consultant',
     description:
-      'DevOps engineer and cloud architect passionate about bringing AI into software development',
+      'DevOps engineer and cloud architect in Copenhagen, working on Azure, automation, and AI-assisted development',
     url: `${baseUrl}/about`,
     sameAs: [
       // Add social media profiles when available

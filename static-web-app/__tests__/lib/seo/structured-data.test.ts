@@ -229,7 +229,7 @@ describe('SEO Structured Data utilities', () => {
         name: 'Kenneth Heine',
         jobTitle: 'Cloud Architecture Consultant',
         description:
-          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+          'DevOps engineer and cloud architect in Copenhagen, working on Azure, automation, and AI-assisted development',
         url: 'https://example.com/about',
         sameAs: [],
         knowsAbout: [
@@ -261,7 +261,7 @@ describe('SEO Structured Data utilities', () => {
         name: 'Kenneth Heine',
         jobTitle: 'Cloud Architecture Consultant',
         description:
-          'DevOps engineer and cloud architect passionate about bringing AI into software development',
+          'DevOps engineer and cloud architect in Copenhagen, working on Azure, automation, and AI-assisted development',
         url: '/about',
         sameAs: [],
         knowsAbout: [
