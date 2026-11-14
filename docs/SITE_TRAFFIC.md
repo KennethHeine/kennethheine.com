@@ -24,6 +24,9 @@ Open the Application Insights resource in the Azure portal to inspect usage.
 For the prepared reports, open the workspace's **Logs → Queries → Legacy
 queries → kennethheine.com**:
 
+The four usage reports cover the last 180 days. The data-quality report covers
+the last 24 hours so recent ingestion problems remain easy to spot.
+
 - **Page views by day and page**: received page views, including client navigation.
 - **Referring hosts**: referring domain, without the source page or query string.
   `direct` also includes visits where the browser does not provide a referrer.
@@ -49,7 +52,8 @@ at activation; earlier visits cannot be reconstructed from Azure request counts.
 - Only page views, page performance and the two explicit `ContactClick` channels
   are accepted. Automatic network/error collection, session replay, remote SDK
   configuration and SDK diagnostic telemetry are disabled.
-- Azure IP masking remains enabled. Data is retained for 30 days.
+- Azure IP masking remains enabled. Data is retained and directly queryable for
+  180 days, without a separate archive or restore step.
 
 The Microsoft web and core SDK packages are pinned to the same version and
 updated together by Dependabot. The direct core import disables the SDK's
@@ -69,6 +73,11 @@ Azure Monitor has a shared free ingestion allowance in eligible pricing tiers;
 it may already be used elsewhere on the billing account. Do not promise that
 this site is free. Review actual `_BilledSize` and Azure Cost Management after
 normal traffic has accumulated.
+
+The Application Insights tables include 90 days of retention in the ingestion
+price. With 180-day analytics retention, the additional 90 days are billed by
+stored GB per month. Increasing retention does not recover previously deleted
+data or create history from before analytics was activated.
 
 ### Deployment and verification
 
@@ -95,6 +104,7 @@ marker, while local regression checks intercept all outgoing telemetry.
 Sources: [JavaScript SDK configuration](https://learn.microsoft.com/en-us/azure/azure-monitor/app/javascript-sdk-configuration),
 [connection strings](https://learn.microsoft.com/en-us/azure/azure-monitor/app/connection-strings),
 [daily caps](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/daily-cap),
+[retention](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/data-retention-configure),
 [pricing](https://azure.microsoft.com/en-us/pricing/details/monitor/).
 
 ## Azure request report
