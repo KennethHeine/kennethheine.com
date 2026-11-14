@@ -7,11 +7,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+    'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tools for your development team.',
   openGraph: {
     title: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
     description:
-      'Get in touch with Kenneth Heine about AI automation, DevOps consulting, Azure cloud architecture, or development workflow optimization.',
+      'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tools for your development team.',
     type: 'website',
     url: 'https://kennethheine.com/contact',
     images: [
@@ -58,13 +58,9 @@ export default function ContactPage() {
               Let&apos;s Connect<span className='text-brand-500'>.</span>
             </h1>
             <p className='reveal reveal-delay-2 mt-6 max-w-2xl text-lg leading-7 text-gray-600 dark:text-gray-300'>
-              Interested in AI automation, DevOps consulting, Azure cloud
-              architecture, or optimizing your development workflows? I&apos;d
-              love to discuss how AI, automation, and scalable cloud solutions
-              can help your team work smarter and deliver better software.
-              Whether you want to explore GitHub Copilot integration, CI/CD
-              automation, Azure architecture design, or just connect about the
-              latest AI tools, let&apos;s chat!
+              Want help with Azure architecture, CI/CD, or AI tools for your
+              development team? Email me about your project or the tools
+              you&apos;re using.
             </p>
 
             {/* The one true CTA - an oversized mailto signal */}
@@ -81,7 +77,7 @@ export default function ContactPage() {
                 <span className='link-underline'>kenneth@kscloud.io</span>
               </a>
               <p className='label-mono mt-4'>
-                Response time: usually within 24 hours
+                Azure architecture, DevOps, and AI automation
               </p>
             </div>
           </div>
@@ -106,10 +102,10 @@ export default function ContactPage() {
                   01
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Quick Response
+                  Your project
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  I&apos;ll get back to you within 24 hours
+                  Email me with your questions or project details
                 </p>
               </div>
 
@@ -121,10 +117,10 @@ export default function ContactPage() {
                   02
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Thoughtful Discussion
+                  A conversation
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  I&apos;ll take time to understand your needs
+                  We&apos;ll discuss your setup and what your team needs
                 </p>
               </div>
 
@@ -136,10 +132,10 @@ export default function ContactPage() {
                   03
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  Clear Next Steps
+                  Next steps
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  We&apos;ll define actionable next steps together
+                  We&apos;ll work out the next steps together
                 </p>
               </div>
             </div>

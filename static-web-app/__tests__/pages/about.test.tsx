@@ -60,8 +60,8 @@ describe('About Page', () => {
   it('includes contact information or CTA', () => {
     render(<PageWithProvider />);
 
-    // Look for personal section that encourages connection (Beyond the Code section)
-    const beyondCodeSection = screen.queryByText(/Beyond the Code/i);
+    // Look for personal section that describes life outside work (Off the clock section)
+    const beyondCodeSection = screen.queryByText(/Off the clock/i);
 
     expect(beyondCodeSection).toBeTruthy();
   });

@@ -31,9 +31,7 @@ describe('Home Page', () => {
 
     // Updated expectation based on actual page content
     expect(
-      screen.getByText(
-        /work smarter with AI, automation, and Azure cloud architecture/i
-      )
+      screen.getByText(/put AI and automation to work on Azure/i)
     ).toBeInTheDocument();
   });
 
@@ -85,7 +83,7 @@ describe('Home Page', () => {
     const cloudElements = screen.getAllByText(/cloud/i);
     expect(cloudElements.length).toBeGreaterThan(0);
 
-    const developerElements = screen.getAllByText(/developer/i);
+    const developerElements = screen.getAllByText(/DevOps engineer/i);
     expect(developerElements.length).toBeGreaterThan(0);
   });
 

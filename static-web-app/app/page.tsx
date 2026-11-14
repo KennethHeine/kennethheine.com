@@ -11,11 +11,11 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Home',
   description:
-    'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+    'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
   openGraph: {
     title: 'Kenneth Heine - AI & Automation for Developers',
     description:
-      'Kenneth Heine helps developers and DevOps teams work smarter with AI, automation, and Azure cloud architecture. Learn to code faster, deploy faster, and build scalable solutions.',
+      'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
     type: 'website',
     url: 'https://kennethheine.com',
     images: [
@@ -100,10 +100,9 @@ export default function HomePage() {
                   className='reveal reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-gray-600 dark:text-gray-300'
                   role='doc-subtitle'
                 >
-                  Hi, I&apos;m Kenneth Heine. I help developers and DevOps teams
-                  work smarter with AI, automation, and Azure cloud architecture
-                  — code faster, deploy faster, and build systems that look
-                  after themselves.
+                  Hi, I&apos;m Kenneth, a DevOps engineer and cloud architect. I
+                  help teams put AI and automation to work on Azure, from
+                  writing code to deploying it.
                 </p>
 
                 {/* CTA Buttons */}
@@ -160,7 +159,7 @@ export default function HomePage() {
                   />
                 </div>
                 <figcaption className='label-mono mt-4'>
-                  Fig. 01 — the human in the loop
+                  Fig. 01 / the human in the loop
                 </figcaption>
               </figure>
             </div>
@@ -231,10 +230,9 @@ export default function HomePage() {
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    AI implementation, cloud architecture design, DevOps
-                    automation, and technical mentoring services. Let&apos;s
-                    work together to modernize your development workflow and
-                    leverage AI tools effectively.
+                    Consulting on Azure architecture, CI/CD automation, and AI
+                    tools for software development. I also offer technical
+                    mentoring for developers and teams.
                   </p>
                   <Link
                     href='/contact'
@@ -275,8 +273,8 @@ export default function HomePage() {
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    Interested in working together or just want to say hello?
-                    I&apos;d love to hear from you.
+                    Interested in working together, or just want to say hello?
+                    Get in touch.
                   </p>
                   <Link
                     href='/contact'
