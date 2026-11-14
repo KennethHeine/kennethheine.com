@@ -108,7 +108,7 @@ AppPageViews
     name: 'website-data-quality'
     displayName: 'Received telemetry and data quality (24 hours; includes verification)'
     query: '''
-union withsource=TelemetryTable AppPageViews, AppEvents
+union withsource=TelemetryTable AppPageViews, AppEvents, AppBrowserTimings
 | where TimeGenerated >= ago(24h)
 | extend Path = tostring(Properties.path), IsVerification = tostring(Properties.verification) == "true"
 | summarize ReceivedRows = count(), LastReceived = max(TimeGenerated), VerificationRows = countif(IsVerification), UnexpectedPathRows = countif(Path !in ("/", "/about/", "/contact/", "/404/")), BillableBytes = sumif(_BilledSize, _IsBillable == "true") by TelemetryTable
