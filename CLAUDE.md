@@ -11,4 +11,5 @@ Quick facts:
   `npm run test:coverage` · `npm run build`
 - CI gate = those commands + Playwright e2e; push to `main` deploys.
 - No git hooks; CI is the gate. Conventional commits.
-- Fonts are self-hosted (strict CSP) — never add external font/script origins.
+- Fonts are self-hosted (strict CSP). Application Insights is bundled locally;
+  only its configured Azure ingestion origin is allowed by connect-src.

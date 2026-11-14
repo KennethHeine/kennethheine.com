@@ -144,9 +144,11 @@ Infrastructure is managed with Bicep templates in the `infra/` directory:
 
 ## Site traffic
 
-Azure already provides request metrics without adding a browser tracker.
-See [Site traffic](docs/SITE_TRAFFIC.md) for the read-only report and the
-difference between requests and visitors.
+Azure provides a read-only request report and Application Insights browser
+analytics for page views, referring hosts and contact-link clicks. Analytics is
+managed in Bicep, excludes development/previews, and uses no browser storage.
+See [Site traffic](docs/SITE_TRAFFIC.md) for reports, configuration, cost controls
+and the distinction between page views and people.
 
 ## 🎨 Design System
 

@@ -1,6 +1,7 @@
 // --- file: app/layout.tsx ---
 import { Layout } from '@/components/layout/Layout';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import { WebAnalytics } from '@/components/analytics/WebAnalytics';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
@@ -119,6 +120,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Layout>{children}</Layout>
         </ThemeProvider>
+        <WebAnalytics />
       </body>
     </html>
   );
