@@ -6,7 +6,9 @@ test.describe('Navigation', () => {
   }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
-    const opener = page.getByRole('button', { name: 'Open navigation menu' });
+    const opener = page.getByRole('button', {
+      name: 'Open main navigation menu',
+    });
     await opener.click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');

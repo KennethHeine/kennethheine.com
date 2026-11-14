@@ -21,7 +21,7 @@ All run from `static-web-app/`:
 npm ci                  # install (Node 22, see .nvmrc)
 npm run lint            # eslint (flat config, eslint 9)
 npm run format:check    # prettier (npm run format to fix)
-npm run test:coverage   # jest, 1280+ tests, enforces >=85% thresholds
+npm run test:coverage   # jest, enforces >=85% coverage thresholds
 npm run build           # static export to out/ (+ copies staticwebapp.config.json)
 ```
 
