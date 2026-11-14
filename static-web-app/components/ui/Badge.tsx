@@ -13,11 +13,7 @@ import type {
  * Badge visual variants extending base ComponentVariant
  */
 export type BadgeVariant =
-  | ComponentVariant
-  | 'default'
-  | 'success'
-  | 'warning'
-  | 'error';
+  ComponentVariant | 'default' | 'success' | 'warning' | 'error';
 
 /**
  * Badge component props interface
