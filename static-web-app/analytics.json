@@ -1,4 +1,4 @@
 {
-  "connectionString": "",
+  "connectionString": "InstrumentationKey=19e50e35-61ec-4538-a05a-56bfd442e7ce;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=67aa4ce3-ade7-46b1-896f-f0fb83015998",
   "productionHosts": ["kennethheine.com", "www.kennethheine.com"]
 }
