@@ -29,16 +29,7 @@ export type TypographyVariant =
  * Typography component as different HTML elements
  */
 export type TypographyElement =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'h4'
-  | 'h5'
-  | 'h6'
-  | 'p'
-  | 'span'
-  | 'div'
-  | 'small';
+  'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' | 'small';
 
 /**
  * Typography component props interface
