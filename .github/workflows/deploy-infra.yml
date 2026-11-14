@@ -3,8 +3,7 @@ name: Deploy Infrastructure
 # Thin caller of the reusable static-web infra workflow in the control-plane repo
 # (KennethHeine/Azure-infrastructure, pinned @main). Replaces the former
 # deploy-infrastructure.yml. On pull requests it posts a what-if to the job
-# summary; on push to main it deploys infra/main.bicep into rg-kennethheine-prod
-# (resolved from the RESOURCE_GROUP repo variable).
+# summary; on push to main it deploys infra/main.bicep into rg-kennethheine.com.
 
 on:
   workflow_dispatch:
@@ -12,11 +11,13 @@ on:
     branches: [main]
     paths:
       - 'infra/**'
+      - '!infra/analytics/**'
       - '.github/workflows/deploy-infra.yml'
   push:
     branches: [main]
     paths:
       - 'infra/**'
+      - '!infra/analytics/**'
 
 permissions:
   id-token: write
@@ -27,5 +28,6 @@ jobs:
     uses: KennethHeine/Azure-infrastructure/.github/workflows/static-web-deploy-infra.yml@main
     secrets: inherit
     with:
+      resource_group: 'rg-kennethheine.com'
       bicep_param: 'infra/parameters/production.bicepparam'
       whatif: true

@@ -22,6 +22,11 @@ updates:
         update-types: ["version-update:semver-major"]
     # Group updates in a single pull request when possible
     groups:
+      # The explicit core import disables storage before SDK startup. Keep one
+      # shared core version; the analytics test rejects duplicate installations.
+      application-insights:
+        patterns:
+          - "@microsoft/applicationinsights-*"
       dev-dependencies:
         dependency-type: "development"
     # Commit message configuration

@@ -191,6 +191,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
               <a
                 href='https://www.linkedin.com/in/kenneth-heine-5a588360/'
+                data-analytics-contact='linkedin'
                 className={`text-gray-400 transition-all duration-300 hover:text-brand-600 hover:-translate-y-0.5 dark:hover:text-brand-400 ${linkFocusStyles}`}
                 target='_blank'
                 rel='noopener noreferrer'

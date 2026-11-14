@@ -23,6 +23,8 @@
     "swa:start": "npx --yes --package @azure/static-web-apps-cli@2.1.0 swa start out --port 3000"
   },
   "dependencies": {
+    "@microsoft/applicationinsights-core-js": "3.4.6",
+    "@microsoft/applicationinsights-web": "3.4.6",
     "@tailwindcss/postcss": "^4.3.5",
     "clsx": "^2.1.1",
     "gray-matter": "^4.0.3",

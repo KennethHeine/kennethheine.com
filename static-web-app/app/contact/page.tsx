@@ -69,6 +69,7 @@ export default function ContactPage() {
               <h2 className='label-mono'>Email me</h2>
               <a
                 href='mailto:kenneth@kscloud.io'
+                data-analytics-contact='email'
                 className='group mt-3 inline-flex flex-wrap items-center gap-x-4 gap-y-2 font-display text-2xl font-bold tracking-tight text-gray-900 transition-colors duration-200 hover:text-brand-600 sm:text-4xl lg:text-6xl dark:text-gray-50 dark:hover:text-brand-400 motion-reduce:transition-none'
               >
                 <MailIcon
