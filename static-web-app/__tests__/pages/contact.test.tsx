@@ -13,7 +13,9 @@ describe('Contact Page', () => {
     render(<PageWithProvider />);
 
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(screen.getByText(/Let's Connect/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { level: 1, name: /get in touch/i })
+    ).toBeInTheDocument();
   });
 
   it('displays contact information', () => {
@@ -39,7 +41,9 @@ describe('Contact Page', () => {
   it('includes email contact section', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/Get in Touch/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /email me/i })
+    ).toBeInTheDocument();
   });
 
   it('includes mail icon', () => {
@@ -60,19 +64,26 @@ describe('Contact Page', () => {
     expect(sections.length).toBeGreaterThan(0);
   });
 
-  it('invites questions and project details', () => {
+  it('explains what to include in a message', () => {
     render(<PageWithProvider />);
 
     expect(
-      screen.getByText(/email me with your questions or project details/i)
+      screen.getByRole('heading', { name: 'The problem' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Your setup' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'The help you need' })
     ).toBeInTheDocument();
   });
 
   it('includes professional background context', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getAllByText(/Azure architecture/i)[0]).toBeInTheDocument();
-    expect(screen.getByText(/CI\/CD/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI automation/i)).toBeInTheDocument();
+    expect(screen.getByText(/DevOps/i)).toBeInTheDocument();
+    expect(screen.getByText(/Azure/i)).toBeInTheDocument();
   });
 
   it('has responsive design classes', () => {

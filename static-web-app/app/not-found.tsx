@@ -8,11 +8,11 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Page Not Found',
   description:
-    "The page you are looking for could not be found. Return to Kenneth Heine's homepage or explore other sections.",
+    "This page could not be found. Visit Kenneth Heine's homepage, read about his work, or get in touch.",
   openGraph: {
     title: '404 - Page Not Found | Kenneth Heine',
     description:
-      "The page you are looking for could not be found. Return to Kenneth Heine's homepage or explore other sections.",
+      "This page could not be found. Visit Kenneth Heine's homepage, read about his work, or get in touch.",
     type: 'website',
     url: 'https://kennethheine.com/404',
     images: [
@@ -47,7 +47,7 @@ export default function NotFound() {
         />
         <Container>
           <div className='relative mx-auto max-w-2xl py-24 text-center sm:py-32'>
-            <p className='label-mono'>Signal lost / error</p>
+            <p className='label-mono'>Error / 404</p>
 
             {/* 404 Number */}
             <div className='mt-4 font-display text-6xl font-bold text-brand-500 dark:text-brand-400 sm:text-8xl'>
@@ -60,8 +60,8 @@ export default function NotFound() {
             </h1>
 
             <p className='mt-4 text-base leading-7 text-gray-600 dark:text-gray-300'>
-              This page doesn&apos;t exist or has moved. Use the links below to
-              find your way back.
+              This page doesn&apos;t exist or has moved. You can return to the
+              homepage using the link below.
             </p>
 
             {/* Navigation Options */}
@@ -80,7 +80,7 @@ export default function NotFound() {
 
             {/* Additional Links */}
             <div className='mt-10 border-t border-gray-200 pt-6 dark:border-gray-800'>
-              <p className='label-mono'>Or explore these sections</p>
+              <p className='label-mono'>You can also visit</p>
               <div className='mt-4 flex flex-wrap justify-center gap-6'>
                 <Link
                   href='/about'

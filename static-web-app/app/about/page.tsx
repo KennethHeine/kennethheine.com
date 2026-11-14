@@ -11,11 +11,11 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Kenneth Heine is a DevOps engineer and cloud architect working with Azure, automation, and AI in software development.',
+    "I'm Kenneth Heine, a cloud architect at KS Cloud Solutions. My background is in infrastructure, and my work spans Azure platforms, DevOps, and AI-assisted development.",
   openGraph: {
     title: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
     description:
-      'Kenneth Heine is a DevOps engineer and cloud architect working with Azure, automation, and AI in software development.',
+      "I'm Kenneth Heine, a cloud architect at KS Cloud Solutions. My background is in infrastructure, and my work spans Azure platforms, DevOps, and AI-assisted development.",
     type: 'website',
     url: 'https://kennethheine.com/about',
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
  * About page component - "Signal & Ledger" editorial layout
  * Features:
  * - Personal bio with technical-figure photo treatment
- * - Mission pull-quote in display type
+ * - Approach pull-quote in display type
  * - Skills as a ledger of categories
  * - Professional timeline
  */
@@ -94,51 +94,51 @@ export default function AboutPage() {
   const timeline = [
     {
       year: '2022-Present',
-      title: 'Azure Cloud & AI DevOps Expert',
+      title: 'Cloud Architect & DevOps Consultant',
       company: 'KS Cloud Solutions',
       description:
-        'Azure cloud architecture, Infrastructure as Code, CI/CD pipelines, and AI tools for development workflows.',
+        'I work with development teams on Azure architecture, infrastructure as code, and CI/CD. I also help teams use AI tools and automate repetitive parts of software delivery.',
     },
     {
       year: '2022-2022',
       title: 'Senior Azure Consultant',
       company: 'CTGlobal',
       description:
-        'Azure consulting on cloud architecture, automation, and DevOps. Helped clients implement scalable, secure cloud infrastructure.',
+        'I advised clients on Azure architecture and worked on cloud infrastructure, automation, and DevOps practices.',
     },
     {
       year: '2021-2022',
       title: 'Cloud Architect @ Shared Platforms & DevOps',
       company: 'BEC Financial Technologies',
       description:
-        'Designed and implemented an Azure secrets solution using Azure Key Vault.',
+        'I designed and implemented a solution for managing secrets with Azure Key Vault.',
     },
     {
       year: '2020-2021',
       title: 'Cloud Architect - Azure',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Developed and managed Azure solutions for Copenhagen Municipality, with a focus on resource optimization, security, and deployment automation.',
+        'I developed and managed Azure infrastructure for Copenhagen Municipality, working on cloud resources, security, and deployment automation.',
     },
     {
       year: '2017-2020',
       title: 'Network Engineer - Technical Responsible',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Managed network infrastructure for more than 25,000 municipal users and led a team of technicians.',
+        'I was responsible for network infrastructure at Copenhagen Municipality and led technicians supporting a network used by more than 25,000 people.',
     },
     {
       year: '2013-2017',
       title: 'Data Technician Apprentice specializing in Infrastructure',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Gained experience in enterprise IT while supporting 25,000 users.',
+        'I trained in enterprise infrastructure and supported an IT environment with 25,000 users.',
     },
     {
       year: '2012-2013',
       title: 'IT Support Specialist',
       company: 'A.B Consult Aps',
-      description: 'Technical support and sysadmin work.',
+      description: 'I worked in technical support and system administration.',
     },
   ];
 
@@ -167,14 +167,17 @@ export default function AboutPage() {
                   About Me
                 </h1>
                 <p className='mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300'>
-                  I&apos;m Kenneth, a DevOps engineer and cloud architect. I
-                  help developers and teams use AI and automation in their work
-                  and design cloud architectures on Azure.
+                  I&apos;m Kenneth, a cloud architect and DevOps consultant at
+                  KS Cloud Solutions. My background is in infrastructure, and
+                  much of my work is about helping development teams build and
+                  run software on Azure.
                 </p>
                 <p className='mt-4 text-base leading-7 text-gray-600 dark:text-gray-300'>
-                  My background includes network infrastructure, Azure cloud
-                  architecture, and DevOps. I explain how to apply these tools
-                  to development pipelines, from writing code to deploying it.
+                  I work across teams to find what slows delivery down. That
+                  might mean building a platform, automating a manual process,
+                  or helping someone understand a technical choice. I enjoy the
+                  hands-on work as much as explaining it to developers and
+                  product owners.
                 </p>
               </div>
               {/* Profile Photo - technical figure */}
@@ -191,7 +194,7 @@ export default function AboutPage() {
                   />
                 </div>
                 <figcaption className='label-mono mt-4'>
-                  Fig. 02 / field engineer, Copenhagen
+                  Fig. 02 / Kenneth Heine
                 </figcaption>
               </figure>
             </div>
@@ -199,26 +202,26 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Mission Statement - display pull-quote */}
+      {/* Approach - display pull-quote */}
       <section className='border-b border-gray-200 py-20 sm:py-24 dark:border-gray-800'>
         <Container>
           <div className='mx-auto max-w-4xl'>
-            <p className='label-mono'>Mission / 02</p>
+            <p className='label-mono'>Approach / 02</p>
             <h2 className='mt-3 font-display text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl'>
-              My Mission
+              How I work
             </h2>
             <p className='mt-6 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300'>
-              I help software teams use AI and automation in their everyday work
-              and build cloud architectures on Azure. Through tutorials, guides,
-              and consulting, I explain how the tools work and how to apply them
-              to software development.
+              I like building platforms that teams can use without having to ask
+              for help with every change. Infrastructure as code and automated
+              builds give us a repeatable starting point. Tests and monitoring
+              help us see whether the system behaves as expected. I take the
+              same approach to AI: give it useful context, then check the
+              result.
             </p>
             <blockquote className='mt-12 border-l-2 border-brand-500 pl-6 sm:pl-10'>
               <p className='font-display text-2xl font-semibold leading-snug tracking-tight text-gray-900 dark:text-gray-50 sm:text-3xl'>
-                &ldquo;I help developers and DevOps teams work smarter, not
-                harder, by teaching them how to use AI, automation, and Azure
-                cloud architecture to code faster, deploy faster, and deliver
-                better software that scales.&rdquo;
+                People set the direction. Tests and feedback help us check
+                whether the code does the job.
               </p>
             </blockquote>
           </div>
@@ -231,10 +234,11 @@ export default function AboutPage() {
           <div className='mx-auto max-w-4xl'>
             <p className='label-mono'>Expertise / 03</p>
             <h2 className='mt-3 font-display text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl'>
-              What I work with
+              Tools I work with
             </h2>
             <p className='mt-4 max-w-2xl text-base text-gray-600 dark:text-gray-400'>
-              Tools and technologies I use in development and cloud architecture
+              My work covers cloud infrastructure, delivery pipelines, and
+              software development. These are some of the tools I use.
             </p>
             <div className='mt-12'>
               {Object.entries(skills).map(([category, skillList], i) => (
@@ -270,10 +274,11 @@ export default function AboutPage() {
           <div className='mx-auto max-w-4xl'>
             <p className='label-mono'>Journey / 04</p>
             <h2 className='mt-3 font-display text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl'>
-              Professional Journey
+              My background
             </h2>
             <p className='mt-4 max-w-2xl text-base text-gray-600 dark:text-gray-400'>
-              Helpdesk to cloud architect, 2012 to now
+              I started in IT support and infrastructure before moving into
+              Azure architecture and DevOps. Here&apos;s my career so far.
             </p>
             <div className='mt-12'>
               <div className='relative'>
@@ -298,12 +303,13 @@ export default function AboutPage() {
           <div className='mx-auto max-w-4xl'>
             <p className='label-mono'>Off duty / 05</p>
             <h2 className='mt-3 font-display text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl'>
-              Off the clock
+              Away from work
             </h2>
             <p className='mt-6 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300'>
-              Outside work, I enjoy time with my wife and our three sons. We
-              spend time outdoors, tend our kitchen garden, and take part in
-              football.
+              Away from work, I spend time with my wife and our three sons. We
+              enjoy being outdoors and looking after our kitchen garden.
+              Football is part of family life too, including coaching and taking
+              part in the local community.
             </p>
             <div className='mt-8 flex flex-wrap gap-2'>
               {[

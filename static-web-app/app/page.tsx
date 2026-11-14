@@ -11,11 +11,11 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Home',
   description:
-    'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
+    "I'm Kenneth Heine, an Azure cloud architect at KS Cloud Solutions. I help development teams with cloud platforms, DevOps automation, and AI-assisted development.",
   openGraph: {
-    title: 'Kenneth Heine - AI & Automation for Developers',
+    title: 'Kenneth Heine - Azure, DevOps & AI',
     description:
-      'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
+      "I'm Kenneth Heine, an Azure cloud architect at KS Cloud Solutions. I help development teams with cloud platforms, DevOps automation, and AI-assisted development.",
     type: 'website',
     url: 'https://kennethheine.com',
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kenneth Heine - AI & Automation for Developers',
+        alt: 'Kenneth Heine - Azure, DevOps & AI',
       },
     ],
   },
@@ -92,7 +92,7 @@ export default function HomePage() {
                   id='hero-heading'
                   className='reveal reveal-delay-1 font-display text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-6xl lg:text-7xl xl:text-[5.5rem] xl:leading-[1.02]'
                 >
-                  The cloud should run itself
+                  I help teams build on Azure
                   <span className='text-brand-500'>.</span>
                 </h1>
 
@@ -100,9 +100,10 @@ export default function HomePage() {
                   className='reveal reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-gray-600 dark:text-gray-300'
                   role='doc-subtitle'
                 >
-                  Hi, I&apos;m Kenneth, a DevOps engineer and cloud architect. I
-                  help teams put AI and automation to work on Azure, from
-                  writing code to deploying it.
+                  I&apos;m Kenneth Heine, a cloud architect with a background in
+                  infrastructure. Through KS Cloud Solutions, I build Azure
+                  platforms and automate the repetitive work around software
+                  delivery. I also help developers use AI in their daily work.
                 </p>
 
                 {/* CTA Buttons */}
@@ -151,7 +152,7 @@ export default function HomePage() {
                 >
                   <Image
                     src='/images/profile-photo.jpg'
-                    alt='Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
+                    alt='Portrait of Kenneth Heine'
                     fill
                     className='object-cover grayscale transition-all duration-500 hover:grayscale-0 motion-reduce:transition-none'
                     priority
@@ -159,7 +160,7 @@ export default function HomePage() {
                   />
                 </div>
                 <figcaption className='label-mono mt-4'>
-                  Fig. 01 / the human in the loop
+                  Fig. 01 / Kenneth Heine
                 </figcaption>
               </figure>
             </div>
@@ -169,7 +170,7 @@ export default function HomePage() {
               <div>
                 <dt className='label-mono'>Location</dt>
                 <dd className='mt-1 text-sm font-medium text-gray-900 dark:text-gray-100'>
-                  Copenhagen, Denmark
+                  Denmark
                 </dd>
               </div>
               <div>
@@ -179,13 +180,13 @@ export default function HomePage() {
                 </dd>
               </div>
               <div>
-                <dt className='label-mono'>Status</dt>
+                <dt className='label-mono'>Work</dt>
                 <dd className='mt-1 flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-gray-100'>
                   <span
                     className='h-2 w-2 rounded-full bg-brand-500 animate-pulse-slow'
                     aria-hidden='true'
                   />
-                  Open for consulting
+                  Independent consultant
                 </dd>
               </div>
             </dl>
@@ -205,7 +206,7 @@ export default function HomePage() {
               id='featured-content-heading'
               className='mt-3 font-display text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl'
             >
-              What I&apos;m up to
+              What I work on
             </h2>
 
             <div className='mt-12'>
@@ -225,14 +226,15 @@ export default function HomePage() {
                     id='services-preview-heading'
                     className='font-display text-xl font-semibold text-gray-900 dark:text-gray-50'
                   >
-                    Professional Services &amp; Consulting
+                    Platforms &amp; delivery
                   </h3>
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    Consulting on Azure architecture, CI/CD automation, and AI
-                    tools for software development. I also offer technical
-                    mentoring for developers and teams.
+                    I work on Azure architecture, infrastructure as code, and
+                    CI/CD pipelines. The aim is to give development teams a
+                    dependable platform and make everyday tasks easier to do
+                    themselves.
                   </p>
                   <Link
                     href='/contact'
@@ -268,13 +270,14 @@ export default function HomePage() {
                     id='contact-preview-heading'
                     className='font-display text-xl font-semibold text-gray-900 dark:text-gray-50'
                   >
-                    Let&apos;s Connect
+                    AI in development
                   </h3>
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    Interested in working together, or just want to say hello?
-                    Get in touch.
+                    I help teams use AI for coding and automation, with tests
+                    and review to check the results. People still need to
+                    provide the context and decide what to build.
                   </p>
                   <Link
                     href='/contact'

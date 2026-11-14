@@ -31,15 +31,9 @@ const nextConfig = {
   // Enable strict mode for better development experience
   reactStrictMode: true,
 
-  // Configure ESLint
-  eslint: {
-    dirs: ['app', 'components', 'lib', 'types'],
-    ignoreDuringBuilds: false, // Keep ESLint during builds but allow warnings
-  },
-
   // Configure TypeScript
   typescript: {
-    // Type checking is handled by the CI/CD pipeline
+    // Fail the production build if type checking fails
     ignoreBuildErrors: false,
   },
 };

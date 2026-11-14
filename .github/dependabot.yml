@@ -18,11 +18,10 @@ updates:
     ignore:
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     # Group updates in a single pull request when possible
     groups:
-      azure-dependencies:
-        patterns:
-          - "@azure/*"
       dev-dependencies:
         dependency-type: "development"
     # Commit message configuration

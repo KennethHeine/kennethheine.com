@@ -25,9 +25,7 @@ describe('Page Image Optimization', () => {
     it('renders profile photo with optimization attributes', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
 
       expect(profileImage).toBeInTheDocument();
       // Image should be optimized through Next.js (contains _next/image path)
@@ -44,18 +42,14 @@ describe('Page Image Optimization', () => {
       render(<HomePageWithProvider />);
 
       // Profile image should be visible and properly sized
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
       expect(profileImage).toBeInTheDocument();
     });
 
     it('includes proper responsive sizing for profile image', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
 
       // Image should have appropriate sizing classes (technical figure)
       expect(profileImage.closest('div')).toHaveClass('aspect-square', 'w-52');
@@ -102,9 +96,7 @@ describe('Page Image Optimization', () => {
     it('prioritizes critical images for faster loading', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
 
       // Profile image should be in a priority container (above the fold)
       expect(profileImage.closest('.py-20')).toBeInTheDocument();
@@ -144,9 +136,7 @@ describe('Page Image Optimization', () => {
     it('maintains image quality across different viewports', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
 
       // Object-cover ensures quality maintenance
       expect(profileImage).toHaveClass('object-cover');
@@ -168,9 +158,7 @@ describe('Page Image Optimization', () => {
       render(<HomePageWithProvider />);
       render(<AboutPageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
       const aboutImage = screen.getByAltText('Kenneth Heine - About Photo');
 
       expect(profileImage.getAttribute('alt')).toBeTruthy();
@@ -201,9 +189,7 @@ describe('Page Image Optimization', () => {
     it('maintains proper contrast and visibility', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
       const container = profileImage.closest('.frame-ticks');
 
       // Should have the crop-mark frame treatment for visibility
@@ -232,9 +218,7 @@ describe('Page Image Optimization', () => {
     it('includes images in semantic content structure', () => {
       render(<HomePageWithProvider />);
 
-      const profileImage = screen.getByAltText(
-        'Kenneth Heine - Professional headshot showing a friendly DevOps engineer and cloud architect'
-      );
+      const profileImage = screen.getByAltText('Portrait of Kenneth Heine');
 
       // Profile image should be in main content area
       const main = profileImage.closest('main');

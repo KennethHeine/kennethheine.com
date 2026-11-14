@@ -37,12 +37,11 @@ const plexMono = localFont({
 // SEO metadata for the entire site
 export const metadata: Metadata = {
   title: {
-    default:
-      'Kenneth Heine - AI, Automation & Cloud Architecture for Developers',
+    default: 'Kenneth Heine - Azure, DevOps & AI',
     template: '%s | Kenneth Heine',
   },
   description:
-    'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
+    "I'm Kenneth Heine, an Azure cloud architect at KS Cloud Solutions. I help development teams with cloud platforms, DevOps automation, and AI-assisted development.",
   keywords: [
     'Kenneth Heine',
     'AI Automation',
@@ -68,15 +67,15 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://kennethheine.com',
     siteName: 'Kenneth Heine',
-    title: 'Kenneth Heine - AI & Automation for Developers',
+    title: 'Kenneth Heine - Azure, DevOps & AI',
     description:
-      'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen. He helps development teams use AI, automation, and Azure to ship software with less manual work.',
+      "I'm Kenneth Heine, an Azure cloud architect at KS Cloud Solutions. I help development teams with cloud platforms, DevOps automation, and AI-assisted development.",
     images: [
       {
         url: '/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Kenneth Heine - AI & Automation for Developers',
+        alt: 'Kenneth Heine - Azure, DevOps & AI',
       },
     ],
   },

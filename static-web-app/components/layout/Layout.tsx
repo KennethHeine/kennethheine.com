@@ -161,10 +161,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </p>
               <p className='mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-gray-400 dark:text-gray-500'>
                 Built with Next.js
-                <span aria-hidden='true'> · </span>
-                deployed on Azure
-                <span aria-hidden='true'> · </span>
-                100% automated
+                <span aria-hidden='true'> / </span>
+                hosted on Azure
+                <span aria-hidden='true'> / </span>
+                deployed with GitHub Actions
               </p>
             </div>
             <div className='mt-6 flex justify-center space-x-6 md:mt-0'>

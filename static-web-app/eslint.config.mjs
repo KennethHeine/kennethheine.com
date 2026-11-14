@@ -5,7 +5,6 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importX from 'eslint-plugin-import-x';
-import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 
 export default [
@@ -53,12 +52,8 @@ export default [
       'react-hooks': reactHooks,
       'jsx-a11y': jsxA11y,
       'import-x': importX,
-      prettier,
     },
     rules: {
-      // Prettier integration
-      'prettier/prettier': 'error',
-
       // TypeScript rules
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',

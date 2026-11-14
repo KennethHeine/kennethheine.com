@@ -40,12 +40,13 @@ describe('About Page', () => {
     expect(azureElements.length).toBeGreaterThan(0);
   });
 
-  it('includes mission and values section', () => {
+  it('describes his approach to work', () => {
     render(<PageWithProvider />);
 
-    // Look for mission/values content
-    const missionElements = screen.getAllByText(/mission|passion|believe/i);
-    expect(missionElements.length).toBeGreaterThan(0);
+    // Keep the section explaining the approach to the work
+    expect(
+      screen.getByRole('heading', { name: 'How I work' })
+    ).toBeInTheDocument();
   });
   it('displays expertise areas', () => {
     render(<PageWithProvider />);
@@ -57,13 +58,13 @@ describe('About Page', () => {
     expect(expertiseElements.length).toBeGreaterThan(0);
   });
 
-  it('includes contact information or CTA', () => {
+  it('includes personal interests', () => {
     render(<PageWithProvider />);
 
-    // Look for personal section that describes life outside work (Off the clock section)
-    const beyondCodeSection = screen.queryByText(/Off the clock/i);
-
-    expect(beyondCodeSection).toBeTruthy();
+    // Keep the personal interests section
+    expect(
+      screen.getByRole('heading', { name: 'Away from work' })
+    ).toBeInTheDocument();
   });
 
   it('displays professional photo', () => {

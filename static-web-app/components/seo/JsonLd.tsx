@@ -22,7 +22,7 @@ export const JsonLd: FC<JsonLdProps> = ({ data }) => {
     <script
       type='application/ld+json'
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(data, null, 2),
+        __html: JSON.stringify(data, null, 2).replace(/</g, '\\u003c'),
       }}
     />
   );

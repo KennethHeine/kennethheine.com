@@ -2,6 +2,14 @@ import { render } from '@testing-library/react';
 import { JsonLd } from '../../../components/seo/JsonLd';
 
 describe('JsonLd component', () => {
+  it('keeps HTML-looking content inside the JSON script', () => {
+    const data = { name: '</script><script>alert("example")</script>' };
+    const { container } = render(<JsonLd data={data} />);
+    const script = container.querySelector('script');
+    expect(script?.innerHTML).not.toContain('<');
+    expect(JSON.parse(script?.innerHTML || '')).toEqual(data);
+    expect(container.querySelectorAll('script')).toHaveLength(1);
+  });
   it('renders JSON-LD script tag with correct type', () => {
     const testData = {
       '@context': 'https://schema.org',

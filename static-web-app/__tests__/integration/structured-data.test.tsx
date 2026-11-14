@@ -60,7 +60,8 @@ describe('Structured Data Integration', () => {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         name: 'Kenneth Heine',
-        description: 'Personal website and blog of Kenneth Heine',
+        description:
+          'Personal website of Kenneth Heine, Azure cloud architect and DevOps consultant',
         url: 'https://kennethheine.com',
         author: {
           '@type': 'Person',
