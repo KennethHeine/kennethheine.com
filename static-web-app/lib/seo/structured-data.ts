@@ -42,7 +42,8 @@ export function generateWebsiteStructuredData(baseUrl: string = '') {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Kenneth Heine',
-    description: 'Personal website and blog of Kenneth Heine',
+    description:
+      'Personal website of Kenneth Heine, Azure cloud architect and DevOps consultant',
     url: baseUrl,
     author: {
       '@type': 'Person',
@@ -63,7 +64,7 @@ export function generatePersonStructuredData(baseUrl: string = '') {
     name: 'Kenneth Heine',
     jobTitle: 'Cloud Architecture Consultant',
     description:
-      'DevOps engineer and cloud architect in Copenhagen, working on Azure, automation, and AI-assisted development',
+      'DevOps engineer and cloud architect working on Azure platforms, automation, and AI-assisted software development',
     url: `${baseUrl}/about`,
     sameAs: [
       // Add social media profiles when available

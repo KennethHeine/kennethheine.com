@@ -21,7 +21,7 @@ describe('Home Page', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: /the cloud should run itself/i,
+        name: /i help teams build on azure/i,
       })
     ).toBeInTheDocument();
   });
@@ -31,7 +31,9 @@ describe('Home Page', () => {
 
     // Updated expectation based on actual page content
     expect(
-      screen.getByText(/put AI and automation to work on Azure/i)
+      screen.getByText(
+        /I build Azure platforms and automate the repetitive work/i
+      )
     ).toBeInTheDocument();
   });
 
@@ -39,7 +41,7 @@ describe('Home Page', () => {
     render(<PageWithProvider />);
 
     // Updated section names based on actual content
-    expect(screen.getByText(/What I'm Up To/i)).toBeInTheDocument();
+    expect(screen.getByText(/What I work on/i)).toBeInTheDocument();
   });
 
   it('displays timeline component', () => {
@@ -83,7 +85,7 @@ describe('Home Page', () => {
     const cloudElements = screen.getAllByText(/cloud/i);
     expect(cloudElements.length).toBeGreaterThan(0);
 
-    const developerElements = screen.getAllByText(/DevOps engineer/i);
+    const developerElements = screen.getAllByText(/developer/i);
     expect(developerElements.length).toBeGreaterThan(0);
   });
 

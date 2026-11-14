@@ -17,17 +17,10 @@ describe('Static Web App Configuration', () => {
     });
 
     it('should contain required configuration sections', () => {
-      expect(config).toHaveProperty('navigationFallback');
+      expect(config).not.toHaveProperty('navigationFallback');
       expect(config).toHaveProperty('responseOverrides');
       expect(config).toHaveProperty('globalHeaders');
       expect(config).toHaveProperty('routes');
-    });
-
-    it('should have valid navigation fallback configuration', () => {
-      expect(config.navigationFallback).toHaveProperty('rewrite');
-      expect(config.navigationFallback).toHaveProperty('exclude');
-      expect(config.navigationFallback.rewrite).toBe('/404.html');
-      expect(Array.isArray(config.navigationFallback.exclude)).toBe(true);
     });
 
     it('should have 404 response override', () => {
@@ -149,6 +142,15 @@ describe('Static Web App Configuration', () => {
   });
 
   describe('Cache Control Configuration', () => {
+    it('caches content-hashed assets without caching page documents', () => {
+      const route = config.routes.find(
+        (route: { route: string }) => route.route === '/_next/static/*'
+      );
+      expect(route.headers['cache-control']).toBe(
+        'public, max-age=31536000, immutable'
+      );
+      expect(config.globalHeaders['cache-control']).toBe('no-cache');
+    });
     it('should have cache-control in global headers', () => {
       expect(config.globalHeaders).toHaveProperty('cache-control');
       expect(config.globalHeaders['cache-control']).toBe('no-cache');
@@ -167,17 +169,8 @@ describe('Static Web App Configuration', () => {
   });
 
   describe('Navigation and Routing', () => {
-    it('should exclude static assets from navigation fallback', () => {
-      const excludePaths = config.navigationFallback.exclude;
-      expect(excludePaths).toContain('/images/*');
-      expect(excludePaths).toContain('/favicon.svg');
-      expect(excludePaths).toContain('/_next/*');
-      expect(excludePaths).toContain('/css/*');
-      expect(excludePaths).toContain('/js/*');
-    });
-
     it('should have proper fallback for 404 errors', () => {
-      expect(config.navigationFallback.rewrite).toBe('/404.html');
+      expect(config).not.toHaveProperty('navigationFallback');
       expect(config.responseOverrides['404'].rewrite).toBe('/404.html');
     });
   });
@@ -243,7 +236,6 @@ describe('Static Web App Configuration', () => {
   describe('Azure Static Web Apps Compatibility', () => {
     it('should use supported Azure SWA configuration properties', () => {
       const supportedProperties = [
-        'navigationFallback',
         'responseOverrides',
         'globalHeaders',
         'routes',

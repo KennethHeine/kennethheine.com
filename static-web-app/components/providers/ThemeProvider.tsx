@@ -34,9 +34,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setMounted(true);
 
     // Load theme from localStorage or default to system
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (
+        savedTheme === 'light' ||
+        savedTheme === 'dark' ||
+        savedTheme === 'system'
+      ) {
+        setTheme(savedTheme);
+      }
+    } catch {
+      // Storage can be blocked by browser privacy settings. Use system theme.
     }
   }, []);
 
@@ -64,7 +72,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.classList.add(effectiveTheme);
 
     // Save to localStorage
-    localStorage.setItem('theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      // Theme switching still works when the preference cannot be persisted.
+    }
   }, [theme, mounted]);
 
   // Listen for system theme changes
@@ -83,11 +95,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [theme, mounted]);
 
-  // Don't render until mounted to prevent hydration issues
-  if (!mounted) {
-    return <>{children}</>;
-  }
-
+  // Keep the provider mounted so hydration does not remount the page tree.
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}

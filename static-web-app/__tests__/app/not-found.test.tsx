@@ -45,7 +45,9 @@ describe('Not Found Page', () => {
       expect(
         screen.getByRole('heading', { name: /page not found/i })
       ).toBeInTheDocument();
-      expect(screen.getByText(/this page doesn't exist/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/this page doesn't exist or has moved/i)
+      ).toBeInTheDocument();
     });
 
     it('renders primary navigation buttons', () => {
@@ -157,9 +159,7 @@ describe('Not Found Page', () => {
     });
 
     it('has appropriate description', () => {
-      expect(metadata.description).toContain(
-        'The page you are looking for could not be found'
-      );
+      expect(metadata.description).toContain('This page could not be found');
       expect(metadata.description).toContain('Kenneth Heine');
     });
 

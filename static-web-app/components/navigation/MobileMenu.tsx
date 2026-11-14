@@ -41,6 +41,8 @@ export function MobileMenu({
   useEffect(() => {
     if (!open) return;
 
+    const opener = document.activeElement as HTMLElement | null;
+
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.preventDefault();
@@ -86,6 +88,7 @@ export function MobileMenu({
     return () => {
       document.removeEventListener('keydown', handleEscape);
       document.removeEventListener('keydown', handleTabKeyPress);
+      if (opener?.isConnected) opener.focus();
     };
   }, [open, onClose]);
 

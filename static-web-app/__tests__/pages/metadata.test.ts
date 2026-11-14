@@ -29,7 +29,7 @@ describe('Page Metadata', () => {
     it('has OpenGraph metadata', () => {
       expect(homeMetadata.openGraph).toBeDefined();
       const og = homeMetadata.openGraph as OpenGraphWithType;
-      expect(og?.title).toBe('Kenneth Heine - AI & Automation for Developers');
+      expect(og?.title).toBe('Kenneth Heine - Azure, DevOps & AI');
       expect(og?.type).toBe('website');
       expect(og?.url).toBe('https://kennethheine.com');
       expect(og?.images).toEqual([
@@ -37,7 +37,7 @@ describe('Page Metadata', () => {
           url: '/images/og-image.jpg',
           width: 1200,
           height: 630,
-          alt: 'Kenneth Heine - AI & Automation for Developers',
+          alt: 'Kenneth Heine - Azure, DevOps & AI',
         },
       ]);
     });

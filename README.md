@@ -2,8 +2,7 @@
 
 A modern, accessible personal website built with Next.js 16, deployed as an Azure Static Web App with comprehensive testing and CI/CD pipelines.
 
-![Deploy to Production](https://github.com/KennethHeine/kennethheine.com/actions/workflows/deploy-production.yml/badge.svg)
-![Test Coverage](https://github.com/KennethHeine/kennethheine.com/actions/workflows/test-coverage.yml/badge.svg)
+[![Deploy Web App](https://github.com/KennethHeine/kennethheine.com/actions/workflows/deploy.yml/badge.svg)](https://github.com/KennethHeine/kennethheine.com/actions/workflows/deploy.yml)
 
 ## 🌟 Features
 
@@ -21,7 +20,7 @@ A modern, accessible personal website built with Next.js 16, deployed as an Azur
 
 ### Prerequisites
 
-- Node.js 22+ (see `.nvmrc`)
+- Node.js 22 (see `static-web-app/.nvmrc`)
 - npm 10+
 
 ### Installation
@@ -55,7 +54,7 @@ Visit [http://localhost:3000](http://localhost:3000) to see the website.
 | `npm test`              | Run Jest unit tests                      |
 | `npm run test:coverage` | Run tests with coverage report           |
 | `npm run test:e2e`      | Run Playwright E2E tests                 |
-| `npm run check`         | Run all checks (type-check, lint, test)  |
+| `npm run check`         | Run types, lint, formatting and coverage |
 
 ## 📁 Project Structure
 
@@ -126,7 +125,7 @@ npm run test:e2e:ui        # Interactive UI mode
 
 1. **Test Job**: Runs on every push and PR
    - Linting and formatting checks
-   - Unit tests
+   - Unit tests with coverage thresholds
    - E2E tests
    - Build validation
 
@@ -140,8 +139,14 @@ Infrastructure is managed with Bicep templates in the `infra/` directory:
 
 ```bash
 # Deploy infrastructure (via GitHub Actions)
-# See .github/workflows/deploy-infrastructure.yml
+# See .github/workflows/deploy-infra.yml
 ```
+
+## Site traffic
+
+Azure already provides request metrics without adding a browser tracker.
+See [Site traffic](docs/SITE_TRAFFIC.md) for the read-only report and the
+difference between requests and visitors.
 
 ## 🎨 Design System
 

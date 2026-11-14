@@ -1,0 +1,35 @@
+name: Site Traffic
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: Number of complete UTC days (1-90)
+        default: '30'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Azure login (existing deployment identity)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Check report handling
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Read traffic metrics
+        env:
+          REPORT_DAYS: ${{ inputs.days }}
+        run: |
+          python3 scripts/site-traffic.py --days "$REPORT_DAYS" > "$RUNNER_TEMP/site-traffic.md"
+          cat "$RUNNER_TEMP/site-traffic.md" >> "$GITHUB_STEP_SUMMARY"

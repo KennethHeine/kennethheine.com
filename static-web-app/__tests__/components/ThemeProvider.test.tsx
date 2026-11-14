@@ -1,4 +1,5 @@
 import { act, render, screen } from '@testing-library/react';
+import { useEffect } from 'react';
 import {
   ThemeProvider,
   useTheme,
@@ -24,6 +25,7 @@ const TestComponent = () => {
 };
 
 describe('ThemeProvider component', () => {
+  afterEach(() => jest.restoreAllMocks());
   beforeEach(() => {
     // Clear localStorage before each test
     localStorage.clear();
@@ -53,6 +55,48 @@ describe('ThemeProvider component', () => {
 
     expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
     expect(document.documentElement).toHaveClass('dark');
+  });
+
+  it('ignores invalid stored themes', () => {
+    localStorage.setItem('theme', 'invalid theme');
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    );
+    expect(screen.getByTestId('current-theme')).toHaveTextContent('system');
+    expect(document.documentElement.className).toMatch(/^(light|dark)$/);
+  });
+
+  it('keeps theme switching usable when storage is blocked', () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new DOMException('Storage blocked', 'SecurityError');
+    });
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new DOMException('Storage blocked', 'SecurityError');
+    });
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    );
+    act(() => screen.getByText('Toggle Theme').click());
+    expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
+    expect(document.documentElement).toHaveClass('dark');
+  });
+
+  it('does not remount page children when storage is loaded', () => {
+    const mounted = jest.fn();
+    function Page() {
+      useEffect(mounted, []);
+      return <TestComponent />;
+    }
+    render(
+      <ThemeProvider>
+        <Page />
+      </ThemeProvider>
+    );
+    expect(mounted).toHaveBeenCalledTimes(1);
   });
 
   it('respects system preference when no localStorage value', () => {

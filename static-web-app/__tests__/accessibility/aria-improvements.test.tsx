@@ -83,7 +83,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       // Check for main heading with proper ID
       const heroHeading = screen.getByRole('heading', {
         level: 1,
-        name: /the cloud should run itself/i,
+        name: /i help teams build on azure/i,
       });
       expect(heroHeading).toBeInTheDocument();
       expect(heroHeading).toHaveAttribute('id', 'hero-heading');
@@ -91,7 +91,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
       // Check for section headings
       const featuredHeading = screen.getByRole('heading', {
         level: 2,
-        name: /what i'm up to/i,
+        name: /what i work on/i,
       });
       expect(featuredHeading).toBeInTheDocument();
       expect(featuredHeading).toHaveAttribute('id', 'featured-content-heading');
@@ -182,9 +182,7 @@ describe('Task #115: ARIA Labels and Semantic HTML Structure', () => {
         </TestWrapper>
       );
 
-      const profileImage = screen.getByAltText(
-        /kenneth heine - professional headshot showing a friendly devops engineer/i
-      );
+      const profileImage = screen.getByAltText(/portrait of kenneth heine/i);
       expect(profileImage).toBeInTheDocument();
     });
 

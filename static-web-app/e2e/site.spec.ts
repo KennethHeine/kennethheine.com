@@ -1,6 +1,18 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation', () => {
+  test('returns keyboard focus to the mobile menu button after Escape', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/');
+    const opener = page.getByRole('button', { name: 'Open navigation menu' });
+    await opener.click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+    await expect(opener).toBeFocused();
+  });
   test('should load all main pages via direct navigation', async ({ page }) => {
     // Test Home page
     await page.goto('/');
@@ -227,14 +239,7 @@ test.describe('404 Page', () => {
   test('should show 404 page for non-existent routes', async ({ page }) => {
     const response = await page.goto('/this-page-does-not-exist-12345');
 
-    // Should return 404 status or show not found content
-    // Static sites may return 200 with custom 404 content
-    const content = await page.content();
-    const is404 =
-      response?.status() === 404 ||
-      content.toLowerCase().includes('not found') ||
-      content.toLowerCase().includes('404');
-
-    expect(is404).toBeTruthy();
+    expect(response?.status()).toBe(404);
+    await expect(page.locator('h1')).toBeVisible();
   });
 });

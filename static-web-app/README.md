@@ -68,7 +68,7 @@ static-web-app/
 ```bash
 npm run dev          # Start dev server with hot-reload
 npm run build        # Build for production
-npm run start        # Start production server
+npm run swa:start    # Preview out/ with the optional Azure SWA emulator
 ```
 
 ### Testing
@@ -89,18 +89,21 @@ npm run lint:fix     # Fix ESLint issues
 npm run format       # Format with Prettier
 npm run format:check # Check formatting
 npm run type-check   # TypeScript type checking
-npm run check        # Run all checks
+npm run check        # Check types, lint, formatting and coverage
 npm run fix          # Fix lint and format issues
 ```
 
 ### Azure Static Web Apps
 
 ```bash
-npm run swa:init     # Initialize SWA CLI
-npm run swa:build    # Build for SWA
-npm run swa:start    # Start local SWA emulator
-npm run swa:deploy   # Deploy to Azure (requires auth)
+npm run build        # Export production files to out/
+npm run swa:start    # Preview the export at http://localhost:3000
 ```
+
+The optional preview command downloads the pinned Azure Static Web Apps CLI
+on demand through `npx`; it is not part of the normal dependency installation.
+It applies the exported SWA routing configuration, including the disabled blog.
+All deployments run through GitHub Actions; there is no local deployment script.
 
 ## Configuration Files
 
@@ -166,7 +169,7 @@ The theme system uses CSS variables defined in `app/globals.css`:
 
 ```css
 @theme {
-  --color-brand-500: #0369a1;
+  --color-brand-500: #e8501a;
   /* ... other variables */
 }
 ```
@@ -194,7 +197,7 @@ Toggle between light and dark themes via the `ThemeProvider` component.
 npm test -- __tests__/components/Button.test.tsx
 
 # Pattern matching
-npm test -- --testPathPattern="Button"
+npm test -- --testPathPatterns="Button"
 
 # E2E specific test
 npm run test:e2e -- e2e/navigation.spec.ts
@@ -249,10 +252,9 @@ npm run type-check  # Check for type errors
 
 **Tests fail**
 
-```bash
-npm run lint:fix    # Fix linting issues
-npm run format      # Fix formatting
-```
+Run the failing test file with `npm test -- path/to/file.test.tsx`, inspect the
+assertion, and fix the behavior or update an intentionally changed contract.
+Formatting and lint fixes run separately with `npm run fix`.
 
 **E2E tests fail to start**
 

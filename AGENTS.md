@@ -6,9 +6,9 @@ A guide for AI coding agents working on the kennethheine.com personal website.
 
 Next.js 16 personal website (App Router, static export) deployed to Azure
 Static Web Apps via GitHub Actions, with infrastructure as code in Bicep.
-A blog system (MDX) exists but is currently disabled at the edge
-(`staticwebapp.config.json` returns 404 for `/blog*`) — its code must still
-compile and pass tests.
+A blog system (MDX) exists but is currently disabled: pages are in the private
+`app/_blog/` folder, sitemap entries are off, and `staticwebapp.config.json`
+returns 404 for `/blog*`. Its code must still compile and pass tests.
 
 **Tech stack**: Next.js 16, React 19, TypeScript 5.9, Tailwind CSS 4,
 Jest 30 + React Testing Library, Playwright, Azure Static Web Apps, Bicep.
@@ -28,7 +28,9 @@ npm run build           # static export to out/ (+ copies staticwebapp.config.js
 These are exactly the CI gate (`test_command` in `.github/workflows/deploy.yml`).
 Also useful: `npm run type-check`, `npm test -- path/to/file`,
 `npm run test:e2e` (Playwright; install browsers first with
-`npx playwright install chromium`).
+`npx playwright install chromium`). `npm run check` combines types, lint,
+formatting and coverage. `npm run swa:start` optionally previews `out/` using
+a pinned SWA CLI downloaded on demand; it is not a project dependency.
 
 ## Design system — "Signal & Ledger"
 
@@ -78,7 +80,7 @@ The site has one committed aesthetic: precision-engineering editorial.
 - Dependabot (`.github/dependabot.yml`): daily npm, weekly actions.
   **eslint majors are ignored** (2026-06: plugin ecosystem doesn't support
   eslint 10 yet — `eslint-plugin-import-x` et al.; revisit later).
-  TypeScript is pinned to 5.x in practice for toolchain compatibility.
+  TypeScript major updates are also ignored to retain the 5.x toolchain.
 - Infra changes: edit `infra/*.bicep` and push — `deploy-infra.yml` deploys
   via OIDC. Never deploy by hand. Static Web App SKU is parameterized
   (Free by default).
@@ -88,7 +90,8 @@ The site has one committed aesthetic: precision-engineering editorial.
 - TypeScript strict; avoid `any`. Functional React components.
 - Tailwind 4 utility classes + CSS-variable theming in `app/globals.css`
   (`@theme`, `@utility` — no tailwind.config file).
-- Prettier formats, ESLint (flat config) lints. No git hooks — CI is the gate.
+- Prettier formats in its own `format:check` gate; ESLint (flat config) lints
+  without rerunning Prettier. No git hooks — CI is the gate.
 - Conventional commit messages (feat/fix/chore/ci/docs/refactor).
 
 ## Key files & directories
@@ -117,8 +120,9 @@ The site has one committed aesthetic: precision-engineering editorial.
   to `main` and never self-merge such a PR. The PR's preview environment is
   the place to show the change. All other changes (fixes, dependencies,
   tests, CI, infra, non-visual refactors) may ship to `main` autonomously.
-- Blog stays disabled until intentionally re-enabled (flip the `/blog*`
-  routes in `staticwebapp.config.json`).
+- Blog stays disabled until intentionally re-enabled. Follow
+  `static-web-app/BLOG_ENABLE_DISABLE.md`; the route folder and Next.js 16
+  parameters also need work before removing the `/blog*` edge blocks.
 
 ## Definition of done
 
