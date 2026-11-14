@@ -11,11 +11,11 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen: a decade of infrastructure work, now focused on Azure, automation, and AI-assisted development.',
+    'Kenneth Heine is a DevOps engineer and cloud architect working with Azure, automation, and AI in software development.',
   openGraph: {
     title: 'About Kenneth Heine - DevOps Engineer & Cloud Architect',
     description:
-      'Kenneth Heine is a DevOps engineer and cloud architect in Copenhagen: a decade of infrastructure work, now focused on Azure, automation, and AI-assisted development.',
+      'Kenneth Heine is a DevOps engineer and cloud architect working with Azure, automation, and AI in software development.',
     type: 'website',
     url: 'https://kennethheine.com/about',
     images: [
@@ -97,42 +97,42 @@ export default function AboutPage() {
       title: 'Azure Cloud & AI DevOps Expert',
       company: 'KS Cloud Solutions',
       description:
-        'My own consultancy. Azure architecture and DevOps automation for clients, with a growing share of the work being AI: coding agents, automated review, infrastructure that deploys itself.',
+        'Azure cloud architecture, Infrastructure as Code, CI/CD pipelines, and AI tools for development workflows.',
     },
     {
       year: '2022-2022',
       title: 'Senior Azure Consultant',
       company: 'CTGlobal',
       description:
-        'Azure consulting across clients: architecture reviews, landing zones, and automation work.',
+        'Azure consulting on cloud architecture, automation, and DevOps. Helped clients implement scalable, secure cloud infrastructure.',
     },
     {
       year: '2021-2022',
       title: 'Cloud Architect @ Shared Platforms & DevOps',
       company: 'BEC Financial Technologies',
       description:
-        "Built the bank's central secrets platform on Azure Key Vault.",
+        'Designed and implemented an Azure secrets solution using Azure Key Vault.',
     },
     {
       year: '2020-2021',
       title: 'Cloud Architect - Azure',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Moved municipal workloads to Azure and automated how they get deployed.',
+        'Developed and managed Azure solutions for Copenhagen Municipality, with a focus on resource optimization, security, and deployment automation.',
     },
     {
       year: '2017-2020',
       title: 'Network Engineer - Technical Responsible',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Ran the network serving 25,000+ municipal users and led the technician team that kept it up.',
+        'Managed network infrastructure for more than 25,000 municipal users and led a team of technicians.',
     },
     {
       year: '2013-2017',
       title: 'Data Technician Apprentice specializing in Infrastructure',
       company: 'Koncern IT - Copenhagen Municipality',
       description:
-        'Learned enterprise IT from the inside, doing support for 25,000 users.',
+        'Gained experience in enterprise IT while supporting 25,000 users.',
     },
     {
       year: '2012-2013',
@@ -167,17 +167,14 @@ export default function AboutPage() {
                   About Me
                 </h1>
                 <p className='mt-6 text-lg leading-7 text-gray-600 dark:text-gray-300'>
-                  I&apos;m Kenneth, a DevOps engineer and cloud architect in
-                  Copenhagen. Most of my work these days is about putting AI to
-                  use in software development. Not demos, but tools wired into
-                  real pipelines that ship real code.
+                  I&apos;m Kenneth, a DevOps engineer and cloud architect. I
+                  help developers and teams use AI and automation in their work
+                  and design cloud architectures on Azure.
                 </p>
                 <p className='mt-4 text-base leading-7 text-gray-600 dark:text-gray-300'>
-                  I&apos;ve spent over a decade running infrastructure: first
-                  networks for 25,000 users at Copenhagen Municipality, later
-                  Azure platforms for a bank and my own clients. That history
-                  shapes how I work. I&apos;d rather automate a process than
-                  document a workaround.
+                  My background includes network infrastructure, Azure cloud
+                  architecture, and DevOps. I explain how to apply these tools
+                  to development pipelines, from writing code to deploying it.
                 </p>
               </div>
               {/* Profile Photo - technical figure */}
@@ -211,17 +208,17 @@ export default function AboutPage() {
               My Mission
             </h2>
             <p className='mt-6 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300'>
-              I want software teams to spend their time on the product, not the
-              plumbing. I work on that through consulting and writing: concrete
-              guidance on Azure architecture, automation, and which AI tools are
-              actually worth adopting. Most aren&apos;t, and saying so is part
-              of the job.
+              I help software teams use AI and automation in their everyday work
+              and build cloud architectures on Azure. Through tutorials, guides,
+              and consulting, I explain how the tools work and how to apply them
+              to software development.
             </p>
             <blockquote className='mt-12 border-l-2 border-brand-500 pl-6 sm:pl-10'>
               <p className='font-display text-2xl font-semibold leading-snug tracking-tight text-gray-900 dark:text-gray-50 sm:text-3xl'>
-                &ldquo;If a human has to do it twice, the cloud should be doing
-                it. My job is making that true for as many teams as
-                possible.&rdquo;
+                &ldquo;I help developers and DevOps teams work smarter, not
+                harder, by teaching them how to use AI, automation, and Azure
+                cloud architecture to code faster, deploy faster, and deliver
+                better software that scales.&rdquo;
               </p>
             </blockquote>
           </div>
@@ -237,7 +234,7 @@ export default function AboutPage() {
               What I work with
             </h2>
             <p className='mt-4 max-w-2xl text-base text-gray-600 dark:text-gray-400'>
-              The tools I actually use, week in and week out
+              Tools and technologies I use in development and cloud architecture
             </p>
             <div className='mt-12'>
               {Object.entries(skills).map(([category, skillList], i) => (
@@ -304,11 +301,9 @@ export default function AboutPage() {
               Off the clock
             </h2>
             <p className='mt-6 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300'>
-              Away from the keyboard I&apos;m with my wife and our three boys.
-              We keep a kitchen garden, and most weekends involve football,
-              playing or coaching from the sideline. The garden is good training
-              for this job: you can&apos;t rush it, and half the work is pulling
-              out things that shouldn&apos;t be there.
+              Outside work, I enjoy time with my wife and our three sons. We
+              spend time outdoors, tend our kitchen garden, and take part in
+              football.
             </p>
             <div className='mt-8 flex flex-wrap gap-2'>
               {[

@@ -100,10 +100,9 @@ export default function HomePage() {
                   className='reveal reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-gray-600 dark:text-gray-300'
                   role='doc-subtitle'
                 >
-                  Hi, I&apos;m Kenneth. I&apos;m a DevOps engineer in
-                  Copenhagen, and I help teams put AI and automation to work on
-                  Azure, so deployments happen on their own and nobody has to
-                  babysit a pipeline.
+                  Hi, I&apos;m Kenneth, a DevOps engineer and cloud architect. I
+                  help teams put AI and automation to work on Azure, from
+                  writing code to deploying it.
                 </p>
 
                 {/* CTA Buttons */}
@@ -231,10 +230,9 @@ export default function HomePage() {
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    Consulting on Azure architecture, CI/CD automation, and
-                    getting real value out of AI coding tools. I also mentor
-                    teams that want to build that muscle in-house instead of
-                    renting it.
+                    Consulting on Azure architecture, CI/CD automation, and AI
+                    tools for software development. I also offer technical
+                    mentoring for developers and teams.
                   </p>
                   <Link
                     href='/contact'
@@ -275,8 +273,8 @@ export default function HomePage() {
                 </div>
                 <div className='sm:col-span-7'>
                   <p className='text-sm leading-6 text-gray-600 dark:text-gray-400'>
-                    Working on something where this could help, or just want to
-                    say hej? Write me, I read everything myself.
+                    Interested in working together, or just want to say hello?
+                    Get in touch.
                   </p>
                   <Link
                     href='/contact'

@@ -60,8 +60,8 @@ export default function NotFound() {
             </h1>
 
             <p className='mt-4 text-base leading-7 text-gray-600 dark:text-gray-300'>
-              This page doesn&apos;t exist. Maybe it never did, maybe I moved
-              it. Either way, the home page has everything that does.
+              This page doesn&apos;t exist or has moved. Use the links below to
+              find your way back.
             </p>
 
             {/* Navigation Options */}

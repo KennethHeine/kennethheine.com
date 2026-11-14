@@ -7,11 +7,11 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tooling for your development team. Replies usually within a day.',
+    'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tools for your development team.',
   openGraph: {
     title: 'Contact Kenneth Heine - AI, DevOps & Cloud Consulting',
     description:
-      'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tooling for your development team. Replies usually within a day.',
+      'Contact Kenneth Heine about Azure architecture, DevOps automation, or AI tools for your development team.',
     type: 'website',
     url: 'https://kennethheine.com/contact',
     images: [
@@ -58,10 +58,9 @@ export default function ContactPage() {
               Let&apos;s Connect<span className='text-brand-500'>.</span>
             </h1>
             <p className='reveal reveal-delay-2 mt-6 max-w-2xl text-lg leading-7 text-gray-600 dark:text-gray-300'>
-              Want help with Azure architecture, CI/CD, or making AI tools
-              genuinely useful for your team? Send me a mail. I&apos;m also
-              happy to just compare notes; some of my best projects started as a
-              conversation about someone&apos;s broken pipeline.
+              Want help with Azure architecture, CI/CD, or AI tools for your
+              development team? Email me about your project or the tools
+              you&apos;re using.
             </p>
 
             {/* The one true CTA - an oversized mailto signal */}
@@ -78,7 +77,7 @@ export default function ContactPage() {
                 <span className='link-underline'>kenneth@kscloud.io</span>
               </a>
               <p className='label-mono mt-4'>
-                Response time: usually within 24 hours
+                Azure architecture, DevOps, and AI automation
               </p>
             </div>
           </div>
@@ -103,10 +102,10 @@ export default function ContactPage() {
                   01
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  A reply
+                  Your project
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  Usually within a day, and from me, not an autoresponder
+                  Email me with your questions or project details
                 </p>
               </div>
 
@@ -118,11 +117,10 @@ export default function ContactPage() {
                   02
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  A real conversation
+                  A conversation
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  First we talk about your setup and where it hurts. No pitch
-                  deck.
+                  We&apos;ll discuss your setup and what your team needs
                 </p>
               </div>
 
@@ -134,11 +132,10 @@ export default function ContactPage() {
                   03
                 </span>
                 <h3 className='font-display text-lg font-semibold text-gray-900 dark:text-gray-50 sm:col-span-4'>
-                  A plan
+                  Next steps
                 </h3>
                 <p className='text-sm leading-6 text-gray-600 dark:text-gray-400 sm:col-span-7'>
-                  If I can help, you get a concrete proposal. If I can&apos;t,
-                  I&apos;ll say so and point you somewhere better.
+                  We&apos;ll work out the next steps together
                 </p>
               </div>
             </div>

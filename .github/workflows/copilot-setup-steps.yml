@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'static-web-app/.nvmrc'
           cache: 'npm'
@@ -40,7 +40,7 @@ jobs:
 
       - name: Cache Playwright Browsers
         id: playwright-cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('static-web-app/package-lock.json') }}

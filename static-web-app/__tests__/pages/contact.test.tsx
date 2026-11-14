@@ -60,18 +60,18 @@ describe('Contact Page', () => {
     expect(sections.length).toBeGreaterThan(0);
   });
 
-  it('displays response time information', () => {
+  it('invites questions and project details', () => {
     render(<PageWithProvider />);
 
     expect(
-      screen.getAllByText(/within 24 hours/i).length
-    ).toBeGreaterThanOrEqual(1);
+      screen.getByText(/email me with your questions or project details/i)
+    ).toBeInTheDocument();
   });
 
   it('includes professional background context', () => {
     render(<PageWithProvider />);
 
-    expect(screen.getByText(/Azure architecture/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Azure architecture/i)[0]).toBeInTheDocument();
     expect(screen.getByText(/CI\/CD/i)).toBeInTheDocument();
   });
 
