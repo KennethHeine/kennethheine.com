@@ -34,11 +34,7 @@ export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  * Component color variants
  */
 export type ComponentVariant =
-  | 'primary'
-  | 'secondary'
-  | 'ghost'
-  | 'outline'
-  | 'destructive';
+  'primary' | 'secondary' | 'ghost' | 'outline' | 'destructive';
 
 /**
  * Button component props
@@ -122,12 +118,7 @@ export interface SkillBadgeProps extends BaseComponentProps {
   level?: 1 | 2 | 3 | 4 | 5;
   /** Skill category */
   category?:
-    | 'frontend'
-    | 'backend'
-    | 'database'
-    | 'devops'
-    | 'design'
-    | 'other';
+    'frontend' | 'backend' | 'database' | 'devops' | 'design' | 'other';
   /** Optional icon */
   icon?: ReactNode;
   /** Color variant */
