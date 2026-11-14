@@ -112,7 +112,11 @@ The site has one committed aesthetic: precision-engineering editorial.
 
 - **Static export only** (`output: 'export'`) — no server features, no
   backend API, no auth.
-- **CSP is strict** (`staticwebapp.config.json`): self-hosted assets only.
+- **CSP is strict** (`staticwebapp.config.json`): assets are self-hosted except
+  the optional Cloudflare Web Analytics beacon and its collection endpoint.
+  `static-web-app/analytics.json` contains its public site token; an empty token
+  disables tracking. Only production builds on the listed production hosts
+  load it. Keep development and PR previews excluded. See `docs/SITE_TRAFFIC.md`.
 - **All deployments via GitHub Actions**; never deploy locally.
 - **Design changes require Kenneth's manual review.** Any frontend/visual
   design change (layout, styling, typography, theme) must go through a PR

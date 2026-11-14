@@ -144,9 +144,11 @@ Infrastructure is managed with Bicep templates in the `infra/` directory:
 
 ## Site traffic
 
-Azure already provides request metrics without adding a browser tracker.
-See [Site traffic](docs/SITE_TRAFFIC.md) for the read-only report and the
-difference between requests and visitors.
+Azure provides request metrics through a read-only report. An optional
+Cloudflare Web Analytics integration adds browser visits, pages, referrers and
+performance metrics once its public site token is configured.
+See [Site traffic](docs/SITE_TRAFFIC.md) for activation, verification and the
+difference between requests, visits and people.
 
 ## 🎨 Design System
 
