@@ -32,7 +32,7 @@
     "next-mdx-remote": "^6.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.3.1",
-    "tailwind-merge": "^3.7.0"
+    "tailwind-merge": "^3.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
